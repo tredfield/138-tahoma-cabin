@@ -1777,6 +1777,11 @@ function stud(xc, y1, y2, mat = M.wall, layer = 'wall') {
 }
 // openings (ROs) — A03 north elevation + A04 schedule; everything mirrors about gridline B
 const DOOR = { x0: 4, x1: 100, y0: 0, y1: D.DOOR_HEAD };            // doors 9 (x<0, west) and 10 (x>0, east), 96x84 sliders
+// AS-BUILT extra window, field-measured 2026-09-02: RO 36.5"w x 48.5"h, sill 35.5" AFF, 16.6" off the
+// corner, 3" off the slider RO -- symmetric. x0/x1 derived from the wall corner (156.75) and slider jamb
+// (100) per A03; head set to DOOR_HEAD (84.5) rather than the tape-derived 84.0 -- within tolerance and
+// keeps one bearing line for the continuous LVL header. See construction/deck-roof-framing fn 17.
+const WIN = { x0: 103.9, x1: 140.4, y0: 35.5, y1: D.DOOR_HEAD };
 const J1 = [[4, 50], [54.5, 100.5]];                                 // lower J row RO x-ranges (46" wide; 8" and 4 1/2" gaps)
 const J2 = [4, 50];                                                  // upper J row
 const K_LEG = 54.5, N_LEG = 4;
@@ -1799,12 +1804,20 @@ box(-156, 156, -10, -0.75, W0, W0 + 1.5, M.fram, 'wall');                      /
 // lower wall 0 .. 86: solid zones outside the doors, then the LVL header over the full width
 box(-156, -DOOR.x1, 0, 1.5, W0, W1, M.wall, 'wall');                           // bottom plate, cut at the doors
 box(DOOR.x1, 156, 0, 1.5, W0, W1, M.wall, 'wall');
-for (const xc of STUD_X) if (Math.abs(xc) > 104 && Math.abs(xc) < 149) stud(xc, 1.5, D.LVL_BOT);
+for (const xc of STUD_X) if (Math.abs(xc) > 104 && Math.abs(xc) < 149 && !(Math.abs(xc) > WIN.x0 - 1.5 && Math.abs(xc) < WIN.x1 + 1.5)) stud(xc, 1.5, D.LVL_BOT);
 for (const s of [-1, 1]) {
   stud(s * 100.75, 1.5, DOOR.y1);                                              // door trimmer
   stud(s * 102.25, 1.5, D.LVL_BOT);                                            // king
   box(Math.min(s * 150, s * 156), Math.max(s * 150, s * 156), 1.5, D.LVL_BOT, W0, W1, M.wall, 'wall');                  // 4-stud corner pack (S3.3 "4 STUDS")
   box(Math.min(s * 150, s * 156), Math.max(s * 150, s * 156), D.LVL_TOP, D.EAVE_BEAM_BOT, W0, W1, M.wall, 'wall');      // cripple pack LVL → 6X10 — INTERPRETATION
+  // extra window (field-measured 2026-09-02): tight jamb pack toward the slider (3" gap, "little or no
+  // blocking" per owner photo), trimmer + king toward the corner, sill plate + cripples below, cripples above to the header
+  box(Math.min(s * DOOR.x1, s * WIN.x0), Math.max(s * DOOR.x1, s * WIN.x0), 1.5, D.LVL_BOT, W0, W1, M.wall, 'wall');   // slider-side jamb pack, fills the 3.9" gap
+  stud(s * (WIN.x1 + 0.75), 1.5, WIN.y1);                                      // window trimmer, corner side
+  stud(s * (WIN.x1 + 2.25), 1.5, D.LVL_BOT);                                   // king, corner side
+  box(Math.min(s * WIN.x0, s * WIN.x1), Math.max(s * WIN.x0, s * WIN.x1), WIN.y0, WIN.y0 + 1.5, W0, W1, M.wall, 'wall');   // sill plate
+  for (const xc of STUD_X) { if (xc * s <= 0) continue; const ax = Math.abs(xc); if (ax > WIN.x0 && ax < WIN.x1) stud(xc, 1.5, WIN.y0); }  // cripples under the sill
+  box(Math.min(s * WIN.x0, s * WIN.x1), Math.max(s * WIN.x0, s * WIN.x1), WIN.y1, D.LVL_BOT, W0, W1, M.wall, 'wall');      // cripples window head → LVL header bottom
 }
 box(-DOOR.x1, DOOR.x1, DOOR.y1, D.LVL_BOT, W0, W1, M.wall, 'wall');            // "BLOCKING BETWEEN HEADER AND DOOR AS NEEDED" (S4.3)
 box(-156, 156, D.LVL_BOT, D.LVL_TOP, P0, P1, M.glb, 'wall');                   // 7"X14" 2.0E LVL BEAM (FULL WIDTH OF WALL) — S3.2; elevation INTERPRETED
@@ -1855,6 +1868,7 @@ for (const s of [-1, 1]) {
   const holes = [];
   for (const s of [-1, 1]) {
     holes.push(rect(Math.min(s * DOOR.x0, s * DOOR.x1), Math.max(s * DOOR.x0, s * DOOR.x1), 0.5, DOOR.y1));
+    holes.push(rect(Math.min(s * WIN.x0, s * WIN.x1), Math.max(s * WIN.x0, s * WIN.x1), WIN.y0, WIN.y1));   // extra window, field-measured 2026-09-02
     for (const [a, b] of J1) holes.push(rect(Math.min(s * a, s * b), Math.max(s * a, s * b), D.J1_Y0, D.J1_Y1));
     holes.push(rect(Math.min(s * J2[0], s * J2[1]), Math.max(s * J2[0], s * J2[1]), D.J2_Y0, D.J2_Y1));
     holes.push(tri(s, K_LEG, D.K_OUT, D.J2_Y0, D.K_TOP));
@@ -2088,7 +2102,7 @@ label('rear piers not yet checked for post centering (front corner piers landed 
 // wall
 label('Doors 9 (west) and 10 (east) — 96×84 oversized sliders, RO 8\'-0½" × 7\'-0½" (A04)\n8" between them on gridline B = the PSL column (A02, A03)', 0, 50, -6, NOTE);
 label('J (4) — RO 3\'-10" × 4\'-8", sill ≈8\'-6" (scaled off A03, ±3"); 8" and 4½" gaps\nno floor at this wall: the loft stops at gridline 3 (S3.2), so the row straddles UPPER FLR', 60, 130, -6, NOTE);
-for (const s of [-1, 1]) label('AS BUILT: an extra window was framed here, outboard of the slider — NOT on A03 / A04\n(owner photo 2026-09-02); size and position pending field measurement — drawn as solid wall', s * 128, 60, -8, FLAG);
+for (const s of [-1, 1]) label('AS BUILT: extra window, outboard of the slider — NOT on A03 / A04 (owner photo 2026-09-02)\nRO 36½"×48½", sill 35½" AFF, 16.6" off the corner, 3" off the slider — field-measured 2026-09-02, symmetric', s * 122, 55, -8, NOTE);
 label('J (2) + K (2) triangles above, N (2) at the peak — A03 / A04 (RO 3\'-6½" × 4\'-10")', -60, 200, -6, NOTE);
 label('7"×14" 2.0E LVL BEAM, FULL WIDTH OF WALL — S3.2 (S4.3: 7½"×14" continuous header, ST6224 straps)\nelevation 7\'-2"–8\'-4" is an INTERPRETATION; a 7" member drawn in a 5½" wall (wall may be 2X8 here)', -100, 93, -8, FLAG);
 label('7"×7" 1.8E PSL COLUMN — S3.2 / S3.3: CB7 1/8-7 base, CCQ7.1 cap under the LVL;\nCCQ7.1 base (inverted) above it, CCQ6-7.13 cap under the ridge GLB · grid 4B plinth remedy still open', 10, 250, -8, NOTE);
