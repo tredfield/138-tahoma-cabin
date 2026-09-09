@@ -1976,10 +1976,11 @@ function showerTrim(x, z, nx, nz, zHead, xHead, L = 'shower') {
   bar(V(21, 46, zf), V(21, 46, zf + 1.0), 3.2, M.black, L); bar(V(21, 46, zf + 1.0), V(21, 46, zf + 2.2), 0.9, M.black, L); bar(V(21, 46, zf + 2.2), V(25.5, 48.5, zf + 2.6), 0.45, M.black, L);   // valve + lever
   bar(V(21, 80, zf), V(21, 80, zf + 7.5), 0.5, M.black, L); bar(V(21, 80, zf + 7.5), V(21, 78.6, zf + 8.6), 2.75, M.black, L);   // head (UT3312 single-function)
   label('Moen UT3312 Belfield M-CORE 3-Series trim (owner 2026-09-09): head + valve on the WEST (exterior) wall.\nOwner accepts the valve body + riser in the 2x6 cavity: strap to the warm side of the studs, keep the 2" closed-cell\n+ batt behind, add a blow-out fitting for winterizing (UPC 312.6). Shower-only trim: a handheld would need a UT3313 transfer valve', 21, 92, zf, FLAG);
-  // through-glass 12" hand-towel bar on the room side of the east panel, x 4..15 (the 13" of glass that faces open floor), y 46 -- for the left sink (owner 2026-09-09)
-  for (const px of [4.5, 14.5]) { bar(V(px, 46, z2 - 0.7), V(px, 46, z2 + 3.0), 0.5, M.black, 'glass'); bar(V(px, 46, z2 - 0.7), V(px, 46, z2 - 0.2), 0.95, M.black, 'glass'); }
-  bar(V(4.0, 46, z2 + 3.0), V(15.0, 46, z2 + 3.0), 0.45, M.black, 'glass');
-  label('Through-glass 12" hand-towel bar for the left sink (owner 2026-09-09)\nholes drilled before tempering -- order with the panel', 9.5, 40, z2 + 4, FLAG);
+  // through-glass 12" hand-towel bar on the room side of the east panel, x 18..30, y 46 -- aligned with the hall-wall bar (owner 2026-09-09);
+  // this stretch of glass faces the vanity end panel across the 5" slot, so the towel hangs 2" off the cabinet below counter height
+  for (const px of [18.5, 29.5]) { bar(V(px, 46, z2 - 0.7), V(px, 46, z2 + 3.0), 0.5, M.black, 'glass'); bar(V(px, 46, z2 - 0.7), V(px, 46, z2 - 0.2), 0.95, M.black, 'glass'); }
+  bar(V(18.0, 46, z2 + 3.0), V(30.0, 46, z2 + 3.0), 0.45, M.black, 'glass');
+  label('Through-glass 12" hand-towel bar for the left sink, aligned with the hall-wall bar (owner 2026-09-09)\nholes drilled before tempering -- order with the panel; towel hangs in the 5" slot, 2" off the cabinet', 24, 40, z2 + 4, FLAG);
   arc(gx, z2, 28, 180, 270);                                                    // door swing, out toward the room centre
   label('5" cleaning slot between the glass and the vanity end panel\n(owner 2026-09-09); stair-wall tile runs through it', 22, 88, 64, NOTE);
 }
@@ -2045,6 +2046,10 @@ function showerTrim(x, z, nx, nz, zHead, xHead, L = 'shower') {
   tpHolder(D.WS_IN, 26, 30, 1, 0);                         // 1028 on the bedroom wall beside the bowl
   towelBar(D.WS_IN, 40.5, D.WS_IN, 64.5, 48, 1, 0);        // 1029 24" bar on the bedroom wall
   handTowelEast();                                         // hall-wall hand towel (the valve-wall one is gone)
+  // three receptacles above the vanity (owner 2026-09-09): the E01 GFCI between the sinks + one outside each mirror
+  box(D.WN_IN - 0.3, D.WN_IN, 40.5, 45.0, 64.6, 67.4, M.white, 'elec'); box(D.WN_IN - 0.4, D.WN_IN - 0.3, 41.2, 44.3, 65.3, 66.7, M.black, 'elec', false);   // west: stair wall between the glass slot and the west mirror
+  box(24.6, 27.4, 40.5, 45.0, D.WE_IN - 0.3, D.WE_IN, M.white, 'elec'); box(25.3, 26.7, 41.2, 44.3, D.WE_IN - 0.4, D.WE_IN - 0.3, M.black, 'elec', false);   // east: hall wall beside the east mirror (only 4.7" of stair wall left there)
+  label('3 receptacles above the vanity (owner 2026-09-09): GFCI between the sinks + one outside each mirror.\nThe east one turns the corner onto the hall wall (4.7" of stair wall left beside the mirror); all GFCI-protected, 20 A bath circuit', 30, 54, 66, FLAG);
   arc(D.WS_IN, D.DOOR_Z2, 30, 270, 360);                   // door 13 as framed: RH in-swing
 }
 
