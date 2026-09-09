@@ -2048,8 +2048,8 @@ function showerTrim(x, z, nx, nz, zHead, xHead, L = 'shower') {
   handTowelEast();                                         // hall-wall hand towel (the valve-wall one is gone)
   // three receptacles above the vanity (owner 2026-09-09): the E01 GFCI between the sinks + one outside each mirror
   box(D.WN_IN - 0.3, D.WN_IN, 40.5, 45.0, 64.6, 67.4, M.white, 'elec'); box(D.WN_IN - 0.4, D.WN_IN - 0.3, 41.2, 44.3, 65.3, 66.7, M.black, 'elec', false);   // west: stair wall between the glass slot and the west mirror
-  box(24.6, 27.4, 40.5, 45.0, D.WE_IN - 0.3, D.WE_IN, M.white, 'elec'); box(25.3, 26.7, 41.2, 44.3, D.WE_IN - 0.4, D.WE_IN - 0.3, M.black, 'elec', false);   // east: hall wall beside the east mirror (only 4.7" of stair wall left there)
-  label('3 receptacles above the vanity (owner 2026-09-09): GFCI between the sinks + one outside each mirror.\nThe east one turns the corner onto the hall wall (4.7" of stair wall left beside the mirror); all GFCI-protected, 20 A bath circuit', 30, 54, 66, FLAG);
+  box(D.WN_IN - 0.3, D.WN_IN, 40.5, 45.0, 123.6, 126.4, M.white, 'elec'); box(D.WN_IN - 0.4, D.WN_IN - 0.3, 41.2, 44.3, 124.3, 125.7, M.black, 'elec', false);   // east: stair wall right of the east mirror -- 2 3/4" plate in the 4.7" between frame and corner (~1" each side)
+  label('3 receptacles above the vanity (owner 2026-09-09): GFCI between the sinks + one outside each mirror,\nall on the stair wall; the east one has ~1" to the mirror frame and to the corner -- all GFCI-protected, 20 A bath circuit', 30, 54, 96, FLAG);
   arc(D.WS_IN, D.DOOR_Z2, 30, 270, 360);                   // door 13 as framed: RH in-swing
 }
 
