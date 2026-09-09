@@ -55,7 +55,7 @@
   <div class="panel" id="header">
     <button id="hdrclose" title="Hide the caption (View &rarr; Caption brings it back)">&#x2715;</button>
     <h1>Main bath &mdash; Option 1: glass shower, north-wall plumbing</h1>
-    <div class="sub">Valve wall removed; the shower grows to the full 35 1/2" x 60" strip behind frameless glass, valve and head on the stair wall, entry door on the south glass hinged at the vanity corner. Toilet and drains unchanged. 138 Tahoma St E, Packwood &middot; one of five layout options for the upper-floor <b>MAIN BATH</b> that remove the framed wall between shower and vanity. Room shell, window F, door 13 RO and the 60" vanity are as built / as drawn in <code>outputs/main-bath-3d.html</code>; everything else is this option's proposal. <b>Orange = assumed, not on any sheet, or flagged for the engineer / plumber.</b> <b>Design option for owner review &mdash; not published. Not engineered &mdash; do not build from this.</b> Spec with clearance table: <code>outputs/main-bath-options/opt-1-glass-north-plumbing-3d-spec.md</code>. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan.</div>
+    <div class="sub">Valve wall removed; the shower grows to a 35 1/2" x 55 1/2" strip behind frameless glass with a 5" cleaning slot to the vanity end (owner 2026-09-09), valve and head on the stair wall, entry door on the south glass hinged at the glass corner. Toilet and drains unchanged. 138 Tahoma St E, Packwood &middot; one of five layout options for the upper-floor <b>MAIN BATH</b> that remove the framed wall between shower and vanity. Room shell, window F, door 13 RO and the 60" vanity are as built / as drawn in <code>outputs/main-bath-3d.html</code>; everything else is this option's proposal. <b>Orange = assumed, not on any sheet, or flagged for the engineer / plumber.</b> <b>Design option for owner review &mdash; not published. Not engineered &mdash; do not build from this.</b> Spec with clearance table: <code>outputs/main-bath-options/opt-1-glass-north-plumbing-3d-spec.md</code>. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -1932,26 +1932,28 @@ function showerTrim(x, z, nx, nz, zHead, xHead, L = 'shower') {
   bar(P(0, 48, 8), P(1.2, 48, 8), 0.6, M.black, L); bar(P(1.2, 48, 8), P(1.2, 72, 8), 0.4, M.black, L);   // slide bar for a handheld
 }
 
-// ---- OPTION 1 / 4 shower: 32" x 59" mud-set tile floor, glass on the south + east lines, valve/head on the north (stair) wall --
+// ---- OPTION 1 / 4 shower: 32" x 54 3/4" mud-set tile floor, glass on the south + east lines, valve/head on the north (stair) wall;
+//      east glass at z 61.5 leaves a 5" cleaning slot to the vanity end panel (owner 2026-09-09) --
 {
-  const L = 'shower', x1 = 3.0, x2 = D.WN_IN, z1 = D.EXT_IN, z2 = 66.0, gx = 4.5, H = 84;
+  const L = 'shower', x1 = 3.0, x2 = D.WN_IN, z1 = D.EXT_IN, z2 = 61.5, gx = 4.5, H = 84;
   box(x1, x2, 0, 1.5, z1, z2, M.shTile, L);                                   // tiled floor (mud bed; alt. 32 x 60 acrylic base)
   box(x1, x1 + 3, 0, 4, z1, z2, M.shTile, L);                                  // 3" curb under the south glass
   cyl(22, 36, 1.5, 1.7, 2, M.black, L);                                        // 2" drain, joist bay 13.5..29.5
   box(x1, x2, 0, H, z1, z1 + 0.4, M.shTile, L);                                // tile: window wall
   box(x2 - 0.4, x2, 0, H, z1, z2, M.shTile, L);                                // tile: north wall
+  box(x2 - 0.4, x2, 0, H, z2, D.VAN_Z1, M.shTile, L);                          // tile carried across the 5" slot to the vanity end panel
   box(x1, x2, H, H + 0.5, z1, z1 + 0.5, M.black, L, false); box(x2 - 0.5, x2, H, H + 0.5, z1, z2, M.black, L, false);   // edge trim
-  // glass: south line -- fixed z 6.6..38 + door z 38.4..65.6 hinged on the corner post at z 66; east line -- fixed x 3.4..38.1
-  glassPanel(gx - 0.19, gx + 0.19, 4, H, z1 + 0.6, 38); glassPanel(gx - 0.19, gx + 0.19, 4, H, 38.4, z2 - 0.6);
+  // glass: south line -- fixed z 6.6..33 + 28" door z 33.4..61.1 hinged on the corner post at z 61.5; east line -- fixed x 3.4..38.1
+  glassPanel(gx - 0.19, gx + 0.19, 4, H, z1 + 0.6, 33); glassPanel(gx - 0.19, gx + 0.19, 4, H, 33.4, z2 - 0.6);
   glassPanel(x1 + 0.4, x2 - 0.4, 4, H, z2 - 0.19, z2 + 0.19);
   box(gx - 0.5, gx + 0.5, 4, H, z1 + 0.4, z1 + 1.0, M.black, 'glass');                     // wall channel, window wall
   box(x2 - 1.0, x2 - 0.4, 4, H, z2 - 0.5, z2 + 0.5, M.black, 'glass');                     // wall channel, north end of the east panel
   cyl(gx, z2, 4, H, 0.6, M.black, 'glass');                                                // corner post
   for (const y of [14, 66]) box(gx - 1.1, gx + 1.1, y, y + 3.5, z2 - 3.6, z2 - 0.6, M.black, 'glass');   // hinges at the post
-  for (const sx of [-1, 1]) { bar(V(gx + sx * 1.7, 38, 41.5), V(gx + sx * 1.7, 50, 41.5), 0.45, M.black, 'glass'); for (const y of [39, 49]) bar(V(gx, y, 41.5), V(gx + sx * 1.7, y, 41.5), 0.35, M.black, 'glass'); }   // pull at the free edge
+  for (const sx of [-1, 1]) { bar(V(gx + sx * 1.7, 38, 36.5), V(gx + sx * 1.7, 50, 36.5), 0.45, M.black, 'glass'); for (const y of [39, 49]) bar(V(gx, y, 36.5), V(gx + sx * 1.7, y, 36.5), 0.35, M.black, 'glass'); }   // pull at the free edge
   showerTrim(x2 - 0.4, 36, -1, 0, 24, null);                                    // valve z 36 y 46; head z 24 y 80; slide bar z 44
   arc(gx, z2, 28, 180, 270);                                                    // door swing, out toward the room centre
-  label('Glass abuts the vanity end panel here:\n3/4" gap or U-channel on the cabinet side', 22, 88, 66, FLAG);
+  label('5" cleaning slot between the glass and the vanity end panel\n(owner 2026-09-09); stair-wall tile runs through it', 22, 88, 64, NOTE);
 }
 
 // ---- vanity: 60" double, plywood cabinet (0661), counter + undermount sinks, Moen 6402, mirror, Bellevue bar -------
@@ -2090,7 +2092,7 @@ function showerTrim(x, z, nx, nz, zHead, xHead, L = 'shower') {
 
 // ---- labels -----------------------------------------------------------------------------------------------------------
 label('OPTION 1 -- glass shower, north-wall plumbing\nvalve wall removed; toilet + drains unchanged', -10, 76, 80);
-label('Shower 32" x 59" inside, mud-set tile (alt. 32 x 60 acrylic base)\n1,882 sq in; 30" circle fits; glass to 7\'-0"', 22, 96, 30, NOTE);
+label('Shower 32" x 54 3/4" inside, mud-set tile\n1,745 sq in; 30" circle fits; glass to 7\'-0"', 22, 96, 30, NOTE);
 label('Valve z 36 / head z 24 on the stair wall: supplies rise\nin this 2x6 wall beside the lav supplies; drain in bay 13.5..29.5', 34, 60, 30, NOTE);
 label('Door on the south glass, hinged at the corner post,\nopens out toward the room centre (26" clear)', 4.5, 60, 52, NOTE);
 label('Window F  RO 36 1/2" x 12", sill 61 1/2" (field)\noutside the shower; tempered recommended (~63" bottom edge)', -23, 80, 3, FLAG);
@@ -2109,8 +2111,9 @@ dim(V(D.WS_IN, 2, 20), V(D.WC_X, 2, 20), '25 1/2" WC CL to wall (min 15)', V(0, 
 dim(V(D.WC_X, 2, 20), V(4.5, 2, 20), '27 1/2" WC CL to glass (min 15)', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WC_X, 2, 34), V(D.WC_X, 2, D.DOOR_Z1), '43" in front of WC (min 24)', V(0, 0, 0), V(0, 1, 0));
 dim(V(6, 6, 36), V(37.9, 6, 36), '31.9" shower inside', V(0, 0, 0), V(0, 1, 0));
-dim(V(20, 6, 6.6), V(20, 6, 65.6), '59" shower inside', V(0, 0, 0), V(0, 1, 0));
-dim(V(4.5, 6, 38.4), V(4.5, 6, 65.6), 'door 28" (26" clear, min 22)', V(0, 0, 0), V(0, 1, 0));
+dim(V(20, 6, 6.6), V(20, 6, 61.3), '54 3/4" shower inside', V(0, 0, 0), V(0, 1, 0));
+dim(V(30, 6, 61.7), V(30, 6, D.VAN_Z1), '5" slot', V(0, 0, 0), V(0, 1, 0));
+dim(V(4.5, 6, 33.4), V(4.5, 6, 61.1), 'door 28" (26" clear, min 22)', V(0, 0, 0), V(0, 1, 0));
 dim(V(-14, 2, 96), V(D.CTR_X1, 2, 96), '30" in front of vanity (NKBA)', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.CTR_X1 - 4, D.CTR_Y + 6, D.VAN_Z1), V(D.CTR_X1 - 4, D.CTR_Y + 6, D.VAN_Z2), '60"', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WIN_X2 + 8, 0, D.EXT_IN + 1), V(D.WIN_X2 + 8, D.WIN_SILL, D.EXT_IN + 1), 'sill 61 1/2"', V(0, 0, 0), V(0, 0, 1));
