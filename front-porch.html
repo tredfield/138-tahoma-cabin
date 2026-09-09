@@ -9,7 +9,9 @@
   #app{position:relative;width:100%;height:100%;}
   canvas{display:block;}
   .panel{position:absolute;background:rgba(24,27,33,.88);color:#e8eaed;border:1px solid rgba(255,255,255,.12);border-radius:10px;backdrop-filter:blur(6px);}
-  #header{top:12px;left:12px;padding:10px 14px;max-width:560px;}
+  #home{top:12px;left:12px;padding:5px 10px;font-size:11.5px;line-height:1.3;color:#bfc5cd;text-decoration:none;}
+  #home:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+  #header{top:45px;left:12px;padding:10px 14px;max-width:560px;}
   #header h1{margin:0 0 4px;font-size:15px;font-weight:600;}
   #header .sub{font-size:11px;color:#aab0b8;line-height:1.45;}
   #header code{font-size:10.5px;background:rgba(255,255,255,.08);padding:1px 4px;border-radius:3px;}
@@ -48,6 +50,7 @@
 <body>
 <div id="app">
   <div id="err">This drawing needs a browser with WebGL. If you opened it from a message preview, save it and open it in Safari or Chrome.</div>
+  <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Front (south, gridline 1) — porch, upper deck and 6'-0" roof extension</h1>
     <div class="sub">138 Tahoma St E · B26-00013 · structural framing only, finishes are toggles.
@@ -88,8 +91,9 @@
       <label><input type="checkbox" data-layer="hardware" checked> Hardware</label>
       <label><input type="checkbox" data-layer="finish"> Sheathing / decking</label>
       <label><input type="checkbox" data-layer="soil"> Grade / soil</label>
-      <label><input type="checkbox" data-layer="label" checked> Labels</label>
-      <label><input type="checkbox" data-layer="dim" checked> Dimensions</label>
+      <label><input type="checkbox" data-layer="label"> Labels</label>
+      <label><input type="checkbox" data-layer="dim"> Dimensions</label>
+      <label><input type="checkbox" data-layer="caption"> Caption</label>
     </div>
     <div class="row" id="views">
       <span class="lbl">View</span>
@@ -2137,9 +2141,11 @@ dim(V(0, D.GRADE, 100), V(0, D.PLINTH_TOP, 100), '8" plinth above grade', V(0, 0
 
 // --- UI wiring ---------------------------------------------------------------
 const layerBoxes = [...document.querySelectorAll('#layers input[type=checkbox]')];
+const hdr = document.getElementById('header');   // the caption panel; Show → Caption toggles it like a layer
 function applyLayers() {
   const on = {};
   for (const cb of layerBoxes) on[cb.dataset.layer] = cb.checked;
+  hdr.style.display = on.caption === false ? 'none' : '';
   for (const p of parts) p.visible = on[p.userData.layer] !== false;
 }
 layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
@@ -2178,11 +2184,14 @@ addEventListener('resize', () => {
 const params = new URLSearchParams(location.search);
 const qs = params.get('view');
 setView(VIEWS[qs] ? qs : 'front');
-// ?show=finish,soil and ?hide=label,dim preset the layer checkboxes (screenshots, shared links)
+// ?show=finish,label,dim,caption and ?hide=context preset the layer checkboxes. Labels, dimensions and the
+// caption are off by default, so a render or a shared link that wants them says so (e.g. ?view=top&show=dim).
 for (const l of (params.get('show') || '').split(',').filter(Boolean)) { const cb = layerBoxes.find(c => c.dataset.layer === l); if (cb) cb.checked = true; }
 for (const l of (params.get('hide') || '').split(',').filter(Boolean)) { const cb = layerBoxes.find(c => c.dataset.layer === l); if (cb) cb.checked = false; }
-if (params.get('ui') === '0') document.querySelectorAll('.panel, #hint').forEach(e => { e.style.display = 'none'; });   // clean captures
+// Caption is off by default; Show → Caption turns it on. ?show=caption (or the older ?caption=1 / ?caption=0) presets it.
+if (params.has('caption')) { const cb = layerBoxes.find(c => c.dataset.layer === 'caption'); if (cb) cb.checked = params.get('caption') !== '0'; }
 applyLayers();
+if (params.get('ui') === '0') document.querySelectorAll('.panel, #hint').forEach(e => { e.style.display = 'none'; });   // clean captures
 renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
 </script>
 <script>

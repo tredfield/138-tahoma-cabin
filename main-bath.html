@@ -9,8 +9,10 @@
   #app{position:relative;width:100%;height:100%;}
   canvas{display:block;}
   .panel{position:absolute;background:rgba(24,27,33,.88);color:#e8eaed;border:1px solid rgba(255,255,255,.12);border-radius:10px;backdrop-filter:blur(6px);}
-  #header{top:12px;left:12px;padding:10px 14px;max-width:560px;}
-  #header h1{margin:0 0 4px;font-size:15px;font-weight:600;padding-right:22px;}
+  #home{top:12px;left:12px;padding:5px 10px;font-size:11.5px;line-height:1.3;color:#bfc5cd;text-decoration:none;}
+  #home:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+  #header{top:45px;left:12px;padding:10px 14px;max-width:560px;}
+  #header h1{margin:0 0 4px;font-size:15px;font-weight:600;}
   #header .sub{font-size:11px;color:#aab0b8;line-height:1.45;}
   #header code{font-size:10.5px;background:rgba(255,255,255,.08);padding:1px 4px;border-radius:3px;}
   #legend{top:12px;right:12px;padding:10px 12px;font-size:11px;max-width:230px;}
@@ -28,8 +30,6 @@
   #err{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#ffb4a8;font-size:14px;text-align:center;display:none;padding:20px;}
   #hint{position:absolute;bottom:2px;right:10px;font-size:10px;color:#6b727b;}
   #legendbtn{display:none;}
-  #hdrclose{position:absolute;top:5px;right:6px;background:none;border:0;color:#8b929b;font-size:13px;line-height:1;cursor:pointer;padding:3px 6px;border-radius:5px;}
-  #hdrclose:hover{color:#fff;background:rgba(255,255,255,.1);}
   @media (max-width: 760px), (max-height: 520px) {
     #header{max-width:calc(100vw - 24px);padding:7px 10px;}
     #header h1{font-size:13px;cursor:pointer;}
@@ -52,8 +52,8 @@
   <div id="err">This drawing needs a browser with WebGL. If you opened it from a message preview, save it and open it in Safari or Chrome.</div>
 
   <!-- ===== EDIT: HEADER / LEGEND / CONTROLS ===== -->
+  <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
-    <button id="hdrclose" title="Hide the caption (View &rarr; Caption brings it back)">&#x2715;</button>
     <h1>Main bath (upper floor) &mdash; interior 3D</h1>
     <div class="sub">138 Tahoma St E, Packwood &middot; Armstrong permit set 2507 (A02 / A03 / A04 / E01 / M01 / S3.3)
     + basis-of-design fixture schedule. The upper-floor <b>MAIN BATH</b> on the west (gridline C) wall, between the main
@@ -99,8 +99,9 @@
       <label><input type="checkbox" data-layer="elec" checked> Lights + devices</label>
       <label><input type="checkbox" data-layer="framing"> Framing</label>
       <label><input type="checkbox" data-layer="context" checked> House context</label>
-      <label><input type="checkbox" data-layer="label" checked> Labels</label>
-      <label><input type="checkbox" data-layer="dim" checked> Dimensions</label>
+      <label><input type="checkbox" data-layer="label"> Labels</label>
+      <label><input type="checkbox" data-layer="dim"> Dimensions</label>
+      <label><input type="checkbox" data-layer="caption"> Caption</label>
     </div>
     <div class="row" id="variants">
       <span class="lbl">Wall ht.</span>
@@ -118,7 +119,6 @@
       <button data-view="top">Plan</button>
       <button data-view="framing">Framing</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
-      <button id="captionbtn" title="Show or hide the caption panel">Caption</button>
     </div>
   </div>
   <div id="hint">1 unit = 1 inch &middot; origin: gridline 2 (x) &times; gridline C stud face (z) &times; UPPER FLR (y) &middot; +X north, +Z east</div>
@@ -2132,25 +2132,28 @@ dim(V(D.WN_OUT + 6, 0, -3), V(D.WN_OUT + 6, D.PLATE_TOP, -3), '7\'-10" to plate'
 
 // --- UI wiring (do not rewrite; the layer/view names come from the HTML + VIEWS above) -----------
 const layerBoxes = [...document.querySelectorAll('#layers input, #variants input')];   // checkboxes + the wall-height radios
+const hdr = document.getElementById('header');   // the caption panel; Show → Caption toggles it like a layer
 function applyLayers() {
   const on = {};
   for (const cb of layerBoxes) on[cb.dataset.layer] = cb.checked;
+  hdr.style.display = on.caption === false ? 'none' : '';
   for (const p of parts) p.visible = on[p.userData.layer] !== false && (!p.userData.variant || on[p.userData.variant] !== false);
 }
 layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
 
 // ===== EDIT: VIEWS (camera position + orbit target per named view; button data-view must match) =====
-// Views may carry fov and per-view layer presets (show / hide arrays of layer names).
+// Views may carry fov and per-view layer presets (show / hide arrays of layer names). Leave label, dim and
+// caption out of them: those three stay wherever the viewer set the checkboxes.
 const ALL = ['ext', 'wallS', 'wallN', 'wallE', 'wallV', 'ceiling', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec'];
 const VIEWS = {
-  overview: { pos: [-150, 125, 235], tgt: [-4, 42, 62], fov: 46, hide: ['wallE', 'wallS', 'ceiling', 'framing'], show: ['ext', 'wallN', 'wallV', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec', 'context', 'label', 'dim'] },
-  door:     { pos: [-46, 62, 92],    tgt: [30, 46, 52],  fov: 74, show: ALL, hide: ['framing', 'label', 'dim', 'context'] },
-  todoor:   { pos: [34, 64, 112],    tgt: [-48, 40, 70], fov: 70, show: ALL, hide: ['framing', 'label', 'dim', 'context'] },
-  vanity:   { pos: [-30, 66, 96],    tgt: [40, 40, 96],  fov: 60, show: ALL, hide: ['framing', 'label', 'dim', 'context'] },
-  shower:   { pos: [-48, 68, 12],    tgt: [30, 40, 36],  fov: 60, show: ALL, hide: ['framing', 'label', 'dim', 'context'] },
-  section:  { pos: [-400, 105, 66],  tgt: [0, 90, 66],   fov: 40, hide: ['wallS', 'framing'], show: ['ext', 'wallN', 'wallE', 'wallV', 'ceiling', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec', 'context', 'label', 'dim'] },
-  top:      { pos: [-4, 480, 66.5],  tgt: [-4, 0, 66],   fov: 40, hide: ['ceiling', 'framing', 'context'], show: ['ext', 'wallS', 'wallN', 'wallE', 'wallV', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec', 'label', 'dim'] },
-  framing:  { pos: [-210, 200, 300], tgt: [-4, 70, 66],  fov: 46, show: ['framing', 'floor', 'context', 'label'], hide: ['ext', 'wallS', 'wallN', 'wallE', 'wallV', 'ceiling', 'dim'] },
+  overview: { pos: [-150, 125, 235], tgt: [-4, 42, 62], fov: 46, hide: ['wallE', 'wallS', 'ceiling', 'framing'], show: ['ext', 'wallN', 'wallV', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec', 'context'] },
+  door:     { pos: [-46, 62, 92],    tgt: [30, 46, 52],  fov: 74, show: ALL, hide: ['framing', 'context'] },
+  todoor:   { pos: [34, 64, 112],    tgt: [-48, 40, 70], fov: 70, show: ALL, hide: ['framing', 'context'] },
+  vanity:   { pos: [-30, 66, 96],    tgt: [40, 40, 96],  fov: 60, show: ALL, hide: ['framing', 'context'] },
+  shower:   { pos: [-48, 68, 12],    tgt: [30, 40, 36],  fov: 60, show: ALL, hide: ['framing', 'context'] },
+  section:  { pos: [-400, 105, 66],  tgt: [0, 90, 66],   fov: 40, hide: ['wallS', 'framing'], show: ['ext', 'wallN', 'wallE', 'wallV', 'ceiling', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec', 'context'] },
+  top:      { pos: [-4, 480, 66.5],  tgt: [-4, 0, 66],   fov: 40, hide: ['ceiling', 'framing', 'context'], show: ['ext', 'wallS', 'wallN', 'wallE', 'wallV', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec'] },
+  framing:  { pos: [-210, 200, 300], tgt: [-4, 70, 66],  fov: 46, show: ['framing', 'floor', 'context'], hide: ['ext', 'wallS', 'wallN', 'wallE', 'wallV', 'ceiling'] },
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
@@ -2183,18 +2186,14 @@ addEventListener('resize', () => {
 const params = new URLSearchParams(location.search);
 const qs = params.get('view');
 setView(VIEWS[qs] ? qs : Object.keys(VIEWS)[0]);
-// ?show=finish,soil and ?hide=label,dim preset the layer checkboxes — lets render.sh screenshot a
-// finishes-on or label-free state, and lets a shared link open on a specific layer set.
+// ?show=finish,label,dim,caption and ?hide=context preset the layer checkboxes. Labels, dimensions and the
+// caption are off by default, so a render or a shared link that wants them says so (e.g. ?view=top&show=dim).
 for (const l of (params.get('show') || '').split(',').filter(Boolean)) { const cb = layerBoxes.find(c => c.dataset.layer === l); if (cb) cb.checked = true; }
 for (const l of (params.get('hide') || '').split(',').filter(Boolean)) { const cb = layerBoxes.find(c => c.dataset.layer === l); if (cb) cb.checked = false; }
-// Caption panel: the header's x hides it, the Caption button toggles it, ?caption=0 opens without it.
-const hdr = document.getElementById('header');
-const setCaption = on => { hdr.style.display = on ? '' : 'none'; };
-document.getElementById('hdrclose').onclick = () => setCaption(false);
-document.getElementById('captionbtn').onclick = () => setCaption(hdr.style.display === 'none');
-if (params.get('caption') === '0') setCaption(false);
-if (params.get('ui') === '0') document.querySelectorAll('.panel, #hint').forEach(e => { e.style.display = 'none'; });   // ?ui=0: hide the panels for clean thumbnails
+// Caption is off by default; Show → Caption turns it on. ?show=caption (or the older ?caption=1 / ?caption=0) presets it.
+if (params.has('caption')) { const cb = layerBoxes.find(c => c.dataset.layer === 'caption'); if (cb) cb.checked = params.get('caption') !== '0'; }
 applyLayers();
+if (params.get('ui') === '0') document.querySelectorAll('.panel, #hint').forEach(e => { e.style.display = 'none'; });   // ?ui=0: hide the panels for clean thumbnails
 renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
 </script>
 <script>
