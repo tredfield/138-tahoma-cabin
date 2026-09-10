@@ -83,9 +83,9 @@
     <div class="row" id="layers">
       <span class="lbl" id="foldbtn" title="Show or hide the layer list">Show</span><span id="foldn"></span>
       <label><input type="checkbox" data-layer="ext" checked> Window wall</label>
-      <label><input type="checkbox" data-layer="wallS" checked> Bedroom wall + door</label>
+      <label><input type="checkbox" data-layer="wallS"> Bedroom wall + door</label>
       <label><input type="checkbox" data-layer="wallN" checked> Stair wall</label>
-      <label><input type="checkbox" data-layer="wallE" checked> Hall wall</label>
+      <label><input type="checkbox" data-layer="wallE"> Hall wall</label>
       <label><input type="checkbox" data-layer="ceiling" checked> T&amp;G ceiling</label>
       <label><input type="checkbox" data-layer="floor" checked> LVP floor</label>
       <label><input type="checkbox" data-layer="shower" checked> Shower</label>
@@ -2190,26 +2190,22 @@ function applyLayers() {
 layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
 
 // ===== EDIT: VIEWS (camera position + orbit target per named view; button data-view must match) =====
-// Views may carry fov and per-view layer presets (show / hide arrays of layer names). Leave label, dim and
-// caption out of them: those three stay wherever the viewer set the checkboxes.
-const ALL = ['ext', 'wallS', 'wallN', 'wallE', 'ceiling', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec'];
+// Views move the camera only (pos, tgt, optional fov). They never touch the Show checkboxes: the layer defaults
+// below suit the opening cutaway, and a link that needs other walls off says so with &show= / &hide=.
 const VIEWS = {
-  overview: { pos: [-150, 125, 235], tgt: [-4, 42, 62], fov: 46, hide: ['wallE', 'wallS', 'framing'], show: ['ext', 'wallN', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec', 'context', 'ceiling'] },
-  door:     { pos: [-46, 62, 92],    tgt: [30, 46, 52],  fov: 74, show: ALL, hide: ['framing', 'context'] },
-  todoor:   { pos: [34, 64, 112],    tgt: [-48, 40, 70], fov: 70, show: ALL, hide: ['framing', 'context'] },
-  vanity:   { pos: [-30, 66, 96],    tgt: [40, 40, 96],  fov: 60, show: ALL, hide: ['framing', 'context'] },
-  shower:   { pos: [-40, 70, 100],   tgt: [24, 40, 34],  fov: 62, show: ALL, hide: ['framing', 'context'] },
-  section:  { pos: [-400, 105, 66],  tgt: [0, 90, 66],   fov: 40, hide: ['wallS', 'framing'], show: ['ext', 'wallN', 'wallE', 'ceiling', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec', 'context'] },
-  top:      { pos: [-4, 480, 66.5],  tgt: [-4, 0, 66],   fov: 40, hide: ['ceiling', 'framing', 'context'], show: ['ext', 'wallS', 'wallN', 'wallE', 'floor', 'shower', 'glass', 'vanity', 'fixtures', 'elec'] },
-  framing:  { pos: [-210, 200, 300], tgt: [-4, 70, 66],  fov: 46, show: ['framing', 'floor', 'context'], hide: ['ext', 'wallS', 'wallN', 'wallE', 'ceiling'] },
+  overview: { pos: [-150, 125, 235], tgt: [-4, 42, 62], fov: 46 },
+  door:     { pos: [-46, 62, 92],    tgt: [30, 46, 52],  fov: 74 },
+  todoor:   { pos: [34, 64, 112],    tgt: [-48, 40, 70], fov: 70 },
+  vanity:   { pos: [-30, 66, 96],    tgt: [40, 40, 96],  fov: 60 },
+  shower:   { pos: [-40, 70, 100],   tgt: [24, 40, 34],  fov: 62 },
+  section:  { pos: [-400, 105, 66],  tgt: [0, 90, 66],   fov: 40 },
+  top:      { pos: [-4, 480, 66.5],  tgt: [-4, 0, 66],   fov: 40 },
+  framing:  { pos: [-210, 200, 300], tgt: [-4, 70, 66],  fov: 46 },
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
   const v = VIEWS[name]; if (!v) return;
   if (v.fov) { camera.fov = v.fov; camera.updateProjectionMatrix(); }
-  for (const l of (v.show || [])) { const cb = layerBoxes.find(c => c.dataset.layer === l); if (cb) cb.checked = true; }
-  for (const l of (v.hide || [])) { const cb = layerBoxes.find(c => c.dataset.layer === l); if (cb) cb.checked = false; }
-  applyLayers();
   camera.position.set(...v.pos);
   controls.target.set(...v.tgt);
   if (camera.aspect < 1) {                                   // portrait phones: back off so it fits
