@@ -1601,8 +1601,8 @@ const D = {
   // --- sink / faucet ---
   SK_X1: 21.9, SK_X2: 57.6, SK_Z1: 124.25, SK_Z2: 146.6, SK_H: 9.625, FAU_Z: 147.5,
   // --- great room ---
-  HEARTH_X1: 182, HEARTH_Z2: -102, HEARTH_H: 8, HEARTH_CH: 24, VENEER_H: 48,
-  STOVE_X: 215, STOVE_Z: -133, STOVE_W: 25.625, STOVE_D: 25.125, STOVE_H: 29,
+  HEARTH_H: 8, VENEER_H: 48,                                    // 4' x 4' x 8" pad, stone to 4' (A02) -- west wall only since 2026-09-10
+  STOVE_X: 200, STOVE_W: 25.625, STOVE_D: 25.125, STOVE_H: 29,  // centre 30" south of the north gyp face; back 7 1/2" off the west wall (option 1)
   CAN_X: [39.7, 117.7, 196.3], CAN_Z: [-111.4, -38.2, 41.0, 111.8],
   FAN_X: 117.7, FAN_Y: 180,
   // --- lounge / stair / hall (ghost) ---
@@ -2172,25 +2172,23 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.ghostFl, 'l
   prismZY([[-23, 302.7], [-150, 218], [-150, 147.2]], 0, 5.5, M.gyp, 'lounge');
 }
 
-// ---- wood stove: 4'x4'x8" stone hearth with stone top, veneer to 4' on both walls, Drolet Columbia II set diagonally --
+// ---- wood stove (owner 2026-09-10, option 1): Drolet Columbia II parallel to the west wall, facing east; back 7 1/2" off the
+// wall (double-wall connector), 17" to the north wall (10" side min), centred so the 6" flue misses the 2X14 rafters; 4' x 4'
+// stone hearth + 4' stone veneer on the WEST wall only -- A02's diagonal corner surround collided with the as-built window --
 {
-  const hx1 = D.HEARTH_X1, hz2 = D.HEARTH_Z2, ch = D.HEARTH_CH;
-  const outline = [[hx1, D.W_GYP], [D.N_GYP, D.W_GYP], [D.N_GYP, hz2], [hx1 + ch, hz2], [hx1, hz2 - ch]];
-  prismXZ(outline, 0, D.HEARTH_H - .75, M.stone, 'hearth');
-  prismXZ(outline, D.HEARTH_H - .75, D.HEARTH_H, M.stoneT, 'hearth');
-  box(hx1, D.N_GYP, 0, D.VENEER_H, D.W_GYP, D.W_GYP + .75, M.stone, 'hearth');
-  box(D.N_GYP - .75, D.N_GYP, 0, D.VENEER_H, D.W_GYP, hz2, M.stone, 'hearth');
-  const sx = D.STOVE_X, sz = D.STOVE_Z, y0 = D.HEARTH_H, a = Math.PI / 4, ux = -Math.SQRT1_2, uz = Math.SQRT1_2;   // front faces SE
-  const body = box(sx - D.STOVE_D / 2, sx + D.STOVE_D / 2, y0 + 5, y0 + D.STOVE_H - 2, sz - D.STOVE_W / 2, sz + D.STOVE_W / 2, M.iron, 'hearth');
-  body.rotation.y = -a;
-  const top = box(sx - D.STOVE_D / 2 - 1, sx + D.STOVE_D / 2 + 1, y0 + D.STOVE_H - 2, y0 + D.STOVE_H, sz - D.STOVE_W / 2 - 1, sz + D.STOVE_W / 2 + 1, M.iron, 'hearth');
-  top.rotation.y = -a;
-  const d = D.STOVE_D / 2 + .3, door = box(sx + ux * d - .3, sx + ux * d + .3, y0 + 9, y0 + 22, sz + uz * d - 9, sz + uz * d + 9, M.black, 'hearth', false);
-  door.rotation.y = -a;
-  for (const [lx, lz] of [[-8, -8], [8, -8], [-8, 8], [8, 8]]) cyl(sx + lx, sz + lz, y0, y0 + 5, 1.2, M.iron, 'hearth');
-  const fx = sx - 4.5, fz = sz - 4.5;                                                            // flue toward the corner
-  cyl(fx, fz, y0 + D.STOVE_H, yc(fz) + 2, 3, M.iron, 'hearth');
-  cyl(fx, fz, yc(fz) - 1, yc(fz) - .2, 5.5, M.iron, 'hearth');                                  // ceiling collar
+  const cx = D.STOVE_X, zb = D.W_GYP + 7.5, zf = zb + D.STOVE_D, hx1 = cx - 24, hx2 = cx + 24, hz2 = D.W_GYP + 48, y0 = D.HEARTH_H;
+  box(hx1, hx2, 0, y0 - .75, D.W_GYP, hz2, M.stone, 'hearth');
+  box(hx1, hx2, y0 - .75, y0, D.W_GYP, hz2, M.stoneT, 'hearth');
+  box(hx1, hx2, 0, D.VENEER_H, D.W_GYP, D.W_GYP + .75, M.stone, 'hearth');                        // veneer, west wall only
+  box(cx - D.STOVE_W / 2, cx + D.STOVE_W / 2, y0 + 5, y0 + D.STOVE_H - 2, zb, zf, M.iron, 'hearth');
+  box(cx - D.STOVE_W / 2 - 1, cx + D.STOVE_W / 2 + 1, y0 + D.STOVE_H - 2, y0 + D.STOVE_H, zb - 1, zf + 1, M.iron, 'hearth');
+  box(cx - 9, cx + 9, y0 + 9, y0 + 22, zf, zf + .6, M.black, 'hearth', false);                     // glass door, facing the room
+  box(cx - 10, cx + 10, y0 + 6, y0 + 7, zf, zf + 1.2, M.black, 'hearth', false);                   // ash lip
+  for (const [lx, lz] of [[-9, 4], [9, 4], [-9, 21], [9, 21]]) cyl(cx + lx, zb + lz, y0, y0 + 5, 1.2, M.iron, 'hearth');
+  const fz = zb + 7.5;                                                                             // flue centre 7 1/2" from the back
+  cyl(cx, fz, y0 + D.STOVE_H, y0 + D.STOVE_H + 12, 3, M.iron, 'hearth');                          // 6" stove collar
+  cyl(cx, fz, y0 + D.STOVE_H + 12, yc(fz) + 2, 4, M.iron, 'hearth');                              // 8" OD double-wall connector to the roof
+  cyl(cx, fz, yc(fz) - 1, yc(fz) - .2, 6, M.iron, 'hearth');                                      // ceiling collar
 }
 
 // ---- interior lighting: sun through the north glass, warm point lights at the recessed cans and the fan --
@@ -2305,7 +2303,8 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   for (const s of [1, -1]) label('AS BUILT: window each side of the sliders,\nRO 36 1/2" x 48 1/2", sill 35 1/2" (owner tape 2026-09-02)', 229, 90, s * 122, NS);
   label('Mountain-view glazing J / K / N (A03)', 229, 200, 0, LS);
   label('Windows A 4\'-0" x 4\'-6", sill 3\'-0"', 40, 96, -146, LS);
-  label('4\'x4\'x8" stone hearth, veneer to 4\'\nDrolet Columbia II wood stove', 204, 56, -122, LS);
+  label('Drolet Columbia II turned parallel to the west wall (owner 2026-09-10):\nback 7 1/2" (double-wall pipe), 17" to the north wall; stone to 4\' on the west wall only.\nA02\'s diagonal corner surround ran into the as-built window.', 200, 58, -118, FS);
+  label('Hearth 48" x 48" x 8" as A02; 15 3/8" in front of the stove --\ncheck the manual\'s floor-protection extension', 200, 12, -100, FS);
   label('Fan downrod length not specified', 117.7, 192, 10, FS);
   label('Stair: 8 risers to a 3\'-0" landing,\n8 back over the utility (ghost)', -20, 72, -70, NS);
   label('Hall to the front door', -80, 60, 3, NS);
@@ -2337,7 +2336,10 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   dim(V(D.N_GYP - 1, 86, 103.9), V(D.N_GYP - 1, 86, 140.4), 'RO 36 1/2" as built', V(0, 3, 0), up);
   dim(V(D.N_GYP - 1, 0, 145), V(D.N_GYP - 1, 35.5, 145), 'sill 35 1/2"', V(0, 0, 0), ez);
   dim(V(150, 0, 0), V(150, D.GLB_HI, 0), 'T.O. RAFTER 27\'-6"', V(0, 0, 0), ez);
-  dim(V(D.HEARTH_X1, D.HEARTH_H, D.W_GYP + 1), V(D.N_GYP, D.HEARTH_H, D.W_GYP + 1), '4\'-0"', V(0, 3, 0), up);
+  dim(V(D.STOVE_X - 24, D.HEARTH_H, D.W_GYP + 1), V(D.STOVE_X + 24, D.HEARTH_H, D.W_GYP + 1), '4\'-0"', V(0, 3, 0), up);
+  dim(V(D.STOVE_X + 14, D.HEARTH_H + 20, D.W_GYP), V(D.STOVE_X + 14, D.HEARTH_H + 20, D.W_GYP + 7.5), '7 1/2"', V(0, 0, 0), ex);
+  dim(V(D.STOVE_X + D.STOVE_W / 2, D.HEARTH_H + 20, D.W_GYP + 20), V(D.N_GYP, D.HEARTH_H + 20, D.W_GYP + 20), '17" (10" min side)', V(0, 4, 0), up);
+  dim(V(D.STOVE_X - 14, D.HEARTH_H, D.W_GYP + 7.5 + D.STOVE_D), V(D.STOVE_X - 14, D.HEARTH_H, D.W_GYP + 48), '15 3/8" front', V(0, 3, 0), up);
   dim(V(D.WA1_X1, D.WA_Y2, D.W_GYP + 1), V(D.WA1_X2, D.WA_Y2, D.W_GYP + 1), 'RO 4\'-0 1/2"', V(0, 6, 0), up);
 }
 // ===== END EDIT: GEOMETRY =====
@@ -2365,7 +2367,7 @@ const VIEWS = {
   sink:    { pos: [40, 62, 62], tgt: [40, 48, 150], fov: 68 },
   fridge:  { pos: [70, 62, 78], tgt: [-48, 44, 72], fov: 62 },
   north:   { pos: [20, 66, 95], tgt: [230, 130, 0], fov: 70 },
-  stove:   { pos: [140, 62, -30], tgt: [215, 28, -133], fov: 58 },
+  stove:   { pos: [130, 60, -20], tgt: [200, 26, -132], fov: 58 },
   lounge:  { pos: [-50, 195, -50], tgt: [70, 30, 95], fov: 62 },
   top:     { pos: [92, 292, 1], tgt: [92, 0, 0], fov: 72 },
 };
