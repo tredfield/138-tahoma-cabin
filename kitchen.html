@@ -2111,8 +2111,9 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.ghostFl, 'l
   }
   const K = [[[54.5, 161], [97, 161], [54.5, 219]], [[-54.5, 161], [-97, 161], [-54.5, 219]]];
   const N = [[[4, 223], [46.5, 223], [4, 281]], [[-4, 223], [-46.5, 223], [-4, 281]]];
+  const XW = [[103.9, 140.4, 35.5, 84], [-140.4, -103.9, 35.5, 84]];   // AS BUILT windows flanking the sliders (owner tape 2026-09-02; rear-deck spec item 13)
   const norm = r => [Math.min(r[0], r[1]), Math.max(r[0], r[1]), r[2], r[3]];
-  const holes = J.map(norm).map(r => rect(r[0], r[2], r[1], r[3])).concat(K, N);
+  const holes = J.map(norm).map(r => rect(r[0], r[2], r[1], r[3])).concat(K, N, XW.map(r => rect(r[0], r[2], r[1], r[3])));
   prismZY(outline, D.N_GYP, D.N_OUT, M.gyp, 'wallN', holes);
   prismZY(outline, D.N_OUT, D.N_SIDE, M.siding, 'wallN', holes);
   const xf1 = 232.25, xf2 = 233.75, xg = 233, f = 1.75, c = 3;
@@ -2127,8 +2128,15 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.ghostFl, 'l
     box(D.N_GYP - .75, D.N_GYP, y1 - 3.5, y1 - 1, z1 - c, z2 + c, M.trim, 'wallN');
   }
   for (const r of J.map(norm)) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);
-  function glazeTri(p) {                                     // triangular fixed glass: glass prism + black frame bars
+  for (const r of XW) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);           // unit type not on record
+  function offsetPoly(p, c) {                                // convex [z, y] polygon pushed outward by c (mitered casing outline)
+    const n = p.length, area = p.reduce((a, q, i) => { const r = p[(i + 1) % n]; return a + q[0] * r[1] - r[0] * q[1]; }, 0), sg = area > 0 ? 1 : -1;
+    const L = p.map((q, i) => { const r = p[(i + 1) % n], dx = r[0] - q[0], dy = r[1] - q[1], h = Math.hypot(dx, dy); return { px: q[0] + sg * dy / h * c, py: q[1] - sg * dx / h * c, dx, dy }; });
+    return p.map((_, i) => { const a = L[(i + n - 1) % n], b = L[i], det = a.dx * b.dy - a.dy * b.dx, t = ((b.px - a.px) * b.dy - (b.py - a.py) * b.dx) / det; return [a.px + a.dx * t, a.py + a.dy * t]; });
+  }
+  function glazeTri(p) {                                     // triangular fixed glass: glass prism + black frame bars + mitered alder casing
     prismZY(p, xg - .125, xg + .125, M.glass, 'wallN', [], false);
+    prismZY(offsetPoly(p, 3), D.N_GYP - .8, D.N_GYP, M.trim, 'wallN', [p]);
     for (let i = 0; i < 3; i++) { const a = p[i], b = p[(i + 1) % 3]; bar(V(xg, a[1], a[0]), V(xg, b[1], b[0]), .9, M.black, 'wallN'); }
   }
   K.forEach(glazeTri); N.forEach(glazeTri);
@@ -2254,6 +2262,7 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   const blocked = z => {                                                                        // y-intervals occupied by glazing at this z
     const b = []; const az = Math.abs(z);
     if (az > 4 && az < 100) b.push([S, 86]);                                                    // doors (jambs handled below)
+    if (az > 103.9 && az < 140.4) b.push([35.5, 84]);                                           // as-built flanking windows
     if ((az > 4 && az < 50) || (az > 54.5 && az < 100.5)) b.push([102, 158]);
     if (az > 4 && az < 50) b.push([161, 217]);
     if (az > 54.5 && az < 97) b.push([161, 219 - (az - 54.5) * (58 / 42.5)]);
@@ -2266,6 +2275,8 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
     if (top > y) box(D.N_STUD, D.N_OUT, y, top, z, z + S, M.wood, 'framing');
   }
   for (const z of [-100, -4, 4, 100]) box(D.N_STUD, D.N_OUT, S, 86, z - (z > 0 ? 0 : S), z + (z > 0 ? S : 0), M.wood, 'framing');   // door jamb studs
+  for (const z of [-140.4, -103.9, 103.9, 140.4]) box(D.N_STUD, D.N_OUT, S, 86, z - (z > 0 ? S : 0), z + (z > 0 ? 0 : S), M.wood, 'framing');   // as-built window jambs
+  for (const s of [1, -1]) box(D.N_STUD, D.N_OUT, 34, 35.5, s * 103.9, s * 140.4, M.wood, 'framing');
   // rafters 2X14 @ 24" from the gable pair south to the triple at gridline 3
   const rafterPair = (x1, x2) => { slopedBoxZ(x1, x2, D.GLB_W / 2, D.E_OUT, yr, -D.SLOPE, 13.25, M.wood, 'framing'); slopedBoxZ(x1, x2, D.W_OUT, -D.GLB_W / 2, yr, D.SLOPE, 13.25, M.wood, 'framing'); };
   for (let x = D.N_OUT - 3.5; x > 6; x -= 24) rafterPair(x - S, x);
@@ -2291,6 +2302,7 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   label('Lounge floor edge on gridline 3\n0560 cable rail, fascia mounted', 0, 162, 60, LS);
   label('1x6 T&G on 2X14 @ 24", ~15:12\n5 1/2" x 24" GLB ridge, T.O. rafter 27\'-6"', 117, 296, 0, LS);
   label('Doors 9 / 10: 96" x 84" sliders (A04)', 229, 92, 0, LS);
+  for (const s of [1, -1]) label('AS BUILT: window each side of the sliders,\nRO 36 1/2" x 48 1/2", sill 35 1/2" (owner tape 2026-09-02)', 229, 90, s * 122, NS);
   label('Mountain-view glazing J / K / N (A03)', 229, 200, 0, LS);
   label('Windows A 4\'-0" x 4\'-6", sill 3\'-0"', 40, 96, -146, LS);
   label('4\'x4\'x8" stone hearth, veneer to 4\'\nDrolet Columbia II wood stove', 204, 56, -122, LS);
@@ -2322,6 +2334,8 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   dim(V(120, 0, D.W_OUT), V(120, 0, D.E_OUT), '26\'-0" gridline C to A', V(0, 2, 0), up);
   dim(V(D.N_GYP - 1, 86, -D.DR_Z2), V(D.N_GYP - 1, 86, -D.DR_Z), '8\'-0" door 9', V(0, 3, 0), up);
   dim(V(D.N_GYP - 1, 86, D.DR_Z), V(D.N_GYP - 1, 86, D.DR_Z2), '8\'-0" door 10', V(0, 3, 0), up);
+  dim(V(D.N_GYP - 1, 86, 103.9), V(D.N_GYP - 1, 86, 140.4), 'RO 36 1/2" as built', V(0, 3, 0), up);
+  dim(V(D.N_GYP - 1, 0, 145), V(D.N_GYP - 1, 35.5, 145), 'sill 35 1/2"', V(0, 0, 0), ez);
   dim(V(150, 0, 0), V(150, D.GLB_HI, 0), 'T.O. RAFTER 27\'-6"', V(0, 0, 0), ez);
   dim(V(D.HEARTH_X1, D.HEARTH_H, D.W_GYP + 1), V(D.N_GYP, D.HEARTH_H, D.W_GYP + 1), '4\'-0"', V(0, 3, 0), up);
   dim(V(D.WA1_X1, D.WA_Y2, D.W_GYP + 1), V(D.WA1_X2, D.WA_Y2, D.W_GYP + 1), 'RO 4\'-0 1/2"', V(0, 6, 0), up);
