@@ -113,11 +113,6 @@
       <label><input type="checkbox" data-layer="dim"> Dimensions</label>
       <label><input type="checkbox" data-layer="caption"> Caption</label>
     </div>
-    <div class="row fold" id="variants">
-      <span class="lbl">Stove</span>
-      <label><input type="radio" name="stove" data-layer="stoveA" checked> A: parallel to the west wall</label>
-      <label><input type="radio" name="stove" data-layer="stoveB"> B: diagonal in the corner at the 12" clearance</label>
-    </div>
     <div class="row" id="views">
       <span class="lbl">View</span>
       <button data-view="kitchen" class="on">Kitchen</button>
@@ -1608,8 +1603,8 @@ const D = {
   // --- sink / faucet ---
   SK_X1: 21.9, SK_X2: 57.6, SK_Z1: 124.25, SK_Z2: 146.6, SK_H: 9.625, FAU_Z: 147.5,
   // --- great room ---
-  HEARTH_H: 8, VENEER_H: 48,                                    // 4' x 4' x 8" pad, stone to 4' (A02) -- west wall only since 2026-09-10
-  STOVE_X: 200, STOVE_W: 25.625, STOVE_D: 25.125, STOVE_H: 29,  // centre 30" south of the north gyp face; back 7 1/2" off the west wall (option 1)
+  HEARTH_X1: 182, HEARTH_Z2: -102, HEARTH_H: 8, HEARTH_CH: 24,  // A02 4' x 4' x 8" corner pad with a 24" chamfer (pixels 10434/10841, 5952/6348); no wall stone (owner 2026-09-10)
+  STOVE_W: 25.625, STOVE_D: 25.125, STOVE_H: 29,                 // Drolet Columbia II (BoD row 8)
   CAN_X: [39.7, 117.7, 196.3], CAN_Z: [-111.4, -38.2, 41.0, 111.8],
   FAN_X: 117.7, FAN_Y: 180,
   // --- lounge / stair / hall (ghost) ---
@@ -2179,59 +2174,40 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.ghostFl, 'l
   prismZY([[-23, 302.7], [-150, 218], [-150, 147.2]], 0, 5.5, M.gyp, 'lounge');
 }
 
-// ---- wood stove: two placements on a radio (owner 2026-09-10), both to the Drolet Columbia II manual (46145_IA 2023-09-07, USA
-// figures): A = parallel to the west wall, back 7 1/2" (double-wall connector), pad 52 1/4" deep (16" past the door, Fig. 22);
-// B = diagonal in the corner as A02 intended, back corners 12" off both walls (Fig. 20), corner pad 63" along each wall.
-// No wall stone in either: the manual needs clearances + a floor pad only; A02's stone veneer was decorative (owner dropped it).
-const tagV = (o, v) => { o.userData.variant = v; return o; };            // parts shown only while the matching Stove radio is selected
-const tagLast = v => { tagV(parts[parts.length - 1], v); };               // tag the label a dim() just registered
-const LSf = { ...FLAG, scale: .06 }, upV = V(0, 1, 0), exV = V(1, 0, 0);
-function stoveBody(cx, cz, rotY, tag) {                                  // body, top, door plate, legs; rotY 0 = facing +z (east)
-  const y0 = D.HEARTH_H, W = D.STOVE_W, Dp = D.STOVE_D, H = D.STOVE_H;
-  const ux = Math.sin(rotY), uz = Math.cos(rotY);                        // local +z (front direction) in world after rotation.y = rotY
-  const vx = Math.cos(rotY), vz = -Math.sin(rotY);                       // local +x (width direction)
-  const at = (o, dx, dz) => { o.position.x += 0; return o; };
-  const body = tagV(box(cx - W / 2, cx + W / 2, y0 + 5, y0 + H - 2, cz - Dp / 2, cz + Dp / 2, M.iron, 'hearth'), tag); body.rotation.y = rotY;
-  const top = tagV(box(cx - W / 2 - 1, cx + W / 2 + 1, y0 + H - 2, y0 + H, cz - Dp / 2 - 1, cz + Dp / 2 + 1, M.iron, 'hearth'), tag); top.rotation.y = rotY;
-  const fd = Dp / 2 + .3, dx = cx + ux * fd, dz = cz + uz * fd;           // door plate centre, just proud of the front face
-  const door = tagV(box(dx - 9, dx + 9, y0 + 9, y0 + 22, dz - .3, dz + .3, M.black, 'hearth', false), tag); door.rotation.y = rotY;
-  for (const [a, b] of [[-9, -8.5], [9, -8.5], [-9, 8.5], [9, 8.5]]) tagV(cyl(cx + vx * a + ux * b, cz + vz * a + uz * b, y0, y0 + 5, 1.2, M.iron, 'hearth'), tag);
-  const fb = Dp / 2 - 7.5, fx = cx - ux * fb, fz = cz - uz * fb;         // flue centre 7 1/2" from the back
-  tagV(cyl(fx, fz, y0 + H, y0 + H + 12, 3, M.iron, 'hearth'), tag);
-  tagV(cyl(fx, fz, y0 + H + 12, yc(fz) + 2, 4, M.iron, 'hearth'), tag);  // 8" OD double-wall connector to the roof
-  tagV(cyl(fx, fz, yc(fz) - 1, yc(fz) - .2, 6, M.iron, 'hearth'), tag);
-  return { fx, fz };
-}
-{ // ---- A: parallel to the west wall ----
-  const cx = D.STOVE_X, zb = D.W_GYP + 7.5, zf = zb + D.STOVE_D, hx1 = cx - 24, hx2 = cx + 24, hz2 = D.W_GYP + 52.25, y0 = D.HEARTH_H;
-  tagV(box(hx1, hx2, 0, y0 - .75, D.W_GYP, hz2, M.stone, 'hearth'), 'stoveA');
-  tagV(box(hx1, hx2, y0 - .75, y0, D.W_GYP, hz2, M.stoneT, 'hearth'), 'stoveA');
-  stoveBody(cx, (zb + zf) / 2, 0, 'stoveA');
-  tagV(label('A -- parallel to the west wall: back 7 1/2" (double-wall pipe), 17" to the north wall (10" min side),\npad 48" x 52 1/4" reaching 16"+ past the door (manual Fig. 22). No wall stone needed.', cx, 58, -112, LSf), 'stoveA');
-  tagV(dim(V(hx1, y0, D.W_GYP + 1), V(hx2, y0, D.W_GYP + 1), '4\'-0"', V(0, 3, 0), upV), 'stoveA'); tagLast('stoveA');
-  tagV(dim(V(cx + 14, y0 + 20, D.W_GYP), V(cx + 14, y0 + 20, zb), '7 1/2"', V(0, 0, 0), exV), 'stoveA'); tagLast('stoveA');
-  tagV(dim(V(cx + D.STOVE_W / 2, y0 + 20, D.W_GYP + 20), V(D.N_GYP, y0 + 20, D.W_GYP + 20), '17" (10" min side)', V(0, 4, 0), upV), 'stoveA'); tagLast('stoveA');
-  tagV(dim(V(cx - 14, y0, zf), V(cx - 14, y0, hz2), '19 5/8" past the front (16" min past the door)', V(0, 3, 0), upV), 'stoveA'); tagLast('stoveA');
-  tagV(dim(V(hx1 - 6, y0, D.W_GYP), V(hx1 - 6, y0, hz2), '52 1/4"', V(0, 3, 0), upV), 'stoveA'); tagLast('stoveA');
-}
-{ // ---- B: diagonal in the corner, back corners 12" off both walls ----
-  const c = 12, half = Math.hypot(D.STOVE_W, D.STOVE_D) / 2;              // 17.94": centre to a corner of the 25 5/8 x 25 1/8 body
-  const cx = D.N_GYP - c - half, cz = D.W_GYP + c + half;                  // (200.06, -120.06)
-  const r2 = Math.SQRT1_2, y0 = D.HEARTH_H;
-  const fx = cx - r2 * D.STOVE_D / 2, fz = cz + r2 * D.STOVE_D / 2;       // front face centre, facing SE
-  const px = fx - r2 * 16, pz = fz + r2 * 16;                              // pad edge centre 16" past the door
-  const hw = 36.25 / 2, e1 = [px + r2 * hw, pz + r2 * hw], e2 = [px - r2 * hw, pz - r2 * hw];   // front edge ends
-  const pad = [[D.N_GYP, D.W_GYP], [D.N_GYP, e1[1]], e1, e2, [e2[0], D.W_GYP]];                  // corner-filling pentagon
-  tagV(prismXZ(pad, 0, y0 - .75, M.stone, 'hearth'), 'stoveB');
-  tagV(prismXZ(pad, y0 - .75, y0, M.stoneT, 'hearth'), 'stoveB');
-  stoveBody(cx, cz, -Math.PI / 4 * 3, 'stoveB');                          // front toward the room (south-east)
-  const ax = cx + half, az = cz, bx = cx, bz = cz - half;                  // back corners nearest the north / west walls
-  tagV(label('B -- corner as A02 intended, pulled out to the manual: back corners 12" off both walls (Fig. 20), centre 30" out,\npad 63" along each wall reaching 16" past the door (Fig. 22); no wall stone. Back corner sits 12" in front of the as-built window;\nflue between rafters to be checked.', cx - 20, 58, cz + 20, LSf), 'stoveB');
-  tagV(dim(V(ax, 20, az), V(D.N_GYP, 20, az), '12"', V(0, 0, 0), V(0, 0, 1)), 'stoveB'); tagLast('stoveB');
-  tagV(dim(V(bx, 20, bz), V(bx, 20, D.W_GYP), '12"', V(0, 0, 0), exV), 'stoveB'); tagLast('stoveB');
-  tagV(dim(V(fx, y0, fz), V(px, y0, pz), '16" past the door', V(0, 3, 0), upV), 'stoveB'); tagLast('stoveB');
-  tagV(dim(V(e2[0], y0, D.W_GYP + 3), V(D.N_GYP, y0, D.W_GYP + 3), `${(D.N_GYP - e2[0]).toFixed(0)}" along each wall`, V(0, 3, 0), upV), 'stoveB'); tagLast('stoveB');
-  tagV(dim(V(cx, 40, cz), V(D.N_GYP, 40, cz), '30"', V(0, 0, 0), V(0, 0, 1)), 'stoveB'); tagLast('stoveB');
+// ---- wood stove per A02 (owner 2026-09-10): 4' x 4' x 8" stone pad in the north-west corner with the 24" chamfer as drawn,
+// NO wall stone (the manual asks for clearances + a floor pad only; the veneer was decorative), Drolet Columbia II set on the
+// diagonal as tight to the corner as its 25 5/8" x 25 1/8" body allows (2" behind each back corner). The manual's figures for
+// comparison -- 12" at the back corners (Fig. 20), pad 16" past the door (Fig. 22) -- are on the wiki source page; drawn dims below.
+{
+  const y0 = D.HEARTH_H, r2 = Math.SQRT1_2;
+  const pad = [[D.N_GYP, D.W_GYP], [D.N_GYP, D.HEARTH_Z2], [D.HEARTH_X1 + D.HEARTH_CH, D.HEARTH_Z2], [D.HEARTH_X1, D.HEARTH_Z2 - D.HEARTH_CH], [D.HEARTH_X1, D.W_GYP]];
+  prismXZ(pad, 0, y0 - .75, M.stone, 'hearth');
+  prismXZ(pad, y0 - .75, y0, M.stoneT, 'hearth');
+  const half = Math.hypot(D.STOVE_W, D.STOVE_D) / 2, gap = 2;                     // 17.94" centre-to-corner; 2" behind each back corner
+  const cx = D.N_GYP - gap - half, cz = D.W_GYP + gap + half;                       // (210.06, -130.06): centre 20" off both walls
+  const W = D.STOVE_W, Dp = D.STOVE_D, H = D.STOVE_H, rotY = -Math.PI / 4;          // local +z (front) -> (-x, +z): toward the room, south-east
+  const ux = Math.sin(rotY), uz = Math.cos(rotY), vx = Math.cos(rotY), vz = -Math.sin(rotY);
+  const body = box(cx - W / 2, cx + W / 2, y0 + 5, y0 + H - 2, cz - Dp / 2, cz + Dp / 2, M.iron, 'hearth'); body.rotation.y = rotY;
+  const top = box(cx - W / 2 - 1, cx + W / 2 + 1, y0 + H - 2, y0 + H, cz - Dp / 2 - 1, cz + Dp / 2 + 1, M.iron, 'hearth'); top.rotation.y = rotY;
+  const fd = Dp / 2 + .3, dx = cx + ux * fd, dz = cz + uz * fd;
+  const door = box(dx - 9, dx + 9, y0 + 9, y0 + 22, dz - .3, dz + .3, M.black, 'hearth', false); door.rotation.y = rotY;
+  for (const [a, b] of [[-9, -8.5], [9, -8.5], [-9, 8.5], [9, 8.5]]) cyl(cx + vx * a + ux * b, cz + vz * a + uz * b, y0, y0 + 5, 1.2, M.iron, 'hearth');
+  const fb = Dp / 2 - 7.5, fx = cx - ux * fb, fz = cz - uz * fb;                   // flue 7 1/2" from the back
+  cyl(fx, fz, y0 + H, y0 + H + 12, 3, M.iron, 'hearth');
+  cyl(fx, fz, y0 + H + 12, yc(fz) + 2, 4, M.iron, 'hearth');
+  cyl(fx, fz, yc(fz) - 1, yc(fz) - .2, 6, M.iron, 'hearth');
+  // dims: pad legs, gap at the back corners, pad beyond the front face along the diagonal
+  const frontX = cx + ux * Dp / 2, frontZ = cz + uz * Dp / 2;                       // front face centre
+  const chamfer = (D.HEARTH_X1 + D.HEARTH_CH) - D.HEARTH_Z2;                          // the chamfer line is x - z = 308
+  const edgeT = ((frontX - frontZ) - chamfer) / 2;                                    // > 0 while the face is on the pad
+  const eX = frontX - edgeT, eZ = frontZ + edgeT, past = edgeT * Math.SQRT2;
+  const up = V(0, 1, 0);
+  dim(V(D.HEARTH_X1, y0, D.W_GYP + 1), V(D.N_GYP, y0, D.W_GYP + 1), '4\'-0"', V(0, 3, 0), up);
+  dim(V(D.N_GYP - 1, y0, D.W_GYP), V(D.N_GYP - 1, y0, D.HEARTH_Z2), '4\'-0"', V(0, 3, 0), up);
+  dim(V(cx + half, 20, cz), V(D.N_GYP, 20, cz), `${gap}"`, V(0, 0, 0), V(0, 0, 1));
+  dim(V(cx, 20, cz - half), V(cx, 20, D.W_GYP), `${gap}"`, V(0, 0, 0), V(1, 0, 0));
+  dim(V(frontX, y0, frontZ), V(eX, y0, eZ), `${past.toFixed(1)}" pad past the front`, V(0, 3, 0), up);
+  label(`Stove per A02: 4' x 4' x 8" stone pad, 24" chamfer, no wall stone.\nColumbia II set diagonally with its back corners ${gap}" off the walls (its body is larger than A02's symbol);\npad extends ${past.toFixed(0)}" past the front face. Manual Fig. 20 / 22 figures for comparison: 12" at the back corners, 16" past the door.`, cx - 18, 58, cz + 18, { ...FLAG, scale: .06 });
 }
 
 // ---- interior lighting: sun through the north glass, warm point lights at the recessed cans and the fan --
