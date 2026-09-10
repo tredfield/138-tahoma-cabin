@@ -103,6 +103,7 @@
       <label><input type="checkbox" data-layer="roof" checked> Roof T&amp;G + ridge</label>
       <label><input type="checkbox" data-layer="lounge" checked> Lounge + stair</label>
       <label><input type="checkbox" data-layer="hearth" checked> Wood stove</label>
+      <label><input type="checkbox" data-layer="dining" checked> Dining table (placeholder)</label>
       <label><input type="checkbox" data-layer="floor" checked> Floor</label>
       <label><input type="checkbox" data-layer="elec" checked> Lights + outlets</label>
       <label><input type="checkbox" data-layer="framing"> Framing</label>
@@ -121,6 +122,7 @@
       <button data-view="north">Window wall</button>
       <button data-view="stove">Stove</button>
       <button data-view="lounge">From lounge</button>
+      <button data-view="dining">Dining</button>
       <button data-view="top">Plan</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
     </div>
@@ -2342,6 +2344,38 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   dim(V(D.STOVE_X - 14, D.HEARTH_H, D.W_GYP + 7.5 + D.STOVE_D), V(D.STOVE_X - 14, D.HEARTH_H, D.W_GYP + 48), '15 3/8" front', V(0, 3, 0), up);
   dim(V(D.WA1_X1, D.WA_Y2, D.W_GYP + 1), V(D.WA1_X2, D.WA_Y2, D.W_GYP + 1), 'RO 4\'-0 1/2"', V(0, 6, 0), up);
 }
+
+// ---- dining table placeholder (owner ask 2026-09-10): typical 6-seat table 72" x 36" x 30", three chairs a side, set east-west
+// between the end of the east-wall cabinets (x 106.9) and the north wall (x 230): 123" available, 43 1/2" clear each side of the
+// 36" table for chairs + circulation (36" min), 39" walkway along the east wall to door 10. Position is an assumption, not a sheet.
+{
+  const L = 72, W = 36, H = 30, xc = (D.ER_X2 + D.N_GYP) / 2, zc = 75;            // centred in the 10'-3" gap and on the east half of the room
+  const x1 = xc - W / 2, x2 = xc + W / 2, z1 = zc - L / 2, z2 = zc + L / 2;
+  box(x1, x2, H - 1.25, H, z1, z2, M.alderDk, 'dining');                                 // top
+  box(x1 + 2, x2 - 2, H - 4.5, H - 1.25, z1 + 2, z2 - 2, M.alderDk, 'dining', false);     // apron
+  for (const [lx, lz] of [[x1 + 3, z1 + 3], [x2 - 3, z1 + 3], [x1 + 3, z2 - 3], [x2 - 3, z2 - 3]]) box(lx - 1.5, lx + 1.5, 0, H - 4.5, lz - 1.5, lz + 1.5, M.black, 'dining', false);
+  function chair(cx, cz, side) {                                                         // side +1: chair north of the table, -1: south; seat 17" square, 18" high, back to 36"
+    const sx1 = side > 0 ? x2 - 5 : x1 - 12, sx2 = sx1 + 17;                            // 5" tucked under the table
+    box(sx1, sx2, 17, 18.5, cz - 8.5, cz + 8.5, M.black, 'dining');
+    const bx1 = side > 0 ? sx2 - 1.5 : sx1, bx2 = bx1 + 1.5;
+    box(bx1, bx2, 18.5, 36, cz - 8, cz + 8, M.black, 'dining');
+    for (const [lx, lz] of [[sx1 + 1, cz - 7.5], [sx2 - 1, cz - 7.5], [sx1 + 1, cz + 7.5], [sx2 - 1, cz + 7.5]]) box(lx - .6, lx + .6, 0, 17, lz - .6, lz + .6, M.black, 'dining', false);
+  }
+  for (const cz of [zc - 24, zc, zc + 24]) { chair(0, cz, -1); chair(0, cz, +1); }
+  // BoD row 46 dining chandelier (Bellevue SHM10018MBK) -- E01 gives no location; hung over the table centre from the T&G, bottom 36" above the top
+  cyl(xc, zc, H + 36 + 6, yc(zc) - .2, .25, M.black, 'dining');
+  cyl(xc, zc, H + 36, H + 36 + 6, 10, M.black, 'dining');
+  cyl(xc, zc, H + 35.5, H + 36, 8, M.led, 'dining');
+  label('Typical 6-seat table 72" x 36" x 30" (placeholder, 3 chairs a side);\n43 1/2" clear to the cabinets and to the north wall, 39" walkway to door 10', xc, 40, zc, { ...FLAG, scale: .06 });
+  label('Dining chandelier SHM10018MBK (BoD row 46) -- location assumed,\nnot on E01', xc, H + 46, zc + 14, { ...FLAG, scale: .06 });
+  const up = V(0, 1, 0);
+  dim(V(D.ER_X2, 30, 140), V(D.N_GYP, 30, 140), '10\'-3" cabinet end to north wall', V(0, 4, 0), up);
+  dim(V(D.ER_X2, 30, zc + L / 2 + 6), V(x1, 30, zc + L / 2 + 6), '43 1/2"', V(0, 2, 0), up);
+  dim(V(x2, 30, zc + L / 2 + 6), V(D.N_GYP, 30, zc + L / 2 + 6), '43 1/2"', V(0, 2, 0), up);
+  dim(V(x1, 30, z1), V(x2, 30, z1), '3\'-0"', V(0, 2, -6), up);
+  dim(V(x2, 30, z1), V(x2, 30, z2), '6\'-0"', V(6, 2, 0), up);
+  dim(V(xc, 30, z2), V(xc, 30, D.E_GYP), '39" to the east wall', V(0, 2, 0), up);
+}
 // ===== END EDIT: GEOMETRY =====
 
 // --- UI wiring (do not rewrite; the layer/view names come from the HTML + VIEWS above) -----------
@@ -2369,6 +2403,7 @@ const VIEWS = {
   north:   { pos: [20, 66, 95], tgt: [230, 130, 0], fov: 70 },
   stove:   { pos: [130, 60, -20], tgt: [200, 26, -132], fov: 58 },
   lounge:  { pos: [-50, 195, -50], tgt: [70, 30, 95], fov: 62 },
+  dining:  { pos: [60, 66, 20], tgt: [175, 30, 80], fov: 62 },
   top:     { pos: [92, 292, 1], tgt: [92, 0, 0], fov: 72 },
 };
 // ===== END EDIT: VIEWS =====
