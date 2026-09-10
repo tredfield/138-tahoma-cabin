@@ -70,7 +70,7 @@
     runs under the rafters from the wall to the gable end (its own layer). The gridline-4 wall is the two-story window wall
     (no floor in bay 3-4): 7"×14" LVL header, 7"×7" PSL ridge column, doors 9/10, J/K/N windows. <b>Not engineered — do not
     build from this.</b> Every number is traced in <code>outputs/rear-deck-roof-3d-spec.md</code>.
-    Drag to orbit · scroll to zoom · right-drag to pan.</div>
+    Drag to orbit · scroll to zoom · right-drag to pan. · arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -2225,7 +2225,35 @@ for (const l of (params.get('hide') || '').split(',').filter(Boolean)) { const c
 if (params.has('caption')) { const cb = layerBoxes.find(c => c.dataset.layer === 'caption'); if (cb) cb.checked = params.get('caption') !== '0'; }
 applyLayers();
 if (params.get('ui') === '0') document.querySelectorAll('.panel, #hint').forEach(e => { e.style.display = 'none'; });   // clean captures
-renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+// Keyboard walk (2026-09-10): arrows or WASD move the camera AND its orbit target through the room along the camera's
+// horizontal heading (Up/Down forward-back, Left/Right strafe), PageUp/PageDown or E/Q change eye height, Shift runs. The
+// mouse keeps orbiting (look), scrolling (zoom) and right-dragging (pan); view buttons still jump to presets. No collision.
+const WALK_KEYS = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Shift', 'w', 'a', 's', 'd', 'q', 'e', 'W', 'A', 'S', 'D', 'Q', 'E']);
+const keys = new Set();
+addEventListener('keydown', e => { if (e.target.tagName === 'INPUT' || e.metaKey || e.ctrlKey || e.altKey) return; if (WALK_KEYS.has(e.key)) { keys.add(e.key); e.preventDefault(); } });
+addEventListener('keyup', e => keys.delete(e.key));
+addEventListener('blur', () => keys.clear());
+const _fwd = new THREE.Vector3(), _right = new THREE.Vector3(), _move = new THREE.Vector3();
+let walkT = performance.now();
+function walk(now) {
+  const dt = Math.min(0.05, (now - walkT) / 1000); walkT = now;
+  if (!keys.size) return;
+  const has = (...ks) => ks.some(k => keys.has(k));
+  _fwd.subVectors(controls.target, camera.position); _fwd.y = 0;
+  if (_fwd.lengthSq() < 1e-6) _fwd.set(0, 0, -1); _fwd.normalize();
+  _right.crossVectors(_fwd, camera.up).normalize();
+  _move.set(0, 0, 0);
+  if (has('ArrowUp', 'w', 'W')) _move.add(_fwd);
+  if (has('ArrowDown', 's', 'S')) _move.sub(_fwd);
+  if (has('ArrowRight', 'd', 'D')) _move.add(_right);
+  if (has('ArrowLeft', 'a', 'A')) _move.sub(_right);
+  if (has('PageUp', 'e', 'E')) _move.y += 1;
+  if (has('PageDown', 'q', 'Q')) _move.y -= 1;
+  if (!_move.lengthSq()) return;
+  _move.normalize().multiplyScalar(66 * dt * (keys.has('Shift') ? 2.5 : 1));   // 66 in/s = a 5.5 ft/s walk; Shift runs
+  camera.position.add(_move); controls.target.add(_move);
+}
+renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); renderer.render(scene, camera); });
 </script>
 <script>
   // CDN failure fallback message
