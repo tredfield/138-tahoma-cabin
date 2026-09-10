@@ -102,7 +102,7 @@
       <label><input type="checkbox" data-layer="wallN" checked> North window wall</label>
       <label><input type="checkbox" data-layer="roof" checked> Roof T&amp;G + ridge</label>
       <label><input type="checkbox" data-layer="lounge" checked> Lounge + stair</label>
-      <label><input type="checkbox" data-layer="hearth" checked> Wood stove</label>
+      <label><input type="checkbox" data-layer="hearth" checked> Wood stove + pad</label>
       <label><input type="checkbox" data-layer="dining" checked> Dining table (placeholder)</label>
       <label><input type="checkbox" data-layer="floor" checked> Floor</label>
       <label><input type="checkbox" data-layer="elec" checked> Lights + outlets</label>
@@ -112,6 +112,11 @@
       <label><input type="checkbox" data-layer="label"> Labels</label>
       <label><input type="checkbox" data-layer="dim"> Dimensions</label>
       <label><input type="checkbox" data-layer="caption"> Caption</label>
+    </div>
+    <div class="row fold" id="variants">
+      <span class="lbl">Stove</span>
+      <label><input type="radio" name="stove" data-layer="stoveA" checked> A: parallel to the west wall</label>
+      <label><input type="radio" name="stove" data-layer="stoveB"> B: diagonal in the corner at the 12" clearance</label>
     </div>
     <div class="row" id="views">
       <span class="lbl">View</span>
@@ -2174,23 +2179,59 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.ghostFl, 'l
   prismZY([[-23, 302.7], [-150, 218], [-150, 147.2]], 0, 5.5, M.gyp, 'lounge');
 }
 
-// ---- wood stove (owner 2026-09-10, option 1): Drolet Columbia II parallel to the west wall, facing east; back 7 1/2" off the
-// wall (double-wall connector), 17" to the north wall (10" side min), centred so the 6" flue misses the 2X14 rafters; 4' x 4'
-// stone hearth + 4' stone veneer on the WEST wall only -- A02's diagonal corner surround collided with the as-built window --
-{
-  const cx = D.STOVE_X, zb = D.W_GYP + 7.5, zf = zb + D.STOVE_D, hx1 = cx - 24, hx2 = cx + 24, hz2 = D.W_GYP + 48, y0 = D.HEARTH_H;
-  box(hx1, hx2, 0, y0 - .75, D.W_GYP, hz2, M.stone, 'hearth');
-  box(hx1, hx2, y0 - .75, y0, D.W_GYP, hz2, M.stoneT, 'hearth');
-  box(hx1, hx2, 0, D.VENEER_H, D.W_GYP, D.W_GYP + .75, M.stone, 'hearth');                        // veneer, west wall only
-  box(cx - D.STOVE_W / 2, cx + D.STOVE_W / 2, y0 + 5, y0 + D.STOVE_H - 2, zb, zf, M.iron, 'hearth');
-  box(cx - D.STOVE_W / 2 - 1, cx + D.STOVE_W / 2 + 1, y0 + D.STOVE_H - 2, y0 + D.STOVE_H, zb - 1, zf + 1, M.iron, 'hearth');
-  box(cx - 9, cx + 9, y0 + 9, y0 + 22, zf, zf + .6, M.black, 'hearth', false);                     // glass door, facing the room
-  box(cx - 10, cx + 10, y0 + 6, y0 + 7, zf, zf + 1.2, M.black, 'hearth', false);                   // ash lip
-  for (const [lx, lz] of [[-9, 4], [9, 4], [-9, 21], [9, 21]]) cyl(cx + lx, zb + lz, y0, y0 + 5, 1.2, M.iron, 'hearth');
-  const fz = zb + 7.5;                                                                             // flue centre 7 1/2" from the back
-  cyl(cx, fz, y0 + D.STOVE_H, y0 + D.STOVE_H + 12, 3, M.iron, 'hearth');                          // 6" stove collar
-  cyl(cx, fz, y0 + D.STOVE_H + 12, yc(fz) + 2, 4, M.iron, 'hearth');                              // 8" OD double-wall connector to the roof
-  cyl(cx, fz, yc(fz) - 1, yc(fz) - .2, 6, M.iron, 'hearth');                                      // ceiling collar
+// ---- wood stove: two placements on a radio (owner 2026-09-10), both to the Drolet Columbia II manual (46145_IA 2023-09-07, USA
+// figures): A = parallel to the west wall, back 7 1/2" (double-wall connector), pad 52 1/4" deep (16" past the door, Fig. 22);
+// B = diagonal in the corner as A02 intended, back corners 12" off both walls (Fig. 20), corner pad 63" along each wall.
+// No wall stone in either: the manual needs clearances + a floor pad only; A02's stone veneer was decorative (owner dropped it).
+const tagV = (o, v) => { o.userData.variant = v; return o; };            // parts shown only while the matching Stove radio is selected
+const tagLast = v => { tagV(parts[parts.length - 1], v); };               // tag the label a dim() just registered
+const LSf = { ...FLAG, scale: .06 }, upV = V(0, 1, 0), exV = V(1, 0, 0);
+function stoveBody(cx, cz, rotY, tag) {                                  // body, top, door plate, legs; rotY 0 = facing +z (east)
+  const y0 = D.HEARTH_H, W = D.STOVE_W, Dp = D.STOVE_D, H = D.STOVE_H;
+  const ux = Math.sin(rotY), uz = Math.cos(rotY);                        // local +z (front direction) in world after rotation.y = rotY
+  const vx = Math.cos(rotY), vz = -Math.sin(rotY);                       // local +x (width direction)
+  const at = (o, dx, dz) => { o.position.x += 0; return o; };
+  const body = tagV(box(cx - W / 2, cx + W / 2, y0 + 5, y0 + H - 2, cz - Dp / 2, cz + Dp / 2, M.iron, 'hearth'), tag); body.rotation.y = rotY;
+  const top = tagV(box(cx - W / 2 - 1, cx + W / 2 + 1, y0 + H - 2, y0 + H, cz - Dp / 2 - 1, cz + Dp / 2 + 1, M.iron, 'hearth'), tag); top.rotation.y = rotY;
+  const fd = Dp / 2 + .3, dx = cx + ux * fd, dz = cz + uz * fd;           // door plate centre, just proud of the front face
+  const door = tagV(box(dx - 9, dx + 9, y0 + 9, y0 + 22, dz - .3, dz + .3, M.black, 'hearth', false), tag); door.rotation.y = rotY;
+  for (const [a, b] of [[-9, -8.5], [9, -8.5], [-9, 8.5], [9, 8.5]]) tagV(cyl(cx + vx * a + ux * b, cz + vz * a + uz * b, y0, y0 + 5, 1.2, M.iron, 'hearth'), tag);
+  const fb = Dp / 2 - 7.5, fx = cx - ux * fb, fz = cz - uz * fb;         // flue centre 7 1/2" from the back
+  tagV(cyl(fx, fz, y0 + H, y0 + H + 12, 3, M.iron, 'hearth'), tag);
+  tagV(cyl(fx, fz, y0 + H + 12, yc(fz) + 2, 4, M.iron, 'hearth'), tag);  // 8" OD double-wall connector to the roof
+  tagV(cyl(fx, fz, yc(fz) - 1, yc(fz) - .2, 6, M.iron, 'hearth'), tag);
+  return { fx, fz };
+}
+{ // ---- A: parallel to the west wall ----
+  const cx = D.STOVE_X, zb = D.W_GYP + 7.5, zf = zb + D.STOVE_D, hx1 = cx - 24, hx2 = cx + 24, hz2 = D.W_GYP + 52.25, y0 = D.HEARTH_H;
+  tagV(box(hx1, hx2, 0, y0 - .75, D.W_GYP, hz2, M.stone, 'hearth'), 'stoveA');
+  tagV(box(hx1, hx2, y0 - .75, y0, D.W_GYP, hz2, M.stoneT, 'hearth'), 'stoveA');
+  stoveBody(cx, (zb + zf) / 2, 0, 'stoveA');
+  tagV(label('A -- parallel to the west wall: back 7 1/2" (double-wall pipe), 17" to the north wall (10" min side),\npad 48" x 52 1/4" reaching 16"+ past the door (manual Fig. 22). No wall stone needed.', cx, 58, -112, LSf), 'stoveA');
+  tagV(dim(V(hx1, y0, D.W_GYP + 1), V(hx2, y0, D.W_GYP + 1), '4\'-0"', V(0, 3, 0), upV), 'stoveA'); tagLast('stoveA');
+  tagV(dim(V(cx + 14, y0 + 20, D.W_GYP), V(cx + 14, y0 + 20, zb), '7 1/2"', V(0, 0, 0), exV), 'stoveA'); tagLast('stoveA');
+  tagV(dim(V(cx + D.STOVE_W / 2, y0 + 20, D.W_GYP + 20), V(D.N_GYP, y0 + 20, D.W_GYP + 20), '17" (10" min side)', V(0, 4, 0), upV), 'stoveA'); tagLast('stoveA');
+  tagV(dim(V(cx - 14, y0, zf), V(cx - 14, y0, hz2), '19 5/8" past the front (16" min past the door)', V(0, 3, 0), upV), 'stoveA'); tagLast('stoveA');
+  tagV(dim(V(hx1 - 6, y0, D.W_GYP), V(hx1 - 6, y0, hz2), '52 1/4"', V(0, 3, 0), upV), 'stoveA'); tagLast('stoveA');
+}
+{ // ---- B: diagonal in the corner, back corners 12" off both walls ----
+  const c = 12, half = Math.hypot(D.STOVE_W, D.STOVE_D) / 2;              // 17.94": centre to a corner of the 25 5/8 x 25 1/8 body
+  const cx = D.N_GYP - c - half, cz = D.W_GYP + c + half;                  // (200.06, -120.06)
+  const r2 = Math.SQRT1_2, y0 = D.HEARTH_H;
+  const fx = cx - r2 * D.STOVE_D / 2, fz = cz + r2 * D.STOVE_D / 2;       // front face centre, facing SE
+  const px = fx - r2 * 16, pz = fz + r2 * 16;                              // pad edge centre 16" past the door
+  const hw = 36.25 / 2, e1 = [px + r2 * hw, pz + r2 * hw], e2 = [px - r2 * hw, pz - r2 * hw];   // front edge ends
+  const pad = [[D.N_GYP, D.W_GYP], [D.N_GYP, e1[1]], e1, e2, [e2[0], D.W_GYP]];                  // corner-filling pentagon
+  tagV(prismXZ(pad, 0, y0 - .75, M.stone, 'hearth'), 'stoveB');
+  tagV(prismXZ(pad, y0 - .75, y0, M.stoneT, 'hearth'), 'stoveB');
+  stoveBody(cx, cz, -Math.PI / 4 * 3, 'stoveB');                          // front toward the room (south-east)
+  const ax = cx + half, az = cz, bx = cx, bz = cz - half;                  // back corners nearest the north / west walls
+  tagV(label('B -- corner as A02 intended, pulled out to the manual: back corners 12" off both walls (Fig. 20), centre 30" out,\npad 63" along each wall reaching 16" past the door (Fig. 22); no wall stone. Back corner sits 12" in front of the as-built window;\nflue between rafters to be checked.', cx - 20, 58, cz + 20, LSf), 'stoveB');
+  tagV(dim(V(ax, 20, az), V(D.N_GYP, 20, az), '12"', V(0, 0, 0), V(0, 0, 1)), 'stoveB'); tagLast('stoveB');
+  tagV(dim(V(bx, 20, bz), V(bx, 20, D.W_GYP), '12"', V(0, 0, 0), exV), 'stoveB'); tagLast('stoveB');
+  tagV(dim(V(fx, y0, fz), V(px, y0, pz), '16" past the door', V(0, 3, 0), upV), 'stoveB'); tagLast('stoveB');
+  tagV(dim(V(e2[0], y0, D.W_GYP + 3), V(D.N_GYP, y0, D.W_GYP + 3), `${(D.N_GYP - e2[0]).toFixed(0)}" along each wall`, V(0, 3, 0), upV), 'stoveB'); tagLast('stoveB');
+  tagV(dim(V(cx, 40, cz), V(D.N_GYP, 40, cz), '30"', V(0, 0, 0), V(0, 0, 1)), 'stoveB'); tagLast('stoveB');
 }
 
 // ---- interior lighting: sun through the north glass, warm point lights at the recessed cans and the fan --
@@ -2305,8 +2346,6 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   for (const s of [1, -1]) label('AS BUILT: window each side of the sliders,\nRO 36 1/2" x 48 1/2", sill 35 1/2" (owner tape 2026-09-02)', 229, 90, s * 122, NS);
   label('Mountain-view glazing J / K / N (A03)', 229, 200, 0, LS);
   label('Windows A 4\'-0" x 4\'-6", sill 3\'-0"', 40, 96, -146, LS);
-  label('Drolet Columbia II turned parallel to the west wall (owner 2026-09-10):\nback 7 1/2" (double-wall pipe), 17" to the north wall; stone to 4\' on the west wall only.\nA02\'s diagonal corner surround ran into the as-built window.', 200, 58, -118, FS);
-  label('Hearth 48" x 48" x 8" as A02; 15 3/8" in front of the stove --\ncheck the manual\'s floor-protection extension', 200, 12, -100, FS);
   label('Fan downrod length not specified', 117.7, 192, 10, FS);
   label('Stair: 8 risers to a 3\'-0" landing,\n8 back over the utility (ghost)', -20, 72, -70, NS);
   label('Hall to the front door', -80, 60, 3, NS);
@@ -2338,10 +2377,6 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   dim(V(D.N_GYP - 1, 86, 103.9), V(D.N_GYP - 1, 86, 140.4), 'RO 36 1/2" as built', V(0, 3, 0), up);
   dim(V(D.N_GYP - 1, 0, 145), V(D.N_GYP - 1, 35.5, 145), 'sill 35 1/2"', V(0, 0, 0), ez);
   dim(V(150, 0, 0), V(150, D.GLB_HI, 0), 'T.O. RAFTER 27\'-6"', V(0, 0, 0), ez);
-  dim(V(D.STOVE_X - 24, D.HEARTH_H, D.W_GYP + 1), V(D.STOVE_X + 24, D.HEARTH_H, D.W_GYP + 1), '4\'-0"', V(0, 3, 0), up);
-  dim(V(D.STOVE_X + 14, D.HEARTH_H + 20, D.W_GYP), V(D.STOVE_X + 14, D.HEARTH_H + 20, D.W_GYP + 7.5), '7 1/2"', V(0, 0, 0), ex);
-  dim(V(D.STOVE_X + D.STOVE_W / 2, D.HEARTH_H + 20, D.W_GYP + 20), V(D.N_GYP, D.HEARTH_H + 20, D.W_GYP + 20), '17" (10" min side)', V(0, 4, 0), up);
-  dim(V(D.STOVE_X - 14, D.HEARTH_H, D.W_GYP + 7.5 + D.STOVE_D), V(D.STOVE_X - 14, D.HEARTH_H, D.W_GYP + 48), '15 3/8" front', V(0, 3, 0), up);
   dim(V(D.WA1_X1, D.WA_Y2, D.W_GYP + 1), V(D.WA1_X2, D.WA_Y2, D.W_GYP + 1), 'RO 4\'-0 1/2"', V(0, 6, 0), up);
 }
 
@@ -2379,7 +2414,7 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
 // ===== END EDIT: GEOMETRY =====
 
 // --- UI wiring (do not rewrite; the layer/view names come from the HTML + VIEWS above) -----------
-const layerBoxes = [...document.querySelectorAll('#layers input[type=checkbox]')];
+const layerBoxes = [...document.querySelectorAll('#layers input[type=checkbox], #variants input')];   // checkboxes + the Stove radios
 const hdr = document.getElementById('header');   // the caption panel; Show → Caption toggles it like a layer
 const foldN = document.getElementById('foldn');  // '12 of 17 on' next to the Show label while the rows are folded (phones)
 function applyLayers() {
@@ -2388,7 +2423,7 @@ function applyLayers() {
   const on = {};
   for (const cb of layerBoxes) on[cb.dataset.layer] = cb.checked;
   hdr.style.display = on.caption === false ? 'none' : '';
-  for (const p of parts) p.visible = on[p.userData.layer] !== false;
+  for (const p of parts) p.visible = on[p.userData.layer] !== false && (!p.userData.variant || on[p.userData.variant] !== false);
 }
 layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
 
