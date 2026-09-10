@@ -74,8 +74,9 @@
     (30", LH in-swing) is hinged at the kitchen wall. Walls and openings follow the A02 dim chains; device and light positions are scaled
     from E01 / M01 (&plusmn;1", M01 &plusmn;3"). <b>Orange = not on record or the sheets disagree:</b> S3.2 puts the hall-wall header (a door)
     at the plumbing-wall corner, 34" south of A02's door 6; A04 lists window C's rough width as 3'-0 1/2" against a 4'-0" unit; the
-    M01 fan and the E01 recessed can land 9" apart; the register sits under the open door; the shower trim model is open (the BoD kit is a
-    tub/shower). Finishes (dark rustic LVP, knotty alder, light quartz) carry the owner's main-bath / kitchen picks and are assumptions
+    M01 fan and the E01 recessed can land 9" apart; the register sits under the open door. <b>Fixtures match the main bath</b> (owner
+    2026-09-10): Moen UT3312 shower trim, Moen 6402 faucet, Kohler Artifacts 72582 sconce over a Kohler K-26052 mirror.
+    Finishes (dark rustic LVP, knotty alder, light quartz) carry the owner's main-bath / kitchen picks and are assumptions
     here; the BoD leaves the bath cabinet TBD. No site photos or field tape of this room yet -- A02's own <i>5'-3 1/4" FIELD VERIFY</i>
     on the alcove is open. <b>Not engineered &mdash; do not build from this.</b>
     Spec: <code>outputs/guest-bath-3d-spec.md</code>. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot;
@@ -1596,7 +1597,7 @@ const D = {
   // vanity in the plumbing-wall / hall-wall corner: 24 3/4" deep counter, 48" long (owner 2026-09-10; A02 drew 42 1/2"), faces north
   VAN_X1: 3.25, VAN_X2: 27.0, CTR_X2: 28.0, VAN_Z1: 33.5, VAN_Z2: 81.5, CTR_Y: 34.75, CTR_T: 1.25,
   SINK_XC: 15.5, SINK_ZC: 57.5, SINK_L: 13, SINK_W: 16, FAUCET_X: 6.5,   // sink centered on the 48" vanity (owner decision 2026-09-10; A02 symbol 49.5)
-  MIR_HW: 12, MIR_Y1: 44, MIR_Y2: 76, BAR_L: 20.9,   // 24" x 32" mirror and the Bellevue bar centered on the sink
+  MIR_HW: 11.03, MIR_Y1: 42, MIR_Y2: 76.06,          // Kohler K-26052 Essential 22 1/16" x 34 1/16" mirror, bottom 42", + Artifacts 72582 sconce 3" above -- same as the main bath
   // toilet centerline: re-centered between the 48" vanity end (81.5) and the shower glass (117.5) -- 18" each side; A02 drew it at 104
   WC_Z: 99.5,
   // devices: E01 can + GFCI + 3-gang, M01 fan + floor register
@@ -1908,12 +1909,13 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
 {
   const L = 'tub', T = 'tile', G = 'glass', tt = D.TILE_T, z1 = D.SH_Z1, z2 = D.SH_Z2, ez = D.EW_S1 - tt, yb = D.PAN_T;
   const xf = D.PW_N + tt, gz = D.GLASS_Z, gh = D.GLASS_H, zc = D.TRIM_Z;
-  // shower-only trim on the plumbing-wall tile face, centered on the pan (the BoD UT2313EP is a tub/shower kit -- superseded)
+  // Moen UT3312 Belfield M-CORE shower trim on the plumbing-wall tile face, centered on the pan -- same as the main bath (owner 2026-09-10);
+  // the BoD UT2313EP tub/shower kit is out
   bar(V(xf, D.VALVE_Y, zc), V(xf + 1.0, D.VALVE_Y, zc), 3.2, M.black, L);              // escutcheon
   bar(V(xf + 1.0, D.VALVE_Y, zc), V(xf + 2.2, D.VALVE_Y, zc), 0.9, M.black, L);
   bar(V(xf + 2.2, D.VALVE_Y, zc), V(xf + 2.6, D.VALVE_Y + 2.5, zc + 4.5), 0.45, M.black, L);   // lever
   bar(V(xf, D.ARM_Y, zc), V(xf + 7.5, D.ARM_Y, zc), 0.5, M.black, L);                  // shower arm
-  bar(V(xf + 7.5, D.ARM_Y, zc), V(xf + 8.6, D.ARM_Y - 1.4, zc), 3.4, M.black, L);      // head
+  bar(V(xf + 7.5, D.ARM_Y, zc), V(xf + 8.6, D.ARM_Y - 1.4, zc), 2.75, M.black, L);     // head (UT3312 single-function, as drawn upstairs)
   const th = D.TILE_H;
   box(D.PW_N, D.PW_N + tt, yb, th, z1, ez, M.tile, T);                                  // 0931 tile: plumbing-wall end, pan to 7'-0"
   box(D.PW_N, D.PW_N + tt + 0.1, yb, th + 0.5, z1 - 0.5, z1, M.black, T, false);       // black edge trim, leading edge
@@ -1955,8 +1957,8 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
 }
 
 // ---- vanity: single sink in the plumbing-wall / hall-wall corner, 48" x 24 3/4" (owner 2026-09-10; A02 42 1/2"), faces north -------
-//      Sink centered on the 48" (owner decision 2026-09-10): 12" drawers | 24" doors | 12" drawers; the mirror, Bellevue bar and
-//      faucet follow the sink. Alder (BoD: TBD) and quartz (assumed).
+//      Sink centered on the 48" (owner decision 2026-09-10): 12" drawers | 24" doors | 12" drawers; the Kohler mirror + Artifacts
+//      sconce (as the main bath) and the Moen 6402 faucet follow the sink. Alder (BoD: TBD) and quartz (assumed).
 {
   const L = 'vanity', x1 = D.VAN_X1, x2 = D.VAN_X2, z1 = D.VAN_Z1, z2 = D.VAN_Z2, cy = D.CTR_Y;
   box(x1, x2 - 3, 0, 4, z1, z2, M.alderDk, L);                                        // toe kick, recessed 3"
@@ -1988,18 +1990,16 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
     cyl(fx, zc, ft, ft + 6.5, 0.9, M.black, L);
     bar(V(fx, ft + 6.2, zc), V(fx + 5.2, ft + 5.4, zc), 0.5, M.black, L);
     bar(V(fx, ft + 6.9, zc), V(fx - 1.6, ft + 8.6, zc), 0.35, M.black, L);
-    const m1 = zc - D.MIR_HW, m2 = zc + D.MIR_HW, f = 1.25;                            // 24" x 32" mirror, black frame (size assumed)
-    box(x1 + 0.05, x1 + 0.75, D.MIR_Y1, D.MIR_Y2, m1, m2, M.mirror, L, false);
-    box(x1, x1 + 1.0, D.MIR_Y1 - f, D.MIR_Y1, m1 - f, m2 + f, M.black, L); box(x1, x1 + 1.0, D.MIR_Y2, D.MIR_Y2 + f, m1 - f, m2 + f, M.black, L);
-    box(x1, x1 + 1.0, D.MIR_Y1, D.MIR_Y2, m1 - f, m1, M.black, L); box(x1, x1 + 1.0, D.MIR_Y1, D.MIR_Y2, m2, m2 + f, M.black, L);
-    const by = D.MIR_Y2 + 8, hl = D.BAR_L / 2;                                          // Bellevue EGBF23259 20.9" bar (BoD row 45); E01 circuit 2
-    box(x1, x1 + 0.75, by - 2.5, by + 2.5, zc - 3.5, zc + 3.5, M.black, L);
-    box(x1 + 0.75, x1 + 2.6, by - 0.9, by + 0.9, zc - hl, zc + hl, M.black, L);
-    for (const dzs of [-6.9, 0, 6.9]) {                                                 // three shades (count not on record)
-      bar(V(x1 + 1.7, by + 0.9, zc + dzs), V(x1 + 5.2, by + 3.2, zc + dzs), 0.35, M.black, L);
-      cyl(x1 + 5.5, zc + dzs, by + 3.2, by + 8.7, 2.3, M.shade, L);
-    }
-    const vl = new THREE.PointLight(0xfff0d8, 700, 0, 2); vl.position.set(x1 + 10, by + 2, zc); reg(vl, L);
+    // Kohler K-26052 Essential framed mirror 22 1/16" x 34 1/16" x 1 3/8", bottom y 42, + a Kohler Artifacts 72582 two-light sconce
+    // (18 3/4" W x 12 3/8" H x 6 3/4" ext.) 3" above it -- the main bath's 2026-09-09 selections, shared here (owner 2026-09-10)
+    const za = zc - D.MIR_HW, zb = zc + D.MIR_HW, ya = D.MIR_Y1, ym = D.MIR_Y2, fw = 1.0;
+    box(x1 + 0.05, x1 + 0.75, ya + fw, ym - fw, za + fw, zb - fw, M.mirror, L, false);
+    box(x1, x1 + 1.37, ya, ya + fw, za, zb, M.black, L); box(x1, x1 + 1.37, ym - fw, ym, za, zb, M.black, L);
+    box(x1, x1 + 1.37, ya, ym, za, za + fw, M.black, L); box(x1, x1 + 1.37, ya, ym, zb - fw, zb, M.black, L);
+    const by = ym + 3;                                                                  // sconce: backplate, arm bar, two arms + shades
+    box(x1, x1 + 0.75, by + 4.0, by + 8.4, zc - 2.5, zc + 2.5, M.black, L); box(x1 + 0.75, x1 + 2.0, by + 5.5, by + 6.9, zc - 9.375, zc + 9.375, M.black, L);
+    for (const dz of [-6.5, 6.5]) { bar(V(x1 + 1.4, by + 6.2, zc + dz), V(x1 + 5.0, by + 3.0, zc + dz), 0.35, M.black, L); cyl(x1 + 5.5, zc + dz, by, by + 6.0, 2.4, M.shade, L); }
+    const vl = new THREE.PointLight(0xfff0d8, 700, 0, 2); vl.position.set(x1 + 9, by + 3, zc); reg(vl, L);
   };
   gap(4.5, cy - 0.5, z1 + 11.85, z1 + 12.15); gap(4.5, cy - 0.5, z2 - 12.15, z2 - 11.85);   // 12" drawers | 24" doors | 12" drawers
   drawers(z1, z1 + 11.85); doors(z1 + 12.15, z2 - 12.15); drawers(z2 - 11.85, z2); sink(D.SINK_ZC);
@@ -2132,12 +2132,12 @@ label('S3.2 puts this wall\'s header (a door) at the plumbing-wall corner, 34" s
 label('Window C  4\'-0" x 1\'-0", sill 5\'-0" (A03, A04 type C, section 4)\nA04 schedule lists its rough width as 3\'-0 1/2" -- drawn 4\'-0 1/2"; returns tiled', 33, 84, 148, FLAG);
 tagNew('chaseOn', () => label('For comparison: 60" x 34" alcove pan in the A02 chase, 58 3/4" x 32" to the glass\nthe chase only existed to fit a standard insert. End wall radio: none (default) / chase', 33, 26, 133));
 tagNew('chaseOff', () => label('Full-width tiled shower, no chase (owner default 2026-09-10): 66 1/2" tile to tile x 32" to the glass\ntiled floor + 4" curb, custom frameless glass wall to wall (tile + glass door as upstairs)', 37, 26, 133));
-label('Shower-only trim, matte black -- the BoD UT2313EP is a tub/shower kit; pick the model (upstairs chose Moen UT3312)', 10, 90, 134.5, FLAG);
+label('Moen UT3312 Belfield M-CORE 3-Series shower trim, matte black -- same as the main bath (owner 2026-09-10)\nreplaces the BoD UT2313EP tub/shower kit', 10, 90, 133.5, NOTE);
 tagNew('chaseOn', () => label('Frameless glass: fixed panel at the valve end, 30" door hinged on the chase, swings out\n(a door at the valve end would sweep the toilet)', 33, 86, 118, NOTE));
 tagNew('chaseOff', () => label('Frameless glass wall to wall: 36 3/4" fixed panel at the valve end, 29 1/2" door on glass-to-glass hinges,\nswings out and closes against the kitchen wall (a valve-end door would sweep the toilet)', 37, 86, 118, NOTE));
 label('Tile 0931 (OPCI) to 7\'-0" on three walls, painted wall above (owner: not to the ceiling; height typical)', 40, 90, 148, NOTE);
-label('Single-sink vanity 48" x 24 3/4" (owner 2026-09-10; A02 42 1/2"), sink centered (owner decision): 12" drawers | 24" doors | 12" drawers\ncabinet species TBD in the BoD (drawn alder), quartz + mirror size assumed; the E01 receptacle stays on the hall wall', 16, 42, 58);
-label('Bellevue EGBF23259 20.9" bar (BoD row 45); E01 circuit 2 -- box lands on the sink centerline, 24" off the hall wall', 8, 97, D.SINK_ZC, NOTE);
+label('Single-sink vanity 48" x 24 3/4" (owner 2026-09-10; A02 42 1/2"), sink centered (owner decision): 12" drawers | 24" doors | 12" drawers\ncabinet species TBD in the BoD (drawn alder), quartz assumed; Moen 6402 faucet as upstairs; the E01 receptacle stays on the hall wall', 16, 42, 58);
+label('Kohler Artifacts 72582 two-light sconce over a Kohler K-26052 Essential 22" x 34" mirror -- same as the main bath (owner 2026-09-10)\nreplaces the BoD Bellevue EGBF23259 bar; the E01 circuit-2 box lands on the sink centerline, 24" off the hall wall', 8, 97, D.SINK_ZC, NOTE);
 label('Toilet -- American Standard (model not named)\ncenterline re-centered: 18" to the vanity end, 18" to the shower glass (A02 drew it 4 1/2" further toward the tub)', 22, 34, 99.5, FLAG);
 label('Recessed can (E01 ckt 2) and Broan 50 CFM fan (M01) land 9" apart\none moves ~6", or the fan becomes a fan/light', 40, 103, 74, FLAG);
 label('3-gang: vanity light / can / fan', D.SWITCH_X, 55, 36, NOTE);
