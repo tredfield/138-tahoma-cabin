@@ -64,15 +64,18 @@
     <div class="sub">138 Tahoma St E, Packwood &middot; Armstrong permit set 2507 (A02 plan + section 4 / A03 / A04 / E01 / M01 / S3.2)
     + basis-of-design fixture schedule. The lower-floor <b>GUEST BATH</b> on the east (gridline A) wall between the guest-room-1
     closets (south) and the kitchen (north), entered from the hall: 5'-7 3/4" x 9'-8 1/2" clear under a flat 9'-0" ceiling. The
-    plumbing wall is centered on gridline 2; a 60 1/2" tub alcove is formed by an 8 1/2" chase at the kitchen end, with a 4'-0" x 1'-0"
-    window (C) at 5'-0" over the tub and tile from the tub rim to the ceiling (section 4). Single-sink vanity in the hall-wall corner
-    (owner: one sink), toilet centered 70 1/2" in, door 6 (30", LH in-swing) hinged at the kitchen wall. Walls and openings follow
-    the A02 dim chains; fixture, device and light positions are scaled from A02 / E01 / M01 (&plusmn;1", M01 &plusmn;3").
-    <b>Orange = not on record or the sheets disagree:</b> S3.2 puts the hall-wall header (a door) at the plumbing-wall corner,
-    34" south of A02's door 6; A04 lists window C's rough width as 3'-0 1/2" against a 4'-0" unit; the M01 fan and the E01 recessed
-    can land 9" apart; the register sits under the open door. Finishes (dark rustic LVP, knotty alder, light quartz) carry the owner's
-    main-bath / kitchen picks and are assumptions here; the BoD leaves the bath cabinet TBD. No site photos or field tape of this room
-    yet -- A02's own <i>5'-3 1/4" FIELD VERIFY</i> on the tub alcove is open. <b>Not engineered &mdash; do not build from this.</b>
+    plumbing wall is centered on gridline 2; a 60 1/2" alcove is formed by an 8 1/2" chase at the kitchen end, with a 4'-0" x 1'-0"
+    window (C) at 5'-0" in its east wall. <b>Owner changes 2026-09-10:</b> a tiled <b>shower with a frameless glass door</b> (60" x 32" pan,
+    tile to the ceiling, like the upstairs bath) replaces A02's tub; the single-sink vanity in the hall-wall corner grows to <b>48"</b>
+    (A02: 42 1/2"); every fixture and accessory is <b>matte black</b>. The toilet is re-centered in what is left -- 18 1/2" to the vanity
+    and 18" to the glass (code minimum 15", 18" recommended); 40" in front of it, 43" between the vanity and the kitchen wall. Door 6
+    (30", LH in-swing) is hinged at the kitchen wall. Walls and openings follow the A02 dim chains; device and light positions are scaled
+    from E01 / M01 (&plusmn;1", M01 &plusmn;3"). <b>Orange = not on record or the sheets disagree:</b> S3.2 puts the hall-wall header (a door)
+    at the plumbing-wall corner, 34" south of A02's door 6; A04 lists window C's rough width as 3'-0 1/2" against a 4'-0" unit; the
+    M01 fan and the E01 recessed can land 9" apart; the register sits under the open door; the shower trim model is open (the BoD kit is a
+    tub/shower). Finishes (dark rustic LVP, knotty alder, light quartz) carry the owner's main-bath / kitchen picks and are assumptions
+    here; the BoD leaves the bath cabinet TBD. No site photos or field tape of this room yet -- A02's own <i>5'-3 1/4" FIELD VERIFY</i>
+    on the alcove is open. <b>Not engineered &mdash; do not build from this.</b>
     Spec: <code>outputs/guest-bath-3d-spec.md</code>. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot;
     arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
@@ -81,7 +84,7 @@
     <div class="lg"><span class="sw" style="background:#d9d4c9"></span>Painted gypsum wall / ceiling</div>
     <div class="lg"><span class="sw" style="background:#5a3f2e"></span>LVP floor, COREtec 7" plank, dark rustic (owner)</div>
     <div class="lg"><span class="sw" style="background:#c9a675"></span>Knotty alder trim, base + cabinet (assumed)</div>
-    <div class="lg"><span class="sw" style="background:#d7dcdd"></span>Tub surround tile (0931, OPCI)</div>
+    <div class="lg"><span class="sw" style="background:#d7dcdd"></span>Shower tile (0931, OPCI)</div>
     <div class="lg"><span class="sw" style="background:#e9e6df"></span>Counter (light quartz, assumed)</div>
     <div class="lg"><span class="sw" style="background:#f5f5f3"></span>Plumbing fixtures</div>
     <div class="lg"><span class="sw" style="background:#1c1c1c"></span>Matte black hardware / trim</div>
@@ -99,8 +102,9 @@
       <label><input type="checkbox" data-layer="wallW"> Hall wall + door</label>
       <label><input type="checkbox" data-layer="ceiling"> Ceiling</label>
       <label><input type="checkbox" data-layer="floor" checked> LVP floor</label>
-      <label><input type="checkbox" data-layer="tub" checked> Tub + chase</label>
-      <label><input type="checkbox" data-layer="tile" checked> Surround tile</label>
+      <label><input type="checkbox" data-layer="tub" checked> Shower + chase</label>
+      <label><input type="checkbox" data-layer="glass" checked> Shower glass</label>
+      <label><input type="checkbox" data-layer="tile" checked> Shower tile</label>
       <label><input type="checkbox" data-layer="vanity" checked> Vanity + mirror</label>
       <label><input type="checkbox" data-layer="fixtures" checked> Toilet + accessories</label>
       <label><input type="checkbox" data-layer="elec" checked> Lights + devices</label>
@@ -115,7 +119,7 @@
       <button data-view="overview" class="on">Cutaway</button>
       <button data-view="door">From the door</button>
       <button data-view="vanity">Vanity</button>
-      <button data-view="tub">Tub</button>
+      <button data-view="shower">Shower</button>
       <button data-view="kitchen">From the kitchen</button>
       <button data-view="top">Plan</button>
       <button data-view="framing">Framing</button>
@@ -1568,8 +1572,8 @@ const D = {
   HW_OUT: 29.0, HW_S1: 29.5, HW_S2: 33.0, HW_IN: 33.5,
   // kitchen partition (north): bath gyp / studs / kitchen gyp
   KP_IN: 71.0, KP_S1: 71.5, KP_S2: 75.0, KP_OUT: 75.5,
-  // tub chase at the alcove's north end: framing face (chain 255.75 - 192.5) and its return plane
-  CH_X1: 63.25, CH_Z: 120.0,
+  // chase at the alcove's north end: framing face (chain 255.75 - 192.5) and its return plane (moved from A02's 120 to 118.5 for a 32" pan)
+  CH_X1: 63.25, CH_Z: 118.5,
   // east wall (gridline A): gyp / studs / sheathing / siding
   EW_IN: 150.0, EW_S1: 150.5, EW_S2: 156.0, SHEATH: 156.5, SIDING: 157.25,
   // levels
@@ -1577,15 +1581,16 @@ const D = {
   // openings (door 6 per the A02 chain; window C RO 4'-0 1/2" x 1'-0 1/2", A04's 3'-0 1/2" rough width flagged)
   DOOR_X1: 39.0, DOOR_X2: 69.5, DOOR_HEAD: 84.5, DOOR_W: 30, DOOR_T: 1.375,
   WIN_X1: 8.75, WIN_X2: 57.25, WIN_SILL: 59.75, WIN_HEAD: 72.25,
-  // tub 60 x 30 1/2 in the 60 1/2" alcove, rim 1'-3" (section 4); Moen UT2313EP on the plumbing wall
-  TUB_X1: 3.0, TUB_X2: 63.0, TUB_Z1: 120.0, TUB_Z2: 150.5, TUB_RIM: 15,
-  TRIM_Z: 135.25, SPOUT_Y: 20, VALVE_Y: 32, ARM_Y: 78, ROD_Y: 78,
-  // vanity in the plumbing-wall / hall-wall corner: 24 3/4" deep counter, 42 1/2" long, faces north
-  VAN_X1: 3.25, VAN_X2: 27.0, CTR_X2: 28.0, VAN_Z1: 33.5, VAN_Z2: 76.0, CTR_Y: 34.75, CTR_T: 1.25,
-  SINK_XC: 15.5, SINK_ZC: 49.5, SINK_L: 13, SINK_W: 16, FAUCET_X: 6.5,
-  MIR_Z1: 37.5, MIR_Z2: 61.5, MIR_Y1: 44, MIR_Y2: 76, BAR_ZC: 49.5, BAR_L: 20.9,
-  // toilet centerline (16" to the tub apron, 28" to the vanity end)
-  WC_Z: 104,
+  // shower (owner 2026-09-10, replaces the A02 tub): 60" x 32" alcove pan in the 60 1/2" alcove, frameless glass on the threshold,
+  // shower-only trim on the plumbing wall centered on the pan
+  SH_X1: 3.0, SH_X2: 63.0, SH_Z1: 118.5, SH_Z2: 150.5, PAN_T: 1.5, CURB_W: 3.0, GLASS_Z: 119.5, GLASS_H: 80, DOOR_G_X: 32.375,
+  TRIM_Z: 134.5, VALVE_Y: 48, ARM_Y: 80,
+  // vanity in the plumbing-wall / hall-wall corner: 24 3/4" deep counter, 48" long (owner 2026-09-10; A02 drew 42 1/2"), faces north
+  VAN_X1: 3.25, VAN_X2: 27.0, CTR_X2: 28.0, VAN_Z1: 33.5, VAN_Z2: 81.5, CTR_Y: 34.75, CTR_T: 1.25,
+  SINK_XC: 15.5, SINK_ZC: 48.5, SINK_L: 13, SINK_W: 16, FAUCET_X: 6.5,
+  MIR_Z1: 36.5, MIR_Z2: 60.5, MIR_Y1: 44, MIR_Y2: 76, BAR_ZC: 48.5, BAR_L: 20.9,
+  // toilet centerline: re-centered between the 48" vanity and the shower glass (18 1/2" / 18"); A02 drew it at 104
+  WC_Z: 100,
   // devices: E01 can + GFCI + 3-gang, M01 fan + floor register
   CAN: [37.2, 77.4], FAN: [42.0, 70.0], SWITCH_X: 32.5, GFCI_X: 15.5, REG: [66.5, 70.5, 60, 70],
   // finishes + framing rules
@@ -1805,8 +1810,7 @@ const winHole = rect(D.WIN_X1, D.WIN_SILL, D.WIN_X2, D.WIN_HEAD);
 {
   const L = 'wallS';
   box(D.PW_OUT, D.PW_N, 0, TOP, D.HW_OUT, D.EW_S1, M.gyp, L);                    // core + closet-side gyp, full length
-  box(D.PW_N, D.PW_IN, 0, TOP, D.HW_OUT, D.CH_Z, M.gyp, L);                      // bath-side gyp up to the tub alcove
-  box(D.PW_N, D.PW_IN, 0, D.TUB_RIM, D.CH_Z, D.EW_S1, M.ply, L, false);         // backer behind the tub, below the rim
+  box(D.PW_N, D.PW_IN, 0, TOP, D.HW_OUT, D.CH_Z, M.gyp, L);                      // bath-side gyp up to the shower alcove
 }
 
 // ---- hall wall (west) with door 6: 30" x 84", LH in-swing, hinged at the kitchen-side jamb, drawn open 80 deg ----------
@@ -1834,7 +1838,7 @@ const winHole = rect(D.WIN_X1, D.WIN_SILL, D.WIN_X2, D.WIN_HEAD);
 
 // ---- kitchen partition (north) and the tub chase at the alcove's north end ------------------------------------------------
 box(D.KP_IN, D.KP_OUT, 0, TOP, D.HW_OUT, D.EW_S1, M.gyp, 'wallN');
-box(D.CH_X1, D.KP_IN, 0, TOP, D.CH_Z, D.EW_S1, M.gyp, 'tub');                     // chase block: 8 1/4" framing + gyp return at z = 120
+box(D.CH_X1, D.KP_IN, 0, TOP, D.CH_Z, D.EW_S1, M.gyp, 'tub');                     // chase block: 8 1/4" framing + gyp return at the pan's front edge
 
 // ---- east wall (gridline A) with window C: 4'-0" x 1'-0" at 5'-0", tiled returns inside the surround -----------------------
 {
@@ -1844,7 +1848,6 @@ box(D.CH_X1, D.KP_IN, 0, TOP, D.CH_Z, D.EW_S1, M.gyp, 'tub');                   
   prism(rect(x1, 0, x2, TOP), D.SHEATH, D.SIDING, M.siding, L, [winHole]);        // hardie siding
   prism(rect(x1, 0, D.PW_N, TOP), D.EW_IN, D.EW_S1, M.gyp, L);                    // interior gyp outside the alcove
   prism(rect(D.CH_X1, 0, x2, TOP), D.EW_IN, D.EW_S1, M.gyp, L);
-  prism(rect(D.PW_N, 0, D.CH_X1, D.TUB_RIM), D.EW_IN, D.EW_S1, M.ply, L, [], false);   // backer behind the tub
   // window C: frame in the RO, glass mid-wall
   const fx1 = D.WIN_X1 + 0.25, fx2 = D.WIN_X2 - 0.25, fy1 = D.WIN_SILL + 0.25, fy2 = D.WIN_HEAD - 0.25, fw = 1.75, fz1 = 151.5, fz2 = 155.0;
   box(fx1, fx2, fy1, fy1 + fw, fz1, fz2, M.frame, L); box(fx1, fx2, fy2 - fw, fy2, fz1, fz2, M.frame, L);
@@ -1886,50 +1889,55 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
   box(D.CH_X1, D.KP_IN, y1, y2, D.CH_Z - t, D.CH_Z, M.alder, 'tub');                          // chase return
 }
 
-// ---- tub: 60" alcove tub/shower, rim 1'-3" (section 4), drain end at the plumbing wall; Moen UT2313EP; tile to the ceiling ------
+// ---- shower (owner 2026-09-10: tiled shower with a glass door instead of the A02 tub, like the upstairs bath) -----------------
+//      60" x 32" alcove pan, tile pan to ceiling on three walls, frameless glass: fixed panel at the valve end, 30" door hinged on the chase
 {
-  const L = 'tub', x1 = D.TUB_X1, x2 = D.TUB_X2, z1 = D.TUB_Z1, z2 = D.TUB_Z2, rim = D.TUB_RIM;
-  const inner = rect(x1 + 3, z1 + 3, x2 - 3, z2 - 3);
-  prismXZ(rect(x1, z1, x2, z2), 2.5, rim, M.white, L, [inner]);                     // shell with the basin cut out
-  prismXZ(rect(x1, z1, x2, z2), 0, 2.5, M.white, L);                                 // basin floor
-  cyl(x1 + 6, D.TRIM_Z, 2.5, 2.7, 1.5, M.black, L);                                  // drain
-  bar(V(x1 + 3, 11, D.TRIM_Z), V(x1 + 3.6, 11, D.TRIM_Z), 1.6, M.black, L);         // overflow plate
-  // Moen UT2313EP tub & shower trim on the plumbing-wall tile face, centered on the tub (heights typical, not on record)
-  const xf = D.PW_N + D.TILE_T, zc = D.TRIM_Z;
-  bar(V(xf, D.SPOUT_Y, zc), V(xf + 5.5, D.SPOUT_Y, zc), 0.9, M.black, L);           // tub spout
-  bar(V(xf + 5.0, D.SPOUT_Y - 0.4, zc), V(xf + 5.0, D.SPOUT_Y - 1.4, zc), 0.6, M.black, L);
-  bar(V(xf, D.VALVE_Y, zc), V(xf + 1.0, D.VALVE_Y, zc), 3.2, M.black, L);           // escutcheon
+  const L = 'tub', x1 = D.SH_X1, x2 = D.SH_X2, z1 = D.SH_Z1, z2 = D.SH_Z2, tt = D.TILE_T;
+  box(x1, x2, 0, D.PAN_T, z1, z2, M.white, L);                                          // pan (model not chosen; 60 x 32 alcove base)
+  box(x1, x2, 0, 4, z1, z1 + D.CURB_W, M.white, L);                                     // threshold along the glass line
+  cyl((x1 + x2) / 2, (z1 + D.CURB_W + z2) / 2, D.PAN_T, D.PAN_T + 0.2, 2, M.black, L);   // drain
+  // shower-only trim on the plumbing-wall tile face, centered on the pan (the BoD UT2313EP is a tub/shower kit -- superseded)
+  const xf = D.PW_N + tt, zc = D.TRIM_Z;
+  bar(V(xf, D.VALVE_Y, zc), V(xf + 1.0, D.VALVE_Y, zc), 3.2, M.black, L);              // escutcheon
   bar(V(xf + 1.0, D.VALVE_Y, zc), V(xf + 2.2, D.VALVE_Y, zc), 0.9, M.black, L);
   bar(V(xf + 2.2, D.VALVE_Y, zc), V(xf + 2.6, D.VALVE_Y + 2.5, zc + 4.5), 0.45, M.black, L);   // lever
-  bar(V(xf, D.ARM_Y, zc), V(xf + 7.5, D.ARM_Y, zc), 0.5, M.black, L);               // shower arm
-  bar(V(xf + 7.5, D.ARM_Y, zc), V(xf + 8.6, D.ARM_Y - 1.4, zc), 3.4, M.black, L);   // head
-  // curtain rod along the apron line -- curtain vs glass is not on any sheet
-  bar(V(xf, D.ROD_Y, z1), V(D.CH_X1 - D.TILE_T, D.ROD_Y, z1), 0.5, M.concept, L);
-  for (const x of [xf, D.CH_X1 - D.TILE_T]) bar(V(x, D.ROD_Y, z1), V(x + (x < 30 ? 0.4 : -0.4), D.ROD_Y, z1), 1.4, M.concept, L);
-  // 0931 tile, three alcove walls, tub rim to the ceiling (A02 detail 4), black edge trim on the leading edges
-  const T = 'tile', tt = D.TILE_T, ez = D.EW_S1 - tt;
-  box(D.PW_N, D.PW_N + tt, rim, D.CEIL, z1, ez, M.tile, T);                          // plumbing-wall end
-  box(D.CH_X1 - tt, D.CH_X1, rim, D.CEIL, z1, ez, M.tile, T);                        // chase end
-  prism(rect(D.PW_N, rim, D.CH_X1, D.CEIL), ez, D.EW_S1, M.tile, T, [winHole]);    // east wall, around window C
-  box(D.PW_N, D.PW_N + tt + 0.1, rim, D.CEIL, z1 - 0.5, z1, M.black, T, false);     // edge trim
-  box(D.CH_X1 - tt - 0.1, D.CH_X1, rim, D.CEIL, z1 - 0.5, z1, M.black, T, false);
+  bar(V(xf, D.ARM_Y, zc), V(xf + 7.5, D.ARM_Y, zc), 0.5, M.black, L);                  // shower arm
+  bar(V(xf + 7.5, D.ARM_Y, zc), V(xf + 8.6, D.ARM_Y - 1.4, zc), 3.4, M.black, L);      // head
+  // 0931 tile, three alcove walls, pan lip to the ceiling, black edge trim on the leading edges
+  const T = 'tile', ez = D.EW_S1 - tt, yb = D.PAN_T;
+  box(D.PW_N, D.PW_N + tt, yb, D.CEIL, z1, ez, M.tile, T);                              // plumbing-wall end
+  box(D.CH_X1 - tt, D.CH_X1, yb, D.CEIL, z1, ez, M.tile, T);                            // chase end
+  prism(rect(D.PW_N, yb, D.CH_X1, D.CEIL), ez, D.EW_S1, M.tile, T, [winHole]);        // east wall, around window C
+  box(D.PW_N, D.PW_N + tt + 0.1, yb, D.CEIL, z1 - 0.5, z1, M.black, T, false);         // edge trim
+  box(D.CH_X1 - tt - 0.1, D.CH_X1, yb, D.CEIL, z1 - 0.5, z1, M.black, T, false);
+  // frameless 3/8" glass on the threshold: fixed panel from the valve wall to x = 32 3/8", door hinged on the chase, matte black hardware
+  const G = 'glass', gz = D.GLASS_Z, gx1 = xf + 0.6, gs = D.DOOR_G_X, gx2 = D.CH_X1 - tt - 0.4, gh = D.GLASS_H;
+  box(gx1, gs - 0.3, 4, gh, gz - 0.19, gz + 0.19, M.glass, G, false);                   // fixed panel
+  box(gs + 0.3, gx2, 4, gh, gz - 0.19, gz + 0.19, M.glass, G, false);                   // door, drawn closed (swings out, toward the room)
+  box(xf, xf + 0.6, 4, gh, gz - 0.5, gz + 0.5, M.black, G);                             // wall channel at the valve wall
+  box(gx1, gs - 0.3, gh - 0.6, gh, gz - 0.5, gz + 0.5, M.black, G);                     // header bar on the fixed panel
+  for (const y of [14, 66]) box(gx2, D.CH_X1 - tt, y, y + 3.5, gz - 1.1, gz + 1.1, M.black, G);   // hinges on the chase
+  for (const sz of [-1, 1]) {                                                            // pull, both faces, at the door's free edge
+    bar(V(gs + 3.5, 38, gz + sz * 1.7), V(gs + 3.5, 50, gz + sz * 1.7), 0.45, M.black, G);
+    for (const y of [39, 49]) bar(V(gs + 3.5, y, gz), V(gs + 3.5, y, gz + sz * 1.7), 0.35, M.black, G);
+  }
 }
 
-// ---- vanity: single sink in the plumbing-wall / hall-wall corner, 42 1/2" x 24 3/4", faces north; alder (BoD: TBD), quartz (assumed)
+// ---- vanity: single sink in the plumbing-wall / hall-wall corner, 48" x 24 3/4" (owner 2026-09-10; A02 42 1/2"), faces north; alder (BoD: TBD), quartz (assumed)
 {
   const L = 'vanity', x1 = D.VAN_X1, x2 = D.VAN_X2, z1 = D.VAN_Z1, z2 = D.VAN_Z2, cy = D.CTR_Y;
   box(x1, x2 - 3, 0, 4, z1, z2, M.alderDk, L);                                        // toe kick, recessed 3"
   box(x1, x2, 4, cy - 7.5, z1, z2, M.alder, L);                                       // carcass below the basin
   box(x2 - 0.75, x2, cy - 7.5, cy, z1, z2, M.alder, L);                               // front face
   for (const z of [z1, z2 - 0.75]) box(x1, x2, cy - 7.5, cy, z, z + 0.75, M.alder, L);   // end panels
-  box(x1, x2, cy - 7.5, cy, z1 + 30.5, z2, M.alder, L);                               // drawer bank, solid
+  box(x1, x2, cy - 7.5, cy, z1 + 30, z2, M.alder, L);                                 // drawer bank, solid
   const gap = (ya, yb, za, zb) => box(x2 - 0.02, x2 + 0.06, ya, yb, za, zb, M.alderDk, L, false);
-  gap(4.5, cy - 0.5, z1 + 30.35, z1 + 30.65);                                         // sink base (30 1/2") | drawer bank (12")
+  gap(4.5, cy - 0.5, z1 + 29.85, z1 + 30.15);                                         // 30" sink base | 18" drawer bank
   gap(4.5, cy - 6.5, z1 + 15.1, z1 + 15.4);                                           // door pair split
-  gap(cy - 6.65, cy - 6.35, z1, z1 + 30.5);                                           // false front over the sink
-  for (const y of [11.75, 19.25, 26.75]) gap(y - 0.15, y + 0.15, z1 + 30.65, z2);    // four drawers
+  gap(cy - 6.65, cy - 6.35, z1, z1 + 30);                                             // false front over the sink
+  for (const y of [11.75, 19.25, 26.75]) gap(y - 0.15, y + 0.15, z1 + 30.15, z2);    // four drawers
   for (const zc of [z1 + 11.5, z1 + 19]) bar(V(x2 + 1.1, cy - 10, zc - 2.5), V(x2 + 1.1, cy - 10, zc + 2.5), 0.35, M.black, L);   // door pulls
-  const zm = (z1 + 30.65 + z2) / 2;
+  const zm = (z1 + 30.15 + z2) / 2;
   for (const y of [8.1, 15.5, 23, 30.4]) bar(V(x2 + 1.1, y, zm - 2.5), V(x2 + 1.1, y, zm + 2.5), 0.35, M.black, L);              // drawer pulls
   const sx1 = D.SINK_XC - D.SINK_L / 2, sx2 = D.SINK_XC + D.SINK_L / 2, sz1 = D.SINK_ZC - D.SINK_W / 2, sz2 = D.SINK_ZC + D.SINK_W / 2;
   prismXZ(rect(x1, z1, D.CTR_X2, z2), cy, cy + D.CTR_T, M.counter, L, [rect(sx1, sz1, sx2, sz2)]);   // counter with the sink cut-out
@@ -1970,15 +1978,15 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
   box(xb + 7.9, xb + 9.6, 15, 17.2, zc - 6.5, zc + 6.5, M.white, L);                   // seat hinge
   bar(V(xb + 8.5, 27.5, zc - 6.5), V(xb + 10.5, 27.5, zc - 6.5), 0.5, M.black, L);   // trip lever
   bar(V(xb + 10.5, 27.5, zc - 6.5), V(xb + 10.5, 27.5, zc - 2.5), 0.45, M.black, L);
-  // 1028 accessories -- none are drawn on A02 for this room, so these are placements to react to (orange)
-  const C = M.concept;
-  bar(V(13, 26, D.VAN_Z2), V(13, 26, D.VAN_Z2 + 3.5), 0.45, C, L);                     // TP holder on the vanity's end panel
-  bar(V(13, 26, D.VAN_Z2 + 3.0), V(13, 26, D.VAN_Z2 + 7.8), 2.25, M.paper, L);
-  bar(V(13, 26, D.VAN_Z2 + 3.5), V(13, 26, D.VAN_Z2 + 8.2), 0.45, C, L);
-  for (const z of [85, 107]) bar(V(D.KP_IN, 48, z), V(D.KP_IN - 3, 48, z), 0.5, C, L);   // 24" towel bar on the kitchen wall by the tub
+  // 1028 accessories, matte black (owner 2026-09-10); none are drawn on A02 for this room, so the placements are proposals
+  const C = M.black;
+  bar(V(20, 26, D.VAN_Z2), V(20, 26, D.VAN_Z2 + 3.5), 0.45, C, L);                     // TP holder on the vanity's end panel
+  bar(V(20, 26, D.VAN_Z2 + 3.0), V(20, 26, D.VAN_Z2 + 7.8), 2.25, M.paper, L);
+  bar(V(20, 26, D.VAN_Z2 + 3.5), V(20, 26, D.VAN_Z2 + 8.2), 0.45, C, L);
+  for (const z of [85, 107]) bar(V(D.KP_IN, 48, z), V(D.KP_IN - 3, 48, z), 0.5, C, L);   // 24" towel bar on the kitchen wall by the shower door
   bar(V(D.KP_IN - 3, 48, 84.5), V(D.KP_IN - 3, 48, 107.5), 0.45, C, L);
-  bar(V(D.PW_IN, 46, 82), V(D.PW_IN + 3, 46, 82), 0.5, C, L);                          // hand-towel ring on the plumbing wall
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(3, 0.3, 8, 28), C); ring.position.set(D.PW_IN + 3.2, 43, 82); ring.rotation.y = Math.PI / 2; reg(ring, L);
+  bar(V(D.PW_IN, 46, 87), V(D.PW_IN + 3, 46, 87), 0.5, C, L);                          // hand-towel ring on the plumbing wall past the vanity
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(3, 0.3, 8, 28), C); ring.position.set(D.PW_IN + 3.2, 43, 87); ring.rotation.y = Math.PI / 2; reg(ring, L);
 }
 
 // ---- lights and devices (E01 / M01) -------------------------------------------------------------------------------------------
@@ -1996,8 +2004,8 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
   box(D.GFCI_X - 1.4, D.GFCI_X + 1.4, 40.5, 45.0, D.HW_IN, D.HW_IN + 0.3, M.white, L);          // GFCI, circuit 32, above the counter
   box(D.GFCI_X - 0.7, D.GFCI_X + 0.7, 41.2, 44.3, D.HW_IN + 0.3, D.HW_IN + 0.4, M.black, L, false);
   const [rx1, rx2, rz1, rz2] = D.REG;                                                 // 4 x 10 floor register at the end of the M01 trunk (orange)
-  box(rx1, rx2, D.FLOOR_T, D.FLOOR_T + 0.3, rz1, rz2, M.concept, L);
-  for (let z = rz1 + 1.2; z < rz2 - 0.8; z += 1.2) box(rx1 + 0.6, rx2 - 0.6, D.FLOOR_T + 0.3, D.FLOOR_T + 0.32, z, z + 0.4, M.black, L, false);
+  box(rx1, rx2, D.FLOOR_T, D.FLOOR_T + 0.3, rz1, rz2, M.black, L);
+  for (let z = rz1 + 1.2; z < rz2 - 0.8; z += 1.2) box(rx1 + 0.6, rx2 - 0.6, D.FLOOR_T + 0.3, D.FLOOR_T + 0.32, z, z + 0.4, M.frame, L, false);
 }
 
 // ---- framing (toggle): 2x6 plumbing + east walls, 2x4 hall + kitchen walls, headers, 2X12 joists above, S3.2 post + LVL ------
@@ -2052,7 +2060,7 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
   {                                                                                   // tub chase: 2x8 blocking assumed (8 1/4" is not a stock wall)
     const x1 = D.CH_X1 + 0.5, x2 = D.KP_S1;
     box(x1, x2, 0, 1.5, D.CH_Z, D.EW_S1, F, L); box(x1, x2, yt - 1.5, yt, D.CH_Z, D.EW_S1, F, L);
-    for (const z of [D.CH_Z + 0.75, 135.25, D.EW_S1 - 0.75]) studZ(z, x1, x2, 1.5, yt - 1.5);
+    for (const z of [D.CH_Z + 0.75, D.TRIM_Z, D.EW_S1 - 0.75]) studZ(z, x1, x2, 1.5, yt - 1.5);
   }
   // upper floor: 2X12 DF#2 @ 16" o.c. east-west from gridline B to the east wall, drag joist over the kitchen wall, rim, subfloor (S3.2)
   for (let x = D.JOIST_X0; x < D.KP_OUT + 4; x += D.JOIST_OC) box(x - 0.75, x + 0.75, D.JOIST_Y1, D.JOIST_Y1 + D.JOIST_D, 0, D.EW_S1 + 4, F, L);
@@ -2083,19 +2091,19 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
 label('GUEST BATH  5\'-7 3/4" x 9\'-8 1/2" clear, 9\'-0" ceiling\nplumbing wall centered on gridline 2', 37, 72, 92);
 label('Door 6  30" x 84"  LH in-swing, hinged at the kitchen wall\nAgeless Iron Loch, OPCI', 54, 92, 34);
 label('S3.2 puts this wall\'s header (a door) at the plumbing-wall corner, 34" south of A02\'s door 6\nDrawn per A02 -- coordinate with Armstrong / Pieruccioni before the hall wall is framed', 40, 100, 31, FLAG);
-label('Window C  4\'-0" x 1\'-0", sill 5\'-0" (A03, A04 type C, section 4)\nA04 schedule lists its rough width as 3\'-0 1/2" -- drawn 4\'-0 1/2"; returns tiled', 33, 80, 148, FLAG);
-label('Tub 60" x 30" in the 60 1/2" alcove (A02: 5\'-3 1/4" FIELD VERIFY from gridline 2)\nrim 1\'-3" (section 4); tub model not named', 33, 26, 133);
-label('Moen UT2313EP tub/shower trim, matte black (BoD row 32)', 10, 86, 135, NOTE);
-label('Curtain rod -- curtain vs glass is not on any sheet', 33, 82, 117, FLAG);
-label('Tile 0931 (OPCI): tub rim to ceiling on three walls (section 4)', 48, 100, 148, NOTE);
-label('Single-sink vanity 42 1/2" x 24 3/4" (owner: one sink)\ncabinet species TBD in the BoD (drawn alder), quartz + mirror size assumed', 16, 42, 56);
-label('Bellevue EGBF23259 20.9" bar (BoD row 45); E01 circuit 2', 8, 97, 49.5, NOTE);
-label('Toilet -- American Standard (model not named)\n16" centerline to the tub apron, 28" to the vanity', 22, 34, 104, NOTE);
+label('Window C  4\'-0" x 1\'-0", sill 5\'-0" (A03, A04 type C, section 4)\nA04 schedule lists its rough width as 3\'-0 1/2" -- drawn 4\'-0 1/2"; returns tiled', 33, 84, 148, FLAG);
+label('Shower 60" x 32" alcove pan (owner 2026-09-10: shower with tile + glass door instead of the A02 tub)\ninterior 58 3/4" x 30" to the glass; pan model not chosen', 33, 26, 133);
+label('Shower-only trim, matte black -- the BoD UT2313EP is a tub/shower kit; pick the model (upstairs chose Moen UT3312)', 10, 90, 134.5, FLAG);
+label('Frameless glass: fixed panel at the valve end, 30" door hinged on the chase, swings out\n(a door at the valve end would sweep the toilet)', 33, 86, 118, NOTE);
+label('Tile 0931 (OPCI): pan to ceiling on three walls', 48, 100, 148, NOTE);
+label('Single-sink vanity 48" x 24 3/4" (owner 2026-09-10; A02 42 1/2"): 30" sink base + 18" drawers\ncabinet species TBD in the BoD (drawn alder), quartz + mirror size assumed', 16, 42, 58);
+label('Bellevue EGBF23259 20.9" bar (BoD row 45); E01 circuit 2', 8, 97, 48.5, NOTE);
+label('Toilet -- American Standard (model not named)\ncenterline re-centered at 18 1/2" to the vanity / 18" to the glass (A02 drew 16" to the tub)', 22, 34, 100, FLAG);
 label('Recessed can (E01 ckt 2) and Broan 50 CFM fan (M01) land 9" apart\none moves ~6", or the fan becomes a fan/light', 40, 103, 74, FLAG);
 label('3-gang: vanity light / can / fan', D.SWITCH_X, 55, 36, NOTE);
 label('GFCI, ckt 32', D.GFCI_X, 48, 36, NOTE);
 label('Floor register at the end of the M01 trunk -- under the open door leaf, +/-4"', 66, 8, 65, FLAG);
-label('TP holder, towel bar and ring: not on A02 -- placements to react to', 62, 56, 96, FLAG);
+label('Accessories matte black (owner); TP holder, towel bar and ring locations are proposals, not on A02', 62, 56, 96, NOTE);
 label('COREtec Pro Plus 7" x 48" LVP (BoD 0965), dark rustic per the owner (main-bath pick)', 37, 4, 96, NOTE);
 label('Knotty alder casing + 3 1/2" base, assumed from the main bath (BoD 0680: painted)', 58, 9, 44, NOTE);
 label('Flat gyp ceiling at 9\'-0" (section 4)', 37, 104, 56, NOTE);
@@ -2103,20 +2111,21 @@ label('Flat gyp ceiling at 9\'-0" (section 4)', 37, 104, 56, NOTE);
 // ---- dimensions -------------------------------------------------------------------------------------------------------------------
 dim(V(D.PW_IN, 2, 112), V(D.KP_IN, 2, 112), '5\'-7 3/4" clear', V(0, 0, 0), V(0, 1, 0));
 dim(V(36, 2, D.HW_IN), V(36, 2, D.EW_IN), '9\'-8 1/2" clear', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.PW_N, 100, 118), V(D.CH_X1, 100, 118), '60 1/2" stud to stud (FIELD VERIFY)', V(0, 0, 0), V(0, 1, 0));
-dim(V(0, 106, 116), V(D.CH_X1, 106, 116), '5\'-3 1/4" from gridline 2 (A02)', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.CH_X1 + 2, 20, D.TUB_Z1), V(D.CH_X1 + 2, 20, D.TUB_Z2), '30 1/2"', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.CH_X1 + 2, 0, D.TUB_Z1 - 2), V(D.CH_X1 + 2, D.TUB_RIM, D.TUB_Z1 - 2), 'rim 1\'-3"', V(0, 0, 0), V(0, 0, 1));
-dim(V(D.CTR_X2 + 3, 38, D.VAN_Z1), V(D.CTR_X2 + 3, 38, D.VAN_Z2), '42 1/2"', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.PW_N, 100, 116), V(D.CH_X1, 100, 116), '60 1/2" stud to stud (FIELD VERIFY)', V(0, 0, 0), V(0, 1, 0));
+dim(V(0, 106, 114), V(D.CH_X1, 106, 114), '5\'-3 1/4" from gridline 2 (A02)', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.CH_X1 + 2, 20, D.GLASS_Z), V(D.CH_X1 + 2, 20, D.EW_S1 - D.TILE_T), '30" glass to tile', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.CTR_X2 + 3, 38, D.VAN_Z1), V(D.CTR_X2 + 3, 38, D.VAN_Z2), '48"', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.VAN_X1, 38, D.VAN_Z2 + 3), V(D.CTR_X2, 38, D.VAN_Z2 + 3), '24 3/4"', V(0, 0, 0), V(0, 1, 0));
-dim(V(32, 8, D.WC_Z), V(32, 8, D.TUB_Z1), '16"', V(0, 0, 0), V(0, 1, 0));
+dim(V(32, 8, D.VAN_Z2), V(32, 8, D.WC_Z), '18 1/2"', V(0, 0, 0), V(0, 1, 0));
+dim(V(32, 8, D.WC_Z), V(32, 8, D.GLASS_Z), '18"', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.CTR_X2, 14, 56), V(D.KP_IN, 14, 56), '43" vanity to kitchen wall', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.PW_IN + 27.5, 14, D.WC_Z + 12), V(D.KP_IN, 14, D.WC_Z + 12), '40" in front of the toilet', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WIN_X1, D.WIN_HEAD + 5, D.EW_IN - 1), V(D.WIN_X2, D.WIN_HEAD + 5, D.EW_IN - 1), 'RO 4\'-0 1/2" x 1\'-0 1/2"', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WIN_X2 + 4, 0, D.EW_IN - 1), V(D.WIN_X2 + 4, D.WIN_SILL, D.EW_IN - 1), 'sill 5\'-0"', V(0, 0, 0), V(0, 0, 1));
 dim(V(D.DOOR_X1, D.DOOR_HEAD + 6, D.HW_IN), V(D.DOOR_X2, D.DOOR_HEAD + 6, D.HW_IN), 'RO 2\'-6 1/2"', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.PW_S, D.DOOR_HEAD + 12, D.HW_IN), V(D.DOOR_X1, D.DOOR_HEAD + 12, D.HW_IN), '3\'-6 1/2" (A02 chain)', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.PW_IN + 1, 0, 40), V(D.PW_IN + 1, D.CEIL, 40), '9\'-0"', V(0, 0, 0), V(0, 0, 1));
 dim(V(0, 108, 40), V(0, 120, 40), '1\'-0" floor', V(0, 0, 0), V(0, 0, 1));
-
 // ===== END EDIT: GEOMETRY =====
 
 // --- UI wiring (do not rewrite; the layer/view names come from the HTML + VIEWS above) -----------
@@ -2141,7 +2150,7 @@ const VIEWS = {
   overview: { pos: [160, 125, -8],  tgt: [30, 40, 95],  fov: 46 },
   door:     { pos: [56, 62, 6],     tgt: [28, 46, 108], fov: 72 },
   vanity:   { pos: [44, 60, 98],    tgt: [3, 46, 50],   fov: 62 },
-  tub:      { pos: [36, 66, 44],    tgt: [33, 36, 140], fov: 64 },
+  shower:   { pos: [36, 66, 40],    tgt: [33, 40, 140], fov: 64 },
   kitchen:  { pos: [175, 80, 92],   tgt: [30, 46, 92],  fov: 52 },
   top:      { pos: [37, 330, 92.5], tgt: [37, 0, 92],   fov: 40 },
   framing:  { pos: [-60, 185, 270], tgt: [37, 66, 92],  fov: 46 },
