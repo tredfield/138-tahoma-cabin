@@ -47,6 +47,8 @@
   #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
   #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
   #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
   #err{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#ffb4a8;font-size:14px;text-align:center;display:none;padding:20px;}
   #hint{position:absolute;bottom:2px;right:10px;font-size:10px;color:#6b727b;}
   #legendbtn{display:none;}
@@ -2116,7 +2118,7 @@ const OPEN = {                                     // rough openings in wall-loc
   }
   const tiltEnd = Math.atan(D.PITCH_END);
   for (const x of [-113, -73, -28, 28, 73, 113]) can(x, D.sofEnd(x) - 0.1, D.G4 - 48, -Math.sign(x) * tiltEnd);
-  for (const x of [-88, 88]) can(x, D.sofEnd(x) - 0.1, 25, -Math.sign(x) * tiltEnd);
+  for (const x of [-117, -39, 39, 117]) can(x, D.sofEnd(x) - 0.1, 25, -Math.sign(x) * tiltEnd);   // FOUR over the upper deck, evenly spaced (owner 2026-09-11); E01 draws two at +/-88
   for (const x of [-86, 86]) can(x, D.F_UJOIST[0] - 0.35, 25);
 }
 // ===========================================================================
@@ -2226,7 +2228,7 @@ label('Grade ILLUSTRATIVE: 14" of stem wall showing after backfill (owner 2026-0
 label('Rear stair 8\'-0" wide, centered -- width not on record (owner: centered, 2026-09-11)', 0, 20, -700, FLAG);
 label('Ground-deck guards drawn but off: deck surfaces 25" above the illustrative grade (< 30", no guard required)\ntick "Ground-deck railings" to see them', 0, 30, 150, NOTE);
 label('Chimney pipe painted black (A03 1554), 2\' from the north wall on the west slope; stove at the NW corner', -136, 362, -528, NOTE);
-label('Exterior lights per A03 1653 / E01: sconces flanking door 1 and outside the front windows (owner), at the rear corners and the side corners;\nE01 cans: six in the rear soffit at mid-deck, two over the upper deck, two under it. 78" sconce height is the owner\'s; fixtures not chosen', 0, 85, 130, NOTE);
+label('Exterior lights per A03 1653 / E01 (upper-deck soffit count is an owner change): sconces flanking door 1 and outside the front windows (owner), at the rear corners and the side corners;\nE01 cans: six in the rear soffit at mid-deck, two under the upper deck; FOUR over it are the owner\'s (E01 draws two). 78" sconce height is the owner\'s; fixtures not chosen', 0, 85, 130, NOTE);
 label('Gutters: not on any sheet, not drawn', 210, 95, 60, NOTE);
 label('Casings 1x4, corner boards 1x6, frieze 1x4: "primed whitewood" trim, profile not on record', -210, 95, 60, NOTE);
 dim(V(D.HW, D.GRADE + 2, 0), V(D.HW, D.GRADE + 2, D.G4), '46\'-0" gridline 1 to 4 (A02)', V(60, 0, 0), V(0, 1, 0));
