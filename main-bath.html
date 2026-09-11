@@ -1634,10 +1634,10 @@ scene.add(fill);
 // ===== EDIT: M (materials, one per legend swatch) =====
 const M = {
   gyp:      new THREE.MeshStandardMaterial({ color: 0xd9d4c9, roughness: .95 }),
-  tg:      [new THREE.MeshStandardMaterial({ color: 0x8a5a36, roughness: .8 }),
+  ceilBoard: [new THREE.MeshStandardMaterial({ color: 0x8a5a36, roughness: .8 }),
             new THREE.MeshStandardMaterial({ color: 0x7d5030, roughness: .8 }),
             new THREE.MeshStandardMaterial({ color: 0x95633d, roughness: .8 })],
-  lvp:     [0x5a3f2e, 0x6a4a35, 0x4e3626, 0x715239, 0x604432].map(c => new THREE.MeshStandardMaterial({ color: c, roughness: .72 })),   // dark rustic wood-look planks
+  floorPlank: [0x5a3f2e, 0x6a4a35, 0x4e3626, 0x715239, 0x604432].map(c => new THREE.MeshStandardMaterial({ color: c, roughness: .72 })),   // dark rustic wood-look planks
   shTile:   new THREE.MeshStandardMaterial({ color: 0xd7dcdd, roughness: .35 }),
   white:    new THREE.MeshStandardMaterial({ color: 0xf5f5f3, roughness: .25 }),
   paper:    new THREE.MeshStandardMaterial({ color: 0xf7f7f4, roughness: .9 }),
@@ -1648,7 +1648,7 @@ const M = {
   glass:    new THREE.MeshStandardMaterial({ color: 0xd4e6ee, roughness: .05, transparent: true, opacity: .13, side: THREE.DoubleSide }),
   mirror:   new THREE.MeshStandardMaterial({ color: 0xd3dde2, roughness: .18, metalness: .35, emissive: 0x1d262b, emissiveIntensity: .7 }),   // no env map, so a faked mirror finish
   frame:    new THREE.MeshStandardMaterial({ color: 0x2b2b2b, roughness: .6 }),
-  alder:    new THREE.MeshStandardMaterial({ color: 0xc9a675, roughness: .75 }),   // knotty alder casings, jambs, stool, base
+  trimCasing: new THREE.MeshStandardMaterial({ color: 0xc9a675, roughness: .75 }),   // knotty alder casings, jambs, stool, base
   leaf:     new THREE.MeshStandardMaterial({ color: 0xe7e4dd, roughness: .8 }),
   siding:   new THREE.MeshStandardMaterial({ color: 0x7a8074, roughness: .9 }),
   ply:      new THREE.MeshStandardMaterial({ color: 0xe6dcc4, roughness: .9 }),
@@ -1832,13 +1832,13 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   box(fx1, fx2, fy1, fy1 + fw, fz1, fz2, M.frame, 'ext'); box(fx1, fx2, fy2 - fw, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1, fx1 + fw, fy1, fy2, fz1, fz2, M.frame, 'ext'); box(fx2 - fw, fx2, fy1, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1 + fw, fx2 - fw, fy1 + fw, fy2 - fw, 2.6, 2.9, M.glass, 'ext', false);
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_SILL - 1, D.WIN_SILL + 0.25, 4.5, 7.75, M.alder, 'ext');          // stool
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_SILL - 3.5, D.WIN_SILL - 1, D.EXT_IN, D.EXT_IN + 0.6, M.alder, 'ext');   // apron
-  box(D.WIN_X1 - 2.5, D.WIN_X1, D.WIN_SILL - 1, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.alder, 'ext');
-  box(D.WIN_X2, D.WIN_X2 + 2.5, D.WIN_SILL - 1, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.alder, 'ext');
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_HEAD, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.alder, 'ext');
-  for (const y of [D.WIN_SILL, D.WIN_HEAD - 0.5]) box(D.WIN_X1, D.WIN_X2, y, y + 0.5, fz2, D.EXT_IN, M.alder, 'ext');   // jamb returns
-  for (const x of [D.WIN_X1, D.WIN_X2 - 0.5]) box(x, x + 0.5, D.WIN_SILL, D.WIN_HEAD, fz2, D.EXT_IN, M.alder, 'ext');
+  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_SILL - 1, D.WIN_SILL + 0.25, 4.5, 7.75, M.trimCasing, 'ext');          // stool
+  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_SILL - 3.5, D.WIN_SILL - 1, D.EXT_IN, D.EXT_IN + 0.6, M.trimCasing, 'ext');   // apron
+  box(D.WIN_X1 - 2.5, D.WIN_X1, D.WIN_SILL - 1, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.trimCasing, 'ext');
+  box(D.WIN_X2, D.WIN_X2 + 2.5, D.WIN_SILL - 1, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.trimCasing, 'ext');
+  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_HEAD, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.trimCasing, 'ext');
+  for (const y of [D.WIN_SILL, D.WIN_HEAD - 0.5]) box(D.WIN_X1, D.WIN_X2, y, y + 0.5, fz2, D.EXT_IN, M.trimCasing, 'ext');   // jamb returns
+  for (const x of [D.WIN_X1, D.WIN_X2 - 0.5]) box(x, x + 0.5, D.WIN_SILL, D.WIN_HEAD, fz2, D.EXT_IN, M.trimCasing, 'ext');
 }
 
 // ---- bedroom partition (south) with door 13 --------------------------------------------------------------
@@ -1847,12 +1847,12 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   const prof = [[z1, 0], [z2, 0], [z2, yc(z2)], [z1, yc(z1)]];
   prismZY(prof, D.WS_OUT, D.WS_IN, M.gyp, 'wallS', [rect(D.DOOR_Z1, 0.05, D.DOOR_Z2, D.DOOR_HEAD)]);
   const h = D.DOOR_HEAD, dz1 = D.DOOR_Z1, dz2 = D.DOOR_Z2;
-  box(D.WS_OUT, D.WS_IN, 0, h, dz1, dz1 + 0.75, M.alder, 'wallS');                 // jambs + head
-  box(D.WS_OUT, D.WS_IN, 0, h, dz2 - 0.75, dz2, M.alder, 'wallS');
-  box(D.WS_OUT, D.WS_IN, h - 0.75, h, dz1, dz2, M.alder, 'wallS');
+  box(D.WS_OUT, D.WS_IN, 0, h, dz1, dz1 + 0.75, M.trimCasing, 'wallS');                 // jambs + head
+  box(D.WS_OUT, D.WS_IN, 0, h, dz2 - 0.75, dz2, M.trimCasing, 'wallS');
+  box(D.WS_OUT, D.WS_IN, h - 0.75, h, dz1, dz2, M.trimCasing, 'wallS');
   for (const [xa, xb] of [[D.WS_IN, D.WS_IN + 0.6], [D.WS_OUT - 0.6, D.WS_OUT]]) {     // casing, both faces
-    box(xa, xb, 0, h + 2.5, dz1 - 2.5, dz1, M.alder, 'wallS'); box(xa, xb, 0, h + 2.5, dz2, dz2 + 2.5, M.alder, 'wallS');
-    box(xa, xb, h, h + 2.5, dz1 - 2.5, dz2 + 2.5, M.alder, 'wallS');
+    box(xa, xb, 0, h + 2.5, dz1 - 2.5, dz1, M.trimCasing, 'wallS'); box(xa, xb, 0, h + 2.5, dz2, dz2 + 2.5, M.trimCasing, 'wallS');
+    box(xa, xb, h, h + 2.5, dz1 - 2.5, dz2 + 2.5, M.trimCasing, 'wallS');
   }
   // leaf, hinged at the z2 (east) jamb, RH in-swing, drawn open 75 deg into the bath
   const grp = new THREE.Group();
@@ -1882,12 +1882,12 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
 // ---- knotty alder base, 3 1/2" x 3/4" (owner 2026-09-08: trim likely knotty alder); skipped in the shower, at the door and behind the vanity
 {
   const y1 = 0.6, y2 = 0.6 + D.BASE_H, t = 0.75;
-  box(D.WS_IN, D.SH_X1, y1, y2, D.EXT_IN, D.EXT_IN + t, M.alder, 'ext');                          // window wall, toilet side
-  box(D.WS_IN, D.WS_IN + t, y1, y2, D.EXT_IN, D.DOOR_Z1 - 2.5, M.alder, 'wallS');                 // bedroom wall, both sides of the door casing
-  box(D.WS_IN, D.WS_IN + t, y1, y2, D.DOOR_Z2 + 2.5, D.WE_IN, M.alder, 'wallS');
-  box(D.WS_IN, D.VAN_X1, y1, y2, D.WE_IN - t, D.WE_IN, M.alder, 'wallE');                        // hall wall up to the vanity end panel
-  box(D.SH_X1, D.VAN_X1, y1, y2, D.WV_E, D.WV_E + t, M.alder, 'wallV');                          // shower/vanity wall, vanity side
-  box(D.SH_X1 - t, D.SH_X1, y1, y2, D.WV_W, D.WV_E + t, M.alder, 'wallV');                       // its exposed end
+  box(D.WS_IN, D.SH_X1, y1, y2, D.EXT_IN, D.EXT_IN + t, M.trimCasing, 'ext');                          // window wall, toilet side
+  box(D.WS_IN, D.WS_IN + t, y1, y2, D.EXT_IN, D.DOOR_Z1 - 2.5, M.trimCasing, 'wallS');                 // bedroom wall, both sides of the door casing
+  box(D.WS_IN, D.WS_IN + t, y1, y2, D.DOOR_Z2 + 2.5, D.WE_IN, M.trimCasing, 'wallS');
+  box(D.WS_IN, D.VAN_X1, y1, y2, D.WE_IN - t, D.WE_IN, M.trimCasing, 'wallE');                        // hall wall up to the vanity end panel
+  box(D.SH_X1, D.VAN_X1, y1, y2, D.WV_E, D.WV_E + t, M.trimCasing, 'wallV');                          // shower/vanity wall, vanity side
+  box(D.SH_X1 - t, D.SH_X1, y1, y2, D.WV_W, D.WV_E + t, M.trimCasing, 'wallV');                       // its exposed end
 }
 
 // ---- floor: LVP planks 7" x 48" running east-west, staggered (owner 2026-09-08: dark, rustic wood look; plank size assumed) ----
@@ -1899,7 +1899,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
     let z = z1 - Math.floor(rnd() * 5) * (Lp / 5);
     while (z < z2 - 0.01) {
       const za = Math.max(z, z1), zb = Math.min(z + Lp, z2);
-      if (zb - za > 0.5) box(x + 0.04, xb - 0.04, 0, 0.6, za + 0.04, zb - 0.04, M.lvp[Math.floor(rnd() * M.lvp.length)], 'floor');
+      if (zb - za > 0.5) box(x + 0.04, xb - 0.04, 0, 0.6, za + 0.04, zb - 0.04, M.floorPlank[Math.floor(rnd() * M.floorPlank.length)], 'floor');
       z += Lp;
     }
   }
@@ -1912,7 +1912,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   let i = 0;
   for (let z = D.EXT_IN; z < D.WE_IN - 0.01; z += dz, i++) {
     const zb = Math.min(z + dz, D.WE_IN);
-    slopedBox(D.WS_IN, D.WN_IN, z, zb, yc, D.TG_T, M.tg[i % 3], 'ceiling');
+    slopedBox(D.WS_IN, D.WN_IN, z, zb, yc, D.TG_T, M.ceilBoard[i % 3], 'ceiling');
   }
 }
 

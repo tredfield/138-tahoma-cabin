@@ -1645,13 +1645,13 @@ scene.add(fill);
 // ===== EDIT: M (materials, one per legend swatch) =====
 const M = {
   gyp:      new THREE.MeshStandardMaterial({ color: 0xd9d4c9, roughness: .95 }),
-  lvp:     [0x5a3f2e, 0x6a4a35, 0x4e3626, 0x715239, 0x604432].map(c => new THREE.MeshStandardMaterial({ color: c, roughness: .72 })),   // dark rustic wood-look planks
+  floorPlank: [0x5a3f2e, 0x6a4a35, 0x4e3626, 0x715239, 0x604432].map(c => new THREE.MeshStandardMaterial({ color: c, roughness: .72 })),   // dark rustic wood-look planks
   tile:     new THREE.MeshStandardMaterial({ color: 0xd7dcdd, roughness: .35 }),
   white:    new THREE.MeshStandardMaterial({ color: 0xf5f5f3, roughness: .25 }),
   paper:    new THREE.MeshStandardMaterial({ color: 0xf7f7f4, roughness: .9 }),
   black:    new THREE.MeshStandardMaterial({ color: 0x1c1c1c, roughness: .5, metalness: .3 }),
-  alder:    new THREE.MeshStandardMaterial({ color: 0xc9a675, roughness: .75 }),   // knotty alder casings, jambs, base, cabinet (assumed)
-  alderDk:  new THREE.MeshStandardMaterial({ color: 0x8d6a45, roughness: .8 }),    // cabinet toe kick / reveals
+  alder:    new THREE.MeshStandardMaterial({ color: 0xc9a675, roughness: .75 }),   // knotty alder casings, jambs, base, cabinet (assumed)   // RENAME PENDING: covers casings AND the vanity cabinet -- two separate finish decisions; split into trimCasing + a cabinet slot at task 4.1
+  cabBox:   new THREE.MeshStandardMaterial({ color: 0x8d6a45, roughness: .8 }),    // cabinet toe kick / reveals
   counter:  new THREE.MeshStandardMaterial({ color: 0xe9e6df, roughness: .3 }),
   glass:    new THREE.MeshStandardMaterial({ color: 0xd4e6ee, roughness: .05, transparent: true, opacity: .13, side: THREE.DoubleSide }),
   mirror:   new THREE.MeshStandardMaterial({ color: 0xd3dde2, roughness: .18, metalness: .35, emissive: 0x1d262b, emissiveIntensity: .7 }),   // no env map, so a faked mirror finish
@@ -1884,11 +1884,11 @@ tagNew('chaseOn', () => box(D.CH_X1, D.KP_IN, 0, TOP, D.CH_Z, D.EW_S1, M.gyp, 't
     let z = z1 - Math.floor(rnd() * 5) * (Lp / 5);
     while (z < z2 - 0.01) {
       const za = Math.max(z, z1), zb = Math.min(z + Lp, z2);
-      if (zb - za > 0.5) box(x + 0.04, xb - 0.04, 0, D.FLOOR_T, za + 0.04, zb - 0.04, M.lvp[Math.floor(rnd() * M.lvp.length)], 'floor');
+      if (zb - za > 0.5) box(x + 0.04, xb - 0.04, 0, D.FLOOR_T, za + 0.04, zb - 0.04, M.floorPlank[Math.floor(rnd() * M.floorPlank.length)], 'floor');
       z += Lp;
     }
   }
-  box(x1, x2, 0, 0.02, z1, z2, M.alderDk, 'floor', false);   // dark bed under the plank bevels
+  box(x1, x2, 0, 0.02, z1, z2, M.cabBox, 'floor', false);   // dark bed under the plank bevels
 }
 
 // ---- ceiling: painted gyp, flat at 9'-0" under the upper-floor joists -------------------------------------------------------
@@ -1961,13 +1961,13 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
 //      sconce (as the main bath) and the Moen 6402 faucet follow the sink. Alder (BoD: TBD) and quartz (assumed).
 {
   const L = 'vanity', x1 = D.VAN_X1, x2 = D.VAN_X2, z1 = D.VAN_Z1, z2 = D.VAN_Z2, cy = D.CTR_Y;
-  box(x1, x2 - 3, 0, 4, z1, z2, M.alderDk, L);                                        // toe kick, recessed 3"
+  box(x1, x2 - 3, 0, 4, z1, z2, M.cabBox, L);                                        // toe kick, recessed 3"
   box(x1, x2, 4, cy - 7.5, z1, z2, M.alder, L);                                       // carcass below the basin
   box(x2 - 0.75, x2, cy - 7.5, cy, z1, z2, M.alder, L);                               // front face
   for (const z of [z1, z2 - 0.75]) box(x1, x2, cy - 7.5, cy, z, z + 0.75, M.alder, L);   // end panels
   box(x1, x1 + 0.75, cy + D.CTR_T, cy + D.CTR_T + 4, z1, z2, M.counter, L);          // 4" backsplash on the plumbing wall
   box(x1, D.CTR_X2, cy + D.CTR_T, cy + D.CTR_T + 4, z1, z1 + 0.75, M.counter, L);    // ... and on the hall-wall end
-  const gap = (ya, yb, za, zb) => box(x2 - 0.02, x2 + 0.06, ya, yb, za, zb, M.alderDk, L, false);
+  const gap = (ya, yb, za, zb) => box(x2 - 0.02, x2 + 0.06, ya, yb, za, zb, M.cabBox, L, false);
   const hpull = (y, zc) => bar(V(x2 + 1.1, y, zc - 2.5), V(x2 + 1.1, y, zc + 2.5), 0.35, M.black, L);
   const drawers = (za, zb) => {                                                       // a bank of four drawers, solid behind
     box(x1, x2, cy - 7.5, cy, za, zb, M.alder, L);

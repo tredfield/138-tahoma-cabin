@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kitchen + great room — interior 3D — 138 Tahoma St E</title>
+<title>Finished exterior — whole house, 138 Tahoma St E (3D)</title>
 <style>
   html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#1b1e23;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;}
   #app{position:relative;width:100%;height:100%;}
@@ -27,6 +27,18 @@
   .row button{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:4px 10px;font-size:11.5px;cursor:pointer;}
   .row button:hover{background:#3a404b;}
   .row button.on{background:#e07b20;border-color:#e07b20;color:#1b1e23;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
   #err{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#ffb4a8;font-size:14px;text-align:center;display:none;padding:20px;}
   #hint{position:absolute;bottom:2px;right:10px;font-size:10px;color:#6b727b;}
   #legendbtn{display:none;}
@@ -60,75 +72,84 @@
   <!-- ===== EDIT: HEADER / LEGEND / CONTROLS ===== -->
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
-    <h1>Kitchen + great room (lower floor) &mdash; interior 3D</h1>
-    <div class="sub">138 Tahoma St E, Packwood &middot; Armstrong permit set 2507 (A02 lower plan + section 6, A04, E01, M01) and the
-    basis-of-design appliance schedule. Kitchen in full: the east-wall sink run under window D, the fridge / pantry wall
-    under the lounge, and the 6'-8" x 3'-6" island with its cabinet-height knee wall, slide-in range, M01 downdraft and
-    the owner's built-in microwave cubby. The rest of the great room is a shell for scale: sliding doors 9 and 10 and the
-    two-story mountain-view window wall on gridline 4, the two west windows, the wood stove on its 4' x 4' stone hearth,
-    the stair, the lounge floor edge with its cable rail, and the ~15:12 T&amp;G roof underside on the 24" ridge GLB.
-    Orange = not on any sheet (microwave cubby, downdraft model, fridge-door aisle pinch). Sheet-confirmed dimensions
-    are in the spec with citations: <code>outputs/kitchen-great-room-3d-spec.md</code>.
-    <b>Not engineered &mdash; do not build from this.</b>
-    Origin gridline 3 x gridline B x LOWER FLR; +X north, +Y up, +Z east.
-    Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; <b>arrow keys (or WASD) walk</b>, PageUp/PageDown change eye height, Shift runs.</div>
+    <h1>Finished exterior &mdash; whole house, 138 Tahoma St E</h1>
+    <div class="sub">Appearance model of the finished house from the Armstrong permit set (A02 / A03 / A04) plus the field corrections
+    already in the porch and rear-deck drawings: 7&frac14;" lap siding, 1x4 casings, 2x10 fascia, cedar T&amp;G soffits, black
+    standing-seam roof, Milgard black windows and sliders, the metal entry door, both decks on their as-built glulams and 6x6 posts,
+    centered 8' stairs, sconces and the stove chimney. <b>Colors</b> below swaps siding, trim, fascia, roof, soffit, wood, decking, door,
+    railing and foundation colors live; three starting schemes (black-on-black is the July 2025 reference build). Grade is illustrative
+    at 14" of stem wall showing (owner, 2026-09-11); ground-level deck guards are drawn but off. Orange labels mark what is not on the
+    sheets. Framing lives in the two deck drawings. <b>Not engineered &mdash; do not build from this.</b> Spec:
+    <code>outputs/house-exterior-3d-spec.md</code>.
+    Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
-    <div class="lg"><span class="sw" style="background:#b8894f"></span>Knotty alder cabinets / trim</div>
-    <div class="lg"><span class="sw" style="background:#e9e6df"></span>Quartz counter</div>
-    <div class="lg"><span class="sw" style="background:#f2f0ea"></span>Subway tile backsplash</div>
-    <div class="lg"><span class="sw" style="background:#b9bec4"></span>Stainless appliances</div>
-    <div class="lg"><span class="sw" style="background:#1e2023"></span>Matte black fixtures / window frames</div>
-    <div class="lg"><span class="sw" style="background:#4a3728"></span>Dark rustic LVP floor</div>
-    <div class="lg"><span class="sw" style="background:#c99a63"></span>1x6 T&amp;G ceiling</div>
-    <div class="lg"><span class="sw" style="background:#a8743f"></span>5 1/2" x 24" GLB ridge</div>
-    <div class="lg"><span class="sw" style="background:#8a8580"></span>Stone hearth / veneer</div>
-    <div class="lg"><span class="sw" style="background:#d9b98a"></span>Framing (studs, headers, rafters)</div>
-    <div class="lg"><span class="sw" style="background:#e07b20"></span>Not on the sheets / interpretation</div>
-    <div class="lg"><span class="sw" style="background:#5e646c"></span>House context (faded)</div>
+    <div class="lg"><span class="sw" data-slot="siding"></span>Lap siding (Hardie Plank, 7&frac14;" reveal)</div>
+    <div class="lg"><span class="sw" data-slot="trim"></span>Trim: casings, corner boards, frieze</div>
+    <div class="lg"><span class="sw" data-slot="fascia"></span>Fascia and rake boards</div>
+    <div class="lg"><span class="sw" data-slot="roof"></span>Standing-seam metal roof</div>
+    <div class="lg"><span class="sw" data-slot="soffit"></span>Cedar T&amp;G soffit</div>
+    <div class="lg"><span class="sw" data-slot="wood"></span>Glulams, eave beams, 6x6 posts</div>
+    <div class="lg"><span class="sw" data-slot="deck"></span>Decking and stair treads</div>
+    <div class="lg"><span class="sw" data-slot="door"></span>Entry door (metal)</div>
+    <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, sconces, chimney</div>
+    <div class="lg"><span class="sw" data-slot="conc"></span>Exposed stem wall (concrete)</div>
+    <div class="lg"><span class="sw" style="background:#141414"></span>Windows and sliders (Milgard black)</div>
+    <div class="lg"><span class="sw" style="background:#e07b20"></span>Not on the sheets (orange labels)</div>
   </div>
   <div class="panel" id="controls">
     <div class="row" id="layers">
       <span class="lbl" id="foldbtn" title="Show or hide the layer list">Show</span><span id="foldn"></span>
-      <label><input type="checkbox" data-layer="cabinets" checked> Cabinets</label>
-      <label><input type="checkbox" data-layer="counters" checked> Counters + sink</label>
-      <label><input type="checkbox" data-layer="appliances" checked> Appliances</label>
-      <label><input type="checkbox" data-layer="tile" checked> Backsplash</label>
-      <label><input type="checkbox" data-layer="stools"> Stools</label>
-      <label><input type="checkbox" data-layer="wallE" checked> East wall + window D</label>
-      <label><input type="checkbox" data-layer="wallS" checked> Fridge wall</label>
-      <label><input type="checkbox" data-layer="wallW" checked> West wall</label>
-      <label><input type="checkbox" data-layer="wallN" checked> North window wall</label>
-      <label><input type="checkbox" data-layer="roof" checked> Roof T&amp;G + ridge</label>
-      <label><input type="checkbox" data-layer="lounge" checked> Lounge + stair</label>
-      <label><input type="checkbox" data-layer="hearth" checked> Wood stove + pad</label>
-      <label><input type="checkbox" data-layer="dining" checked> Dining table (placeholder)</label>
-      <label><input type="checkbox" data-layer="floor" checked> Floor</label>
-      <label><input type="checkbox" data-layer="elec" checked> Lights + outlets</label>
-      <label><input type="checkbox" data-layer="framing"> Framing</label>
-      <label><input type="checkbox" data-layer="mech"> Downdraft duct</label>
-      <label><input type="checkbox" data-layer="context" checked> House context</label>
+      <label><input type="checkbox" data-layer="walls" checked> Walls &amp; siding</label>
+      <label><input type="checkbox" data-layer="roof" checked> Roof</label>
+      <label><input type="checkbox" data-layer="trim" checked> Trim &amp; fascia</label>
+      <label><input type="checkbox" data-layer="soffit" checked> Soffits</label>
+      <label><input type="checkbox" data-layer="win" checked> Windows, doors, lights</label>
+      <label><input type="checkbox" data-layer="deck" checked> Decks &amp; posts</label>
+      <label><input type="checkbox" data-layer="stair" checked> Stairs</label>
+      <label><input type="checkbox" data-layer="rail"> Ground-deck railings</label>
+      <label><input type="checkbox" data-layer="site" checked> Ground</label>
       <label><input type="checkbox" data-layer="label"> Labels</label>
       <label><input type="checkbox" data-layer="dim"> Dimensions</label>
       <label><input type="checkbox" data-layer="caption"> Caption</label>
     </div>
+    <div class="row fold" id="colors">
+      <span class="lbl">Colors</span>
+      <select id="scheme" title="Starting color schemes">
+        <option value="black">Black on black (reference build)</option>
+        <option value="green">Deep green siding, black trim</option>
+        <option value="ironore">Charcoal siding, black trim</option>
+        <option value="custom">Custom</option>
+      </select>
+      <label>Siding <input type="color" data-slot="siding"></label>
+      <label>Trim <input type="color" data-slot="trim"></label>
+      <label>Fascia <input type="color" data-slot="fascia"></label>
+      <label>Roof <input type="color" data-slot="roof"></label>
+      <label>Soffit <input type="color" data-slot="soffit"></label>
+      <label>Wood <input type="color" data-slot="wood"></label>
+      <label>Deck <input type="color" data-slot="deck"></label>
+      <label>Door <input type="color" data-slot="door"></label>
+      <label>Rail <input type="color" data-slot="rail"></label>
+      <label>Found. <input type="color" data-slot="conc"></label>
+    </div>
     <div class="row" id="views">
       <span class="lbl">View</span>
-      <button data-view="kitchen" class="on">Kitchen</button>
-      <button data-view="island">Island</button>
-      <button data-view="sink">Sink wall</button>
-      <button data-view="fridge">Fridge wall</button>
-      <button data-view="north">Window wall</button>
-      <button data-view="stove">Stove</button>
-      <button data-view="lounge">From lounge</button>
-      <button data-view="dining">Dining</button>
+      <button data-view="front" class="on">Front (SW)</button>
+      <button data-view="frontR">Front (SE)</button>
+      <button data-view="rear">Rear (NE)</button>
+      <button data-view="rearL">Rear (NW)</button>
+      <button data-view="south">South</button>
+      <button data-view="north">North</button>
+      <button data-view="east">East</button>
+      <button data-view="west">West</button>
+      <button data-view="porch">At the porch</button>
       <button data-view="top">Plan</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
     </div>
   </div>
-  <div id="hint">1 unit = 1 inch &middot; origin gridline 3 x gridline B x LOWER FLR &middot; arrow keys walk, PageUp/Down eye height</div>
-  <!-- ===== END EDIT: HEADER / LEGEND / CONTROLS ===== -->
+  <div id="hint">1 unit = 1 inch &middot; origin gridline B &times; gridline 1 (south stud face) &times; LOWER FLR &middot; +X east, +Z south</div>
+<!-- ===== END EDIT: HEADER / LEGEND / CONTROLS ===== -->
 
 </div>
 
@@ -1559,58 +1580,52 @@ return { THREE, OrbitControls };
 
 // ---------------------------------------------------------------------------
 // Units: 1 scene unit = 1 inch.
-// Origin: gridline 3 (x=0) x gridline B (z=0) x LOWER FLR = top of lower subfloor (y=0).
-//   +X north toward gridline 4 (mountain-view wall); +Y up; +Z east toward gridline A.
-// All dimensions per outputs/kitchen-great-room-3d-spec.md -- transcribed, not re-derived.
+// Origin: gridline B (x=0) x gridline 1 = exterior face of the south gable-wall studs (z=0) x LOWER FLR (y=0).
+// +X east toward gridline A; +Y up; +Z south, out over the front porch. Gridline 4 (north stud face) at z = -552.
+// All dimensions per outputs/house-exterior-3d-spec.md — transcribed, not re-derived.
+//
+// This drawing carries the glTF export hook (bottom of the UI wiring): opening it with ?export=glb hands the
+// measured geometry, its material names and its point lights to the photoreal-render pipeline. Keep layer names
+// on every reg()'d part and one M key per finish, and the export needs nothing else from you.
 // ---------------------------------------------------------------------------
 
 // ===== EDIT: D (dimensions, inches) =====
 const D = {
-  // --- grid / walls (spec: Coordinate system, Kitchen plan, Great room) ---
-  E_GYP: 150, E_STUD: 150.5, E_OUT: 156, E_SIDE: 157.25,     // east wall (gridline A) faces, z
-  W_GYP: -150, W_STUD: -150.5, W_OUT: -156, W_SIDE: -157.25, // west wall (gridline C), z
-  N_GYP: 230, N_STUD: 230.5, N_OUT: 236, N_SIDE: 237.25,     // north wall (gridline 4), x
-  S_FACE: -48, S_STUDF: -48.5, S_STUDB: -52, S_BACK: -52.5,  // kitchen / guest-bath partition, x
-  S_END: 29,                                                  // partition west end (pantry end), z
-  SUB_T: 0.75, LVP_T: 0.25,
-  // --- levels ---
-  CTR_Y: 36, CTR_T: 1.5, BOX_TOP: 34.5, TOE: 4.5, TOE_IN: 3,
-  UP_LO: 54, UP_HI: 90, UP_D: 12,
-  CEIL_K: 107.5, LNG_LO: 108, LNG_HI: 120, RAIL_TOP: 156,
-  WALL_TOP: 125.7,                                            // east/west gyp face meets the rafter underside
-  RAFT_Y0: 309.4, TG_Y0: 308.5, SLOPE: 14.7 / 12,             // great-room roof planes: y = Y0 - SLOPE*|z|
-  GLB_LO: 306, GLB_HI: 330, GLB_W: 5.5,
-  DORM_Y0: 213.1, DORM_SLOPE: 8 / 12,                         // lounge (dormer) ceiling, ghost: y = Y0 + S*(156-|z|)
-  // --- window D / A, doors 9-10 ---
-  WD_X1: 15.5, WD_X2: 64, WD_Y1: 41.75, WD_Y2: 90.25,
-  WA1_X1: 16.5, WA1_X2: 65, WA2_X1: 124, WA2_X2: 172.5, WA_Y1: 35.75, WA_Y2: 90.25,
-  DR_Z: 4, DR_Z2: 100, DR_Y2: 84.5,
-  // --- east-wall run ---
-  ER_X1: -48, ER_X2: 106.9, ER_CTR_Z: 125, ER_DOOR_Z: 126, ER_BOX_Z: 126.75,
-  DW_X1: -2.25, DW_X2: 21.75, SINKB_X1: 21.75, SINKB_X2: 57.75,
-  // --- south-wall run, fridge, pantry ---
-  SR_Z1: 96.6, SR_CTR_X: -23, SR_DOOR_X: -24, SR_BOX_X: -24.75,
-  FR_Z1: 60.15, FR_Z2: 95.65, FR_BODY_X1: -46.5, FR_BODY_X2: -22.5, FR_DOOR_X2: -19, FR_TOP: 70.75, OFC_LO: 71,
-  PAN_Z1: 29, PAN_Z2: 59.2, PAN_X2: -23.5, PAN_SPLIT: 60, PAN_TOE: 6,
-  // --- island ---
-  IS_X1: 18.7, IS_X2: 98.8, IS_Z1: 41.4, IS_Z2: 83.4,          // counter
-  KW_X1: 19.4, KW_X2: 97.6, KW_Z1: 52.8, KW_Z2: 59.3,          // knee wall (6 1/2" as drawn)
-  IB_Z2: 81.6, IB_DOOR_Z2: 82.4,                              // island boxes / fronts
-  RG_X1: 43.8, RG_X2: 73.7, RG_Z2: 84, RG_HANDLE_Z: 85.5, RG_CTRL: 38.5,
-  DD_X1: 44, DD_X2: 73.5, DD_Z1: 55, DUCT_X1: 54, DUCT_X2: 64,
-  MW_X1: 20.4, MW_X2: 42.8, MW_Y1: 14.5, MW_Y2: 28.5, MW_Z1: 63,
-  MW_W: 21.75, MW_H: 12.875, MW_D: 17.75,
-  // --- sink / faucet ---
-  SK_X1: 21.9, SK_X2: 57.6, SK_Z1: 124.25, SK_Z2: 146.6, SK_H: 9.625, FAU_Z: 147.5,
-  // --- great room ---
-  HEARTH_X1: 182, HEARTH_Z2: -102, HEARTH_H: 8, HEARTH_CH: 24,  // A02 4' x 4' x 8" corner pad with a 24" chamfer (pixels 10434/10841, 5952/6348); no wall stone (owner 2026-09-10)
-  STOVE_W: 25.625, STOVE_D: 25.125, STOVE_H: 29,                 // Drolet Columbia II (BoD row 8)
-  CAN_X: [39.7, 117.7, 196.3], CAN_Z: [-111.4, -38.2, 41.0, 111.8],
-  FAN_X: 117.7, FAN_Y: 180,
-  // --- lounge / stair / hall (ghost) ---
-  LNG_X1: -60, WELL_X1: -38.8, WELL_Z2: -25, LAND_Z: -114, RISE: 7.5, TREAD: 11,
-  UT_X1: -42.4, UT_X2: -38.8, HALL_Z1: -22.6, HALL_Z2: 29.6, HALL_X1: -100,
+  HW: 156, EAVE: 180,                      // stud faces at +/-156 (26'-0" C to A); eave tips 2'-0" past A / C
+  SHEATH: 0.4375, SIDING_T: 0.75,          // 7/16" OSB; lap-siding shell drawn 3/4" thick outside it
+  G1: 0, G2: -192.5, G3: -316, G4: -552,   // gridlines 1-4 (A02 chain 16'-0 1/2" / 10'-3 1/2" / 19'-8" = 46'-0")
+  DORM_S: -141.5, DORM_N: -316, DORM_OH: 6,   // 8:12 dormer section between its cheek walls (spec premise 2); rake overhang past them
+  RIDGE: 330, PITCH_END: 14.7 / 12, PITCH_DOR: 8 / 12,   // T.O. RAFTER 27'-6"; A03 15:12 ends (drawn 14.7:12, front spec), A02 sec 6 8:12 dormer
+  RAFT: 13.25,                             // 2X14 rafters
+  ROOF_T: 1.5,                             // 19/32" sheathing + standing-seam panel above the rafter top
+  SOF_T: 0.75, BOARD: 5.5,                 // 1X6 cedar T&G soffit (A02 dtl 5)
+  RIB_SP: 16, RIB_H: 1, RIB_W: 0.75,       // standing-seam ribs (panel width is an interpretation)
+  TRIM_T: 0.75, TRIM_W: 3.5, CORNER_W: 5.5, // 1x4 casings and frieze, 1x6 corner boards (profile not on record)
+  FASCIA_W: 1.5,                           // 2X10 fascia thickness (A02 dtl 5); drawn the full rafter-tail depth
+  FRAME_W: 2, FRAME_IN: 4.5, FRAME_OUT: 1.25,   // window frame face width; depth into the wall / proud of the siding
+  UPPER_FLR: 120, PLATE: 108,
+  STEM_TOP: -11.5, SIDING_BOT: -12, STEM_T: 8, STEM_BOT: -60,
+  GRADE: -25.5,                            // ILLUSTRATIVE: 14" of stem wall showing after backfill (owner 2026-09-11)
+  DECK: -0.5,                              // both ground-level deck surfaces, 1/2" below LOWER FLR
+  // front (south) end -- outputs/front-porch-deck-3d-spec.md
+  F_POSTS: [-156, -48, 48, 156], F_POST_Z: 48, F_PORCH_EDGE: 60, F_ROOF_EDGE: 72, F_DECK_EDGE: 50.75,
+  F_GLB_LO: [-19, -7], F_GLB_UP: [103.5, 118.5], F_POST_TOP: 103.5, F_EAVE_BEAM: [110.8, 118.3], F_JOIST: [-7, -1.5], F_UJOIST: [113, 118.5],
+  // rear (north) end -- outputs/rear-deck-roof-3d-spec.md, z translated by -552
+  R_POSTS: [-156, -75, 0, 75, 156], R_POST_Z: -648, R_DECK_EDGE: -657, R_ROOF_EDGE: -661.75,
+  R_BEAM: [-16, -8.75], R_POST_TOP: 108.8, R_EAVE_BEAM: [108.8, 118.3], R_JOIST: [-8.75, -1.5],
+  STAIR_W: 96, RISERS: 4, TREAD: 11, NOSE: 1, RAIL_H: 36,   // owner 2026-09-11: centered 8' stairs; 36" as-built rail height
+  CHIM: { x: -136, z: -528, r: 4, top: 354 },   // A03 north / east: 11.3' west of the ridge, 2' from the north wall; painted black
 };
+D.PLUMB_END = D.RAFT / Math.cos(Math.atan(D.PITCH_END));   // 20.6" plumb depth of a 2X14 at 14.7:12
+D.PLUMB_DOR = D.RAFT / Math.cos(Math.atan(D.PITCH_DOR));   // 15.9" at 8:12
+D.topEnd = x => D.RIDGE - D.PITCH_END * Math.abs(x);        // rafter top, gable-end bays
+D.topDor = x => D.RIDGE - D.PITCH_DOR * Math.abs(x);        // rafter top, dormer section
+D.sofEnd = x => D.topEnd(x) - D.PLUMB_END - D.SOF_T;        // soffit underside
+D.sofDor = x => D.topDor(x) - D.PLUMB_DOR - D.SOF_T;
+D.RISE = (D.DECK - D.GRADE) / D.RISERS;                     // 6 1/4" risers
+D.SIDE_TOP = D.sofEnd(D.HW + D.SHEATH);                     // ~117: end-bay side walls meet the soffit (one story under the 15:12)
+D.DORM_TOP = D.sofDor(D.HW + D.SHEATH);                     // ~209: dormer walls meet the soffit
+D.CHEEK_X0 = (D.PLUMB_DOR + D.SOF_T + D.ROOF_T) / (D.PITCH_END - D.PITCH_DOR);   // ~32.5: cheek walls start where the dormer soffit clears the end roof
 // ===== END EDIT: D =====
 
 // --- renderer / scene ------------------------------------------------------
@@ -1648,38 +1663,58 @@ fill.position.set(-500, 300, -400);
 scene.add(fill);
 
 // ===== EDIT: M (materials, one per legend swatch) =====
+// Lap-siding textures: one 7 1/4" course per tile; the material color tints a white albedo, so every scheme
+// shares the two canvases. UV v = (y + 12) / 7.25, so the courses start at the siding bottom (D.SIDING_BOT)
+// on every wall (ExtrudeGeometry maps UVs from the shape's own inch coordinates).
+const COURSE = 7.25;
+function lapTextures() {
+  const W = 32, H = 256;
+  const a = document.createElement('canvas'); a.width = W; a.height = H;
+  let g = a.getContext('2d');
+  g.fillStyle = '#ffffff'; g.fillRect(0, 0, W, H);
+  const sh = g.createLinearGradient(0, 0, 0, H * 0.14);        // shadow under the lap of the course above (image top = course top)
+  sh.addColorStop(0, 'rgba(0,0,0,.55)'); sh.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = sh; g.fillRect(0, 0, W, H * 0.14);
+  g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(0, H - 6, W, 6);   // the board's bottom lip
+  const n = document.createElement('canvas'); n.width = W; n.height = H;
+  g = n.getContext('2d');
+  g.fillStyle = 'rgb(128,146,253)'; g.fillRect(0, 0, W, H);       // board face tilted a little upward
+  g.fillStyle = 'rgb(128,30,205)';  g.fillRect(0, H - 8, W, 8);   // lip facing down
+  const mk = c => { const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(1 / 48, 1 / COURSE); t.offset.set(0, -D.SIDING_BOT / COURSE); t.anisotropy = 8; return t; };
+  return { map: mk(a), normalMap: mk(n) };
+}
+const LAP = lapTextures();
+LAP.map.colorSpace = THREE.SRGBColorSpace;
+
+const SCHEMES = {   // hex values are stand-ins until Sherwin Williams colors are chosen (spec: Color schemes)
+  black:   { siding: '#262626', trim: '#151515', fascia: '#151515', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', deck: '#a67c52', door: '#151515', rail: '#151515', conc: '#9d9b95' },
+  green:   { siding: '#5e6259', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', deck: '#a67c52', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
+  ironore: { siding: '#434341', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', deck: '#a67c52', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
+};
+const std = o => new THREE.MeshStandardMaterial(o);
 const M = {
-  cabFront: new THREE.MeshStandardMaterial({ color: 0xb8894f, roughness: .72 }),
-  cabBox:   new THREE.MeshStandardMaterial({ color: 0x9a6f3c, roughness: .75 }),   // cabinet boxes / interiors
-  trimCasing: new THREE.MeshStandardMaterial({ color: 0xd2b48c, roughness: .75 }),   // knotty alder casing (assumed)
-  counterTop: new THREE.MeshStandardMaterial({ color: 0xe9e6df, roughness: .35 }),
-  backsplash: new THREE.MeshStandardMaterial({ color: 0xf2f0ea, roughness: .3 }),
-  backsplashGrout: new THREE.MeshStandardMaterial({ color: 0xd7d3cb, roughness: .8 }),
-  applianceFace: new THREE.MeshStandardMaterial({ color: 0xb9bec4, roughness: .3, metalness: .7 }),
-  black:   new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .6, metalness: .2 }),
-  sinkBasin: new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: .25 }),
-  gyp:     new THREE.MeshStandardMaterial({ color: 0xe4e1da, roughness: .95 }),
-  gypC:    new THREE.MeshStandardMaterial({ color: 0xf0eeea, roughness: .95 }),
-  floorPlank: new THREE.MeshStandardMaterial({ color: 0x4a3728, roughness: .8 }),
-  floorPlankB: new THREE.MeshStandardMaterial({ color: 0x3e2d21, roughness: .8 }),
-  ceilBoard: new THREE.MeshStandardMaterial({ color: 0xc99a63, roughness: .8 }),
-  ceilBoardB: new THREE.MeshStandardMaterial({ color: 0xbf8f58, roughness: .8 }),
-  glb:     new THREE.MeshStandardMaterial({ color: 0xa8743f, roughness: .75 }),
-  glass:   new THREE.MeshStandardMaterial({ color: 0x9fc4d8, roughness: .1, metalness: .1, transparent: true, opacity: .28, side: THREE.DoubleSide }),
-  hearthVeneer: new THREE.MeshStandardMaterial({ color: 0x8a8580, roughness: .95 }),
-  hearthTop: new THREE.MeshStandardMaterial({ color: 0x6f6a66, roughness: .9 }),
-  stoveBody: new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: .55, metalness: .4 }),
-  wood:    new THREE.MeshStandardMaterial({ color: 0xd9b98a, roughness: .85 }),   // DF framing
-  lvl:     new THREE.MeshStandardMaterial({ color: 0xc9a072, roughness: .85 }),
-  led:     new THREE.MeshStandardMaterial({ color: 0xfff6e0, emissive: 0xfff1c8, emissiveIntensity: .9, roughness: .4 }),
-  siding:  new THREE.MeshStandardMaterial({ color: 0x3b4046, roughness: .9 }),
-  flag:    new THREE.MeshStandardMaterial({ color: 0xe07b20, roughness: .7 }),    // pending / not on record
-  concept: new THREE.MeshStandardMaterial({ color: 0xd9a441, roughness: .85 }),   // placeholder scheme, not sheet-confirmed
-  ghost:   new THREE.MeshStandardMaterial({ color: 0x5e646c, roughness: .95, transparent: true, opacity: .4 }),   // faded context
-  ghostFl: new THREE.MeshStandardMaterial({ color: 0x4d535b, roughness: .95, transparent: true, opacity: .35 }),
-  conc:    new THREE.MeshStandardMaterial({ color: 0x9aa0a6, roughness: .92 }),
-  steel:   new THREE.MeshStandardMaterial({ color: 0x8a94a0, roughness: .4, metalness: .6 }),
-  sheath:  new THREE.MeshStandardMaterial({ color: 0xe6dcc4, roughness: .9, transparent: true, opacity: .32, side: THREE.DoubleSide }),
+  siding:  std({ color: 0x262626, roughness: .85, map: LAP.map, normalMap: LAP.normalMap, normalScale: new THREE.Vector2(1, 1) }),
+  trim:    std({ color: 0x151515, roughness: .7 }),
+  fascia:  std({ color: 0x151515, roughness: .7 }),
+  roof:    std({ color: 0x1c1c1e, roughness: .45, metalness: .55 }),
+  roofRib: std({ color: 0x24242a, roughness: .4, metalness: .6 }),
+  soffit:  std({ color: 0xc99d66, roughness: .8 }),
+  soffit2: std({ color: 0xb58d5c, roughness: .8 }),
+  wood:    std({ color: 0xb98a5c, roughness: .8 }),
+  deck:    std({ color: 0xa67c52, roughness: .85 }),
+  door:    std({ color: 0x151515, roughness: .5, metalness: .2 }),
+  rail:    std({ color: 0x151515, roughness: .45, metalness: .5 }),
+  conc:    std({ color: 0x9d9b95, roughness: .95 }),
+  win:     std({ color: 0x141414, roughness: .5 }),                       // Milgard black frames (contract, not a slot)
+  glass:   std({ color: 0x7d95a6, roughness: .05, metalness: .35, transparent: true, opacity: .5, side: THREE.DoubleSide }),
+  inner:   std({ color: 0x2a2521, roughness: 1 }),                         // dark interior behind the glass
+  ground:  std({ color: 0x6d7658, roughness: 1 }),
+  flag:    std({ color: 0xe07b20, roughness: .7 }),
+  concept: std({ color: 0xd9a441, roughness: .85 }),
+  ghost:   std({ color: 0x5e646c, roughness: .95, transparent: true, opacity: .4 }),
+  ghostFl: std({ color: 0x4d535b, roughness: .95, transparent: true, opacity: .35 }),
+  steel:   std({ color: 0x8a94a0, roughness: .4, metalness: .6 }),
+  sheath:  std({ color: 0xe6dcc4, roughness: .9, transparent: true, opacity: .32, side: THREE.DoubleSide }),
 };
 // ===== END EDIT: M =====
 
@@ -1785,612 +1820,354 @@ const ground = new THREE.Mesh(
   new THREE.PlaneGeometry(6000, 6000),
   new THREE.MeshStandardMaterial({ color: 0x24272d, roughness: 1 }));
 ground.rotation.x = -Math.PI / 2;
-ground.position.y = -30;
+ground.position.y = -40;   // re-set to D.GRADE in the geometry block
 ground.receiveShadow = true;
 scene.add(ground);
 
 // ===========================================================================
 // ===== EDIT: GEOMETRY ===== (delete the demo block, build members with box/prism/cyl/bar)
+// --- scene tuning for an exterior: sky, sun from the south-west, shadow camera around the whole house ---------
+scene.background = new THREE.Color(0xcfdfeb);
+scene.fog = new THREE.Fog(0xcfdfeb, 3500, 9000);
+sun.position.set(-900, 1100, 900);
+sun.target.position.set(0, 100, -280); scene.add(sun.target);
+sc.left = -600; sc.right = 600; sc.top = 600; sc.bottom = -600; sc.near = 200; sc.far = 4000;
+sun.shadow.camera.updateProjectionMatrix();
+sun.shadow.bias = -0.0004;
+sun.shadow.mapSize.set(2048, 2048);                             // software WebGL renders this scene; 4096 was too slow for a headless frame
+fill.position.set(700, 400, -900);
+hemi.intensity = 0.5;
+controls.maxDistance = 3000;
+camera.far = 12000; camera.updateProjectionMatrix();
+ground.position.y = D.GRADE;
+ground.material = M.ground;
+ground.userData.layer = 'site'; parts.push(ground);            // toggleable; excluded from the glTF export (EXPORT_EXCLUDE_DEFAULT)
 
-// ---- helpers (shared with the main-bath drawing) -------------------------------------------------
-const rect = (a1, b1, a2, b2) => [[a1, b1], [a2, b1], [a2, b2], [a1, b2]];
-const yc = z => D.TG_Y0 - D.SLOPE * Math.abs(z);        // great-room T&G underside
-const yr = z => D.RAFT_Y0 - D.SLOPE * Math.abs(z);      // great-room rafter underside
-const yd = z => D.DORM_Y0 + D.DORM_SLOPE * (156 - Math.abs(z));   // lounge dormer ceiling (ghost)
-// Box lying on a slope along z: footprint x1..x2 / z1..z2, underside on yAt(z) whose slope is s = dy/dz, thickness t perpendicular (upward).
-function slopedBoxZ(x1, x2, z1, z2, yAt, s, t, mat, layer, edges = true) {
-  const th = Math.atan(s), ct = Math.cos(th), st = Math.sin(th);
-  const g = new THREE.BoxGeometry(Math.abs(x2 - x1), t, Math.abs(z2 - z1) / ct);
-  const m = new THREE.Mesh(g, mat);
-  const zc = (z1 + z2) / 2, yu = yAt(zc);
-  m.position.set((x1 + x2) / 2, yu + (t / 2) * ct, zc - (t / 2) * st);
-  m.rotation.x = -th;
-  m.castShadow = m.receiveShadow = !mat.transparent;
-  if (edges) addEdges(m, g, mat.transparent);
-  return reg(m, layer);
-}
-// Wall profile in the Z-Y plane (array of [z, y]) extruded from x1 to x2, optional holes -- walls running east-west.
-function prismZY(pts, x1, x2, mat, layer, holes = [], edges = true) {
+// --- helpers for this drawing --------------------------------------------------------------------------------
+const B = (x1, x2, y1, y2, z1, z2, mat, layer) => box(x1, x2, y1, y2, z1, z2, mat, layer, false);    // no outlines: finished surfaces
+const PZ = (pts, za, zb, mat, layer, holes = []) => prism(pts, Math.min(za, zb), Math.max(za, zb), mat, layer, holes, false);
+// Wall frames: openings and trim are built in wall-local coordinates (u along the wall, y up, w outward from the
+// sheathing face) and rotated into place. Ry(rot) sends local x to (cos,0,-sin) and local z to (sin,0,cos).
+const WALLS = {
+  S: { o: V(0, 0, D.SHEATH),                rot: 0,            uOf: x => x },     // south gable wall: u = x, outward +Z
+  N: { o: V(0, 0, D.G4 - D.SHEATH),         rot: Math.PI,      uOf: x => -x },    // north gable wall: u = -x, outward -Z
+  E: { o: V(D.HW + D.SHEATH, 0, 0),         rot: Math.PI / 2,  uOf: z => -z },    // east wall: u = -z, outward +X
+  W: { o: V(-(D.HW + D.SHEATH), 0, 0),      rot: -Math.PI / 2, uOf: z => z },     // west wall: u = z, outward -X
+};
+for (const w of Object.values(WALLS)) w.n = V(Math.sin(w.rot), 0, Math.cos(w.rot));   // outward normal
+function wallPrism(wall, pts, w1, w2, mat, layer, holes = []) {
   const sh = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], p[1])));
   for (const h of holes) sh.holes.push(new THREE.Path(h.map(p => new THREE.Vector2(p[0], p[1]))));
-  const g = new THREE.ExtrudeGeometry(sh, { depth: x2 - x1, bevelEnabled: false });
+  const g = new THREE.ExtrudeGeometry(sh, { depth: Math.abs(w2 - w1), bevelEnabled: false });
   const m = new THREE.Mesh(g, mat);
-  m.rotation.y = -Math.PI / 2;      // local x -> world z, local z -> world -x
-  m.position.x = x2;
+  m.rotation.y = wall.rot;
+  m.position.copy(wall.o).addScaledVector(wall.n, Math.min(w1, w2));
   m.castShadow = m.receiveShadow = !mat.transparent;
-  if (edges) addEdges(m, g, mat.transparent);
   return reg(m, layer);
 }
-// Plan outline in the X-Z plane (array of [x, z]) extruded from y1 to y2, optional holes -- counters, hearth, sink.
-function prismXZ(pts, y1, y2, mat, layer, holes = [], edges = true) {
-  const sh = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], p[1])));
-  for (const h of holes) sh.holes.push(new THREE.Path(h.map(p => new THREE.Vector2(p[0], p[1]))));
-  const g = new THREE.ExtrudeGeometry(sh, { depth: y2 - y1, bevelEnabled: false });
-  const m = new THREE.Mesh(g, mat);
-  m.rotation.x = Math.PI / 2;       // local y -> world z, local z -> world -y
-  m.position.y = y2;
-  m.castShadow = m.receiveShadow = !mat.transparent;
-  if (edges) addEdges(m, g, mat.transparent);
-  return reg(m, layer);
+const wallBox = (wall, u1, u2, y1, y2, w1, w2, mat, layer) => wallPrism(wall, [[u1, y1], [u2, y1], [u2, y2], [u1, y2]], w1, w2, mat, layer);
+const rect = (u1, u2, y1, y2) => [[u1, y1], [u2, y1], [u2, y2], [u1, y2]];
+const rectOffset = (r, d) => [[r[0][0] - d, r[0][1] - d], [r[1][0] + d, r[1][1] - d], [r[2][0] + d, r[2][1] + d], [r[3][0] - d, r[3][1] + d]];
+// U-shaped ring (open at the bottom) around u1..u2 x y1..y2, t wide: door casings and door frames.
+const uPoly = (u1, u2, y1, y2, t) => [[u1 - t, y1], [u1 - t, y2 + t], [u2 + t, y2 + t], [u2 + t, y1], [u2, y1], [u2, y2], [u1, y2], [u1, y1]];
+// Offset a triangle in (d < 0) or out (d > 0) by d, scaled about its incenter.
+function triOffset(t, d) {
+  const [a, b, c] = t.map(p => new THREE.Vector2(p[0], p[1]));
+  const la = b.distanceTo(c), lb = a.distanceTo(c), lc = a.distanceTo(b), per = la + lb + lc;
+  const I = new THREE.Vector2((la * a.x + lb * b.x + lc * c.x) / per, (la * a.y + lb * b.y + lc * c.y) / per);
+  const area = Math.abs((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y)) / 2, r = 2 * area / per;
+  const k = (r + d) / r;
+  return [a, b, c].map(p => [I.x + (p.x - I.x) * k, I.y + (p.y - I.y) * k]);
 }
-// Window in a wall parallel to x (east or west wall): black frame + glass + alder casing on the inside face.
-// zIn = gyp face, dir = +1 if the room is at larger z (west wall), -1 if at smaller z (east wall). slider: center stile.
-function winXY(x1, x2, y1, y2, zIn, zOut, dir, layer, slider = true) {
-  const zm = (zIn + zOut) / 2, f = 1.75, ft = 1.5;                  // Milgard black frame
-  box(x1, x2, y1, y1 + f, zm - ft / 2, zm + ft / 2, M.black, layer);
-  box(x1, x2, y2 - f, y2, zm - ft / 2, zm + ft / 2, M.black, layer);
-  box(x1, x1 + f, y1, y2, zm - ft / 2, zm + ft / 2, M.black, layer);
-  box(x2 - f, x2, y1, y2, zm - ft / 2, zm + ft / 2, M.black, layer);
-  if (slider) box((x1 + x2) / 2 - 1, (x1 + x2) / 2 + 1, y1, y2, zm - ft / 2, zm + ft / 2, M.black, layer);
-  box(x1 + f, x2 - f, y1 + f, y2 - f, zm - .125, zm + .125, M.glass, layer, false);
-  // jamb liners + casing on the room side
-  const c = 3, ct = .75, zc1 = zIn, zc2 = zIn + dir * ct;
-  const zL = zm + dir * ft / 2;                                        // jamb liners, frame to the gyp face
-  box(x1, x2, y2 - .75, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
-  box(x1, x1 + .75, y1, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
-  box(x2 - .75, x2, y1, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
-  box(x1 - c, x2 + c, y2, y2 + c, zc1, zc2, M.trimCasing, layer);            // head casing
-  box(x1 - c, x1, y1 - 1, y2, zc1, zc2, M.trimCasing, layer);                // side casings
-  box(x2, x2 + c, y1 - 1, y2, zc1, zc2, M.trimCasing, layer);
-  box(x1 - c - .75, x2 + c + .75, y1 - 1, y1, zIn - dir * 1.5, zc2 + dir * .25, M.trimCasing, layer);   // stool
-  box(x1 - c, x2 + c, y1 - 1 - 2.5, y1 - 1, zc1, zc2, M.trimCasing, layer);  // apron
+// Sloped slab in the X-Y plane (vertical thickness t) extruded along z between za and zb; yFn gives the underside at x.
+function slab(xa, xb, yFn, t, za, zb, mat, layer) {
+  return PZ([[xa, yFn(xa)], [xb, yFn(xb)], [xb, yFn(xb) + t], [xa, yFn(xa) + t]], za, zb, mat, layer);
 }
-
-// ---- floors -------------------------------------------------------------------------------------
-// LVP planks 7" wide running north-south, alternating tone. Region A: kitchen + east half; B: west half north of the stair.
-function planks(x1, x2, z1, z2, layer) {
-  for (let z = z1, i = 0; z < z2; z += 7, i++) box(x1, x2, 0, D.LVP_T, z, Math.min(z + 7, z2), i % 2 ? M.floorPlankB : M.floorPlank, layer, false);
-}
-planks(D.S_FACE, D.N_GYP, D.WELL_Z2, D.E_GYP, 'floor');
-planks(0, D.N_GYP, D.W_GYP, D.WELL_Z2, 'floor');
-box(D.HALL_X1, D.S_FACE, 0, D.LVP_T, D.HALL_Z1, D.HALL_Z2, M.ghostFl, 'context');       // hall floor, ghost
-
-// ---- east wall (gridline A) with window D --------------------------------------------------------
-{
-  const hole = rect(D.WD_X1, D.WD_Y1, D.WD_X2, D.WD_Y2);
-  prism(rect(D.S_FACE, 0, D.N_GYP, D.WALL_TOP), D.E_GYP, D.E_OUT, M.gyp, 'wallE', [hole]);
-  prism(rect(D.S_FACE, 0, D.N_GYP, D.WALL_TOP), D.E_OUT, D.E_SIDE, M.siding, 'wallE', [hole]);
-  winXY(D.WD_X1 + .25, D.WD_X2 - .25, D.WD_Y1 + .25, D.WD_Y2 - .25, D.E_GYP, D.E_OUT, -1, 'wallE', true);
-}
-// ---- kitchen / guest-bath partition (2x4 + gyp), up to the lounge floor --------------------------
-box(D.S_BACK, D.S_FACE, 0, D.LNG_LO, D.S_END, D.E_GYP, M.gyp, 'wallS');
-
-
-// ---- cabinet fronts ------------------------------------------------------------------------------
-// place(ua, ub, ya, yb, da, db, mat, edges): maps run coordinate u, height y and depth d (0 = box face, + toward the
-// viewer) to a world box. kind: 'door' | 'doors' | 'drawers' | 'sink' | 'blind' | 'up' | 'pantry' | 'micro'.
-function fronts(place, u1, u2, kind, y1 = D.TOE, y2 = D.BOX_TOP) {
-  const g = .125, dT = .75, pO = 1.25, pT = .4, pL = 5;      // reveal, door thickness, pull offset / thickness / length
-  const panel = (ua, ub, ya, yb, mat = M.cabFront) => place(ua + g / 2, ub - g / 2, ya + g / 2, yb - g / 2, 0, dT, mat, true);
-  const pullH = (uc, y) => place(uc - pL / 2, uc + pL / 2, y - pT / 2, y + pT / 2, pO - pT, pO, M.black, false);
-  const pullV = (u, yc) => place(u - pT / 2, u + pT / 2, yc - pL / 2, yc + pL / 2, pO - pT, pO, M.black, false);
-  const w = u2 - u1, um = (u1 + u2) / 2;
-  if (kind === 'drawers') {                                  // 4 drawers: 6 / 8 / 8 / 8 (top down)
-    const hs = [6, 8, 8, (y2 - y1) - 22]; let y = y2;
-    for (const h of hs) { panel(u1, u2, y - h, y); pullH(um, y - h / 2); y -= h; }
-  } else if (kind === 'door' || kind === 'doors' || kind === 'blind') {
-    panel(u1, u2, y2 - 6, y2); pullH(um, y2 - 3);            // top drawer
-    if (kind === 'door') { panel(u1, u2, y1, y2 - 6); pullV(u2 - 2.5, y2 - 6 - 4); }
-    else if (kind === 'doors') { panel(u1, um, y1, y2 - 6); panel(um, u2, y1, y2 - 6); pullV(um - 2.5, y2 - 10); pullV(um + 2.5, y2 - 10); }
-    else { panel(u1, u1 + w * .45, y1, y2 - 6, M.cabBox); panel(u1 + w * .45, u2, y1, y2 - 6); pullV(u2 - 2.5, y2 - 10); }
-  } else if (kind === 'sink') {                              // false drawer front + 2 doors
-    panel(u1, u2, y2 - 6, y2); panel(u1, um, y1, y2 - 6); panel(um, u2, y1, y2 - 6); pullV(um - 2.5, y2 - 10); pullV(um + 2.5, y2 - 10);
-  } else if (kind === 'up') {                                // 1 or 2 doors full height, pulls low
-    if (w > 21) { panel(u1, um, y1, y2); panel(um, u2, y1, y2); pullV(um - 2.5, y1 + 4); pullV(um + 2.5, y1 + 4); }
-    else { panel(u1, u2, y1, y2); pullV(u2 - 2.5, y1 + 4); }
-  } else if (kind === 'pantry') {                            // two pairs split at D.PAN_SPLIT
-    panel(u1, um, D.PAN_SPLIT, y2); panel(um, u2, D.PAN_SPLIT, y2); pullV(um - 2.5, D.PAN_SPLIT + 4); pullV(um + 2.5, D.PAN_SPLIT + 4);
-    panel(u1, um, y1, D.PAN_SPLIT); panel(um, u2, y1, D.PAN_SPLIT); pullV(um - 2.5, D.PAN_SPLIT - 4); pullV(um + 2.5, D.PAN_SPLIT - 4);
-  } else if (kind === 'micro') {                             // drawer / open cubby (owner) / drawer
-    panel(u1, u2, D.MW_Y2, y2); pullH(um, (D.MW_Y2 + y2) / 2);
-    panel(u1, u2, y1, D.MW_Y1); pullH(um, (y1 + D.MW_Y1) / 2);
+// T&G boards along a slope: strips BOARD wide measured along the slope from xa toward xb, each the full z depth.
+function boardsAlongSlope(xa, xb, yFn, za, zb, layer) {
+  const s = Math.sign(xb - xa), dx = Math.abs(xb - xa), pitch = Math.abs((yFn(xb) - yFn(xa)) / dx);
+  const L = Math.hypot(dx, dx * pitch), cosA = dx / L, n = Math.ceil(L / D.BOARD);
+  for (let i = 0; i < n; i++) {
+    const x0 = xa + s * i * D.BOARD * cosA, x1 = xa + s * Math.min(L, (i + 1) * D.BOARD) * cosA;
+    slab(x0, x1, yFn, D.SOF_T, za, zb, i % 2 ? M.soffit2 : M.soffit, layer);
   }
 }
-// placers for each run (fronts sit on the box face; d grows toward the viewer)
-const placeE  = (ua, ub, ya, yb, da, db, mat, e) => box(ua, ub, ya, yb, D.ER_BOX_Z - db, D.ER_BOX_Z - da, mat, 'cabinets', e);   // east run, faces west
-const placeEU = (ua, ub, ya, yb, da, db, mat, e) => box(ua, ub, ya, yb, D.E_GYP - D.UP_D - db, D.E_GYP - D.UP_D - da, mat, 'cabinets', e);
-const placeS  = (ua, ub, ya, yb, da, db, mat, e) => box(D.SR_BOX_X + da, D.SR_BOX_X + db, ya, yb, ua, ub, mat, 'cabinets', e);   // south run, faces north
-const placeSU = (ua, ub, ya, yb, da, db, mat, e) => box(D.S_FACE + D.UP_D + da, D.S_FACE + D.UP_D + db, ya, yb, ua, ub, mat, 'cabinets', e);
-const placeP  = (ua, ub, ya, yb, da, db, mat, e) => box(D.PAN_X2 - dT_ + da, D.PAN_X2 - dT_ + db, ya, yb, ua, ub, mat, 'cabinets', e);   // pantry / over-fridge plane
-const dT_ = .75;
-const placeI  = (ua, ub, ya, yb, da, db, mat, e) => box(ua, ub, ya, yb, D.IB_Z2 + da, D.IB_Z2 + db, mat, 'cabinets', e);        // island, faces east
-
-// ---- east-wall run: boxes, toe kicks, fronts ------------------------------------------------------
-box(D.ER_X1, D.DW_X1, D.TOE, D.BOX_TOP, D.ER_BOX_Z, D.E_GYP, M.cabBox, 'cabinets');
-box(D.DW_X2, D.SK_X1 - .5, D.TOE, D.BOX_TOP, D.ER_BOX_Z, D.E_GYP, M.cabBox, 'cabinets');
-box(D.SK_X2 + .5, D.ER_X2 - .75, D.TOE, D.BOX_TOP, D.ER_BOX_Z, D.E_GYP, M.cabBox, 'cabinets');
-box(D.SK_X1 - .5, D.SK_X2 + .5, D.TOE, D.CTR_Y - D.SK_H - .5, D.ER_BOX_Z, D.E_GYP, M.cabBox, 'cabinets');   // sink base, open under the bowl
-box(D.ER_X1, D.DW_X1, 0, D.TOE, D.ER_BOX_Z + D.TOE_IN, D.E_GYP, M.cabBox, 'cabinets', false);
-box(D.DW_X2, D.ER_X2 - .75, 0, D.TOE, D.ER_BOX_Z + D.TOE_IN, D.E_GYP, M.cabBox, 'cabinets', false);
-fronts(placeE, -48, -12, 'blind');            // blind corner base (door on the north side)
-fronts(placeE, -12, -3, 'door');              // 9" tray base
-box(-3, D.DW_X1, D.TOE, D.BOX_TOP, D.ER_DOOR_Z, D.ER_BOX_Z, M.cabFront, 'cabinets');   // filler
-fronts(placeE, D.SINKB_X1, D.SINKB_X2, 'sink');
-fronts(placeE, D.SINKB_X2, D.SINKB_X2 + 24, 'drawers');
-fronts(placeE, D.SINKB_X2 + 24, D.SINKB_X2 + 48, 'door');
-box(D.SINKB_X2 + 48, D.ER_X2 - .75, D.TOE, D.BOX_TOP, D.ER_DOOR_Z, D.ER_BOX_Z, M.cabFront, 'cabinets');   // filler / end
-box(D.ER_X2 - .75, D.ER_X2, 0, D.BOX_TOP, D.ER_DOOR_Z, D.E_GYP, M.cabFront, 'cabinets');            // finished end panel
-// dishwasher (KitchenAid KDFE204KPS 23 7/8 x 33 5/8): stainless front flush with the doors, kick plate, handle
-box(D.DW_X1 + .3, D.DW_X2 - .3, D.TOE, D.BOX_TOP, D.ER_DOOR_Z, D.E_GYP, M.applianceFace, 'appliances');
-box(D.DW_X1 + .3, D.DW_X2 - .3, 0, D.TOE, D.ER_BOX_Z + 1, D.E_GYP, M.applianceFace, 'appliances', false);
-box(D.DW_X1 + 2, D.DW_X2 - 2, 32.2, 32.8, D.ER_DOOR_Z - 1.2, D.ER_DOOR_Z - .8, M.black, 'appliances', false);
-
-// ---- uppers: east wall (either side of window D), diagonal corner, south wall, over-fridge ---------
-box(-24, 15, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D, D.E_GYP, M.cabBox, 'cabinets');
-fronts(placeEU, -24, -3, 'up', D.UP_LO, D.UP_HI); fronts(placeEU, -3, 15, 'up', D.UP_LO, D.UP_HI);
-box(64.5, 106.5, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D, D.E_GYP, M.cabBox, 'cabinets');
-fronts(placeEU, 64.5, 85.5, 'up', D.UP_LO, D.UP_HI); fronts(placeEU, 85.5, 106.5, 'up', D.UP_LO, D.UP_HI);
-box(106.5, D.ER_X2, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D - .75, D.E_GYP, M.cabFront, 'cabinets');   // end panel
-prismXZ([[-48, 126], [-36, 126], [-24, 138], [-24, 150], [-48, 150]], D.UP_LO, D.UP_HI, M.cabFront, 'cabinets');   // diagonal corner upper
-box(-48, -36, D.UP_LO, D.UP_HI, D.SR_Z1, 126, M.cabBox, 'cabinets');
-fronts(placeSU, D.SR_Z1, 126, 'up', D.UP_LO, D.UP_HI);
-box(-48, D.PAN_X2 - dT_, D.OFC_LO, D.UP_HI, D.FR_Z1, D.FR_Z2, M.cabBox, 'cabinets');            // over-fridge cabinet
-fronts(placeP, D.FR_Z1, D.FR_Z2, 'up', D.OFC_LO, D.UP_HI);
-
-// ---- south-wall base run (fridge to the corner) --------------------------------------------------
-box(-48, D.SR_BOX_X, D.TOE, D.BOX_TOP, D.SR_Z1, D.ER_BOX_Z, M.cabBox, 'cabinets');
-box(-48, D.SR_BOX_X + D.TOE_IN, 0, D.TOE, D.SR_Z1, D.ER_BOX_Z, M.cabBox, 'cabinets', false);
-fronts(placeS, D.SR_Z1, D.ER_BOX_Z, 'doors');
-box(D.SR_BOX_X - .75, D.SR_CTR_X, 0, D.BOX_TOP, D.SR_Z1, D.SR_Z1 + .75, M.cabFront, 'cabinets');   // end panel at the fridge
-
-// ---- pantry (30" x 24 1/2" x 90", four doors) -----------------------------------------------------
-box(-48, D.PAN_X2 - dT_, D.PAN_TOE, D.UP_HI, D.PAN_Z1, D.PAN_Z2, M.cabBox, 'cabinets');
-box(-48, D.PAN_X2 - dT_ - D.TOE_IN, 0, D.PAN_TOE, D.PAN_Z1, D.PAN_Z2, M.cabBox, 'cabinets', false);
-fronts(placeP, D.PAN_Z1, D.PAN_Z2, 'pantry', D.PAN_TOE, D.UP_HI);
-box(-48, D.PAN_X2, 0, D.UP_HI, D.PAN_Z1 - .75, D.PAN_Z1, M.cabFront, 'cabinets');                  // hall-side end panel
-box(-48, D.PAN_X2, D.FR_TOP + .25, D.OFC_LO, D.PAN_Z2, D.FR_Z1, M.cabFront, 'cabinets', false);      // filler strip pantry-to-fridge cabinet
-
-// ---- counters: L-shaped quartz with the apron-sink notch --------------------------------------------
-prismXZ([[-48, D.SR_Z1], [D.SR_CTR_X, D.SR_Z1], [D.SR_CTR_X, D.ER_CTR_Z], [D.SK_X1 + .5, D.ER_CTR_Z], [D.SK_X1 + .5, D.SK_Z2 - .5],
-         [D.SK_X2 - .5, D.SK_Z2 - .5], [D.SK_X2 - .5, D.ER_CTR_Z], [D.ER_X2, D.ER_CTR_Z], [D.ER_X2, D.E_GYP], [-48, D.E_GYP]],
-        D.BOX_TOP, D.CTR_Y, M.counterTop, 'counters');
-// Kohler K-6489 apron-front sink (35 3/4 x 21 9/16 x 9 5/8), single bowl, white; Moen S73204 pulldown, matte black
-prismXZ(rect(D.SK_X1, D.SK_Z1, D.SK_X2, D.SK_Z2), D.CTR_Y - D.SK_H, D.CTR_Y - .5, M.sinkBasin, 'counters',
-        [rect(D.SK_X1 + 1.5, D.SK_Z1 + 2, D.SK_X2 - 1.5, D.SK_Z2 - 1.5)]);
-box(D.SK_X1 + 1.5, D.SK_X2 - 1.5, D.CTR_Y - D.SK_H, D.CTR_Y - D.SK_H + 1, D.SK_Z1 + 2, D.SK_Z2 - 1.5, M.sinkBasin, 'counters', false);
-cyl((D.SK_X1 + D.SK_X2) / 2, (D.SK_Z1 + D.SK_Z2) / 2, D.CTR_Y - D.SK_H + 1, D.CTR_Y - D.SK_H + 1.2, 1.75, M.black, 'counters');
+// ===========================================================================
+// 1. WALLS (layer 'walls'): lap-siding shells with the openings cut, dormer cheeks, interior box, stem walls
+// ===========================================================================
+const SHELL_U = D.HW + D.SHEATH + D.SIDING_T;      // 157.19: the gable shells wrap to the side walls' siding face
+const EXT = D.SHEATH + D.SIDING_T;                 // side shells wrap to the gable shells' siding face
+const gableOutline = () => [[-SHELL_U, D.SIDING_BOT], [SHELL_U, D.SIDING_BOT], [SHELL_U, D.sofEnd(SHELL_U)], [0, D.sofEnd(0)], [-SHELL_U, D.sofEnd(SHELL_U)]];
+const A_W = 48.5, A_Y = [36, 90.5];                // type A: RO 4'-0 1/2" x 4'-6 1/2", sill 3'-0"
+const OPEN = {                                     // rough openings in wall-local u (spec: Openings)
+  S: {   // u = x
+    door1: rect(-18.25, 18.25, 0, 84.5),
+    A: [rect(-88 - A_W / 2, -88 + A_W / 2, ...A_Y), rect(88 - A_W / 2, 88 + A_W / 2, ...A_Y)],
+    door12: rect(-36.25, 36.25, 120, 204.5),
+    O: [[[-48.25, 146.5], [-48.25, 204.5], [-90.75, 146.5]], [[48.25, 146.5], [90.75, 146.5], [48.25, 204.5]]],
+    P: [[[-2.125, 215], [-2.125, 273], [-44.625, 215]], [[2.125, 215], [44.625, 215], [2.125, 273]]],
+  },
+  N: {   // u = -x; the wall is symmetric, so the u lists equal the world-x lists (door 9 is the west one: x -100..-4 -> u 4..100)
+    door9: rect(4, 100, 0, 84.5), door10: rect(-100, -4, 0, 84.5),
+    J: [rect(-50, -4, 102, 158), rect(4, 50, 102, 158), rect(-100.5, -54.5, 102, 158), rect(54.5, 100.5, 102, 158), rect(-50, -4, 161, 217), rect(4, 50, 161, 217)],
+    K: [[[-54.5, 161], [-54.5, 219], [-97, 161]], [[54.5, 161], [97, 161], [54.5, 219]]],
+    Nw: [[[-4, 223], [-4, 281], [-46.5, 223]], [[4, 223], [46.5, 223], [4, 281]]],
+    asb: [rect(-140.4, -103.9, 35.5, 84), rect(103.9, 140.4, 35.5, 84)],      // as built, owner tape 2026-09-02
+  },
+  E: {   // u = -z
+    C: rect(205.75, 254.25, 60, 72.5), Dw: rect(331.5, 380, 41.75, 90.25), E: rect(222.5, 283, 156, 192.5),
+  },
+  W: {   // u = z
+    F: rect(-188.25, -151.75, 181.5, 194), A1: rect(-381, -332.5, ...A_Y), A2: rect(-488.5, -440, ...A_Y),
+  },
+};
 {
-  const fx = (D.SK_X1 + D.SK_X2) / 2, fz = D.FAU_Z;
-  cyl(fx, fz, D.CTR_Y, D.CTR_Y + 9, 1.1, M.black, 'counters');
-  bar(V(fx, D.CTR_Y + 9, fz), V(fx, D.CTR_Y + 16, fz - 1.5), .55, M.black, 'counters');
-  bar(V(fx, D.CTR_Y + 16, fz - 1.5), V(fx, D.CTR_Y + 16.5, fz - 6), .55, M.black, 'counters');
-  bar(V(fx, D.CTR_Y + 16.5, fz - 6), V(fx, D.CTR_Y + 12, fz - 10), .55, M.black, 'counters');
-  bar(V(fx, D.CTR_Y + 12, fz - 10), V(fx, D.CTR_Y + 9, fz - 10.5), .7, M.black, 'counters');
-  bar(V(fx + 2.6, D.CTR_Y, fz), V(fx + 2.6, D.CTR_Y + 1.5, fz), .5, M.black, 'counters');   // side handle
-}
-
-// ---- backsplash: subway tile, counter to uppers, around window D ------------------------------------
-function tileXY(x1, x2, y1, y2, z1, z2, layer) {          // tile field on a wall parallel to x, grout lines every 3" / 6" staggered
-  box(x1, x2, y1, y2, z1, z2, M.backsplash, layer, false);
-  const zf = z1 < z2 ? z1 - .02 : z1;   // grout drawn a hair proud on the room side (room side = smaller z for the east wall)
-  for (let y = y1 + 3; y < y2 - .1; y += 3) box(x1, x2, y - .06, y + .06, z1 - .05, z1, M.backsplashGrout, layer, false);
-  for (let y = y1, r = 0; y < y2 - .1; y += 3, r++) for (let x = x1 + (r % 2 ? 3 : 0); x < x2; x += 6) box(x - .06, x + .06, y, y + 3, z1 - .05, z1, M.backsplashGrout, layer, false);
-}
-function tileZY(z1, z2, y1, y2, x1, x2, layer) {          // tile field on the south wall (faces +x)
-  box(x1, x2, y1, y2, z1, z2, M.backsplash, layer, false);
-  for (let y = y1 + 3; y < y2 - .1; y += 3) box(x2, x2 + .05, y - .06, y + .06, z1, z2, M.backsplashGrout, layer, false);
-  for (let y = y1, r = 0; y < y2 - .1; y += 3, r++) for (let z = z1 + (r % 2 ? 3 : 0); z < z2; z += 6) box(x2, x2 + .05, y, y + 3, z - .06, z + .06, M.backsplashGrout, layer, false);
-}
-tileXY(-48, D.WD_X1 - 3.25, D.CTR_Y, D.UP_LO, D.E_GYP - .4, D.E_GYP, 'tile');
-tileXY(D.WD_X2 + 3.25, D.ER_X2, D.CTR_Y, D.UP_LO, D.E_GYP - .4, D.E_GYP, 'tile');
-tileXY(D.WD_X1 - 3.25, D.WD_X2 + 3.25, D.CTR_Y, D.WD_Y1 - 1, D.E_GYP - .4, D.E_GYP, 'tile');
-tileZY(D.SR_Z1, D.E_GYP - .4, D.CTR_Y, D.UP_LO, D.S_FACE, D.S_FACE + .4, 'tile');
-
-// ---- fridge: KitchenAid KRSC536RPS french-door counter-depth (35 1/2 x 69 1/4 x 28 3/8) -------------------------
-{
-  const z1 = D.FR_Z1, z2 = D.FR_Z2, zm = (z1 + z2) / 2, x1 = D.FR_BODY_X1, x2 = D.FR_BODY_X2, xd = D.FR_DOOR_X2;
-  box(x1, x2, 1, D.FR_TOP, z1, z2, M.applianceFace, 'appliances');
-  box(x1 + 1, x2 - 1, 0, 1, z1 + 1, z2 - 1, M.black, 'appliances', false);            // base grille
-  box(x2, xd, 36, D.FR_TOP, z1 + .2, zm - .15, M.applianceFace, 'appliances');                   // french doors
-  box(x2, xd, 36, D.FR_TOP, zm + .15, z2 - .2, M.applianceFace, 'appliances');
-  box(x2, xd, 2.5, 35.5, z1 + .2, z2 - .2, M.applianceFace, 'appliances');                       // freezer drawer
-  box(xd, xd + 1.2, 40, 66, zm - 2.6, zm - 1.9, M.black, 'appliances', false);         // handles
-  box(xd, xd + 1.2, 40, 66, zm + 1.9, zm + 2.6, M.black, 'appliances', false);
-  box(xd, xd + 1.2, 18.6, 19.4, zm - 12, zm + 12, M.black, 'appliances', false);
-}
-
-// ---- island: knee wall, boxes, microwave cubby, fronts, counter, range, downdraft, stools -------------------------
-box(D.KW_X1, D.KW_X2, 0, D.BOX_TOP, D.KW_Z1, D.KW_Z2, M.gyp, 'cabinets');                          // knee wall (WALL TO MATCH CABINET HEIGHT)
-box(D.KW_X1 - .75, D.KW_X1, 0, D.BOX_TOP, D.KW_Z1, D.IB_DOOR_Z2, M.cabFront, 'cabinets');            // end panels
-box(D.KW_X2, D.KW_X2 + .75, 0, D.BOX_TOP, D.KW_Z1, D.IB_DOOR_Z2, M.cabFront, 'cabinets');
-box(D.RG_X2, D.KW_X2, D.TOE, D.BOX_TOP, D.KW_Z2, D.IB_Z2, M.cabBox, 'cabinets');                 // north box (drawers)
-box(D.RG_X2, D.KW_X2, 0, D.TOE, D.KW_Z2, D.IB_Z2 - D.TOE_IN, M.cabBox, 'cabinets', false);
-{ // south box with the microwave cubby (owner decision, orange trim)
-  const x1 = D.KW_X1, x2 = D.RG_X1, za = D.KW_Z2, zb = D.IB_Z2;
-  box(x1, x2, D.TOE, D.MW_Y1, za, zb, M.cabBox, 'cabinets');
-  box(x1, x2, D.MW_Y2, D.BOX_TOP, za, zb, M.cabBox, 'cabinets');
-  box(x1, D.MW_X1, D.MW_Y1, D.MW_Y2, za, zb, M.cabBox, 'cabinets');
-  box(D.MW_X2, x2, D.MW_Y1, D.MW_Y2, za, zb, M.cabBox, 'cabinets');
-  box(x1, x2, D.MW_Y1, D.MW_Y2, za, D.MW_Z1, M.cabBox, 'cabinets');
-  box(x1, x2, 0, D.TOE, za, zb - D.TOE_IN, M.cabBox, 'cabinets', false);
-  // cubby face trim (flag color) and the GE GCST16S1WSS microwave
-  const f = .75;
-  box(D.MW_X1 - .1, D.MW_X2 + .1, D.MW_Y2 - .1, D.MW_Y2 + f, zb, zb + f, M.flag, 'cabinets', false);
-  box(D.MW_X1 - .1, D.MW_X2 + .1, D.MW_Y1 - f, D.MW_Y1 + .1, zb, zb + f, M.flag, 'cabinets', false);
-  box(D.MW_X1 - f, D.MW_X1 + .1, D.MW_Y1 - f, D.MW_Y2 + f, zb, zb + f, M.flag, 'cabinets', false);
-  box(D.MW_X2 - .1, D.MW_X2 + f, D.MW_Y1 - f, D.MW_Y2 + f, zb, zb + f, M.flag, 'cabinets', false);
-  const mx = (D.MW_X1 + D.MW_X2) / 2, my = D.MW_Y1 + .5, mz2 = zb - .35;
-  box(mx - D.MW_W / 2, mx + D.MW_W / 2, my, my + D.MW_H, mz2 - D.MW_D, mz2, M.applianceFace, 'appliances');
-  box(mx - D.MW_W / 2 + .8, mx + D.MW_W / 2 - 5, my + .8, my + D.MW_H - .8, mz2, mz2 + .3, M.black, 'appliances', false);   // door glass
-  box(mx + D.MW_W / 2 - 4.2, mx + D.MW_W / 2 - .8, my + .8, my + D.MW_H - .8, mz2, mz2 + .3, M.applianceFace, 'appliances', false);      // control panel
-}
-fronts(placeI, D.KW_X1, D.RG_X1, 'micro');
-fronts(placeI, D.RG_X2, D.KW_X2, 'drawers');
-// island counter (6'-8" x 3'-6", 11 3/4" seating overhang west), notched for the slide-in range
-prismXZ([[D.IS_X1, D.IS_Z1], [D.IS_X2, D.IS_Z1], [D.IS_X2, D.IS_Z2], [D.RG_X2, D.IS_Z2], [D.RG_X2, D.KW_Z2], [D.RG_X1, D.KW_Z2],
-         [D.RG_X1, D.IS_Z2], [D.IS_X1, D.IS_Z2]], D.BOX_TOP, D.CTR_Y, M.counterTop, 'counters');
-// KitchenAid KSEG950ESS 30" slide-in electric range
-{
-  const x1 = D.RG_X1, x2 = D.RG_X2, z1 = D.KW_Z2 + .1, z2 = D.RG_Z2, xm = (x1 + x2) / 2;
-  box(x1, x2, 4, D.CTR_Y - .6, z1, z2, M.applianceFace, 'appliances');
-  box(x1 + .5, x2 - .5, 0, 4, z1, z2 - 1, M.black, 'appliances', false);
-  box(x1, x2, D.CTR_Y - .6, D.CTR_Y + .3, z1, z2, M.black, 'appliances');                         // glass cooktop
-  box(x1, x2, D.CTR_Y + .3, D.CTR_Y + 1.2, z1, z1 + 2, M.applianceFace, 'appliances', false);                 // low rear lip (front-control range)
-  for (const [dx, dz, r] of [[-7, 7, 4.2], [7, 7, 3.4], [-7, 17, 3.4], [7, 17, 4.2], [0, 12, 2.4]])
-    cyl(xm + dx, z1 + dz, D.CTR_Y + .3, D.CTR_Y + .4, r, M.stoveBody, 'appliances');
-  box(x1 + 2, x2 - 2, 9, 22, z2 - .1, z2 + .2, M.black, 'appliances', false);                     // oven window
-  box(x1 + 1.5, x2 - 1.5, 27.5, 28.3, z2 + 1, D.RG_HANDLE_Z, M.black, 'appliances', false);       // door handle
-  box(x1 + 1, x2 - 1, 30.5, 34.5, z2, z2 + .2, M.black, 'appliances', false);                     // front control strip
-  box(x1 + .3, x2 - .3, 4.8, 5.1, z2, z2 + .2, M.black, 'appliances', false);                     // storage drawer line
-}
-// M01 downdraft: retracted 30" vent strip behind the range; unit + duct inside the knee wall, dropping through the floor (mech layer)
-box(D.DD_X1, D.DD_X2, D.CTR_Y, D.CTR_Y + .5, D.DD_Z1, D.KW_Z2 - .3, M.applianceFace, 'appliances');
-box(D.DD_X1 + .5, D.DD_X2 - .5, 16, D.BOX_TOP, D.DD_Z1 + .2, D.KW_Z2 - .2, M.steel, 'mech');
-box(D.DUCT_X1, D.DUCT_X2, -12, 16, D.DD_Z1 + .2, D.DD_Z1 + 3.45, M.steel, 'mech');
-// three stools under the seating overhang (furniture placeholder, layer off by default)
-for (const sx of [33, 58.75, 84.5]) {
-  cyl(sx, 30, 0, .75, 7.5, M.black, 'stools'); cyl(sx, 30, .75, 27, 1.4, M.black, 'stools'); cyl(sx, 30, 27, 29, 7, M.black, 'stools');
-}
-
-// ---- kitchen ceiling under the lounge, lounge floor + fascia + cable rail, stair, hall ghosts ---------------------
-box(D.S_FACE, 0, D.CEIL_K, D.LNG_LO, D.HALL_Z1, D.E_GYP, M.gypC, 'lounge');                       // gyp ceiling, kitchen + hall end
-box(D.HALL_X1, D.S_FACE, D.CEIL_K, D.LNG_LO, D.HALL_Z1, D.HALL_Z2, M.ghostFl, 'context');
-box(D.LNG_X1, -1.5, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.ghostFl, 'context');                 // lounge floor (ghost)
-box(D.LNG_X1, D.WELL_X1, D.LNG_LO, D.LNG_HI, D.W_GYP, D.WELL_Z2, M.ghostFl, 'context');
-box(-1.5, 0, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.trimCasing, 'lounge');                           // floor-edge fascia (rail mounts here)
-box(D.LNG_X1, 0, D.WALL_TOP, 214, D.E_GYP, D.E_OUT, M.ghost, 'context');                           // lounge walls up to the 17'-10" dormer plate (ghost)
-box(D.LNG_X1, 0, D.WALL_TOP, 214, D.W_OUT, D.W_GYP, M.ghost, 'context');
-slopedBoxZ(D.LNG_X1, 0, D.GLB_W / 2, 150, yd, -D.DORM_SLOPE, .75, M.ghostFl, 'context', false);    // 8:12 dormer ceiling over the lounge (ghost)
-slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.ghostFl, 'context', false);
-{ // 0560 metal railing with airplane cable, fascia-mounted at gridline 3 and around the stair well
-  const posts = [-23, 19.75, 62.5, 105.25, 148];
-  for (const z of posts) box(0, 1.5, D.LNG_HI - 6, D.RAIL_TOP - 1.5, z - .75, z + .75, M.black, 'lounge');
-  box(0, 1.5, D.RAIL_TOP - 1.5, D.RAIL_TOP, D.WELL_Z2, D.E_GYP, M.black, 'lounge');
-  for (let y = 124; y < D.RAIL_TOP - 2; y += 3.75) bar(V(.75, y, D.WELL_Z2 + 1), V(.75, y, D.E_GYP - 1), .12, M.steel, 'lounge');
-  for (const x of [-37, -19, -1]) box(x - .75, x + .75, D.LNG_HI - 6, D.RAIL_TOP - 1.5, D.WELL_Z2, D.WELL_Z2 + 1.5, M.black, 'lounge');
-  box(D.WELL_X1, 0, D.RAIL_TOP - 1.5, D.RAIL_TOP, D.WELL_Z2, D.WELL_Z2 + 1.5, M.black, 'lounge');
-  for (let y = 124; y < D.RAIL_TOP - 2; y += 3.75) bar(V(D.WELL_X1 + 1, y, D.WELL_Z2 + .75), V(-1, y, D.WELL_Z2 + .75), .12, M.steel, 'lounge');
-}
-{ // stair (A02: 8 risers west to a 3'-0" landing, 8 back east over the utility), 6x6 post, wood handrail -- ghost
-  for (let i = 0; i < 8; i++) box(D.WELL_X1, -1.5, 0, D.RISE * (i + 1), D.WELL_Z2 - D.TREAD * (i + 1), D.WELL_Z2 - D.TREAD * i, M.ghost, 'context', false);
-  box(D.WELL_X1, -1.5, 0, 60, D.W_GYP, D.LAND_Z, M.ghost, 'context', false);
-  slopedBoxZ(-66, D.UT_X1, D.LAND_Z, D.WELL_Z2 - 1, z => 50 + (z - D.LAND_Z) * (60 / 88), 60 / 88, 10, M.ghost, 'context', false);
-  box(-2.75, 2.75, 0, D.LNG_LO, -29.75, -24.25, M.trimCasing, 'lounge');                                // 0603 post at the stair foot
-  bar(V(.75, 36, D.WELL_Z2), V(.75, 96, D.LAND_Z), 1, M.trimCasing, 'lounge');                            // 1040 wood handrail line
-  for (const z of [-36, -58, -80, -102]) { const t = (D.WELL_Z2 - z) / 88; bar(V(.75, 60 * t, z), V(.75, 36 + 60 * t, z), .5, M.black, 'lounge'); }
-  box(D.UT_X1, D.UT_X2, 0, D.LNG_LO, D.W_GYP, -27, M.ghost, 'context');                           // stair south wall / utility east wall
-  box(D.HALL_X1, D.UT_X1, 0, D.LNG_LO, -27, D.HALL_Z1, M.ghost, 'context');                       // utility wall along the hall
-  box(D.HALL_X1, D.S_FACE, 0, D.LNG_LO, D.HALL_Z2, D.HALL_Z2 + 4.5, M.ghost, 'context');           // guest-bath wall along the hall
-}
-
-// ---- west wall (gridline C) with windows A1 / A2 -------------------------------------------------
-{
-  const h1 = rect(D.WA1_X1, D.WA_Y1, D.WA1_X2, D.WA_Y2), h2 = rect(D.WA2_X1, D.WA_Y1, D.WA2_X2, D.WA_Y2);
-  prism(rect(0, 0, D.N_GYP, D.WALL_TOP), D.W_OUT, D.W_GYP, M.gyp, 'wallW', [h1, h2]);
-  prism(rect(0, 0, D.N_GYP, D.WALL_TOP), D.W_SIDE, D.W_OUT, M.siding, 'wallW', [h1, h2]);
-  winXY(D.WA1_X1 + .25, D.WA1_X2 - .25, D.WA_Y1 + .25, D.WA_Y2 - .25, D.W_GYP, D.W_OUT, 1, 'wallW', true);
-  winXY(D.WA2_X1 + .25, D.WA2_X2 - .25, D.WA_Y1 + .25, D.WA_Y2 - .25, D.W_GYP, D.W_OUT, 1, 'wallW', true);
-}
-
-// ---- north wall (gridline 4): two-story mountain-view window wall, doors 9 and 10 ----------------
-{
-  const yt = z => yr(z);                                     // gable wall top follows the rafter underside
-  const outline = [[-150, 0], [-D.DR_Z2, 0], [-D.DR_Z2, D.DR_Y2], [-D.DR_Z, D.DR_Y2], [-D.DR_Z, 0], [D.DR_Z, 0], [D.DR_Z, D.DR_Y2],
-                   [D.DR_Z2, D.DR_Y2], [D.DR_Z2, 0], [150, 0], [150, yt(150)], [0, yt(0)], [-150, yt(150)]];
-  const J = [];                                              // rectangular glazing: [z1, z2, y1, y2]
-  for (const s of [1, -1]) {
-    J.push([s * 4, s * 50, 102, 158], [s * 54.5, s * 100.5, 102, 158], [s * 4, s * 50, 161, 217]);
-  }
-  const K = [[[54.5, 161], [97, 161], [54.5, 219]], [[-54.5, 161], [-97, 161], [-54.5, 219]]];
-  const N = [[[4, 223], [46.5, 223], [4, 281]], [[-4, 223], [-46.5, 223], [-4, 281]]];
-  const XW = [[103.9, 140.4, 35.5, 84], [-140.4, -103.9, 35.5, 84]];   // AS BUILT windows flanking the sliders (owner tape 2026-09-02; rear-deck spec item 13)
-  const norm = r => [Math.min(r[0], r[1]), Math.max(r[0], r[1]), r[2], r[3]];
-  const holes = J.map(norm).map(r => rect(r[0], r[2], r[1], r[3])).concat(K, N, XW.map(r => rect(r[0], r[2], r[1], r[3])));
-  prismZY(outline, D.N_GYP, D.N_OUT, M.gyp, 'wallN', holes);
-  prismZY(outline, D.N_OUT, D.N_SIDE, M.siding, 'wallN', holes);
-  const xf1 = 232.25, xf2 = 233.75, xg = 233, f = 1.75, c = 3;
-  function glazeZY(z1, z2, y1, y2, mullion = false) {          // black frame + glass + alder casing on the room side
-    box(xf1, xf2, y1, y1 + f, z1, z2, M.black, 'wallN'); box(xf1, xf2, y2 - f, y2, z1, z2, M.black, 'wallN');
-    box(xf1, xf2, y1, y2, z1, z1 + f, M.black, 'wallN'); box(xf1, xf2, y1, y2, z2 - f, z2, M.black, 'wallN');
-    if (mullion) box(xf1, xf2, y1, y2, (z1 + z2) / 2 - 1, (z1 + z2) / 2 + 1, M.black, 'wallN');
-    box(xg - .125, xg + .125, y1 + f, y2 - f, z1 + f, z2 - f, M.glass, 'wallN', false);
-    box(D.N_GYP - .75, D.N_GYP, y2, y2 + c, z1 - c, z2 + c, M.trimCasing, 'wallN');
-    box(D.N_GYP - .75, D.N_GYP, y1 - 1, y2, z1 - c, z1, M.trimCasing, 'wallN'); box(D.N_GYP - .75, D.N_GYP, y1 - 1, y2, z2, z2 + c, M.trimCasing, 'wallN');
-    box(D.N_GYP - 1.5, D.N_GYP, y1 - 1, y1, z1 - c - .75, z2 + c + .75, M.trimCasing, 'wallN');
-    box(D.N_GYP - .75, D.N_GYP, y1 - 3.5, y1 - 1, z1 - c, z2 + c, M.trimCasing, 'wallN');
-  }
-  for (const r of J.map(norm)) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);
-  for (const r of XW) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);           // unit type not on record
-  function offsetPoly(p, c) {                                // convex [z, y] polygon pushed outward by c (mitered casing outline)
-    const n = p.length, area = p.reduce((a, q, i) => { const r = p[(i + 1) % n]; return a + q[0] * r[1] - r[0] * q[1]; }, 0), sg = area > 0 ? 1 : -1;
-    const L = p.map((q, i) => { const r = p[(i + 1) % n], dx = r[0] - q[0], dy = r[1] - q[1], h = Math.hypot(dx, dy); return { px: q[0] + sg * dy / h * c, py: q[1] - sg * dx / h * c, dx, dy }; });
-    return p.map((_, i) => { const a = L[(i + n - 1) % n], b = L[i], det = a.dx * b.dy - a.dy * b.dx, t = ((b.px - a.px) * b.dy - (b.py - a.py) * b.dx) / det; return [a.px + a.dx * t, a.py + a.dy * t]; });
-  }
-  function glazeTri(p) {                                     // triangular fixed glass: glass prism + black frame bars + mitered alder casing
-    prismZY(p, xg - .125, xg + .125, M.glass, 'wallN', [], false);
-    prismZY(offsetPoly(p, 3), D.N_GYP - .8, D.N_GYP, M.trimCasing, 'wallN', [p]);
-    for (let i = 0; i < 3; i++) { const a = p[i], b = p[(i + 1) % 3]; bar(V(xg, a[1], a[0]), V(xg, b[1], b[0]), .9, M.black, 'wallN'); }
-  }
-  K.forEach(glazeTri); N.forEach(glazeTri);
-  // doors 9 / 10: 96 x 84 sliders, one fixed + one sliding panel each, black frames
+  const L = 'walls', w1 = 0, w2 = D.SIDING_T, S = OPEN.S, N = OPEN.N;
+  wallPrism(WALLS.S, gableOutline(), w1, w2, M.siding, L, [S.door1, ...S.A, S.door12, ...S.O, ...S.P]);
+  wallPrism(WALLS.N, gableOutline(), w1, w2, M.siding, L, [N.door9, N.door10, ...N.J, ...N.K, ...N.Nw, ...N.asb]);
+  // side walls: one story under the 15:12 end bays, two under the dormer. side(uA, uB, dormer edge nearest uB, dormer edge nearest uA)
+  const side = (uA, uB, uNb, uNa) => [[uA, D.SIDING_BOT], [uB, D.SIDING_BOT], [uB, D.SIDE_TOP], [uNb, D.SIDE_TOP], [uNb, D.DORM_TOP], [uNa, D.DORM_TOP], [uNa, D.SIDE_TOP], [uA, D.SIDE_TOP]];
+  wallPrism(WALLS.E, side(-EXT, -D.G4 + EXT, -D.DORM_N, -D.DORM_S), w1, w2, M.siding, L, [OPEN.E.C, OPEN.E.Dw, OPEN.E.E]);
+  wallPrism(WALLS.W, side(D.G4 - EXT, EXT, D.DORM_S, D.DORM_N), w1, w2, M.siding, L, [OPEN.W.F, OPEN.W.A1, OPEN.W.A2]);
+  // dormer cheek walls: vertical, between the end-bay roofing and the dormer soffit; face south (front) and north (rear)
   for (const s of [-1, 1]) {
-    const z1 = Math.min(s * D.DR_Z, s * D.DR_Z2), z2 = Math.max(s * D.DR_Z, s * D.DR_Z2), zm = (z1 + z2) / 2;
-    box(xf1, xf2, 0, .5, z1, z2, M.black, 'wallN'); box(xf1, xf2, D.DR_Y2 - f, D.DR_Y2, z1, z2, M.black, 'wallN');   // track / head
-    box(xf1, xf2, 0, D.DR_Y2, z1, z1 + f, M.black, 'wallN'); box(xf1, xf2, 0, D.DR_Y2, z2 - f, z2, M.black, 'wallN');
-    for (const [pa, pb, xo] of [[z1 + f, zm + 1, 1.2], [zm - 1, z2 - f, -1.2]]) {                 // fixed panel out, slider in
-      const xa = xf1 + xo, xb = xf2 + xo, pf = 2.5;
-      box(xa, xb, .5, .5 + pf, pa, pb, M.black, 'wallN'); box(xa, xb, D.DR_Y2 - f - pf, D.DR_Y2 - f, pa, pb, M.black, 'wallN');
-      box(xa, xb, .5, D.DR_Y2 - f, pa, pa + pf, M.black, 'wallN'); box(xa, xb, .5, D.DR_Y2 - f, pb - pf, pb, M.black, 'wallN');
-      box(xg + xo - .125, xg + xo + .125, .5 + pf, D.DR_Y2 - f - pf, pa + pf, pb - pf, M.glass, 'wallN', false);
-    }
-    box(D.N_GYP - 1.6, D.N_GYP - .8, 34, 44, zm - 1.4 * s - .4, zm - 1.4 * s + .4, M.black, 'wallN', false);   // handle
-    box(D.N_GYP - .75, D.N_GYP, D.DR_Y2, D.DR_Y2 + c, z1 - c, z2 + c, M.trimCasing, 'wallN');                        // casing
-    box(D.N_GYP - .75, D.N_GYP, 0, D.DR_Y2, z1 - c, z1, M.trimCasing, 'wallN'); box(D.N_GYP - .75, D.N_GYP, 0, D.DR_Y2, z2, z2 + c, M.trimCasing, 'wallN');
+    const xa = s * D.CHEEK_X0, xb = s * SHELL_U;
+    const pts = [[xa, D.topEnd(xa) + D.ROOF_T], [xb, D.topEnd(xb) + D.ROOF_T], [xb, D.sofDor(xb)]];   // a triangle: its tip is where the two soffit lines cross
+    PZ(pts, D.DORM_S, D.DORM_S + EXT, M.siding, L);
+    PZ(pts, D.DORM_N, D.DORM_N - EXT, M.siding, L);
   }
-  box(D.N_GYP - .5, D.N_GYP, 0, 3.5, -150, 150, M.trimCasing, 'wallN', false);   // base
+  B(-150, 150, -11, 300, D.G4 + 6, -6, M.inner, L);                                  // dark interior behind the glass
+  B(-D.HW, D.HW, D.STEM_BOT, D.STEM_TOP, 0, D.STEM_T, M.conc, L);                    // stem walls, outer faces on the stud line
+  B(-D.HW, D.HW, D.STEM_BOT, D.STEM_TOP, D.G4 - D.STEM_T, D.G4, M.conc, L);
+  for (const s of [-1, 1]) B(s * D.HW, s * (D.HW - D.STEM_T), D.STEM_BOT, D.STEM_TOP, D.G4, 0, M.conc, L);
 }
 
-// ---- roof: 1x6 T&G on the ~15:12 rafters, both slopes, gridline 3 to the north wall; exposed 5 1/2" x 24" GLB ridge --
+// ===========================================================================
+// 2. TRIM (layer 'trim'): 1x6 corner boards, 1x4 frieze under the side soffits
+// ===========================================================================
 {
-  const th = Math.atan(D.SLOPE), dz = 5.5 * Math.cos(th);
-  for (let z = D.GLB_W / 2, i = 0; z < D.E_GYP + 6; z += dz, i++) {
-    const z2 = Math.min(z + dz, D.E_GYP + 6);
-    slopedBoxZ(0, D.N_GYP, z, z2, yc, -D.SLOPE, .75, i % 2 ? M.ceilBoardB : M.ceilBoard, 'roof', false);
-    slopedBoxZ(0, D.N_GYP, -z2, -z, yc, D.SLOPE, .75, i % 2 ? M.ceilBoardB : M.ceilBoard, 'roof', false);
-  }
-  box(D.LNG_X1, D.N_GYP, D.GLB_LO, D.GLB_HI, -D.GLB_W / 2, D.GLB_W / 2, M.glb, 'roof');
-  // dormer end wall above the great-room roof at gridline 3 (interior face toward the lounge)
-  prismZY([[23, 302.7], [150, 147.2], [150, 218]], 0, 5.5, M.gyp, 'lounge');
-  prismZY([[-23, 302.7], [-150, 218], [-150, 147.2]], 0, 5.5, M.gyp, 'lounge');
+  const L = 'trim', wf = D.SIDING_T, wt = D.SIDING_T + D.TRIM_T, CW = D.CORNER_W;
+  const U2 = SHELL_U + D.TRIM_T, ext2 = EXT + D.TRIM_T;          // boards meet at the outer corner
+  const cb = (wall, u1, u2) => wallBox(wall, u1, u2, D.SIDING_BOT, D.SIDE_TOP, wf, wt, M.trim, L);
+  for (const wall of [WALLS.S, WALLS.N]) { cb(wall, U2 - CW, U2); cb(wall, -U2, -U2 + CW); }
+  cb(WALLS.E, -ext2, -ext2 + CW); cb(WALLS.E, -D.G4 + ext2 - CW, -D.G4 + ext2);
+  cb(WALLS.W, ext2 - CW, ext2); cb(WALLS.W, D.G4 - ext2, D.G4 - ext2 + CW);
+  const fr = (wall, u1, u2, top) => wallBox(wall, Math.min(u1, u2), Math.max(u1, u2), top - D.TRIM_W, top, wf, wt, M.trim, L);
+  fr(WALLS.E, -ext2 + CW, -D.DORM_S, D.SIDE_TOP); fr(WALLS.E, -D.DORM_S, -D.DORM_N, D.DORM_TOP); fr(WALLS.E, -D.DORM_N, -D.G4 + ext2 - CW, D.SIDE_TOP);
+  fr(WALLS.W, D.DORM_S, ext2 - CW, D.SIDE_TOP); fr(WALLS.W, D.DORM_N, D.DORM_S, D.DORM_TOP); fr(WALLS.W, D.G4 - ext2 + CW, D.DORM_N, D.SIDE_TOP);
 }
-
-// ---- wood stove per A02 (owner 2026-09-10): 4' x 4' x 8" stone pad in the north-west corner with the 24" chamfer as drawn,
-// NO wall stone (the manual asks for clearances + a floor pad only; the veneer was decorative), Drolet Columbia II set on the
-// diagonal as tight to the corner as its 25 5/8" x 25 1/8" body allows (2" behind each back corner). The manual's figures for
-// comparison -- 12" at the back corners (Fig. 20), pad 16" past the door (Fig. 22) -- are on the wiki source page; drawn dims below.
+// ===========================================================================
+// 3. ROOF (layer 'roof'): slabs, standing-seam ribs, ridge cap, chimney; FASCIA (layer 'trim'); SOFFITS (layer 'soffit')
+// ===========================================================================
 {
-  const y0 = D.HEARTH_H, r2 = Math.SQRT1_2;
-  const pad = [[D.N_GYP, D.W_GYP], [D.N_GYP, D.HEARTH_Z2], [D.HEARTH_X1 + D.HEARTH_CH, D.HEARTH_Z2], [D.HEARTH_X1, D.HEARTH_Z2 - D.HEARTH_CH], [D.HEARTH_X1, D.W_GYP]];
-  prismXZ(pad, 0, y0 - .75, M.hearthVeneer, 'hearth');
-  prismXZ(pad, y0 - .75, y0, M.hearthTop, 'hearth');
-  const half = Math.hypot(D.STOVE_W, D.STOVE_D) / 2, gap = 2;                     // 17.94" centre-to-corner; 2" behind each back corner
-  const cx = D.N_GYP - gap - half, cz = D.W_GYP + gap + half;                       // (210.06, -130.06): centre 20" off both walls
-  const W = D.STOVE_W, Dp = D.STOVE_D, H = D.STOVE_H, rotY = -Math.PI / 4;          // local +z (front) -> (-x, +z): toward the room, south-east
-  const ux = Math.sin(rotY), uz = Math.cos(rotY), vx = Math.cos(rotY), vz = -Math.sin(rotY);
-  const body = box(cx - W / 2, cx + W / 2, y0 + 5, y0 + H - 2, cz - Dp / 2, cz + Dp / 2, M.stoveBody, 'hearth'); body.rotation.y = rotY;
-  const top = box(cx - W / 2 - 1, cx + W / 2 + 1, y0 + H - 2, y0 + H, cz - Dp / 2 - 1, cz + Dp / 2 + 1, M.stoveBody, 'hearth'); top.rotation.y = rotY;
-  const fd = Dp / 2 + .3, dx = cx + ux * fd, dz = cz + uz * fd;
-  const door = box(dx - 9, dx + 9, y0 + 9, y0 + 22, dz - .3, dz + .3, M.black, 'hearth', false); door.rotation.y = rotY;
-  for (const [a, b] of [[-9, -8.5], [9, -8.5], [-9, 8.5], [9, 8.5]]) cyl(cx + vx * a + ux * b, cz + vz * a + uz * b, y0, y0 + 5, 1.2, M.stoveBody, 'hearth');
-  const fb = Dp / 2 - 7.5, fx = cx - ux * fb, fz = cz - uz * fb;                   // flue 7 1/2" from the back
-  cyl(fx, fz, y0 + H, y0 + H + 12, 3, M.stoveBody, 'hearth');
-  cyl(fx, fz, y0 + H + 12, yc(fz) + 2, 4, M.stoveBody, 'hearth');
-  cyl(fx, fz, yc(fz) - 1, yc(fz) - .2, 6, M.stoveBody, 'hearth');
-  // dims: pad legs, gap at the back corners, pad beyond the front face along the diagonal
-  const frontX = cx + ux * Dp / 2, frontZ = cz + uz * Dp / 2;                       // front face centre
-  const chamfer = (D.HEARTH_X1 + D.HEARTH_CH) - D.HEARTH_Z2;                          // the chamfer line is x - z = 308
-  const edgeT = ((frontX - frontZ) - chamfer) / 2;                                    // > 0 while the face is on the pad
-  const eX = frontX - edgeT, eZ = frontZ + edgeT, past = edgeT * Math.SQRT2;
-  const up = V(0, 1, 0);
-  dim(V(D.HEARTH_X1, y0, D.W_GYP + 1), V(D.N_GYP, y0, D.W_GYP + 1), '4\'-0"', V(0, 3, 0), up);
-  dim(V(D.N_GYP - 1, y0, D.W_GYP), V(D.N_GYP - 1, y0, D.HEARTH_Z2), '4\'-0"', V(0, 3, 0), up);
-  dim(V(cx + half, 20, cz), V(D.N_GYP, 20, cz), `${gap}"`, V(0, 0, 0), V(0, 0, 1));
-  dim(V(cx, 20, cz - half), V(cx, 20, D.W_GYP), `${gap}"`, V(0, 0, 0), V(1, 0, 0));
-  dim(V(frontX, y0, frontZ), V(eX, y0, eZ), `${past.toFixed(1)}" pad past the front`, V(0, 3, 0), up);
-  label(`Stove per A02: 4' x 4' x 8" stone pad, 24" chamfer, no wall stone.\nColumbia II set diagonally with its back corners ${gap}" off the walls (its body is larger than A02's symbol);\npad extends ${past.toFixed(0)}" past the front face. Manual Fig. 20 / 22 figures for comparison: 12" at the back corners, 16" past the door.`, cx - 18, 58, cz + 18, { ...FLAG, scale: .06 });
+  const L = 'roof', FW = D.FASCIA_W;
+  const segs = [   // the three roof sections: south end bay (15:12), dormer (8:12), north end bay (15:12)
+    { top: D.topEnd, sof: D.sofEnd, za: D.DORM_S, zb: D.F_ROOF_EDGE, fza: D.DORM_S, fzb: D.F_ROOF_EDGE + FW },
+    { top: D.topDor, sof: D.sofDor, za: D.DORM_N - D.DORM_OH, zb: D.DORM_S + D.DORM_OH, fza: D.DORM_N - D.DORM_OH - FW, fzb: D.DORM_S + D.DORM_OH + FW },
+    { top: D.topEnd, sof: D.sofEnd, za: D.R_ROOF_EDGE, zb: D.DORM_N, fza: D.R_ROOF_EDGE - FW, fzb: D.DORM_N },
+  ];
+  for (const sg of segs) for (const s of [-1, 1]) {
+    slab(0, s * D.EAVE, sg.top, D.ROOF_T, sg.za, sg.zb, M.roof, L);                                  // roofing over the rafters
+    for (let z = sg.za + D.RIB_SP / 2; z < sg.zb; z += D.RIB_SP)                                       // standing-seam ribs down the slope
+      slab(s * 3.5, s * D.EAVE, x => sg.top(x) + D.ROOF_T, D.RIB_H, z - D.RIB_W / 2, z + D.RIB_W / 2, M.roofRib, L);
+    // eave fascia: full rafter-tail depth, roofing top down to the soffit (reads as the deep black fascia of the reference build)
+    B(s * D.EAVE, s * (D.EAVE + FW), sg.sof(D.EAVE), sg.top(D.EAVE) + D.ROOF_T, sg.fza, sg.fzb, M.fascia, 'trim');
+  }
+  // rake fascia along the four roof edges (gable ends and the dormer's overhanging cheeks), same full depth
+  const rake = (topFn, depth, z1, z2) => { for (const s of [-1, 1]) PZ([[0, topFn(0) + D.ROOF_T], [s * D.EAVE, topFn(D.EAVE) + D.ROOF_T], [s * D.EAVE, topFn(D.EAVE) + D.ROOF_T - depth], [0, topFn(0) + D.ROOF_T - depth]], z1, z2, M.fascia, 'trim'); };
+  const DEP_END = D.PLUMB_END + D.SOF_T + D.ROOF_T, DEP_DOR = D.PLUMB_DOR + D.SOF_T + D.ROOF_T;
+  rake(D.topEnd, DEP_END, D.F_ROOF_EDGE, D.F_ROOF_EDGE + FW);
+  rake(D.topEnd, DEP_END, D.R_ROOF_EDGE, D.R_ROOF_EDGE - FW);
+  rake(D.topDor, DEP_DOR, D.DORM_S + D.DORM_OH, D.DORM_S + D.DORM_OH + FW);
+  rake(D.topDor, DEP_DOR, D.DORM_N - D.DORM_OH, D.DORM_N - D.DORM_OH - FW);
+  B(-3.5, 3.5, D.RIDGE + D.ROOF_T, D.RIDGE + D.ROOF_T + 2, D.R_ROOF_EDGE - FW, D.F_ROOF_EDGE + FW, M.roofRib, L);   // ridge cap
+  // eave returns: close the end-bay soffit cavity where each eave dies into a dormer cheek wall
+  for (const s of [-1, 1]) for (const [z1, z2] of [[D.DORM_S, D.DORM_S + FW], [D.DORM_N, D.DORM_N - FW]]) {
+    const xa = s * (D.HW + D.SHEATH), xb = s * (D.EAVE + FW);
+    PZ([[xa, D.sofEnd(xa)], [xb, D.sofEnd(xb)], [xb, D.topEnd(xb) + D.ROOF_T], [xa, D.topEnd(xa) + D.ROOF_T]], z1, z2, M.fascia, 'trim');
+  }
+  // chimney pipe (A03 1554, painted black): through the west slope 2' from the north wall, 2' above the ridge line
+  const C = D.CHIM, yRoof = D.topEnd(C.x) + D.ROOF_T;
+  cyl(C.x, C.z, yRoof - 2, C.top, C.r, M.rail, L);
+  cyl(C.x, C.z, yRoof - 1, yRoof + 5, C.r + 3.5, M.rail, L);          // storm collar / flashing, schematic
+  cyl(C.x, C.z, C.top - 6, C.top - 2, C.r + 1.5, M.rail, L);           // cap body
+  cyl(C.x, C.z, C.top, C.top + 2, C.r + 3, M.rail, L);                 // cap lid
+
+  // soffits: 1X6 cedar T&G. Gable extensions and side eaves alike get strips along the slope running the full length,
+  // i.e. boards perpendicular to the rafters (A02 dtl 5, rear-deck spec); the ridge GLB's underside shows as a wood strip.
+  const SL = 'soffit', GLB_HW = 2.75, zS = EXT, zN = D.G4 - EXT;
+  for (const s of [-1, 1]) {
+    boardsAlongSlope(s * GLB_HW, s * D.EAVE, D.sofEnd, zS, D.F_ROOF_EDGE, SL);                          // front extension
+    boardsAlongSlope(s * GLB_HW, s * D.EAVE, D.sofEnd, zN, D.R_ROOF_EDGE, SL);                          // rear extension
+    const xw = s * (D.HW + D.SHEATH);
+    boardsAlongSlope(xw, s * D.EAVE, D.sofEnd, D.DORM_S, zS, SL);                                       // side eave, front end bay
+    boardsAlongSlope(xw, s * D.EAVE, D.sofEnd, zN, D.DORM_N, SL);                                       // side eave, rear end bay
+    boardsAlongSlope(xw, s * D.EAVE, D.sofDor, D.DORM_N - D.DORM_OH, D.DORM_S + D.DORM_OH, SL);          // dormer eave
+    boardsAlongSlope(s * 1, s * D.EAVE, D.sofDor, D.DORM_S, D.DORM_S + D.DORM_OH, SL);                   // dormer rake overhangs (6")
+    boardsAlongSlope(s * 1, s * D.EAVE, D.sofDor, D.DORM_N - D.DORM_OH, D.DORM_N, SL);
+  }
+  B(-GLB_HW, GLB_HW, D.sofEnd(GLB_HW), D.sofEnd(GLB_HW) + D.SOF_T, zS, D.F_ROOF_EDGE, M.wood, SL);
+  B(-GLB_HW, GLB_HW, D.sofEnd(GLB_HW), D.sofEnd(GLB_HW) + D.SOF_T, D.R_ROOF_EDGE, zN, M.wood, SL);
 }
-
-// ---- interior lighting: sun through the north glass, warm point lights at the recessed cans and the fan --
-sun.position.set(760, 430, -300);
-sun.target.position.set(60, 40, 60); scene.add(sun.target);
-scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.PointLight(0xfff0d8, 1400, 0, 2); pl.position.set(cx, yc(cz) - 8, cz); scene.add(pl); }
-{ const pl = new THREE.PointLight(0xfff0d8, 900, 0, 2); pl.position.set(D.FAN_X, D.FAN_Y - 6, 0); scene.add(pl); }
-{ const pl = new THREE.PointLight(0xfff0d8, 600, 0, 2); pl.position.set(-20, 100, 90); scene.add(pl); }
-
-// ---- electrical (E01): 12 recessed cans on the T&G, Hunter Gilrock fan under the ridge, kitchen receptacles + switch --
+// ===========================================================================
+// 4. WINDOWS, DOORS, SCONCES (layer 'win'; casings on layer 'trim')
+// ===========================================================================
 {
-  for (const cx of D.CAN_X) for (const cz of D.CAN_Z) {
-    const s = cz > 0 ? -D.SLOPE : D.SLOPE, th = Math.atan(s);
-    const trim = cyl(cx, cz, yc(cz) - .5, yc(cz) + .3, 3.1, M.black, 'elec'); trim.rotation.x = -th;
-    const lens = cyl(cx, cz, yc(cz) - .7, yc(cz) + .1, 2.3, M.led, 'elec'); lens.rotation.x = -th;
+  const L = 'win', FW = D.FRAME_W, wi = -D.FRAME_IN, wo = D.FRAME_OUT, wt0 = D.SIDING_T, wt1 = D.SIDING_T + D.TRIM_T;
+  const frameRing = (wall, outer, inner) => wallPrism(wall, outer, wi, wo, M.win, L, [inner]);
+  const pane = (wall, poly) => wallPrism(wall, poly, -1.6, -1.35, M.glass, L);
+  const casing = (wall, outer, inner) => wallPrism(wall, outer, wt0, wt1, M.trim, 'trim', inner ? [inner] : []);
+  function winRect(wall, r, opts = {}) {                       // fixed or slider window with 1x4 casing and a sill nose
+    const inner = rectOffset(r, -FW);
+    frameRing(wall, r, inner); pane(wall, inner); casing(wall, rectOffset(r, D.TRIM_W), r);
+    wallBox(wall, r[0][0] - D.TRIM_W, r[1][0] + D.TRIM_W, r[0][1] - D.TRIM_W - 1.5, r[0][1] - D.TRIM_W, wt0, wt1 + 0.75, M.trim, 'trim');
+    if (opts.slider) { const um = (r[0][0] + r[1][0]) / 2; wallBox(wall, um - 1, um + 1, inner[0][1], inner[2][1], -2.5, -0.5, M.win, L); }
   }
-  cyl(D.FAN_X, 0, D.FAN_Y + 3, D.GLB_LO, .6, M.black, 'elec');                                  // downrod (length not specified)
-  cyl(D.FAN_X, 0, D.GLB_LO - 2.5, D.GLB_LO, 3.2, M.black, 'elec');                              // canopy
-  cyl(D.FAN_X, 0, D.FAN_Y - 3, D.FAN_Y + 3, 4.2, M.black, 'elec');                              // motor housing
-  cyl(D.FAN_X, 0, D.FAN_Y - 5.5, D.FAN_Y - 3, 3, M.led, 'elec');                                // light kit
-  for (let i = 0; i < 6; i++) {                                                                  // 6 blades, 52" sweep
-    const a = i * Math.PI / 3, bl = box(D.FAN_X + 15 * Math.cos(a) - 11, D.FAN_X + 15 * Math.cos(a) + 11, D.FAN_Y - 1.2, D.FAN_Y - .7,
-                                        15 * Math.sin(a) - 2.4, 15 * Math.sin(a) + 2.4, M.cabBox, 'elec');
-    bl.rotation.y = -a;
+  function winTri(wall, t) {                                   // triangle window, mitered frame and casing
+    const inner = triOffset(t, -FW);
+    frameRing(wall, t, inner); pane(wall, inner); casing(wall, triOffset(t, D.TRIM_W), t);
   }
-  const plate = (x, y, z, dx, dz) => box(x - dx, x + dx, y - 2.25, y + 2.25, z - dz, z + dz, M.sinkBasin, 'elec', false);
-  for (const z of [86.6, 105.8]) plate(D.S_FACE + .25, z === 86.6 ? 48 : 44, z, .25, 1.4);          // fridge wall: ckt 8 (fridge), 10
-  for (const x of [-37.1, -10.1, 72.7]) plate(x, 44, D.E_GYP - .25, 1.4, .25);                     // east wall counter receptacles 12, 14, 16
-  plate(67, 46, D.E_GYP - .25, 1.4, .25);                                                          // switch S beside the window
-  plate(123.7, 16, D.E_GYP - .25, 1.4, .25);                                                       // living-room receptacle 22
-  plate(D.KW_X1 - 1, 24, 70, .25, 1.4); plate(D.KW_X2 + 1, 24, 70, .25, 1.4);                     // island end panels, ckt 14
+  function slider(wall, r) {                                   // glass slider door: frame, two panels, center stile, bottom rail, casing open at the sill
+    const inner = rectOffset(r, -FW), um = (r[0][0] + r[1][0]) / 2;
+    frameRing(wall, r, inner); pane(wall, inner);
+    wallBox(wall, um - 1.5, um + 1.5, inner[0][1], inner[2][1], -3, -0.5, M.win, L);
+    wallBox(wall, inner[0][0], inner[1][0], inner[0][1], inner[0][1] + 4, -3, -0.5, M.win, L);
+    casing(wall, uPoly(r[0][0], r[1][0], r[0][1], r[2][1], D.TRIM_W), null);
+  }
+  function entryDoor(wall, r) {                                // door 1: metal slab in a U frame, casing open at the threshold
+    const [u1, u2, y1, y2] = [r[0][0], r[1][0], r[0][1], r[2][1]];
+    wallPrism(wall, uPoly(u1 + FW, u2 - FW, y1, y2 - FW, FW), wi, wo, M.win, L);
+    wallBox(wall, u1 + FW, u2 - FW, y1, y2 - FW, -4, -2.25, M.door, L);
+    wallBox(wall, u2 - FW - 8, u2 - FW - 6.5, 38, 46, -2.25, -1.25, M.rail, L);   // lever, schematic
+    casing(wall, uPoly(u1, u2, y1, y2, D.TRIM_W), null);
+  }
+  function sconce(wall, u, y) {                                // A03 1653: fixture not chosen; a box and an unlit warm point light for the render pipeline
+    wallBox(wall, u - 2.5, u + 2.5, y - 4, y + 4, wt0, wt0 + 4, M.rail, L);
+    const p = wall.o.clone().addScaledVector(wall.n, 8);
+    p.x += u * Math.cos(wall.rot); p.z += -u * Math.sin(wall.rot); p.y = y;
+    const pl = new THREE.PointLight(0xffd9a0, 0, 220); pl.position.copy(p); pl.name = 'sconce'; pl.visible = false; scene.add(pl);   // invisible: no shader cost in daylight; the export traversal still finds it
+  }
+  const S = OPEN.S, N = OPEN.N, E = OPEN.E, Wo = OPEN.W;
+  entryDoor(WALLS.S, S.door1); S.A.forEach(r => winRect(WALLS.S, r, { slider: true })); slider(WALLS.S, S.door12);
+  S.O.forEach(t => winTri(WALLS.S, t)); S.P.forEach(t => winTri(WALLS.S, t));
+  slider(WALLS.N, N.door9); slider(WALLS.N, N.door10); N.J.forEach(r => winRect(WALLS.N, r));
+  N.K.forEach(t => winTri(WALLS.N, t)); N.Nw.forEach(t => winTri(WALLS.N, t)); N.asb.forEach(r => winRect(WALLS.N, r, { slider: true }));
+  winRect(WALLS.E, E.C); winRect(WALLS.E, E.Dw, { slider: true }); winRect(WALLS.E, E.E, { slider: true });
+  winRect(WALLS.W, Wo.F); winRect(WALLS.W, Wo.A1, { slider: true }); winRect(WALLS.W, Wo.A2, { slider: true });
+  sconce(WALLS.S, -40, 70); sconce(WALLS.S, 40, 70);
+  sconce(WALLS.N, -145, 72); sconce(WALLS.N, 145, 72);
+  sconce(WALLS.E, WALLS.E.uOf(-540), 72);
+  sconce(WALLS.W, WALLS.W.uOf(-12), 72); sconce(WALLS.W, WALLS.W.uOf(-540), 72);
 }
-
-// ---- framing layer (off by default): 2x6 exterior studs + plates + 4X8 headers, LVL / PSL, 2x4 partition, knee wall, 2X14 rafters --
-{
-  const S = 1.5, W6 = 5.5, W4 = 3.5, OC = 16;
-  // studs along x in a wall parallel to x (east / west): openings = [{x1,x2,y1,y2}], header 4X8 (3.5 x 7.25) over each
-  function wallX(x1, x2, z1, z2, yTop, openings) {
-    box(x1, x2, 0, S, z1, z2, M.wood, 'framing'); box(x1, x2, yTop - 2 * S, yTop, z1, z2, M.wood, 'framing');
-    for (let x = x1; x < x2; x += OC) {
-      const o = openings.find(o => x + S > o.x1 - S && x < o.x2 + S);
-      if (!o) { box(x, x + S, S, yTop - 2 * S, z1, z2, M.wood, 'framing'); continue; }
-      box(x, x + S, S, o.y1 - S, z1, z2, M.wood, 'framing');                                  // cripples under the sill
-      box(x, x + S, o.y2 + 7.25, yTop - 2 * S, z1, z2, M.wood, 'framing');                     // cripples over the header
-    }
-    for (const o of openings) {
-      box(o.x1 - 2 * S, o.x1, S, yTop - 2 * S, z1, z2, M.wood, 'framing'); box(o.x2, o.x2 + 2 * S, S, yTop - 2 * S, z1, z2, M.wood, 'framing');   // king + jack
-      box(o.x1 - 2 * S, o.x2 + 2 * S, o.y2, o.y2 + 7.25, z1, z1 + W4, M.lvl, 'framing');        // 4X8 header
-      box(o.x1, o.x2, o.y1 - S, o.y1, z1, z2, M.wood, 'framing');                              // sill
-    }
-  }
-  wallX(D.S_FACE, D.N_GYP, D.E_STUD, D.E_OUT, D.WALL_TOP, [{ x1: D.WD_X1, x2: D.WD_X2, y1: D.WD_Y1, y2: D.WD_Y2 }]);
-  wallX(0, D.N_GYP, D.W_OUT, D.W_STUD, D.WALL_TOP, [{ x1: D.WA1_X1, x2: D.WA1_X2, y1: D.WA_Y1, y2: D.WA_Y2 }, { x1: D.WA2_X1, x2: D.WA2_X2, y1: D.WA_Y1, y2: D.WA_Y2 }]);
-  // partition 2x4 @ 16" (bath side at x -52), knee wall 2x6 @ 16" with lag bolts
-  box(D.S_STUDB, D.S_STUDF, 0, S, D.S_END, D.E_GYP, M.wood, 'framing'); box(D.S_STUDB, D.S_STUDF, D.LNG_LO - 2 * S, D.LNG_LO, D.S_END, D.E_GYP, M.wood, 'framing');
-  for (let z = D.S_END; z < D.E_GYP; z += OC) box(D.S_STUDB, D.S_STUDF, S, D.LNG_LO - 2 * S, z, Math.min(z + S, D.E_GYP), M.wood, 'framing');
-  { const z1 = (D.KW_Z1 + D.KW_Z2) / 2 - W6 / 2, z2 = z1 + W6;
-    box(D.KW_X1, D.KW_X2, 0, S, z1, z2, M.wood, 'framing'); box(D.KW_X1, D.KW_X2, D.BOX_TOP - S, D.BOX_TOP, z1, z2, M.wood, 'framing');
-    for (let x = D.KW_X1; x < D.KW_X2; x += OC) box(x, Math.min(x + S, D.KW_X2), S, D.BOX_TOP - S, z1, z2, M.wood, 'framing');
-    box(D.KW_X2 - S, D.KW_X2, S, D.BOX_TOP - S, z1, z2, M.wood, 'framing');
-    for (const x of [26, 44, 62, 80, 94]) cyl(x, (z1 + z2) / 2, -8, S + .4, .25, M.steel, 'framing');   // LAG BOLT TO DECK (spacing assumed)
-  }
-  // north wall: LVL header, PSL column, 4X8 posts, studs to the rafters skipping the openings
-  box(D.N_STUD, D.N_OUT, 0, S, -150, 150, M.wood, 'framing');
-  box(D.N_STUD, D.N_STUD + 7, 86, 100, -150, 150, M.lvl, 'framing');                            // 7"x14" 2.0E LVL, full width
-  box(D.N_STUD, D.N_STUD + 7, -11.5, 86, -3.5, 3.5, M.lvl, 'framing'); box(D.N_STUD, D.N_STUD + 7, 100, D.GLB_LO, -3.5, 3.5, M.lvl, 'framing');   // 7x7 PSL
-  for (const s of [1, -1]) { box(D.N_STUD, D.N_STUD + 7.25, 100, 158, s * 50.5, s * 54, M.wood, 'framing'); box(D.N_STUD, D.N_STUD + 7.25, 100, 158, s * 100.5, s * 104, M.wood, 'framing'); }
-  const blocked = z => {                                                                        // y-intervals occupied by glazing at this z
-    const b = []; const az = Math.abs(z);
-    if (az > 4 && az < 100) b.push([S, 86]);                                                    // doors (jambs handled below)
-    if (az > 103.9 && az < 140.4) b.push([35.5, 84]);                                           // as-built flanking windows
-    if ((az > 4 && az < 50) || (az > 54.5 && az < 100.5)) b.push([102, 158]);
-    if (az > 4 && az < 50) b.push([161, 217]);
-    if (az > 54.5 && az < 97) b.push([161, 219 - (az - 54.5) * (58 / 42.5)]);
-    if (az > 4 && az < 46.5) b.push([223, 281 - (az - 4) * (58 / 42.5)]);
-    return b;
-  };
-  for (let z = -150; z < 150; z += OC) {
-    const top = yr(z + S / 2) - 2 * S; let y = S;
-    for (const [a, b] of blocked(z + S / 2).sort((p, q) => p[0] - q[0])) { if (a > y) box(D.N_STUD, D.N_OUT, y, a, z, z + S, M.wood, 'framing'); y = Math.max(y, b); }
-    if (top > y) box(D.N_STUD, D.N_OUT, y, top, z, z + S, M.wood, 'framing');
-  }
-  for (const z of [-100, -4, 4, 100]) box(D.N_STUD, D.N_OUT, S, 86, z - (z > 0 ? 0 : S), z + (z > 0 ? S : 0), M.wood, 'framing');   // door jamb studs
-  for (const z of [-140.4, -103.9, 103.9, 140.4]) box(D.N_STUD, D.N_OUT, S, 86, z - (z > 0 ? S : 0), z + (z > 0 ? 0 : S), M.wood, 'framing');   // as-built window jambs
-  for (const s of [1, -1]) box(D.N_STUD, D.N_OUT, 34, 35.5, s * 103.9, s * 140.4, M.wood, 'framing');
-  // rafters 2X14 @ 24" from the gable pair south to the triple at gridline 3
-  const rafterPair = (x1, x2) => { slopedBoxZ(x1, x2, D.GLB_W / 2, D.E_OUT, yr, -D.SLOPE, 13.25, M.wood, 'framing'); slopedBoxZ(x1, x2, D.W_OUT, -D.GLB_W / 2, yr, D.SLOPE, 13.25, M.wood, 'framing'); };
-  for (let x = D.N_OUT - 3.5; x > 6; x -= 24) rafterPair(x - S, x);
-  rafterPair(0, 4.5);                                                                            // TRIPLE LOWER RAFTER @ DORMER
+// ===========================================================================
+// 5. DECKS AND POSTS (layer 'deck'), STAIRS (layer 'stair'), GROUND-DECK RAILINGS (layer 'rail', off by default)
+// ===========================================================================
+function railRun(x0, z0, x1, z1, y0, layer) {        // cable rail (A03 0560): 1 1/2" sq posts <= 50" o.c., top rail, cables at 3"
+  const dx = x1 - x0, dz = z1 - z0, len = Math.hypot(dx, dz), n = Math.max(1, Math.ceil(len / 50)), top = y0 + D.RAIL_H;
+  for (let i = 0; i <= n; i++) { const x = x0 + dx * i / n, z = z0 + dz * i / n; B(x - 0.75, x + 0.75, y0, top, z - 0.75, z + 0.75, M.rail, layer); }
+  const run = (yA, yB, r) => { const g = new THREE.BoxGeometry(len, yB - yA, r * 2), m = new THREE.Mesh(g, M.rail); m.position.set((x0 + x1) / 2, (yA + yB) / 2, (z0 + z1) / 2); m.rotation.y = -Math.atan2(dz, dx); m.castShadow = true; reg(m, layer); };
+  run(top - 1.5, top, 1.25);
+  for (let y = y0 + 3.5; y < top - 2; y += 3) run(y - 0.12, y + 0.12, 0.12);
 }
-
-// ---- labels (interior scale) ------------------------------------------------------------------------
-{
-  const LS = { scale: .06 }, FS = { ...FLAG, scale: .06 }, NS = { ...NOTE, scale: .06 };
-  label('Window D 4\'-0" x 4\'-0", sill 3\'-6" (A04)', 39.75, 96, 146, LS);
-  label('Kohler K-6489 farmhouse sink\nMoen S73204 pulldown, matte black', 39.75, 42, 118, LS);
-  label('KitchenAid KDFE204KPS dishwasher', 9.75, 20, 121, LS);
-  label('KitchenAid KRSC536RPS\ncounter-depth fridge', -19, 76, 78, LS);
-  label('Pantry 30" x 24 1/2" x 90" (A02 sec 6)', -23, 94, 44, LS);
-  label('Island 6\'-8" x 3\'-6" quartz, single level\n11 3/4" seating overhang (A02)', 58.75, 42, 38, LS);
-  label('Knee wall to cabinet height,\nlag bolted to the deck (A02)', 58.75, 18, 51, LS);
-  label('KitchenAid KSEG950ESS 30" slide-in range', 58.75, 42, 86, LS);
-  label('Microwave cubby -- owner 2026-09-09,\nnot on the sheets', 31.6, 10, 86, FS);
-  label('Downdraft per M01; BoD row 10 says\n"W/ HOOD VENT" -- model open', 58.75, 40, 55, FS);
-  label('Fridge doors pinch the 3\'-6" MIN\naisle to ~38"', 0, 28, 78, FS);
-  label('Uppers 54"-90", tile 36"-54" (A02 sec 6)', 85, 94, 138, LS);
-  label('9\'-0" gyp ceiling under the lounge', -24, 104, 100, LS);
-  label('Lounge floor edge on gridline 3\n0560 cable rail, fascia mounted', 0, 162, 60, LS);
-  label('1x6 T&G on 2X14 @ 24", ~15:12\n5 1/2" x 24" GLB ridge, T.O. rafter 27\'-6"', 117, 296, 0, LS);
-  label('Doors 9 / 10: 96" x 84" sliders (A04)', 229, 92, 0, LS);
-  for (const s of [1, -1]) label('AS BUILT: window each side of the sliders,\nRO 36 1/2" x 48 1/2", sill 35 1/2" (owner tape 2026-09-02)', 229, 90, s * 122, NS);
-  label('Mountain-view glazing J / K / N (A03)', 229, 200, 0, LS);
-  label('Windows A 4\'-0" x 4\'-6", sill 3\'-0"', 40, 96, -146, LS);
-  label('Fan downrod length not specified', 117.7, 192, 10, FS);
-  label('Stair: 8 risers to a 3\'-0" landing,\n8 back over the utility (ghost)', -20, 72, -70, NS);
-  label('Hall to the front door', -80, 60, 3, NS);
-  label('12 recessed cans, circuit 4 (E01)', 117.7, yc(41) - 12, 41, LS);
-}
-
-// ---- dimensions ------------------------------------------------------------------------------------
-{
-  const up = V(0, 1, 0), ex = V(1, 0, 0), ez = V(0, 0, 1);
-  dim(V(D.IS_X1, D.CTR_Y, D.IS_Z1), V(D.IS_X2, D.CTR_Y, D.IS_Z1), '6\'-8" counter', V(0, 4, -6), up);
-  dim(V(D.IS_X2, D.CTR_Y, D.IS_Z1), V(D.IS_X2, D.CTR_Y, D.IS_Z2), '3\'-6"', V(8, 4, 0), up);
-  dim(V(D.IS_X2, D.CTR_Y, D.IS_Z1), V(D.IS_X2, D.CTR_Y, D.KW_Z1), '11 3/4"', V(8, 14, 0), up);
-  dim(V(58.75, D.CTR_Y, D.IS_Z2), V(58.75, D.CTR_Y, D.ER_CTR_Z), '3\'-6" MIN aisle', V(0, 4, 0), up);
-  dim(V(D.FR_DOOR_X2, D.CTR_Y, 78), V(D.KW_X1, D.CTR_Y, 78), '~38" at the fridge doors (3\'-6" MIN)', V(0, 4, 0), up);
-  dim(V(85, D.CTR_Y, D.ER_CTR_Z), V(85, D.CTR_Y, D.E_GYP), '2\'-1"', V(0, 4, 0), up);
-  dim(V(D.WD_X1, D.WD_Y2, D.E_GYP - 1), V(D.WD_X2, D.WD_Y2, D.E_GYP - 1), 'RO 4\'-0 1/2"', V(0, 6, 0), up);
-  dim(V(72, 0, D.E_GYP - 1), V(72, D.WD_Y1, D.E_GYP - 1), 'sill 3\'-6"', V(0, 0, 0), ex);
-  dim(V(112, 0, D.ER_CTR_Z), V(112, D.CTR_Y, D.ER_CTR_Z), '3\'-0"', V(0, 0, 0), ex);
-  dim(V(112, D.CTR_Y, D.ER_CTR_Z), V(112, D.UP_LO, D.ER_CTR_Z), '1\'-6"', V(0, 0, 0), ex);
-  dim(V(112, D.UP_LO, D.ER_CTR_Z), V(112, D.UP_HI, D.ER_CTR_Z), '3\'-0"', V(0, 0, 0), ex);
-  dim(V(-10, 0, 100), V(-10, D.LNG_LO, 100), '9\'-0"', V(0, 0, 0), ex);
-  dim(V(D.S_FACE, 0, 121), V(D.ER_X2, 0, 121), '12\'-10 3/4" counter run', V(0, 2, 0), up);
-  dim(V(-21, D.UP_HI, D.PAN_Z1), V(-21, D.UP_HI, D.PAN_Z2), '30"', V(0, 4, 0), up);
-  dim(V(-21, D.UP_HI, D.PAN_Z2), V(-21, D.UP_HI, D.SR_Z1), '37 3/8" alcove', V(0, 4, 0), up);
-  dim(V(D.S_FACE, 0, -60), V(D.N_OUT, 0, -60), '23\'-11 3/4" partition to gridline 4 (A02)', V(0, 2, 0), up);
-  dim(V(120, 0, D.W_OUT), V(120, 0, D.E_OUT), '26\'-0" gridline C to A', V(0, 2, 0), up);
-  dim(V(D.N_GYP - 1, 86, -D.DR_Z2), V(D.N_GYP - 1, 86, -D.DR_Z), '8\'-0" door 9', V(0, 3, 0), up);
-  dim(V(D.N_GYP - 1, 86, D.DR_Z), V(D.N_GYP - 1, 86, D.DR_Z2), '8\'-0" door 10', V(0, 3, 0), up);
-  dim(V(D.N_GYP - 1, 86, 103.9), V(D.N_GYP - 1, 86, 140.4), 'RO 36 1/2" as built', V(0, 3, 0), up);
-  dim(V(D.N_GYP - 1, 0, 145), V(D.N_GYP - 1, 35.5, 145), 'sill 35 1/2"', V(0, 0, 0), ez);
-  dim(V(150, 0, 0), V(150, D.GLB_HI, 0), 'T.O. RAFTER 27\'-6"', V(0, 0, 0), ez);
-  dim(V(D.WA1_X1, D.WA_Y2, D.W_GYP + 1), V(D.WA1_X2, D.WA_Y2, D.W_GYP + 1), 'RO 4\'-0 1/2"', V(0, 6, 0), up);
-}
-
-// ---- dining table placeholder (owner ask 2026-09-10): typical 6-seat table 72" x 36" x 30", three chairs a side, set east-west
-// between the end of the east-wall cabinets (x 106.9) and the north wall (x 230): 123" available, 43 1/2" clear each side of the
-// 36" table for chairs + circulation (36" min), 39" walkway along the east wall to door 10. Position is an assumption, not a sheet.
-{
-  const L = 72, W = 36, H = 30, xc = (D.ER_X2 + D.N_GYP) / 2, zc = 75;            // centred in the 10'-3" gap and on the east half of the room
-  const x1 = xc - W / 2, x2 = xc + W / 2, z1 = zc - L / 2, z2 = zc + L / 2;
-  box(x1, x2, H - 1.25, H, z1, z2, M.cabBox, 'dining');                                 // top
-  box(x1 + 2, x2 - 2, H - 4.5, H - 1.25, z1 + 2, z2 - 2, M.cabBox, 'dining', false);     // apron
-  for (const [lx, lz] of [[x1 + 3, z1 + 3], [x2 - 3, z1 + 3], [x1 + 3, z2 - 3], [x2 - 3, z2 - 3]]) box(lx - 1.5, lx + 1.5, 0, H - 4.5, lz - 1.5, lz + 1.5, M.black, 'dining', false);
-  function chair(cx, cz, side) {                                                         // side +1: chair north of the table, -1: south; seat 17" square, 18" high, back to 36"
-    const sx1 = side > 0 ? x2 - 5 : x1 - 12, sx2 = sx1 + 17;                            // 5" tucked under the table
-    box(sx1, sx2, 17, 18.5, cz - 8.5, cz + 8.5, M.black, 'dining');
-    const bx1 = side > 0 ? sx2 - 1.5 : sx1, bx2 = bx1 + 1.5;
-    box(bx1, bx2, 18.5, 36, cz - 8, cz + 8, M.black, 'dining');
-    for (const [lx, lz] of [[sx1 + 1, cz - 7.5], [sx2 - 1, cz - 7.5], [sx1 + 1, cz + 7.5], [sx2 - 1, cz + 7.5]]) box(lx - .6, lx + .6, 0, 17, lz - .6, lz + .6, M.black, 'dining', false);
+function stair(zEdge, dir, layer) {                   // solid closed steps; dir +1 descends toward +z (front), -1 toward -z (rear)
+  const hw = D.STAIR_W / 2;
+  for (let k = 1; k < D.RISERS; k++) {
+    const top = D.DECK - k * D.RISE, z0 = zEdge + dir * D.TREAD * (k - 1), z1 = zEdge + dir * D.TREAD * k;
+    B(-hw, hw, D.GRADE, top - 1, Math.min(z0, z1), Math.max(z0, z1), M.deck, layer);
+    B(-hw, hw, top - 1, top, Math.min(z0, z1 + dir * D.NOSE), Math.max(z0, z1 + dir * D.NOSE), M.deck, layer);
   }
-  for (const cz of [zc - 24, zc, zc + 24]) { chair(0, cz, -1); chair(0, cz, +1); }
-  // BoD row 46 dining chandelier (Bellevue SHM10018MBK) -- E01 gives no location; hung over the table centre from the T&G, bottom 36" above the top
-  cyl(xc, zc, H + 36 + 6, yc(zc) - .2, .25, M.black, 'dining');
-  cyl(xc, zc, H + 36, H + 36 + 6, 10, M.black, 'dining');
-  cyl(xc, zc, H + 35.5, H + 36, 8, M.led, 'dining');
-  label('Typical 6-seat table 72" x 36" x 30" (placeholder, 3 chairs a side);\n43 1/2" clear to the cabinets and to the north wall, 39" walkway to door 10', xc, 40, zc, { ...FLAG, scale: .06 });
-  label('Dining chandelier SHM10018MBK (BoD row 46) -- location assumed,\nnot on E01', xc, H + 46, zc + 14, { ...FLAG, scale: .06 });
-  const up = V(0, 1, 0);
-  dim(V(D.ER_X2, 30, 140), V(D.N_GYP, 30, 140), '10\'-3" cabinet end to north wall', V(0, 4, 0), up);
-  dim(V(D.ER_X2, 30, zc + L / 2 + 6), V(x1, 30, zc + L / 2 + 6), '43 1/2"', V(0, 2, 0), up);
-  dim(V(x2, 30, zc + L / 2 + 6), V(D.N_GYP, 30, zc + L / 2 + 6), '43 1/2"', V(0, 2, 0), up);
-  dim(V(x1, 30, z1), V(x2, 30, z1), '3\'-0"', V(0, 2, -6), up);
-  dim(V(x2, 30, z1), V(x2, 30, z2), '6\'-0"', V(6, 2, 0), up);
-  dim(V(xc, 30, z2), V(xc, 30, D.E_GYP), '39" to the east wall', V(0, 2, 0), up);
+}
+{
+  const L = 'deck', HW = D.HW, sh = EXT;
+  // --- front (south): 4 PT6X6, porch glulam (drop), upper-deck glulam (flush rim), 6X8 eave beams, joists, boards, cable rail
+  const fz0 = D.F_POST_Z - 2.75, fz1 = D.F_POST_Z + 2.75;
+  for (const x of D.F_POSTS) B(x - 2.75, x + 2.75, D.GRADE - 8, Math.abs(x) === HW ? D.F_POST_TOP : D.F_GLB_LO[0], fz0, fz1, M.wood, L);
+  B(-(HW - 2.75), HW - 2.75, ...D.F_GLB_LO, D.F_POST_Z - 2.5625, D.F_POST_Z + 2.5625, M.wood, L);       // porch glulam 5 1/8 x 12 (placeholder size), on the center posts
+  B(-(HW + 2.75), HW + 2.75, ...D.F_GLB_UP, fz0, fz1, M.wood, L);                                       // upper-deck glulam 5 1/2 x 15 (placeholder size), on the corner posts
+  for (const s of [-1, 1]) { B(s * (HW - 2.75), s * (HW + 2.75), ...D.F_EAVE_BEAM, D.SHEATH, fz0, M.wood, L); B(s * (HW - 2.75), s * (HW + 2.75), ...D.F_EAVE_BEAM, fz1, D.F_ROOF_EDGE, M.wood, L); }
+  for (let x = -HW + 0.75; x <= HW; x += 16) { B(x - 0.75, x + 0.75, ...D.F_JOIST, 1.94, D.F_PORCH_EDGE - 1.5, M.wood, L); B(x - 0.75, x + 0.75, ...D.F_UJOIST, 1.94, fz0, M.wood, L); }
+  B(-HW, HW, ...D.F_JOIST, D.F_PORCH_EDGE - 1.5, D.F_PORCH_EDGE, M.wood, L);                            // porch rim
+  const boards = (z0, z1, y0, y1) => { const d = Math.sign(z1 - z0); for (let z = z0; d * (z1 - z) > 0.5; z += d * (D.BOARD + 0.25)) { const ze = z + d * Math.min(D.BOARD, Math.abs(z1 - z)); B(-HW, HW, y0, y1, Math.min(z, ze), Math.max(z, ze), M.deck, L); } };
+  boards(sh, D.F_PORCH_EDGE, D.F_JOIST[1], D.DECK);                                                     // porch decking: 5 1/2" boards, 1/4" gaps, parallel to the house
+  boards(sh, D.F_DECK_EDGE, D.F_UJOIST[1], D.UPPER_FLR - 0.5);                                          // upper decking
+  railRun(-150, fz0 - 1.5, 150, fz0 - 1.5, D.UPPER_FLR - 0.5, L);                                      // upper cable rail, 36" as built, just inside the glulam
+  railRun(-150, sh, -150, fz0 - 1.5, D.UPPER_FLR - 0.5, L); railRun(150, sh, 150, fz0 - 1.5, D.UPPER_FLR - 0.5, L);
+  // --- rear (north): 5 PT6X6, PT4X8 drop beam, 6X10 eave beams over the corner posts, PT2X8 joists, rim, boards
+  const rz0 = D.R_POST_Z - 2.75, rz1 = D.R_POST_Z + 2.75;
+  for (const x of D.R_POSTS) B(x - 2.75, x + 2.75, D.GRADE - 8, Math.abs(x) === HW ? D.R_POST_TOP : D.R_BEAM[0], rz0, rz1, M.wood, L);
+  B(-(HW - 2.75), HW - 2.75, ...D.R_BEAM, D.R_POST_Z - 1.75, D.R_POST_Z + 1.75, M.wood, L);
+  for (const s of [-1, 1]) B(s * (HW - 2.75), s * (HW + 2.75), ...D.R_EAVE_BEAM, D.R_ROOF_EDGE, D.G4 - D.SHEATH, M.wood, L);
+  for (let x = -HW + 0.75; x <= HW; x += 16) B(x - 0.75, x + 0.75, ...D.R_JOIST, D.R_DECK_EDGE + 1.5, D.G4 - 1.94, M.wood, L);
+  B(-HW, HW, ...D.R_JOIST, D.R_DECK_EDGE, D.R_DECK_EDGE + 1.5, M.wood, L);                              // rim at the 8'-9" edge
+  boards(D.G4 - sh, D.R_DECK_EDGE, D.R_JOIST[1], D.DECK);
+  // --- stairs, centered, 8'-0" wide (owner 2026-09-11)
+  stair(D.F_PORCH_EDGE, +1, 'stair'); stair(D.R_DECK_EDGE, -1, 'stair');
+  // --- ground-deck guards and stair handrails (layer 'rail', off): the owner expects < 30" to grade, so no guard is required
+  const RL = 'rail', hw = D.STAIR_W / 2, xe = HW - 6;                                                    // end runs inside the corner posts
+  railRun(-xe, D.F_PORCH_EDGE - 2.5, -hw, D.F_PORCH_EDGE - 2.5, D.DECK, RL); railRun(hw, D.F_PORCH_EDGE - 2.5, xe, D.F_PORCH_EDGE - 2.5, D.DECK, RL);
+  for (const s of [-1, 1]) railRun(s * xe, sh, s * xe, D.F_PORCH_EDGE - 2.5, D.DECK, RL);
+  railRun(-xe, D.R_DECK_EDGE + 2.5, -hw, D.R_DECK_EDGE + 2.5, D.DECK, RL); railRun(hw, D.R_DECK_EDGE + 2.5, xe, D.R_DECK_EDGE + 2.5, D.DECK, RL);
+  for (const s of [-1, 1]) railRun(s * xe, D.G4 - sh, s * xe, D.R_DECK_EDGE + 2.5, D.DECK, RL);
+  for (const [zE, dir] of [[D.F_PORCH_EDGE, 1], [D.R_DECK_EDGE, -1]]) for (const s of [-1, 1]) {
+    const run = (D.RISERS - 1) * D.TREAD, drop = (D.RISERS - 1) * D.RISE, x = s * (hw - 1);
+    bar(V(x, D.DECK + D.RAIL_H, zE), V(x, D.DECK - drop + D.RAIL_H, zE + dir * run), 0.75, M.rail, RL);
+    B(x - 0.75, x + 0.75, D.DECK, D.DECK + D.RAIL_H, zE - dir * 1.5 - 0.75, zE - dir * 1.5 + 0.75, M.rail, RL);
+    B(x - 0.75, x + 0.75, D.DECK - drop, D.DECK - drop + D.RAIL_H, zE + dir * run - 0.75, zE + dir * run + 0.75, M.rail, RL);
+  }
+}
+// ===========================================================================
+// 6. LABELS (layer 'label') and DIMENSIONS (layer 'dim') -- off by default
+// ===========================================================================
+label('Lap siding: Hardie Plank 8 1/4" board, 7 1/4" reveal (Elevate material list); color not chosen -- the Colors panel swaps it', 0, 60, 120, NOTE);
+label('Roof: black standing-seam metal (Elevate list; A03 0511); ribs drawn at 16" -- panel width is an interpretation', -60, 300, 100, NOTE);
+label('Gable ends ~15:12 (A03 15.00:12, drawn 14.7:12); the middle is the 8:12 dormer, plates 17\'-10" (A02 sec 6)\ndormer from 4\'-3" south of gridline 2 to gridline 3 (A03 east / S3.3 read)', 210, 250, -230, NOTE);
+label('Upper-deck glulam 5 1/2" x 15" and porch glulam 5 1/8" x 12" are PLACEHOLDER sizes -- field sign-off, no document (front spec)', 0, 100, 90, FLAG);
+label('West living-room windows A1 / A2: on A02\'s headers, NOT on A03; A04 counts two A windows -- confirm', -200, 105, -410, FLAG);
+label('Window E sill 3\'-0" above UPPER FLR per A03; A04 type diagram says 4\'-9 5/16" -- one tape settles it', 205, 205, -252, FLAG);
+label('Window F drawn at the as-built sill, 61 1/2" above UPPER FLR (main-bath tape); A03 and A04 disagree', -205, 200, -170, FLAG);
+label('Grade ILLUSTRATIVE: 14" of stem wall showing after backfill (owner 2026-09-11). At this grade the deck plinths of the deck drawings\n(tops 8" above the old -36" grade) sit at or below the surface -- wood-to-earth clearance at the posts is a field question', 0, -14, 140, FLAG);
+label('Rear stair 8\'-0" wide, centered -- width not on record (owner: centered, 2026-09-11)', 0, 20, -700, FLAG);
+label('Ground-deck guards drawn but off: deck surfaces 25" above the illustrative grade (< 30", no guard required)\ntick "Ground-deck railings" to see them', 0, 30, 150, NOTE);
+label('Chimney pipe painted black (A03 1554), 2\' from the north wall on the west slope; stove at the NW corner', -136, 362, -528, NOTE);
+label('Sconces per A03 (1653): two flanking door 1, two at the north sliders, one at the east rear corner, two on the west\nfixtures owner-supplied, not chosen', 0, 85, 130, NOTE);
+label('Gutters: not on any sheet, not drawn', 210, 95, 60, NOTE);
+label('Casings 1x4, corner boards 1x6, frieze 1x4: "primed whitewood" trim, profile not on record', -210, 95, 60, NOTE);
+dim(V(D.HW, D.GRADE + 2, 0), V(D.HW, D.GRADE + 2, D.G4), '46\'-0" gridline 1 to 4 (A02)', V(60, 0, 0), V(0, 1, 0));
+dim(V(-D.HW, D.GRADE + 2, 20), V(D.HW, D.GRADE + 2, 20), '26\'-0" C to A (A02)', V(0, 0, 100), V(0, 1, 0));
+dim(V(0, 0, 100), V(0, D.RIDGE, 100), '27\'-6" T.O. RAFTER (A02 / A03)', V(240, 0, 0), V(1, 0, 0));
+dim(V(D.EAVE + 30, D.topEnd(D.EAVE) + D.ROOF_T, D.DORM_S), V(D.EAVE + 30, D.topEnd(D.EAVE) + D.ROOF_T, D.DORM_N), '14\'-6 1/2" dormer (A03 east read)', V(0, 40, 0), V(1, 0, 0));
+dim(V(-D.HW - 30, D.DECK, 0), V(-D.HW - 30, D.DECK, D.F_ROOF_EDGE), '6\'-0" roof edge (owner)', V(0, 130, 0), V(1, 0, 0));
+dim(V(-D.HW - 30, D.DECK, D.G4), V(-D.HW - 30, D.DECK, D.R_ROOF_EDGE), '9\'-1 3/4" roof edge (owner)', V(0, 130, 0), V(1, 0, 0));
+dim(V(-D.HW - 40, D.GRADE, D.F_PORCH_EDGE), V(-D.HW - 40, D.DECK, D.F_PORCH_EDGE), '25" deck to grade (illustrative)', V(0, 0, 20), V(1, 0, 0));
+dim(V(-D.HW - 40, D.STEM_TOP, 30), V(-D.HW - 40, D.GRADE, 30), '14" stem wall showing (owner)', V(0, 0, 0), V(1, 0, 0));
+
+// ===========================================================================
+// 7. COLORS PANEL: schemes and per-slot pickers drive the materials live; ?scheme=green&siding=5e6259 presets them
+// ===========================================================================
+const SLOT_MATS = { siding: [M.siding], trim: [M.trim], fascia: [M.fascia], roof: [M.roof, M.roofRib], soffit: [M.soffit, M.soffit2], wood: [M.wood], deck: [M.deck], door: [M.door], rail: [M.rail], conc: [M.conc] };
+function setSlot(slot, hex) {
+  if (!SLOT_MATS[slot]) return;
+  for (const m of SLOT_MATS[slot]) m.color.set(hex);
+  if (slot === 'soffit') M.soffit2.color.multiplyScalar(0.9);       // alternate board tone
+  if (slot === 'roof') M.roofRib.color.multiplyScalar(1.25);        // ribs catch a little more light
+  const inp = document.querySelector(`#colors input[data-slot="${slot}"]`); if (inp) inp.value = hex;
+  const sw = document.querySelector(`#legend .sw[data-slot="${slot}"]`); if (sw) sw.style.background = hex;
+}
+const schemeSel = document.getElementById('scheme');
+function applyScheme(name) { const s = SCHEMES[name]; if (!s) return; for (const k in s) setSlot(k, s[k]); schemeSel.value = name; }
+schemeSel.addEventListener('change', () => { if (SCHEMES[schemeSel.value]) applyScheme(schemeSel.value); schemeSel.blur(); });
+document.querySelectorAll('#colors input[type=color]').forEach(i => i.addEventListener('input', () => { setSlot(i.dataset.slot, i.value); schemeSel.value = 'custom'; }));
+{
+  const q = new URLSearchParams(location.search);
+  applyScheme(SCHEMES[q.get('scheme')] ? q.get('scheme') : 'black');
+  let custom = false;
+  for (const k in SLOT_MATS) if (q.get(k)) { setSlot(k, '#' + q.get(k).replace('#', '')); custom = true; }
+  if (custom) schemeSel.value = 'custom';
 }
 // ===== END EDIT: GEOMETRY =====
 
 // --- UI wiring (do not rewrite; the layer/view names come from the HTML + VIEWS above) -----------
-const layerBoxes = [...document.querySelectorAll('#layers input[type=checkbox], #variants input')];   // checkboxes + the Stove radios
+const layerBoxes = [...document.querySelectorAll('#layers input[type=checkbox]')];
 const hdr = document.getElementById('header');   // the caption panel; Show → Caption toggles it like a layer
 const foldN = document.getElementById('foldn');  // '12 of 17 on' next to the Show label while the rows are folded (phones)
 function applyLayers() {
@@ -2399,7 +2176,7 @@ function applyLayers() {
   const on = {};
   for (const cb of layerBoxes) on[cb.dataset.layer] = cb.checked;
   hdr.style.display = on.caption === false ? 'none' : '';
-  for (const p of parts) p.visible = on[p.userData.layer] !== false && (!p.userData.variant || on[p.userData.variant] !== false);
+  for (const p of parts) p.visible = on[p.userData.layer] !== false;
 }
 layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
 
@@ -2407,15 +2184,16 @@ layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
 // Views move the camera only (pos, tgt, optional fov). They never touch the Show checkboxes: pick checkbox
 // defaults that suit the opening view, and give a shared link other layers with &show= / &hide=.
 const VIEWS = {
-  kitchen: { pos: [175, 68, -70], tgt: [30, 42, 95], fov: 62 },
-  island:  { pos: [58, 64, 138], tgt: [58, 32, 50], fov: 68 },
-  sink:    { pos: [40, 62, 62], tgt: [40, 48, 150], fov: 68 },
-  fridge:  { pos: [70, 62, 78], tgt: [-48, 44, 72], fov: 62 },
-  north:   { pos: [20, 66, 95], tgt: [230, 130, 0], fov: 70 },
-  stove:   { pos: [130, 60, -20], tgt: [200, 26, -132], fov: 58 },
-  lounge:  { pos: [-50, 195, -50], tgt: [70, 30, 95], fov: 62 },
-  dining:  { pos: [60, 66, 20], tgt: [175, 30, 80], fov: 62 },
-  top:     { pos: [92, 292, 1], tgt: [92, 0, 0], fov: 72 },
+  front:  { pos: [-720, 130, 560], tgt: [0, 130, -230], fov: 40 },
+  frontR: { pos: [720, 130, 560], tgt: [0, 130, -230], fov: 40 },
+  rear:   { pos: [720, 130, -1120], tgt: [0, 130, -330], fov: 40 },
+  rearL:  { pos: [-720, 130, -1120], tgt: [0, 130, -330], fov: 40 },
+  south:  { pos: [0, 150, 980], tgt: [0, 150, 0], fov: 36 },
+  north:  { pos: [0, 150, -1540], tgt: [0, 150, -552], fov: 36 },
+  east:   { pos: [1250, 150, -276], tgt: [0, 150, -276], fov: 40 },
+  west:   { pos: [-1250, 150, -276], tgt: [0, 150, -276], fov: 40 },
+  porch:  { pos: [-170, 41, 330], tgt: [0, 100, 40], fov: 58 },
+  top:    { pos: [0, 1250, -275], tgt: [0, 0, -276], fov: 40 },
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
@@ -2464,7 +2242,7 @@ if (params.get('ui') === '0') document.querySelectorAll('.panel, #hint').forEach
 // runs on a normal page load. &exclude=a,b replaces the default excluded-layer list (&exclude= excludes nothing);
 // &name=<slug> sets the upload name, otherwise it is the HTML file's own slug. Material names travel as the M
 // keys, layer names as glTF extras.layer. Spec: .kiro/specs/photoreal-room-renders/design.md section 1.
-const EXPORT_EXCLUDE_DEFAULT = 'label,dim,caption,context,framing,mech';
+const EXPORT_EXCLUDE_DEFAULT = 'label,dim,caption,context,framing,mech,site';   // site = the ground plane; the render pipeline has its own terrain
 function named(obj, n) { obj.name = n; return obj; }   // name a mesh so a finishes decal can target it; hoisted, so the geometry section above can call it
 if (params.get('export') === 'glb') exportGLB();
 async function exportGLB() {
