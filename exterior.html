@@ -45,6 +45,8 @@
   #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
   #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
   #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
   #err{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#ffb4a8;font-size:14px;text-align:center;display:none;padding:20px;}
   #hint{position:absolute;bottom:2px;right:10px;font-size:10px;color:#6b727b;}
   #legendbtn{display:none;}
@@ -2101,7 +2103,7 @@ const OPEN = {                                     // rough openings in wall-loc
   winRect(WALLS.W, Wo.F); winRect(WALLS.W, Wo.A1); winRect(WALLS.W, Wo.A2);   // living-room picture windows (owner 2026-09-11)
   // sconces: 78" to center (owner 2026-09-11: A03's ~5'-10" read low); flanking door 1 (A03 / E01) plus one outside each front
   // window (owner); north pair between the as-built windows and the corners (owner; E01 draws them at the corners)
-  sconce(WALLS.S, -40, 78); sconce(WALLS.S, 40, 78); sconce(WALLS.S, -124, 78); sconce(WALLS.S, 124, 78);
+  sconce(WALLS.S, -40, 78); sconce(WALLS.S, 40, 78); sconce(WALLS.S, -134, 78); sconce(WALLS.S, 134, 78);   // outer pair centered between the window casing (115 3/4) and the corner board (152 1/2)
   sconce(WALLS.N, -147.75, 78); sconce(WALLS.N, 147.75, 78);
   sconce(WALLS.E, WALLS.E.uOf(-540), 78);
   sconce(WALLS.W, WALLS.W.uOf(-12), 78); sconce(WALLS.W, WALLS.W.uOf(-540), 78);
