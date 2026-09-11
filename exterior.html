@@ -43,6 +43,8 @@
   #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
   #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
   #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
+  #colors select{background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 6px;font-size:11px;}
+  #colors input[type=color]{width:24px;height:16px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:none;cursor:pointer;}
   #err{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#ffb4a8;font-size:14px;text-align:center;display:none;padding:20px;}
   #hint{position:absolute;bottom:2px;right:10px;font-size:10px;color:#6b727b;}
   #legendbtn{display:none;}
@@ -82,7 +84,7 @@
     standing-seam roof, Milgard black windows and sliders, the metal entry door, both decks on their as-built glulams and 6x6 posts,
     centered 8' stairs, sconces and the stove chimney. <b>Colors</b> below swaps siding, trim, fascia, roof, soffit, wood, decking, door,
     railing and foundation colors live; three starting schemes (black-on-black is the July 2025 reference build). <b>Siding</b> switches between the contract's horizontal lap and a board-and-batten alternative (12" battens, an interpretation). Grade is illustrative
-    at 14" of stem wall showing (owner, 2026-09-11); ground-level deck guards are drawn but off. Orange labels mark what is not on the
+    at 14" of stem wall showing (owner, 2026-09-11); ground-level deck guards are drawn but off; <b>Rail mount</b> switches every cable rail between deck-mounted at the edge and fascia-mounted. Sconces and the E01 soffit cans are drawn. Orange labels mark what is not on the
     sheets. Framing lives in the two deck drawings. <b>Not engineered &mdash; do not build from this.</b> Spec:
     <code>outputs/house-exterior-3d-spec.md</code>.
     Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
@@ -97,7 +99,7 @@
     <div class="lg"><span class="sw" data-slot="wood"></span>Glulams, eave beams, 6x6 posts</div>
     <div class="lg"><span class="sw" data-slot="deck"></span>Decking and stair treads</div>
     <div class="lg"><span class="sw" data-slot="door"></span>Entry door (metal)</div>
-    <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, sconces, chimney</div>
+    <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, sconces, soffit cans, chimney</div>
     <div class="lg"><span class="sw" data-slot="conc"></span>Exposed stem wall (concrete)</div>
     <div class="lg"><span class="sw" style="background:#141414"></span>Windows and sliders (Milgard black)</div>
     <div class="lg"><span class="sw" style="background:#e07b20"></span>Not on the sheets (orange labels)</div>
@@ -123,11 +125,16 @@
       <label><input type="radio" name="sidingstyle" value="lap" checked> Horizontal lap, 7&frac14;" reveal</label>
       <label><input type="radio" name="sidingstyle" value="bb"> Board and batten, 12" o.c.</label>
     </div>
+    <div class="row fold" id="railmount">
+      <span class="lbl">Rail mount</span>
+      <label><input type="radio" name="railmount" value="deck" checked> Deck-mounted at the edge</label>
+      <label><input type="radio" name="railmount" value="fascia"> Fascia-mounted</label>
+    </div>
     <div class="row fold" id="colors">
       <span class="lbl">Colors</span>
       <select id="scheme" title="Starting color schemes">
         <option value="black">Black on black (reference build)</option>
-        <option value="green">Deep green siding, black trim</option>
+        <option value="green">Dark green siding (Greenblack-like), black trim</option>
         <option value="ironore">Charcoal siding, black trim</option>
         <option value="custom">Custom</option>
       </select>
@@ -1721,7 +1728,7 @@ BB.map.colorSpace = THREE.SRGBColorSpace;
 
 const SCHEMES = {   // hex values are stand-ins until Sherwin Williams colors are chosen (spec: Color schemes)
   black:   { siding: '#262626', trim: '#151515', fascia: '#151515', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', deck: '#a67c52', door: '#151515', rail: '#151515', conc: '#9d9b95' },
-  green:   { siding: '#5e6259', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', deck: '#a67c52', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
+  green:   { siding: '#3b413c', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', deck: '#a67c52', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
   ironore: { siding: '#434341', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', deck: '#a67c52', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
 };
 const std = o => new THREE.MeshStandardMaterial(o);
@@ -1741,6 +1748,7 @@ const M = {
   win:     std({ color: 0x141414, roughness: .5 }),                       // Milgard black frames (contract, not a slot)
   glass:   std({ color: 0x7d95a6, roughness: .05, metalness: .35, transparent: true, opacity: .5, side: THREE.DoubleSide }),
   inner:   std({ color: 0x2a2521, roughness: 1 }),                         // dark interior behind the glass
+  lens:    std({ color: 0xfff3dc, emissive: 0xffdca0, emissiveIntensity: .4, roughness: .3 }),   // recessed-can lens (unlit look)
   ground:  std({ color: 0x6d7658, roughness: 1 }),
   flag:    std({ color: 0xe07b20, roughness: .7 }),
   concept: std({ color: 0xd9a441, roughness: .85 }),
@@ -2091,20 +2099,44 @@ const OPEN = {                                     // rough openings in wall-loc
   N.K.forEach(t => winTri(WALLS.N, t)); N.Nw.forEach(t => winTri(WALLS.N, t)); N.asb.forEach(r => winRect(WALLS.N, r));   // picture windows (owner 2026-09-11)
   winRect(WALLS.E, E.C); winRect(WALLS.E, E.Dw, { slider: true }); winRect(WALLS.E, E.E);   // D (kitchen) slides; E (loft) is a picture window (owner 2026-09-11)
   winRect(WALLS.W, Wo.F); winRect(WALLS.W, Wo.A1); winRect(WALLS.W, Wo.A2);   // living-room picture windows (owner 2026-09-11)
-  sconce(WALLS.S, -40, 70); sconce(WALLS.S, 40, 70);
-  sconce(WALLS.N, -145, 72); sconce(WALLS.N, 145, 72);
-  sconce(WALLS.E, WALLS.E.uOf(-540), 72);
-  sconce(WALLS.W, WALLS.W.uOf(-12), 72); sconce(WALLS.W, WALLS.W.uOf(-540), 72);
+  // sconces: 78" to center (owner 2026-09-11: A03's ~5'-10" read low); flanking door 1 (A03 / E01) plus one outside each front
+  // window (owner); north pair between the as-built windows and the corners (owner; E01 draws them at the corners)
+  sconce(WALLS.S, -40, 78); sconce(WALLS.S, 40, 78); sconce(WALLS.S, -124, 78); sconce(WALLS.S, 124, 78);
+  sconce(WALLS.N, -147.75, 78); sconce(WALLS.N, 147.75, 78);
+  sconce(WALLS.E, WALLS.E.uOf(-540), 78);
+  sconce(WALLS.W, WALLS.W.uOf(-12), 78); sconce(WALLS.W, WALLS.W.uOf(-540), 78);
+  // recessed cans per E01: six in the rear roof soffit at mid-deck (circuit 6), two in the soffit over the upper deck (circuit 36),
+  // two under the upper deck at the porch ceiling (circuit 6). Black trim ring, warm lens, unlit point light for the render pipeline.
+  function can(x, y, z, tilt = 0) {
+    const m1 = new THREE.Mesh(new THREE.CylinderGeometry(3.25, 3.25, 0.5, 24), M.rail), m2 = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 0.7, 24), M.lens);
+    for (const m of [m1, m2]) { m.position.set(x, y, z); m.rotation.z = tilt; m.castShadow = false; reg(m, L); }
+    const pl = new THREE.PointLight(0xffe0b8, 0, 200); pl.position.set(x, y - 3, z); pl.name = 'can'; pl.visible = false; scene.add(pl);
+  }
+  const tiltEnd = Math.atan(D.PITCH_END);
+  for (const x of [-113, -73, -28, 28, 73, 113]) can(x, D.sofEnd(x) - 0.1, D.G4 - 48, -Math.sign(x) * tiltEnd);
+  for (const x of [-88, 88]) can(x, D.sofEnd(x) - 0.1, 25, -Math.sign(x) * tiltEnd);
+  for (const x of [-86, 86]) can(x, D.F_UJOIST[0] - 0.35, 25);
 }
 // ===========================================================================
-// 5. DECKS AND POSTS (layer 'deck'), STAIRS (layer 'stair'), GROUND-DECK RAILINGS (layer 'rail', off by default)
+// 5. DECKS AND POSTS (layer 'deck'), STAIRS (layer 'stair'), CABLE RAILS: upper deck (layer 'deck', always on) and the
+//    GROUND-DECK GUARDS (layer 'rail', off by default). Every rail is built twice -- deck-mounted at the edge and
+//    fascia-mounted -- and the Rail mount radio shows one set (owner 2026-09-11).
 // ===========================================================================
-function railRun(x0, z0, x1, z1, y0, layer) {        // cable rail (A03 0560): 1 1/2" sq posts <= 50" o.c., top rail, cables at 3"
+let MOUNT_TAG = 'deck';
+// cable rail (A03 0560): 1 1/2" sq black posts <= 50" o.c., 1 1/2 x 2 1/2 top rail, cables at 3". o.postBottom lets fascia posts run
+// down over the rim; o.ends = [startPost, endPost], false where the run dies into a 6x6 post that then carries the rail and cables.
+function railRun(x0, z0, x1, z1, y0, layer, o = {}) {
+  const n0 = parts.length;
   const dx = x1 - x0, dz = z1 - z0, len = Math.hypot(dx, dz), n = Math.max(1, Math.ceil(len / 50)), top = y0 + D.RAIL_H;
-  for (let i = 0; i <= n; i++) { const x = x0 + dx * i / n, z = z0 + dz * i / n; B(x - 0.75, x + 0.75, y0, top, z - 0.75, z + 0.75, M.rail, layer); }
+  const yb = o.postBottom ?? y0, ends = o.ends || [true, true];
+  for (let i = 0; i <= n; i++) {
+    if ((i === 0 && !ends[0]) || (i === n && !ends[1])) continue;
+    const x = x0 + dx * i / n, z = z0 + dz * i / n; B(x - 0.75, x + 0.75, yb, top, z - 0.75, z + 0.75, M.rail, layer);
+  }
   const run = (yA, yB, r) => { const g = new THREE.BoxGeometry(len, yB - yA, r * 2), m = new THREE.Mesh(g, M.rail); m.position.set((x0 + x1) / 2, (yA + yB) / 2, (z0 + z1) / 2); m.rotation.y = -Math.atan2(dz, dx); m.castShadow = true; reg(m, layer); };
   run(top - 1.5, top, 1.25);
   for (let y = y0 + 3.5; y < top - 2; y += 3) run(y - 0.12, y + 0.12, 0.12);
+  for (let i = n0; i < parts.length; i++) parts[i].userData.mount = MOUNT_TAG;
 }
 function stair(zEdge, dir, layer) {                   // solid closed steps; dir +1 descends toward +z (front), -1 toward -z (rear)
   const hw = D.STAIR_W / 2;
@@ -2116,7 +2148,7 @@ function stair(zEdge, dir, layer) {                   // solid closed steps; dir
 }
 {
   const L = 'deck', HW = D.HW, sh = EXT;
-  // --- front (south): 4 PT6X6, porch glulam (drop), upper-deck glulam (flush rim), 6X8 eave beams, joists, boards, cable rail
+  // --- front (south): 4 PT6X6, porch glulam (drop), upper-deck glulam (flush rim), 6X8 eave beams, joists, boards
   const fz0 = D.F_POST_Z - 2.75, fz1 = D.F_POST_Z + 2.75;
   for (const x of D.F_POSTS) B(x - 2.75, x + 2.75, D.GRADE - 8, Math.abs(x) === HW ? D.F_POST_TOP : D.F_GLB_LO[0], fz0, fz1, M.wood, L);
   B(-(HW - 2.75), HW - 2.75, ...D.F_GLB_LO, D.F_POST_Z - 2.5625, D.F_POST_Z + 2.5625, M.wood, L);       // porch glulam 5 1/8 x 12 (placeholder size), on the center posts
@@ -2127,8 +2159,6 @@ function stair(zEdge, dir, layer) {                   // solid closed steps; dir
   const boards = (z0, z1, y0, y1) => { const d = Math.sign(z1 - z0); for (let z = z0; d * (z1 - z) > 0.5; z += d * (D.BOARD + 0.25)) { const ze = z + d * Math.min(D.BOARD, Math.abs(z1 - z)); B(-HW, HW, y0, y1, Math.min(z, ze), Math.max(z, ze), M.deck, L); } };
   boards(sh, D.F_PORCH_EDGE, D.F_JOIST[1], D.DECK);                                                     // porch decking: 5 1/2" boards, 1/4" gaps, parallel to the house
   boards(sh, D.F_DECK_EDGE, D.F_UJOIST[1], D.UPPER_FLR - 0.5);                                          // upper decking
-  railRun(-150, fz0 - 1.5, 150, fz0 - 1.5, D.UPPER_FLR - 0.5, L);                                      // upper cable rail, 36" as built, just inside the glulam
-  railRun(-150, sh, -150, fz0 - 1.5, D.UPPER_FLR - 0.5, L); railRun(150, sh, 150, fz0 - 1.5, D.UPPER_FLR - 0.5, L);
   // --- rear (north): 5 PT6X6, PT4X8 drop beam, 6X10 eave beams over the corner posts, PT2X8 joists, rim, boards
   const rz0 = D.R_POST_Z - 2.75, rz1 = D.R_POST_Z + 2.75;
   for (const x of D.R_POSTS) B(x - 2.75, x + 2.75, D.GRADE - 8, Math.abs(x) === HW ? D.R_POST_TOP : D.R_BEAM[0], rz0, rz1, M.wood, L);
@@ -2139,19 +2169,47 @@ function stair(zEdge, dir, layer) {                   // solid closed steps; dir
   boards(D.G4 - sh, D.R_DECK_EDGE, D.R_JOIST[1], D.DECK);
   // --- stairs, centered, 8'-0" wide (owner 2026-09-11)
   stair(D.F_PORCH_EDGE, +1, 'stair'); stair(D.R_DECK_EDGE, -1, 'stair');
-  // --- ground-deck guards and stair handrails (layer 'rail', off): the owner expects < 30" to grade, so no guard is required
-  const RL = 'rail', hw = D.STAIR_W / 2, xe = HW - 6;                                                    // end runs inside the corner posts
-  railRun(-xe, D.F_PORCH_EDGE - 2.5, -hw, D.F_PORCH_EDGE - 2.5, D.DECK, RL); railRun(hw, D.F_PORCH_EDGE - 2.5, xe, D.F_PORCH_EDGE - 2.5, D.DECK, RL);
-  for (const s of [-1, 1]) railRun(s * xe, sh, s * xe, D.F_PORCH_EDGE - 2.5, D.DECK, RL);
-  railRun(-xe, D.R_DECK_EDGE + 2.5, -hw, D.R_DECK_EDGE + 2.5, D.DECK, RL); railRun(hw, D.R_DECK_EDGE + 2.5, xe, D.R_DECK_EDGE + 2.5, D.DECK, RL);
-  for (const s of [-1, 1]) railRun(s * xe, D.G4 - sh, s * xe, D.R_DECK_EDGE + 2.5, D.DECK, RL);
+
+  // --- rails, both mounts. Deck-mounted: post centerline 1 3/4" inside the deck edge (base plate at the rim). Fascia-mounted: posts
+  //     hung on the rim / glulam / eave-beam face, 3/4" outside it, running down over the rim. Side runs die into the 6x6 corner
+  //     posts and pick up again on their far face (owner 2026-09-11: "connect to the outer posts").
+  const hw = D.STAIR_W / 2, RL = 'rail';
+  function buildRails(mount) {
+    MOUNT_TAG = mount;
+    const f = mount === 'fascia', inset = f ? -0.75 : 1.75;
+    { // upper deck (always on): along the glulam, returns along the deck ends to the wall
+      const y0 = D.UPPER_FLR - 0.5, zr = D.F_DECK_EDGE - inset, xr = f ? HW + 2.75 + 0.75 : HW - 1.75;   // fascia returns sit on the 6x8 eave-beam faces
+      railRun(-xr, zr, xr, zr, y0, L, { postBottom: f ? 110 : y0 });
+      for (const s of [-1, 1]) railRun(s * xr, sh, s * xr, zr, y0, L, { postBottom: f ? 112 : y0, ends: [true, false] });
+    }
+    { // front porch guard: edge run in two pieces around the 8' stair, returns wall -> 6x6 and 6x6 -> corner
+      const y0 = D.DECK, zr = D.F_PORCH_EDGE - inset, xr = HW - inset, pb = f ? D.F_JOIST[0] : y0;
+      railRun(-xr, zr, -hw, zr, y0, RL, { postBottom: pb }); railRun(hw, zr, xr, zr, y0, RL, { postBottom: pb });
+      for (const s of [-1, 1]) { railRun(s * xr, sh, s * xr, fz0, y0, RL, { postBottom: pb, ends: [true, false] }); railRun(s * xr, fz1, s * xr, zr, y0, RL, { postBottom: pb, ends: [false, false] }); }
+    }
+    { // rear deck guard, same scheme (z runs negative)
+      const y0 = D.DECK, zr = D.R_DECK_EDGE + inset, xr = HW - inset, pb = f ? D.R_JOIST[0] : y0;
+      railRun(-xr, zr, -hw, zr, y0, RL, { postBottom: pb }); railRun(hw, zr, xr, zr, y0, RL, { postBottom: pb });
+      for (const s of [-1, 1]) { railRun(s * xr, D.G4 - sh, s * xr, rz1, y0, RL, { postBottom: pb, ends: [true, false] }); railRun(s * xr, rz0, s * xr, zr, y0, RL, { postBottom: pb, ends: [false, false] }); }
+    }
+  }
+  buildRails('deck'); buildRails('fascia');
+  // --- stair handrails (layer 'rail', both mounts): from the guard's end post down the stair
   for (const [zE, dir] of [[D.F_PORCH_EDGE, 1], [D.R_DECK_EDGE, -1]]) for (const s of [-1, 1]) {
     const run = (D.RISERS - 1) * D.TREAD, drop = (D.RISERS - 1) * D.RISE, x = s * (hw - 1);
-    bar(V(x, D.DECK + D.RAIL_H, zE), V(x, D.DECK - drop + D.RAIL_H, zE + dir * run), 0.75, M.rail, RL);
-    B(x - 0.75, x + 0.75, D.DECK, D.DECK + D.RAIL_H, zE - dir * 1.5 - 0.75, zE - dir * 1.5 + 0.75, M.rail, RL);
+    bar(V(x, D.DECK + D.RAIL_H, zE - dir * 1.75), V(x, D.DECK - drop + D.RAIL_H, zE + dir * run), 0.75, M.rail, RL);
     B(x - 0.75, x + 0.75, D.DECK - drop, D.DECK - drop + D.RAIL_H, zE + dir * run - 0.75, zE + dir * run + 0.75, M.rail, RL);
   }
 }
+// Rail mount radio: one of the two rail sets is visible. Registered on the next frame so it runs after the template's layer wiring.
+let MOUNT = 'deck';
+function applyMount() { for (const p of parts) if (p.userData.mount && p.userData.mount !== MOUNT) p.visible = false; }
+function setMount(m) { MOUNT = m; const r = document.querySelector(`#railmount input[value="${m}"]`); if (r) r.checked = true; applyLayers(); applyMount(); }
+requestAnimationFrame(() => {
+  document.querySelectorAll('#layers input[type=checkbox]').forEach(cb => cb.addEventListener('change', applyMount));
+  document.querySelectorAll('#railmount input').forEach(r => r.addEventListener('change', () => { if (r.checked) setMount(r.value); r.blur(); }));
+  setMount(new URLSearchParams(location.search).get('mount') === 'fascia' ? 'fascia' : 'deck');
+});
 // ===========================================================================
 // 6. LABELS (layer 'label') and DIMENSIONS (layer 'dim') -- off by default
 // ===========================================================================
@@ -2166,7 +2224,7 @@ label('Grade ILLUSTRATIVE: 14" of stem wall showing after backfill (owner 2026-0
 label('Rear stair 8\'-0" wide, centered -- width not on record (owner: centered, 2026-09-11)', 0, 20, -700, FLAG);
 label('Ground-deck guards drawn but off: deck surfaces 25" above the illustrative grade (< 30", no guard required)\ntick "Ground-deck railings" to see them', 0, 30, 150, NOTE);
 label('Chimney pipe painted black (A03 1554), 2\' from the north wall on the west slope; stove at the NW corner', -136, 362, -528, NOTE);
-label('Sconces per A03 (1653): two flanking door 1, two at the north sliders, one at the east rear corner, two on the west\nfixtures owner-supplied, not chosen', 0, 85, 130, NOTE);
+label('Exterior lights per A03 1653 / E01: sconces flanking door 1 and outside the front windows (owner), at the rear corners and the side corners;\nE01 cans: six in the rear soffit at mid-deck, two over the upper deck, two under it. 78" sconce height is the owner\'s; fixtures not chosen', 0, 85, 130, NOTE);
 label('Gutters: not on any sheet, not drawn', 210, 95, 60, NOTE);
 label('Casings 1x4, corner boards 1x6, frieze 1x4: "primed whitewood" trim, profile not on record', -210, 95, 60, NOTE);
 dim(V(D.HW, D.GRADE + 2, 0), V(D.HW, D.GRADE + 2, D.G4), '46\'-0" gridline 1 to 4 (A02)', V(60, 0, 0), V(0, 1, 0));
@@ -2177,6 +2235,9 @@ dim(V(-D.HW - 30, D.DECK, 0), V(-D.HW - 30, D.DECK, D.F_ROOF_EDGE), '6\'-0" roof
 dim(V(-D.HW - 30, D.DECK, D.G4), V(-D.HW - 30, D.DECK, D.R_ROOF_EDGE), '9\'-1 3/4" roof edge (owner)', V(0, 130, 0), V(1, 0, 0));
 dim(V(-D.HW - 40, D.GRADE, D.F_PORCH_EDGE), V(-D.HW - 40, D.DECK, D.F_PORCH_EDGE), '25" deck to grade (illustrative)', V(0, 0, 20), V(1, 0, 0));
 dim(V(-D.HW - 40, D.STEM_TOP, 30), V(-D.HW - 40, D.GRADE, 30), '14" stem wall showing (owner)', V(0, 0, 0), V(1, 0, 0));
+dim(V(-D.HW - 24, D.DECK + 1, D.G4), V(-D.HW - 24, D.DECK + 1, D.R_DECK_EDGE), '8\'-9" rear deck, gridline 4 to the edge (owner 2026-09-02: 9" past the 8\'-0" post line)', V(0, 0, 0), V(1, 0, 0));
+dim(V(-D.HW - 24, D.DECK + 1, 0), V(-D.HW - 24, D.DECK + 1, D.F_PORCH_EDGE), '5\'-0" porch, gridline 1 to the edge (owner 2026-09-01; S3.1 drew 4\'-0")', V(0, 0, 0), V(1, 0, 0));
+dim(V(-D.HW - 24, D.UPPER_FLR + 1, 0), V(-D.HW - 24, D.UPPER_FLR + 1, D.F_DECK_EDGE), '4\'-2 3/4" upper deck, gridline 1 to the glulam face (as built; A02 drew 4\'-3 1/2")', V(0, 0, 0), V(1, 0, 0));
 
 // ===========================================================================
 // 7. COLORS PANEL: schemes and per-slot pickers drive the materials live; ?scheme=green&siding=5e6259 presets them
