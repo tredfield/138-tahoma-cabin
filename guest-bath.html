@@ -2250,13 +2250,11 @@ dim(V(0, 108, 40), V(0, 120, 40), '1\'-0" floor', V(0, 0, 0), V(0, 0, 1));
       const short = zs[i + 1] - zs[i] < 8;
       pdim(W, V(WF, y, zs[i]), V(WF, y, zs[i + 1]), txt[i], V(0, 0, 0), V(0, 1, 0), short ? 15 : 3);
     }
-    label('RUNNING STRING off the finished hall wall  --  lav supply | lav drain | lav supply | WC supply | WC flange | shower valve+arm | shower drain | vent\n'
-        + 'Segment lengths are the same off the studs; only the first changes (20 1/2").  Total 106 1/2" (107" off the studs).', WF, -24, 88, ps(W));
   }
-  label('MARK THE CROSSHAIRS.  Ordinates are given off the BARE STUDS first (what you measure now) and off the\n'
-      + 'FINISHED face in brackets. This wall finishes 1/2" proud of the studs, 7/8" in the shower (1/2" backer +\n'
-      + '3/8" tile); hall wall 1/2". Floor: 0.6" LVP, 1 1/2" tile in the shower.\n'
-      + 'STUB HEIGHTS ARE NOT ON ANY SHEET -- typical practice; your own standard wins.', WF, -42, 88, ps(W));
+  label('MARK THE CROSSHAIRS.  Every ordinate is off the BARE STUDS first, FINISHED in brackets.\n'
+      + 'The running string below steps hall wall > lav supply > lav drain > lav supply > WC supply > WC flange >\n'
+      + 'shower valve/arm > shower drain > vent. Its segments are identical off either datum -- only the first changes.\n'
+      + 'Stub heights are not on any sheet: typical practice, your own standard wins.', WF, 14, 129, ps(W));
 
   // ===== in the floor: two centerlines =========================================================================
   cyl(15.25, D.WC_Z, FF - 0.2, FF + 1.2, 3.5, M.plumb, FL);
