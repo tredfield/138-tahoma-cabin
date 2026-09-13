@@ -2211,10 +2211,10 @@ const SHCX = (D.SH_X1 + D.CURB_W + D.WN_IN - 0.4) / 2;              // 20 9/16 -
 const SHCZ = (D.EXT_IN + 0.4 + 61.5 - 0.19) / 2;                    // 33 7/8  -- centre of the flat floor, length
 centreLine(D.WC_X, D.EXT_IN + 0.2, D.WC_X, 47, 0.9);                // toilet CL, run out past the bowl front
 centreLine(D.WC_X - 15, 18, D.WC_X + 15, 18, 0.9);                  // closet-flange CL: 12" rough-in off the finished wall (z 6 + 12)
-clTag('TOILET CL  x = -23 -- and it is also WINDOW F\'s CL\n25 1/2" off the bedroom wall, 23" to the shower curb face\ncross mark = closet flange, 12" rough-in off the finished wall', D.WC_X, 14, 50);
+clTag('TOILET CL = WINDOW F CL', D.WC_X, 14, 50);
 centreLine(SHCX, D.EXT_IN + 0.6, SHCX, 61.1, 1.7);                  // shower CL, depth
 centreLine(D.SH_X1 + D.CURB_W + 0.3, SHCZ, D.WN_IN - 0.7, SHCZ, 1.7);   // shower CL, length
-clTag('SHOWER CL -- drain, head and valve are all on it\n(the head/valve moved 7/16" to land on it)', 32, 24, 17);
+clTag('SHOWER CL', 32, 24, 17);
 bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // leader from the call-out down to the intersection
 
 // ---- plumbing rough-in: CENTERLINE MARKS (Show: "Plumbing: wall" / "Plumbing: floor") ------------------------------
@@ -2248,14 +2248,11 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
   };
 
   // ===== WEST (exterior) wall: WC supply, shower valve, shower arm -- x ordinates off the partition studs =======
-  // [x, y, stub r, crosshair r, face z, name, ordinate lines, height line, callout x, callout y]
+  // [x, y, stub r, crosshair r, face z, name, ordinate, height, callout x, callout y]
   for (const [x, y, r, xr, zf, name, ord, ht, cx, cy] of [
-    [D.WC_X - 6, FF + 8, 0.42, 6, WF, 'WC SUPPLY', '20" off the bedroom-partition studs (19 1/2" finished)', '8 5/8" off the subfloor (8" AFF)', -40, 26],
-    [SHCX, 46, 1.9, 6, WT, 'SHOWER VALVE  anti-scald / pressure balance',
-      '69 9/16" off the bedroom-partition studs (69 1/16" finished)\n18 7/16" off the stair-wall studs (17 9/16" off the shower tile)',
-      '46" off the subfloor = 44 1/2" above the shower floor', 6, 34],
-    [SHCX, 80, 0.62, 6, WT, 'SHOWER ARM  drop-ear, block it',
-      '69 9/16" off the bedroom-partition studs\n18 7/16" off the stair-wall studs', '80" off the subfloor = 78 1/2" above the shower floor', 4, 98],
+    [D.WC_X - 6, FF + 8, 0.42, 6, WF, 'WC SUPPLY CL', '20" (19 1/2" fin.)', '8 5/8" a.s.f. (8" AFF)', -40, 26],
+    [SHCX, 46, 1.9, 6, WT, 'SHOWER VALVE CL', '69 9/16" (69 1/16" fin.) | 18 7/16" off stair studs', '46" a.s.f. (44 1/2" above pan)', 4, 34],
+    [SHCX, 80, 0.62, 6, WT, 'SHOWER ARM CL', '69 9/16" | 18 7/16" off stair studs', '80" a.s.f. (78 1/2" above pan)', 2, 98],
   ]) {
     bar(V(x, y, zf), V(x, y, zf + (r > 1 ? 1.6 : 3)), r, M.plumb, W);
     markZ(x, y, zf + 0.06, W, xr);
@@ -2264,23 +2261,19 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
   cyl(-1.0, 2.75, 0, D.PLATE_TOP, 1.5, M.flag, W);                           // M01 PLUMBING VENT, inside the 2x6 exterior wall
   bar(V(-1.0, 30, WF), V(-1.0, 30, WF + 1.4), 1.1, M.flag, W);
   markZ(-1.0, 30, WF + 0.06, W);
-  label('PLUMBING VENT  (M01, schematic)\n48" off the bedroom-partition studs (47 1/2" finished)\n'
-      + 'Now only 1" clear of the deepened shower tile edge -- confirm it misses\n'
-      + 'the curb-end framing and the new valve riser before rough-in.', -18, 62, WF + 2, pf(W));
+  label('VENT CL (M01, schematic)\n48" (47 1/2" fin.)', -20, 62, WF + 2, pf(W));
 
   // ===== STAIR wall: two lav drains + four supplies -- z ordinates off the west-wall studs ======================
-  // [sink CL, drain ordinate off the studs / finished, the two supply ordinates] -- written out rather than computed
-  // so the sheet reads in sixteenths like every other dimension in this repo, not in decimal inches
-  for (const [i, zc, dOrd, sOrd] of [[0, D.SINK_Z[0], '76 1/4" off the west-wall studs (75 3/4" finished)', '72 1/4" and 80 1/4" off the west-wall studs'],
-                                     [1, D.SINK_Z[1], '106 1/4" off the west-wall studs (105 3/4" finished)', '102 1/4" and 110 1/4" off the west-wall studs']]) {
+  for (const [i, zc, dOrd, sOrd] of [[0, D.SINK_Z[0], '76 1/4" (75 3/4" fin.)', '72 1/4" and 80 1/4"'],
+                                     [1, D.SINK_Z[1], '106 1/4" (105 3/4" fin.)', '102 1/4" and 110 1/4"']]) {
     bar(V(NF, FF + 18, zc), V(NF - 4, FF + 18, zc), 0.78, M.plumb, W);
     markX(NF - 0.06, FF + 18, zc, W, 4);
-    label(`LAV ${i + 1} DRAIN  1 1/2"\n${dOrd}\n18 5/8" off the subfloor (18" AFF)`, 30, i ? 30 : 12, zc + 7, ps(W));
+    label(`LAV ${i + 1} DRAIN CL  1 1/2"\n${dOrd}\n18 5/8" a.s.f. (18" AFF)`, 30, i ? 30 : 12, zc + 7, ps(W));
     for (const dz of [-4, 4]) {
       bar(V(NF, FF + 22, zc + dz), V(NF - 3, FF + 22, zc + dz), 0.42, M.plumb, W);
       markX(NF - 0.06, FF + 22, zc + dz, W, 3);
     }
-    label(`LAV ${i + 1} SUPPLIES  4" each side of the drain\n${sOrd}\n22 5/8" off the subfloor (22" AFF)`, 30, i ? 66 : 48, zc + 7, ps(W));
+    label(`LAV ${i + 1} SUPPLY CLs\n${sOrd}\n22 5/8" a.s.f. (22" AFF)`, 30, i ? 66 : 48, zc + 7, ps(W));
   }
 
   // running setting-out strings: one tape pull per wall, below the floor line
@@ -2292,23 +2285,24 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
     for (let i = 0; i < tx.length; i++)
       pdim(W, V(xs[i], -10, WF), V(xs[i + 1], -10, WF), tx[i], V(0, 0, 0), V(0, 1, 0), 3);
   }
-  label('MARK THE CROSSHAIRS.  Every ordinate is off the BARE STUDS first, FINISHED in brackets.\n'
-      + 'Two walls, two strings: along the WEST wall x runs off the bedroom-partition studs (WC supply >\n'
-      + 'vent > shower valve/arm); along the STAIR wall z runs off the west-wall studs (both lav sets).\n'
-      + 'Segments are identical off either datum -- only the first changes.\n'
-      + 'Stub heights are not on any sheet: typical practice, your own standard wins.', -6, 100, 70, ps(W));
+  // the only prose kept on the layer: the two datums. Everything else lives in the caption (Show -> Caption).
+  label('WEST WALL -- x off the bedroom-partition studs, finished in brackets', -14, 100, WF + 2, ps(W));
+  label('STAIR WALL -- z off the west-wall studs', 30, 100, 60, ps(W));
 
-  // ===== in the floor: two centrelines ==========================================================================
-  cyl(D.WC_X, 18, FF - 0.2, FF + 1.2, 3.5, M.plumb, FL);
-  markF(D.WC_X, FF + 1.3, 18, FL, 10);
-  cyl(SHCX, SHCZ, SF - 0.3, SF + 0.7, 2.0, M.plumb, FL);
-  markF(SHCX, SF + 0.8, SHCZ, FL, 10);
-  pdim(FL, V(D.WC_X, FF, WS), V(D.WC_X, FF, 18), '12 1/2" off the studs (12" off the finished wall)', V(0, 1.4, 0), V(1, 0, 0));
-  pdim(FL, V(SS, FF, 18), V(D.WC_X, FF, 18), '26" off the bedroom-partition studs (25 1/2" finished)', V(0, 1.4, 0), V(0, 0, 1));
-  pdim(FL, V(SHCX, SF, WS), V(SHCX, SF, SHCZ), '28 3/8" off the studs (27 7/16" off the shower tile)', V(0, 1.4, 0), V(1, 0, 0));
-  pdim(FL, V(SHCX, SF, SHCZ), V(NS, SF, SHCZ), '18 7/16" off the studs (17 9/16" off the shower tile)', V(0, 1.4, 0), V(0, 0, 1));
-  label('WC FLANGE centreline\n12 1/2" off the west-wall studs (12" off the finished wall -- a 12" rough-in is\nmeasured to FINISHED, so 12" off bare studs would bind the tank)\n26" off the bedroom-partition studs (25 1/2" finished)\nFlange set on the subfloor finishes ~5/8" below the LVP: use a spacer.', -30, 8, 40, ps(FL));
-  label('SHOWER DRAIN centreline -- the pan centre, so the mud bed falls to it evenly\n28 3/8" off the west-wall studs (27 7/16" off the shower tile)\n18 7/16" off the stair-wall studs (17 9/16" off the shower tile)\n69 9/16" off the bedroom-partition studs', 22, 8, 76, ps(FL));
+  // ===== in the floor: two centrelines. Also drawn on the WALL layer so they never go missing when a plumber
+  //       ticks "Plumbing: wall" on its own -- the drain is the one mark the shower cannot be set out without.
+  for (const L of [FL, W]) {
+    cyl(D.WC_X, 18, FF - 0.2, FF + 1.2, 3.5, M.plumb, L);
+    markF(D.WC_X, FF + 1.3, 18, L, 12);
+    cyl(SHCX, SHCZ, SF - 0.3, SF + 0.7, 2.0, M.plumb, L);
+    markF(SHCX, SF + 0.8, SHCZ, L, 14);
+  }
+  pdim(FL, V(D.WC_X, FF, WS), V(D.WC_X, FF, 18), '12 1/2" (12" off finish)', V(0, 1.4, 0), V(1, 0, 0));
+  pdim(FL, V(SS, FF, 18), V(D.WC_X, FF, 18), '26" (25 1/2" fin.)', V(0, 1.4, 0), V(0, 0, 1));
+  pdim(FL, V(SHCX, SF, WS), V(SHCX, SF, SHCZ), '28 3/8" (27 7/16" off tile)', V(0, 1.4, 0), V(1, 0, 0));
+  pdim(FL, V(SHCX, SF, SHCZ), V(NS, SF, SHCZ), '18 7/16" (17 9/16" off tile)', V(0, 1.4, 0), V(0, 0, 1));
+  label('WC FLANGE CL', D.WC_X, 10, 26, ps(FL));
+  label('SHOWER DRAIN CL\n28 3/8" off west-wall studs | 18 7/16" off stair-wall studs', SHCX, 12, SHCZ + 17, ps(FL));
 }
 
 // ===== END EDIT: GEOMETRY =====

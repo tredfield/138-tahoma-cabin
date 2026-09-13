@@ -81,7 +81,7 @@
     M01 fan and the E01 recessed can land 9" apart; the register sits under the open door; the shower valve and arm heights in the drawing are
     measured from subfloor (46 1/2" and 78 1/2" above the shower's tiled floor) and the valve sits behind the fixed glass panel, out of reach from outside. <b>Fixtures match the main bath</b> (owner
     2026-09-10): Moen UT3312 shower trim, Moen 6402 faucet, Kohler Artifacts 72582 sconce over a Kohler K-26052 mirror.
-    <b>Plumbing rough-in</b> sits on two Show checkboxes so it reads on its own with the architectural dimensions off: <b>Plumbing: wall</b> (every stub, the valve, the arm, the vent and their heights &mdash; use the <b>Plumbing</b> view, an elevation of the one wall they all land on, with Framing ticked and the finishes off, which is the condition the plumber is actually standing in) and <b>Plumbing: floor</b> (the closet flange and the shower drain &mdash; use the <b>Plan</b> view). They are split because heights collapse onto the floor points in plan and the labels pile up. Dimensions are to <b>finished</b> faces &mdash; add 1/2" off bare studs, 7/8" inside the shower &mdash; and heights are above the finished floor (0.6" LVP in the room, 1 1/2" tile in the shower). <b>Set the valve's plaster guard for a 7/8" finish</b>, not the 1/2" gyp the rest of that wall gets, and order the Moen M-CORE valve body to match the UT3312 trim. From M01's own notes: listed anti-scald / pressure-balance valve, 120&deg;F max (BATHROOM 4); rigidly support the head fitting (1); flange on corrosion-resistant fasteners (6); closet ring to vent 6'-0" maximum (7) &mdash; the flange is 42" from the vent; 18 ga nail plates wherever pipe comes within 1" of a framing face (PLUMBING 1). A flange set on the subfloor finishes ~5/8" below the LVP, so plan a spacer. <b>Stub heights are on no sheet</b> (18" lav drain, 22" lav supplies, 8" WC supply are typical practice) &mdash; the plumber's own standard should win. <b>Two things are not settled, both upstream of the DWV:</b> the full-width no-chase shower is still only this drawing's default rather than a decision confirmed with Elevate, and it sets the drain position; and the shower valve sits behind <i>fixed</i> glass about 35" from the door opening, so the water cannot be turned on from outside the enclosure.
+    <b>Plumbing rough-in</b> is one Show checkbox, <b>Plumbing</b>, read on the <b>Plumbing</b> view (an elevation of the single wall every stub lands on) with <b>Framing</b> ticked and the finishes off &mdash; the condition at rough-in. Every penetration carries a crosshair on its centerline and a two-line tag: the run <b>along the wall from the hall-wall studs</b>, then the height <b>off the subfloor</b> ("up"), or <b>off the plumbing-wall studs</b> ("out") for the two points in the floor. A running string under the wall steps 20 1/2 | 4 | 4 | 30 1/2 | 6 | 34 1/2 | 2 | 5 1/2 = 107", so the whole run lays out on one tape pull. <b>Everything on the drawing is off bare studs.</b> Finished-face equivalents: this wall finishes 1/2" proud of the studs and 7/8" in the shower (1/2" backer + 3/8" tile), the hall wall 1/2", the floor 0.6" LVP and 1 1/2" tile in the shower. So the WC flange's 12 1/2" off the studs is the <b>12" rough-in measured to finished</b> &mdash; marking 12" off bare studs would bind the tank; the lav drain's 24 1/2" is 24" finished and its 18 5/8" is 18" AFF; the shower valve's 48" off the subfloor is 46 1/2" above the shower floor and the arm's 80" is 78 1/2" above it, which is low for a typical 80"&ndash;82" setting. <b>Stub heights are on no sheet</b> &mdash; 18" lav drain, 22" lav supplies, 8" WC supply are typical practice, and the plumber's own standard should win. From M01's notes: listed anti-scald / pressure-balance valve, 120&deg;F max (BATHROOM 4); rigidly support the head fitting (1); flange on corrosion-resistant fasteners (6); closet ring to vent 6'-0" maximum (7), and the flange is 42" from the vent; 18 ga nail plates wherever pipe comes within 1" of a framing face (PLUMBING 1). A flange set on the subfloor finishes ~5/8" below the LVP, so plan a spacer. Set the valve's plaster guard for a <b>7/8" finish</b>, not the 1/2" gyp the rest of the wall gets, and order the Moen M-CORE valve body to match the UT3312 trim. The <b>vent is drawn orange</b> because M01 detail 4 is a 3/16" schematic (&plusmn;3"): hold it to the north side of the 2x6 cavity, since a 2X12 floor joist runs directly over this wall and the top-plate penetration has to miss it, and nothing can rise at the hall end where a 6X8 post fills the cavity. <b>Two things are not settled, both upstream of the DWV:</b> the full-width no-chase shower is still only this drawing's default rather than a decision confirmed with Elevate, and it sets the drain position; and the shower valve sits behind <i>fixed</i> glass about 35" from the door opening, so the water cannot be turned on from outside the enclosure.
     Finishes (dark rustic LVP, knotty alder, light quartz) carry the owner's main-bath / kitchen picks and are assumptions
     here; the BoD leaves the bath cabinet TBD. No site photos or field tape of this room yet -- A02's own <i>5'-3 1/4" FIELD VERIFY</i>
     on the alcove is open. <b>Not engineered &mdash; do not build from this.</b>
@@ -122,8 +122,7 @@
       <label><input type="checkbox" data-layer="context" checked> House context</label>
       <label><input type="checkbox" data-layer="label"> Labels</label>
       <label><input type="checkbox" data-layer="dim"> Dimensions</label>
-      <label><input type="checkbox" data-layer="plumb"> Plumbing: wall</label>
-      <label><input type="checkbox" data-layer="plumbFl"> Plumbing: floor</label>
+      <label><input type="checkbox" data-layer="plumb"> Plumbing</label>
       <label><input type="checkbox" data-layer="caption"> Caption</label>
     </div>
     <div class="row fold" id="variants">
@@ -2188,85 +2187,70 @@ dim(V(D.DOOR_X1, D.DOOR_HEAD + 6, D.HW_IN), V(D.DOOR_X2, D.DOOR_HEAD + 6, D.HW_I
 dim(V(D.PW_S, D.DOOR_HEAD + 12, D.HW_IN), V(D.DOOR_X1, D.DOOR_HEAD + 12, D.HW_IN), '3\'-6 1/2" (A02 chain)', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.PW_IN + 1, 0, 40), V(D.PW_IN + 1, D.CEIL, 40), '9\'-0"', V(0, 0, 0), V(0, 0, 1));
 dim(V(0, 108, 40), V(0, 120, 40), '1\'-0" floor', V(0, 0, 0), V(0, 0, 1));
-// ---- plumbing rough-in: CENTERLINE MARKS (Show: "Plumbing: wall" / "Plumbing: floor") -----------------------------------------
-//      This is a setting-out set, not a description: every penetration gets a CROSSHAIR ON ITS CENTERLINE plus the two ordinates
-//      needed to mark it with a tape, each given off the BARE STUDS (what you measure today) and off the FINISHED face (what it
-//      becomes). Segment lengths in the running string are datum-independent -- only the first segment changes.
-//        "Plumbing: wall"  -- the seven points on the plumbing wall + the running string. Read it on the Plumbing view.
-//        "Plumbing: floor" -- the closet flange and the shower drain. Read it on the Plan view.
-//      Heights are not on any sheet (spec open item 15): typical practice, and the plumber's own standard should win.
+// ---- plumbing rough-in: CENTERLINE MARKS (Show: "Plumbing") ---------------------------------------------------------------------
+//      One layer, measurements only. Every penetration -- including the shower drain -- gets a crosshair on its centerline and a
+//      two-line tag: the run along the wall from the HALL-WALL STUDS, then the height off the SUBFLOOR (or "out" = off the
+//      PLUMBING-WALL STUDS for the two points in the floor). Bare studs throughout, because that is what is measurable at
+//      rough-in. Finished-face equivalents, the code notes and the open items live in the caption, not on the drawing.
 {
-  const W = 'plumb', FL = 'plumbFl';
+  const L = 'plumb';
   const PM = new THREE.LineBasicMaterial({ color: 0x5fe3ff, transparent: true, opacity: .95 });
-  const ps = L => ({ layer: L, size: 26, bg: 'rgba(6,42,52,.92)', color: '#9ff0ff' });
-  const pf = L => ({ layer: L, size: 26, bg: 'rgba(72,38,4,.92)', color: '#ffc98a' });
-  const FF = D.FLOOR_T, SF = D.PAN_T;                                    // finished floor: room LVP 0.6" / shower tile 1 1/2"
-  const WF = D.PW_IN, TF = D.PW_N + D.TILE_T, BT = D.EW_S1 - D.TILE_T;    // plumbing wall: finished / shower tile / back tile
-
-  // crosshair ON the centerline: in the wall plane (y-z) or the floor plane (x-z)
-  const seg = (pts, L) => reg(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), PM), L);
-  const markW = (x, y, z, L, r = 6) => seg([V(x, y - r, z), V(x, y + r, z), V(x, y, z - r), V(x, y, z + r)], L);
-  const markF = (x, y, z, L, r = 7) => seg([V(x - r, y, z), V(x + r, y, z), V(x, y, z - r), V(x, y, z + r)], L);
-  const pdim = (L, p1, p2, text, off = V(0, 0, 0), tickDir = V(0, 1, 0), tick = 4) => {
+  const ps = { layer: L, size: 26, bg: 'rgba(6,42,52,.92)', color: '#9ff0ff' };
+  const pf = { layer: L, size: 26, bg: 'rgba(72,38,4,.92)', color: '#ffc98a' };
+  const FF = D.FLOOR_T, SF = D.PAN_T;
+  const WF = D.PW_IN, TF = D.PW_N + D.TILE_T, HS = D.HW_S2, SS = D.PW_N;   // finished wall / shower tile / hall studs / plumbing studs
+  const seg = pts => reg(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), PM), L);
+  const markW = (x, y, z, r) => seg([V(x, y - r, z), V(x, y + r, z), V(x, y, z - r), V(x, y, z + r)]);
+  const markF = (x, y, z, r) => seg([V(x - r, y, z), V(x + r, y, z), V(x, y, z - r), V(x, y, z + r)]);
+  const pdim = (p1, p2, text, off = V(0, 0, 0), tickDir = V(0, 1, 0), tick = 4) => {
     const a = p1.clone().add(off), b = p2.clone().add(off);
     seg([a, b, a.clone().addScaledVector(tickDir, tick), a.clone().addScaledVector(tickDir, -tick),
-         b.clone().addScaledVector(tickDir, tick), b.clone().addScaledVector(tickDir, -tick), p1, a, p2, b], L);
+         b.clone().addScaledVector(tickDir, tick), b.clone().addScaledVector(tickDir, -tick), p1, a, p2, b]);
     const m = a.clone().add(b).multiplyScalar(0.5).addScaledVector(tickDir, tick + 3);
-    label(text, m.x, m.y, m.z, ps(L));
+    label(text, m.x, m.y, m.z, ps);
   };
 
-  // ===== the plumbing wall: seven centerlines, marked off the hall wall and off the floor =====================
-  // [z, height above subfloor, radius, name, "off studs / off finished", "height off subfloor / AFF", callout z, callout y]
-  // [z, y, stub radius, crosshair radius, name, ordinate line(s), height line, callout z, callout y]
-  const WALLPTS = [
-    [53.5, FF + 22, 0.42, 3.5, 'LAV SUPPLY  hot/cold, hall side', '20 1/2" off the hall-wall studs (20" finished)', '22 5/8" off the subfloor (22" AFF)',  70, 66],
-    [61.5, FF + 22, 0.42, 3.5, 'LAV SUPPLY  far side',            '28 1/2" off the hall-wall studs (28" finished)', '22 5/8" off the subfloor (22" AFF)',  44, 80],
-    [57.5, FF + 18, 0.78, 3.5, 'LAV DRAIN  1 1/2"',               '24 1/2" off the hall-wall studs (24" finished)', '18 5/8" off the subfloor (18" AFF)',  64, 44],
-    [92.0, FF +  8, 0.42, 6,   'WC SUPPLY',                       '59" off the hall-wall studs (58 1/2" finished)', '8 5/8" off the subfloor (8" AFF)',    88, 24],
-    [D.TRIM_Z, D.VALVE_Y, 1.9, 6, 'SHOWER VALVE  anti-scald / pressure balance', '99 1/2" off the hall-wall studs (99" finished)\n18" off the back-wall studs (17 1/8" off the back tile)', '48" off the subfloor = 46 1/2" above the shower floor', 138, 30],
-    [D.TRIM_Z, D.ARM_Y,   0.62, 6, 'SHOWER ARM  drop-ear, block it',            '99 1/2" off the hall-wall studs (99" finished)\n18" off the back-wall studs',                             '80" off the subfloor = 78 1/2" above the shower floor', 138, 100],
-  ];
-  for (const [z, y, r, xr, name, ord, ht, cz, cy] of WALLPTS) {
+  // --- the six stubs on the plumbing wall: [z, y, stub r, crosshair r, tag, tag x, tag y] -------------------------------
+  for (const [z, y, r, xr, tag, tx, ty] of [
+    [53.5,     FF + 22, 0.42, 3.5, 'LAV SUPPLY hot/cold\n20 1/2"  |  22 5/8" up', 14, 42],
+    [57.5,     FF + 18, 0.78, 3.5, 'LAV DRAIN\n24 1/2"  |  18 5/8" up',           30, 28],
+    [61.5,     FF + 22, 0.42, 3.5, 'LAV SUPPLY\n28 1/2"  |  22 5/8" up',          14, 56],
+    [92.0,     FF +  8, 0.42, 6,   'WC SUPPLY\n59"  |  8 5/8" up',                20, 26],
+    [D.TRIM_Z, D.VALVE_Y, 1.9, 6,  'SHOWER VALVE\n99 1/2"  |  48" up',            20, 34],
+    [D.TRIM_Z, D.ARM_Y,   0.62, 6, 'SHOWER ARM\n99 1/2"  |  80" up',              20, 92],
+  ]) {
     const xf = z > D.SH_Z1 ? TF : WF;
-    bar(V(xf, y, z), V(xf + (r > 1 ? 1.6 : 3), y, z), r, M.plumb, W);
-    markW(xf + 0.06, y, z, W, xr);
-    label(name + '\n' + ord + '\n' + ht, xf + 2, cy, cz, ps(W));
+    bar(V(xf, y, z), V(xf + (r > 1 ? 1.6 : 3), y, z), r, M.plumb, L);
+    markW(xf + 0.06, y, z, xr);
+    label(tag, tx, ty, z, ps);
   }
-  // the vent is the one point M01 actually locates, and it is a +/-3" schematic read
-  cyl(0, 140, 0, D.PLATE_TOP, 1.5, M.flag, W);
-  bar(V(WF, 30, 140), V(WF + 1.4, 30, 140), 1.1, M.flag, W);
-  markW(WF + 0.06, 30, 140, W);
-  label('PLUMBING VENT  (M01 detail 4, a 3/16" schematic -- +/-3")\n'
-      + '107" off the hall-wall studs (106 1/2" finished)\n'
-      + 'Hold it to the NORTH side of the 2x6 cavity: a 2X12 floor joist runs directly\n'
-      + 'over this wall, so the top-plate penetration has to miss it. Nothing can rise at\n'
-      + 'the hall end -- a 6X8 post fills the cavity 29" to 36 1/2" off the hall wall.', WF + 2, 62, 146, pf(W));
 
-  // running setting-out string along the wall, below the floor line, so one tape pull lays all seven out
+  // --- the two points in the floor: closet flange and SHOWER DRAIN ------------------------------------------------------
+  cyl(15.25, D.WC_Z, FF - 0.2, FF + 1.2, 3.5, M.plumb, L);
+  markF(15.25, FF + 1.3, D.WC_Z, 11);
+  pdim(V(SS, FF, D.WC_Z), V(15.25, FF, D.WC_Z), '12 1/2"', V(0, 1.4, 0), V(0, 0, 1));
+  label('WC FLANGE\n65"  |  12 1/2" out', 30, 7, 92, ps);
+
+  cyl(37.125, 134.5, SF - 0.3, SF + 0.7, 2.0, M.plumb, L);
+  markF(37.125, SF + 0.8, 134.5, 11);
+  pdim(V(SS, SF, 134.5), V(37.125, SF, 134.5), '34 3/8"', V(0, 1.4, 0), V(0, 0, 1));
+  label('SHOWER DRAIN\n101 1/2"  |  34 3/8" out', 52, 7, 140, ps);
+
+  // --- the vent: the one point M01 locates, and it is a +/-3" schematic read (orange) -----------------------------------
+  cyl(0, 140, 0, D.PLATE_TOP, 1.5, M.flag, L);
+  bar(V(WF, 30, 140), V(WF + 1.4, 30, 140), 1.1, M.flag, L);
+  markW(WF + 0.06, 30, 140, 6);
+  label('VENT  (M01, +/-3")\n107"', 18, 64, 147, pf);
+
+  // --- running string along the wall so the whole run lays out on one tape pull -----------------------------------------
   {
-    const y = -10, zs = [D.HW_IN, 53.5, 57.5, 61.5, 92.0, 98.0, D.TRIM_Z, 134.5, 140];
-    const txt = ['20"  (20 1/2" off the studs)', '4"', '4"', '30 1/2"', '6"', '34 1/2"', '2"', '5 1/2"'];
-    for (let i = 0; i < txt.length; i++) {                                            // short segments get their label pushed further so they do not collide
-      const short = zs[i + 1] - zs[i] < 8;
-      pdim(W, V(WF, y, zs[i]), V(WF, y, zs[i + 1]), txt[i], V(0, 0, 0), V(0, 1, 0), short ? 15 : 3);
-    }
+    const y = -10, zs = [HS, 53.5, 57.5, 61.5, 92.0, 98.0, D.TRIM_Z, 134.5, 140];
+    const txt = ['20 1/2"', '4"', '4"', '30 1/2"', '6"', '34 1/2"', '2"', '5 1/2"'];
+    for (let i = 0; i < txt.length; i++)
+      pdim(V(WF, y, zs[i]), V(WF, y, zs[i + 1]), txt[i], V(0, 0, 0), V(0, 1, 0), zs[i + 1] - zs[i] < 8 ? 15 : 3);
   }
-  label('MARK THE CROSSHAIRS.  Every ordinate is off the BARE STUDS first, FINISHED in brackets.\n'
-      + 'The running string below steps hall wall > lav supply > lav drain > lav supply > WC supply > WC flange >\n'
-      + 'shower valve/arm > shower drain > vent. Its segments are identical off either datum -- only the first changes.\n'
-      + 'Stub heights are not on any sheet: typical practice, your own standard wins.', WF, 14, 129, ps(W));
-
-  // ===== in the floor: two centerlines =========================================================================
-  cyl(15.25, D.WC_Z, FF - 0.2, FF + 1.2, 3.5, M.plumb, FL);
-  markF(15.25, FF + 1.3, D.WC_Z, FL, 10);
-  cyl(37.125, 134.5, SF - 0.3, SF + 0.7, 2.0, M.plumb, FL);
-  markF(37.125, SF + 0.8, 134.5, FL, 10);
-  pdim(FL, V(D.PW_N, FF, D.WC_Z), V(15.25, FF, D.WC_Z), '12 1/2" off the studs (12" off the finished wall)', V(0, 1.4, 0), V(0, 0, 1));
-  pdim(FL, V(15.25, FF, D.HW_S2), V(15.25, FF, D.WC_Z), '65" off the hall-wall studs (64 1/2" finished)', V(0, 1.4, 0), V(1, 0, 0));
-  pdim(FL, V(D.PW_N, SF, 134.5), V(37.125, SF, 134.5), '34 3/8" off the studs (33 1/2" off the shower tile)', V(0, 1.4, 0), V(0, 0, 1));
-  pdim(FL, V(37.125, SF, 134.5), V(37.125, SF, D.EW_S1), '16" off the back-wall studs (15 1/8" off the back tile)', V(0, 1.4, 0), V(1, 0, 0));
-  label('WC FLANGE centerline\n12 1/2" off the plumbing-wall studs (12" off the finished wall -- a 12" rough-in\nis measured to FINISHED, so 12" off bare studs would bind the tank)\n65" off the hall-wall studs (64 1/2" finished)\nFlange set on the subfloor finishes ~5/8" below the LVP: use a spacer.', 30, 8, 86, ps(FL));
-  label('SHOWER DRAIN centerline\n34 3/8" off the plumbing-wall studs (33 1/2" off the shower tile)\n16" off the back-wall studs (15 1/8" off the back tile)\n101 1/2" off the hall-wall studs', 46, 8, 128, ps(FL));
+  label('Off BARE STUDS.  First number = along the wall from the hall-wall studs.  "up" = off the subfloor.\n'
+      + '"out" = off the plumbing-wall studs.  Finished-face figures and the code notes are in the Caption.', WF, 16, 120, ps);
 }
 
 // ===== END EDIT: GEOMETRY =====
