@@ -61,7 +61,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Main bath &mdash; Option 1: glass shower, north-wall plumbing</h1>
-    <div class="sub">Valve wall removed; the shower takes a 38 1/2" x 55 1/2" strip behind frameless glass &mdash; <b>deepened 3" on 2026-09-13</b> to 35 1/8" of flat floor inside the curb (36 5/8" glass CL to back tile), the most window F's casing allows: Moen UT3312 head and valve on the west wall (in the exterior wall with freeze protection, owner decision), Kohler Essential mirrors and Artifacts sconces as a two-mirror option, shaving foot rest (centre) and shampoo niche (by the door) in the stair wall, a 5" cleaning slot to the vanity end, entry door on the south glass (owner 2026-09-09). Toilet and drains unchanged. 138 Tahoma St E, Packwood &middot; one of five layout options for the upper-floor <b>MAIN BATH</b> that remove the framed wall between shower and vanity. Room shell, window F, door 13 RO and the 60" vanity are as built / as drawn in <code>outputs/main-bath-3d.html</code>; everything else is this option's proposal. <b>Orange = assumed, not on any sheet, or flagged for the engineer / plumber.</b> <b>Design option for owner review &mdash; not published. Not engineered &mdash; do not build from this.</b> Spec with clearance table: <code>outputs/main-bath-options/opt-1-glass-north-plumbing-3d-spec.md</code>. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan. &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
+    <div class="sub">Valve wall removed; the shower takes a 38 1/2" x 55 1/2" strip behind frameless glass &mdash; <b>deepened 3" on 2026-09-13</b> to 35 1/8" of flat floor inside the curb (36 5/8" glass CL to back tile), the most window F's casing allows: Moen UT3312 head and valve on the west wall (in the exterior wall with freeze protection, owner decision), Kohler Essential mirrors and Artifacts sconces as a two-mirror option, shaving foot rest (centre) and shampoo niche (by the door) in the stair wall, a 5" cleaning slot to the vanity end, entry door on the south glass (owner 2026-09-09). Toilet and drains unchanged. 138 Tahoma St E, Packwood &middot; one of five layout options for the upper-floor <b>MAIN BATH</b> that remove the framed wall between shower and vanity. Room shell, window F, door 13 RO and the 60" vanity are as built / as drawn in <code>outputs/main-bath-3d.html</code>; everything else is this option's proposal. <b>Orange = assumed, not on any sheet, or flagged for the engineer / plumber.</b> <b>Plumbing rough-in</b> sits on two Show checkboxes so it reads on its own with the architectural dimensions off: <b>Plumbing: wall</b> (the lav stubs, the WC supply, the mixing valve, the shower arm, the M01 vent and their heights &mdash; use the <b>Plumbing</b> view, with Framing ticked and the finishes off, which is the condition the plumber is actually standing in) and <b>Plumbing: floor</b> (the closet flange and the shower drain &mdash; use the <b>Plan</b> view). Split because heights collapse onto the floor points in plan and the labels pile up. <b>Same convention as the guest bath drawing</b> (owner 2026-09-13), so one plumber can read both rooms: dimensions are to <b>finished</b> faces &mdash; add 1/2" off bare studs, 7/8" inside the shower &mdash; and heights are above the finished floor (0.6" LVP in the room, 1 1/2" tile in the shower). <b>Set the valve's plaster guard for a 7/8" finish</b>, not the 1/2" gyp the rest of that wall gets, and order the Moen M-CORE body to match the UT3312 trim; listed anti-scald / pressure-balance valve, 120&deg;F max (sheet note BATHROOM 4). A flange set on the subfloor finishes ~5/8" below the LVP, so plan a spacer. <b>Stub heights are on no sheet</b> (18" lav drain, 22" lav supplies, 8" WC supply are typical practice) &mdash; the plumber's own standard should win. Toilet and lav waste runs are UNCHANGED from M01; the 2" shower trap arm to M01's west-wall vent stack is ~52 1/2", inside the 60" limit (verify). <b>Two things to settle:</b> that vent stack at x -1 now sits 1" outside the deepened shower's tile edge, so it wants confirming against the curb-end framing and the new valve riser; and this valve is 44 1/2" above its pan where the guest bath's is 46 1/2" &mdash; same trim, two heights, owner to pick one. <b>Design option for owner review &mdash; not published. Not engineered &mdash; do not build from this.</b> Spec with clearance table: <code>outputs/main-bath-options/opt-1-glass-north-plumbing-3d-spec.md</code>. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan. &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -76,7 +76,7 @@
     <div class="lg"><span class="sw" style="background:#1c1c1c"></span>Matte black hardware / trim</div>
     <div class="lg"><span class="sw" style="background:#a9cfe3"></span>Glass</div>
     <div class="lg"><span class="sw" style="background:#e0483c"></span>Layout centrelines (toilet, shower)</div>
-    <div class="lg"><span class="sw" style="background:#74d0f1"></span>Plumbing rough-in (Show &rarr; Plumbing)</div>
+    <div class="lg"><span class="sw" style="background:#2fb8d4"></span>Plumbing rough-in (drains, supplies, valve, vent)</div>
     <div class="lg"><span class="sw" style="background:#c9a46a"></span>Framing (toggle)</div>
     <div class="lg"><span class="sw" style="background:#e07b20"></span>Not on record / sheets disagree</div>
     <div class="lg"><span class="sw" style="background:#5e646c"></span>House context (faded)</div>
@@ -93,7 +93,8 @@
       <label><input type="checkbox" data-layer="shower" checked> Shower</label>
       <label><input type="checkbox" data-layer="glass" checked> Glass</label>
       <label><input type="checkbox" data-layer="cl" checked> Centrelines</label>
-      <label><input type="checkbox" data-layer="plumb"> Plumbing rough-in</label>
+      <label><input type="checkbox" data-layer="plumb"> Plumbing: wall</label>
+      <label><input type="checkbox" data-layer="plumbFl"> Plumbing: floor</label>
       <label><input type="checkbox" data-layer="vanity" checked> Vanity + mirror</label>
       <label><input type="checkbox" data-layer="fixtures" checked> Toilet + accessories</label>
       <label><input type="checkbox" data-layer="elec" checked> Lights + devices</label>
@@ -117,6 +118,7 @@
       <button data-view="shower">Shower</button>
       <button data-view="section">Section (looking north)</button>
       <button data-view="top">Plan</button>
+      <button data-view="plumbing">Plumbing</button>
       <button data-view="framing">Framing</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
     </div>
@@ -1649,6 +1651,7 @@ const M = {
   framing:  new THREE.MeshStandardMaterial({ color: 0xc9a46a, roughness: .85 }),
   shade:    new THREE.MeshStandardMaterial({ color: 0xfff6e0, emissive: 0xffe7b0, emissiveIntensity: 1.2, transparent: true, opacity: .85 }),
   lens:     new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff4dc, emissiveIntensity: 1.6 }),
+  plumb:    new THREE.MeshStandardMaterial({ color: 0x2fb8d4, roughness: .4, emissive: 0x0e4a57, emissiveIntensity: .9 }),   // plumbing rough-in points (Show: Plumbing: wall / floor)
   flag:     new THREE.MeshStandardMaterial({ color: 0xe07b20, roughness: .7 }),    // pending / not on record
   concept:  new THREE.MeshStandardMaterial({ color: 0xd9a441, roughness: .85 }),   // placeholder scheme
   ghost:    new THREE.MeshStandardMaterial({ color: 0x5e646c, roughness: .95, transparent: true, opacity: .4 }),
@@ -1964,23 +1967,6 @@ function centreLine(x1, z1, x2, z2, y = 1.0, L = 'cl') {
 }
 // clTag(text, x, y, z): small red call-out for a centreline, on the same 'cl' layer
 function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg: 'rgba(56,12,9,.88)', color: '#ffb3ad' }); }
-// ---- plumbing rough-in layer (owner request 2026-09-13: a Show option the plumber can read on its own) ---------------
-// Same geometry as dim(), but on the 'plumb' layer with a blue label, so ticking "Plumbing rough-in" and leaving
-// "Dimensions" off gives a clean sheet: drain, valve, head, closet flange and lav centrelines and nothing else.
-const PDIM_MAT = new THREE.LineBasicMaterial({ color: 0x74d0f1, transparent: true, opacity: .95 });
-function pdim(p1, p2, text, off = V(0, 0, 0), tickDir = V(0, 1, 0), tick = 4) {
-  const a = p1.clone().add(off), b = p2.clone().add(off), grp = new THREE.Group();
-  grp.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints([a, b,
-    a.clone().addScaledVector(tickDir, tick), a.clone().addScaledVector(tickDir, -tick),
-    b.clone().addScaledVector(tickDir, tick), b.clone().addScaledVector(tickDir, -tick),
-    p1, a, p2, b]), PDIM_MAT));
-  reg(grp, 'plumb');
-  const mid = a.clone().add(b).multiplyScalar(0.5).addScaledVector(tickDir, tick + 3);
-  label(text, mid.x, mid.y, mid.z, { layer: 'plumb', size: 26, bg: 'rgba(8,38,52,.90)', color: '#9fe3ff' });
-  return grp;
-}
-// pnote(text, x, y, z): blue call-out on the same 'plumb' layer
-function pnote(text, x, y, z) { label(text, x, y, z, { layer: 'plumb', size: 24, bg: 'rgba(8,38,52,.90)', color: '#9fe3ff' }); }
 
 // ---- OPTION 1 / 4 shower: mud-set tile floor, glass on the south + east lines. The south curb line is D.SH_X1 per option
 //      (opt 1: 0.0 = 35 1/8" of flat floor inside the curb, 36 5/8" glass CL to back tile, owner 2026-09-13; opt 4: 3.0 = 32 1/8" / 33 5/8"); HEAD and VALVE (Moen UT3312) on the west (exterior)
@@ -2231,43 +2217,67 @@ centreLine(D.SH_X1 + D.CURB_W + 0.3, SHCZ, D.WN_IN - 0.7, SHCZ, 1.7);   // showe
 clTag('SHOWER CL -- drain, head and valve are all on it\n(the head/valve moved 7/16" to land on it)', 32, 24, 17);
 bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // leader from the call-out down to the intersection
 
-// ---- plumbing rough-in (owner request 2026-09-13): own 'plumb' layer, OFF by default. Plumber's sheet =
-//      ?view=top&show=plumb  (Dimensions stays off, Centrelines stays on). Every tie is to a STUD face, because
-//      at rough-in there is no finish to measure from; every height is ABOVE SUBFLOOR.
-const STUD_N = D.WN_IN + 0.5, STUD_S = D.WS_IN - 0.5, STUD_W = D.EXT_STUD_IN, STUD_E = D.WE_IN + 0.5;   // x 39 / x -49 / z 5.5 / z 128
-pdim(V(SHCX, 3, SHCZ), V(STUD_N, 3, SHCZ), 'DRAIN  18 7/16" off stair-wall studs', V(0, 0, 0), V(0, 1, 0));
-pdim(V(SHCX, 3, STUD_W), V(SHCX, 3, SHCZ), 'DRAIN  28 3/8" off west-wall studs', V(0, 0, 0), V(0, 1, 0));
-pdim(V(D.WC_X, 3, STUD_W), V(D.WC_X, 3, 18), 'WC FLANGE  12 1/2" off west-wall studs (12" off finish)', V(0, 0, 0), V(0, 1, 0));
-pdim(V(STUD_S, 3, 18), V(D.WC_X, 3, 18), 'WC FLANGE  26" off partition studs', V(0, 0, 0), V(0, 1, 0));
-pdim(V(20, 3, D.SINK_Z[0]), V(20, 3, STUD_E), 'LAV 1  46 1/4" off hall-wall studs', V(0, 0, 0), V(0, 1, 0));
-pdim(V(20, 3, D.SINK_Z[1]), V(20, 3, STUD_E), 'LAV 2  16 1/4" off hall-wall studs', V(0, 0, 0), V(0, 1, 0));
-pdim(V(SHCX - 7, 0, D.EXT_IN + 1), V(SHCX - 7, 46, D.EXT_IN + 1), 'VALVE 46" a.s.f.', V(0, 0, 0), V(0, 0, 1));
-pdim(V(SHCX + 7, 0, D.EXT_IN + 1), V(SHCX + 7, 80, D.EXT_IN + 1), 'HEAD 80" a.s.f.', V(0, 0, 14), V(0, 0, 1));
-// notes: kept to ~58 characters a line. A label sprite's width maps to the X axis in the plan view, so a long
-// single line becomes an 8-foot-wide banner that buries the dimensions underneath it.
-pnote('HOW TO READ THIS LAYER\n'
-    + 'Tick "Plumbing rough-in" alone: leave Dimensions off, Centrelines on.\n'
-    + 'Plan ties are to STUD faces, not finish -- x off the stair wall (39)\n'
-    + 'or the bedroom partition (-49); z off the west wall (5 1/2) or the\n'
-    + 'hall wall (128).  "a.s.f." = ABOVE SUBFLOOR: the shower\'s tiled mud\n'
-    + 'bed is 1 1/2" higher, so take 1 1/2" off anything set to the pan.\n'
-    + 'Drain, valve and head all sit on the shower\'s depth centreline.', -30, 62, 112);
-pnote('SHOWER SUPPLIES  1/2" H+C\n'
-    + 'Rise in the stair wall beside the lav supplies, run west at y ~36\n'
-    + 'through drilled studs to the NW corner, then into the 2x6 exterior\n'
-    + 'cavity to the valve.  OWNER-ACCEPTED EXCEPTION 2026-09-09: the valve\n'
-    + 'body and riser sit in the EXTERIOR wall -- strap to the warm side of\n'
-    + 'the studs, keep the 2" closed-cell + batt behind them, and add a\n'
-    + 'blow-out fitting so the branch drains for winter (UPC 312.6).\n'
-    + 'No handheld: UT3312 is shower-only trim.', -30, 54, 92);
-pnote('TRAP ARM AND VENT\n'
-    + 'Drain to M01\'s west-wall PLUMBING VENT stack at x -1 is ~21 1/2"\n'
-    + '+ ~31" = ~52 1/2", inside the 60" limit for a 2" arm (verify).\n'
-    + 'That stack now sits 1" outside the shower tile edge -- confirm it\n'
-    + 'clears the curb-end framing and the new valve riser before rough-in.\n'
-    + 'Toilet and lav waste runs are UNCHANGED from M01.', -30, 46, 74);
-pnote('NOT ON ANY SHEET -- plumber\'s standard:\n'
-    + 'WC supply stop, lav stops, lav drain heights.', -30, 38, 60);
+// ---- plumbing rough-in (Show: "Plumbing: wall" and "Plumbing: floor") ----------------------------------------------
+//      Owner 2026-09-13: the plumber gets one convention across both bathrooms, so this matches
+//      outputs/guest-bath-3d.html exactly -- same two checkboxes, same Plumbing view, same colours, and every
+//      dimension to a FINISHED face with the bare-stud figure alongside, every height above the FINISHED floor.
+//      Split onto two layers for the reason that drawing found: in plan the height dims collapse onto the floor
+//      points and the labels pile up. "Plumbing: wall" reads on the Plumbing view, "Plumbing: floor" on the Plan view.
+{
+  const W = 'plumb', FL = 'plumbFl';
+  const PM = new THREE.LineBasicMaterial({ color: 0x5fe3ff, transparent: true, opacity: .95 });
+  const ps = L => ({ layer: L, size: 26, bg: 'rgba(6,42,52,.92)', color: '#9ff0ff' });
+  const pf = L => ({ layer: L, size: 26, bg: 'rgba(72,38,4,.92)', color: '#ffc98a' });
+  const FF = 0.6, SF = 1.5;                                             // finished floor: room LVP / shower tiled mud bed
+  const WF = D.EXT_IN, WT = D.EXT_IN + 0.4, NF = D.WN_IN, NT = D.WN_IN - 0.4;   // west dry / west tile, stair dry / stair tile
+  const pdim = (L, p1, p2, text, off = V(0, 0, 0), tickDir = V(0, 1, 0), tick = 4) => {
+    const a = p1.clone().add(off), b = p2.clone().add(off);
+    const pts = [a, b, a.clone().addScaledVector(tickDir, tick), a.clone().addScaledVector(tickDir, -tick),
+                 b.clone().addScaledVector(tickDir, tick), b.clone().addScaledVector(tickDir, -tick), p1, a, p2, b];
+    reg(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), PM), L);
+    const m = a.clone().add(b).multiplyScalar(0.5).addScaledVector(tickDir, tick + 3);
+    label(text, m.x, m.y, m.z, ps(L));
+  };
+
+  // --- in the floor: closet flange and shower drain (read on the Plan view) --------------------------------------
+  cyl(D.WC_X, 18, FF - 0.2, FF + 1.2, 3.5, M.plumb, FL);                                  // closet flange, 12" rough-in
+  cyl(SHCX, SHCZ, SF - 0.3, SF + 0.7, 2.0, M.plumb, FL);                                  // shower drain, centred on the flat floor
+  pdim(FL, V(D.WC_X, FF, WF), V(D.WC_X, FF, 18), 'WC flange CL 12" off the FINISHED west wall = 12 1/2" off the studs', V(0, 0.6, 0), V(1, 0, 0));
+  pdim(FL, V(D.WS_IN, FF, 18), V(D.WC_X, FF, 18), 'WC flange CL 25 1/2" off the finished partition', V(0, 0.6, 0), V(0, 0, 1));
+  pdim(FL, V(SHCX, SF, WT), V(SHCX, SF, SHCZ), 'Shower drain 27 7/16" off the west-wall tile', V(0, 0.6, 0), V(1, 0, 0));
+  pdim(FL, V(SHCX, SF, SHCZ), V(NT, SF, SHCZ), 'and 17 9/16" off the stair-wall tile', V(0, 0.6, 0), V(0, 0, 1));
+  label('FLOOR POINTS -- dimensions to FINISHED faces (add 1/2" off bare studs, 7/8" in the shower).\n'
+      + 'A flange set on the subfloor finishes ~5/8" below the LVP: use a spacer so the ring sits flush or just above.', -14, 6, 44, ps(FL));
+
+  // --- stubs out of the walls (read on the Plumbing view) ---------------------------------------------------------
+  for (const z of D.SINK_Z) {                                                             // two lavs, stair wall
+    bar(V(NF, FF + 18, z), V(NF - 4, FF + 18, z), 0.78, M.plumb, W);                      // 1 1/2" drain
+    for (const dz of [-4, 4]) bar(V(NF, FF + 22, z + dz), V(NF - 3, FF + 22, z + dz), 0.42, M.plumb, W);   // supplies
+  }
+  bar(V(D.WC_X - 6, FF + 8, WF), V(D.WC_X - 6, FF + 8, WF + 3), 0.42, M.plumb, W);        // WC supply, partition side of the flange
+  bar(V(SHCX, 46, WT), V(SHCX, 46, WT + 1.6), 1.9, M.plumb, W);                           // mixing-valve body / mud ring
+  bar(V(SHCX, 80, WT), V(SHCX, 80, WT + 2.0), 0.62, M.plumb, W);                          // shower-arm drop-ear
+  cyl(-1.0, 2.75, 0, D.PLATE_TOP, 1.5, M.flag, W);                                        // M01 PLUMBING VENT, inside the 2x6 exterior wall
+  bar(V(-1.0, 30, WF), V(-1.0, 30, WF + 1.4), 1.1, M.flag, W);                            // ... marked on the face so the bay is findable
+
+  pdim(W, V(NF, FF + 18, D.SINK_Z[0]), V(NF, FF + 18, D.WE_IN), 'Lav 1 drain CL 45 3/4" off the finished hall wall', V(-6, 0, 0), V(0, 1, 0));
+  pdim(W, V(NF, FF + 18, D.SINK_Z[1]), V(NF, FF + 18, D.WE_IN), 'Lav 2 drain CL 15 3/4" off the finished hall wall', V(-6, 0, 0), V(0, 1, 0));
+  pdim(W, V(NF, FF, D.SINK_Z[0]), V(NF, FF + 18, D.SINK_Z[0]), 'Lav drains 18" above the finished floor', V(-14, 0, 0), V(0, 0, 1));
+  pdim(W, V(NF, FF + 22, D.SINK_Z[0] - 4), V(NF, FF + 22, D.SINK_Z[0] + 4), 'Lav supplies 8" apart, 22" AFF', V(-6, 9, 0), V(0, 1, 0));
+  pdim(W, V(D.WC_X - 6, FF + 8, WF), V(D.WC_X, FF + 8, WF), 'WC supply 6" off the flange CL', V(0, 0, 6), V(0, 1, 0));
+  pdim(W, V(D.WC_X - 6, FF, WF), V(D.WC_X - 6, FF + 8, WF), '8" AFF', V(0, 0, 6), V(1, 0, 0));
+  pdim(W, V(SHCX, SF, WT), V(SHCX, 46, WT), 'Valve CL 44 1/2" above the shower floor (46" above subfloor)', V(0, 0, 10), V(1, 0, 0));
+  pdim(W, V(SHCX, 46, WT), V(SHCX, 80, WT), 'Arm 34" above the valve = 78 1/2" above the shower floor', V(0, 0, 10), V(1, 0, 0));
+  pdim(W, V(SHCX, 62, WT), V(NT, 62, WT), 'Valve + arm CL 17 9/16" off the stair-wall tile', V(0, 0, 6), V(0, 1, 0));
+
+  label('ALL DIMENSIONS TO FINISHED FACES\n'
+      + 'Add 1/2" off bare studs; 7/8" in the shower (backer + tile)\n'
+      + 'Heights above FINISHED floor: 0.6" LVP / 1 1/2" shower tile\n'
+      + 'Stub heights are typical practice, not sheet reads', 30, 96, 40, ps(W));
+  label('Valve guard set for a 7/8" finish, not 1/2" gyp', 30, 52, WT, pf(W));
+  label('This valve is 44 1/2" above its pan, the guest bath\'s is 46 1/2"\n-- same UT3312 trim, two heights. Owner to pick one', 6, 36, WT + 2, pf(W));
+  label('VENT per M01, x -1 in the exterior wall\nnow 1" outside the shower tile edge --\nconfirm it clears the curb-end framing\nand the new valve riser', -14, 58, 8, pf(W));
+}
 
 // ===== END EDIT: GEOMETRY =====
 
@@ -2296,6 +2306,7 @@ const VIEWS = {
   shower:   { pos: [-40, 70, 100],   tgt: [24, 40, 34],  fov: 62 },
   section:  { pos: [-400, 105, 66],  tgt: [0, 90, 66],   fov: 40 },
   top:      { pos: [-4, 480, 66.5],  tgt: [-4, 0, 66],   fov: 40 },
+  plumbing: { pos: [-38, 86, 122],   tgt: [16, 30, 46],  fov: 64 },   // both rough-in walls at once: shower valve/arm + WC on the west, lavs on the stair wall
   framing:  { pos: [-210, 200, 300], tgt: [-4, 70, 66],  fov: 46 },
 };
 // ===== END EDIT: VIEWS =====
