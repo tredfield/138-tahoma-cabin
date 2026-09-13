@@ -65,16 +65,21 @@
     + basis-of-design fixture schedule. The lower-floor <b>GUEST BATH</b> on the east (gridline A) wall between the guest-room-1
     closets (south) and the kitchen (north), entered from the hall: 5'-7 3/4" x 9'-8 1/2" clear under a flat 9'-0" ceiling. The
     plumbing wall is centered on gridline 2; a 60 1/2" alcove is formed by an 8 1/2" chase at the kitchen end, with a 4'-0" x 1'-0"
-    window (C) at 5'-0" in its east wall. <b>Owner changes 2026-09-10:</b> a tiled <b>shower with a frameless glass door</b> (<b>32" from the glass to the back tile</b>, tile to 7'-0" with painted wall above,
+    window (C) at 5'-0" in its east wall. <b>Owner changes 2026-09-10:</b> a tiled <b>shower with a frameless glass door</b> (<b>34 1/8" from the glass to the back tile</b> &mdash; owner 2026-09-13, was 32" &mdash; tile to 7'-0" with painted wall above,
     like the upstairs bath) replaces A02's tub; the single-sink vanity in the hall-wall corner grows to <b>48"</b>
     (A02: 42 1/2"); every fixture and accessory is <b>matte black</b>. The sink is <b>centered on the 48"</b> (owner decision). The <b>End wall</b>
-    radio opens on the owner's default -- <b>no stub wall</b>, a full-width 66 1/2" tiled shower with custom glass wall to wall -- and can
-    show A02's 8 1/2" chase (which only existed to fit a standard 60" insert, drawn with a 60" x 34" pan) for comparison. The toilet is re-centered in what is left -- 18" to the vanity
-    and 18" to the glass (code minimum 15", 18" recommended); 40" in front of it, 43" between the vanity and the kitchen wall. Door 6
+    radio opens on the owner's default -- <b>no stub wall</b>, a full-width <b>67"</b> tiled shower with custom glass wall to wall -- and can
+    show A02's 8 1/2" chase (which only existed to fit a standard 60" insert, drawn with a 60" x 36" pan) for comparison.
+    <b>Depth 2026-09-13:</b> the shower front moved 2" west, so the glass-to-back-tile depth is 34 1/8" and the <b>flat floor inside the 4" curb is 31 1/8"</b>
+    &mdash; the curb, not the glass, is what your feet and the toilet actually meet. The toilet is re-centred on those finished faces at
+    <b>16 1/2" to the vanity end panel and 16 1/2" to the curb</b> (17 1/2" to the glass centerline; UPC 402.5 / IRC R307.1 minimum is 15",
+    18" is the comfort figure); 40" in front of it, 43" between the vanity and the kitchen wall. UPC 408.6 measures at the curb centerline:
+    33 1/8" x 67" = 2,219 sq in against a 1,024 minimum, with the 30" circle clearing by 3 1/8". Door 6
     (30", LH in-swing) is hinged at the kitchen wall. Walls and openings follow the A02 dim chains; device and light positions are scaled
     from E01 / M01 (&plusmn;1", M01 &plusmn;3"). <b>Orange = not on record or the sheets disagree:</b> S3.2 puts the hall-wall header (a door)
     at the plumbing-wall corner, 34" south of A02's door 6; A04 lists window C's rough width as 3'-0 1/2" against a 4'-0" unit; the
-    M01 fan and the E01 recessed can land 9" apart; the register sits under the open door. <b>Fixtures match the main bath</b> (owner
+    M01 fan and the E01 recessed can land 9" apart; the register sits under the open door; the shower valve and arm heights in the drawing are
+    measured from subfloor (46 1/2" and 78 1/2" above the shower's tiled floor) and the valve sits behind the fixed glass panel, out of reach from outside. <b>Fixtures match the main bath</b> (owner
     2026-09-10): Moen UT3312 shower trim, Moen 6402 faucet, Kohler Artifacts 72582 sconce over a Kohler K-26052 mirror.
     Finishes (dark rustic LVP, knotty alder, light quartz) carry the owner's main-bath / kitchen picks and are assumptions
     here; the BoD leaves the bath cabinet TBD. No site photos or field tape of this room yet -- A02's own <i>5'-3 1/4" FIELD VERIFY</i>
@@ -1581,7 +1586,7 @@ const D = {
   // kitchen partition (north): bath gyp / studs / kitchen gyp
   KP_IN: 71.0, KP_S1: 71.5, KP_S2: 75.0, KP_OUT: 75.5,
   // chase at the alcove's north end: framing face (chain 255.75 - 192.5) and its return plane (moved from A02's 120 to 116.5 for a 34" pan)
-  CH_X1: 63.25, CH_Z: 116.5,
+  CH_X1: 63.25, CH_Z: 114.5,
   // east wall (gridline A): gyp / studs / sheathing / siding
   EW_IN: 150.0, EW_S1: 150.5, EW_S2: 156.0, SHEATH: 156.5, SIDING: 157.25,
   // levels
@@ -1589,17 +1594,18 @@ const D = {
   // openings (door 6 per the A02 chain; window C RO 4'-0 1/2" x 1'-0 1/2", A04's 3'-0 1/2" rough width flagged)
   DOOR_X1: 39.0, DOOR_X2: 69.5, DOOR_HEAD: 84.5, DOOR_W: 30, DOOR_T: 1.375,
   WIN_X1: 8.75, WIN_X2: 57.25, WIN_SILL: 59.75, WIN_HEAD: 72.25,
-  // shower (owner 2026-09-10, replaces the A02 tub): 60" x 34" alcove pan in the 60 1/2" alcove, frameless glass on the threshold
-  // 32" from the back tile (owner: 32", not 30"), shower-only trim on the plumbing wall centered on the pan
-  SH_X1: 3.0, SH_X2: 63.0, SH_Z1: 116.5, SH_Z2: 150.5, PAN_T: 1.5, CURB_W: 3.0, GLASS_Z: 117.5, GLASS_H: 80,
+  // shower (owner 2026-09-10, replaces the A02 tub; depth 32" -> 34" owner 2026-09-13, spec decision 10): frameless glass on the threshold,
+  // 34 1/8" glass to back tile / 31 1/8" of flat floor inside the 4" curb; 60" x 36" alcove pan in the chase comparison view
+  SH_X1: 3.0, SH_X2: 63.0, SH_Z1: 114.5, SH_Z2: 150.5, PAN_T: 1.5, CURB_W: 3.0, GLASS_Z: 115.5, GLASS_H: 80,
   DOOR_G_X: 32.375, DOOR_G_X2: 40.375,   // glass door / fixed-panel split: with the chase (door hinged on the chase) / without (door hinged on the panel)
-  TRIM_Z: 133.5, VALVE_Y: 48, ARM_Y: 80,
+  TRIM_Z: 132.5, VALVE_Y: 48, ARM_Y: 80,   // trim re-centred on the deeper footprint; both heights are above SUBFLOOR (46 1/2" / 78 1/2" above the shower floor) -- spec open item 10
   // vanity in the plumbing-wall / hall-wall corner: 24 3/4" deep counter, 48" long (owner 2026-09-10; A02 drew 42 1/2"), faces north
   VAN_X1: 3.25, VAN_X2: 27.0, CTR_X2: 28.0, VAN_Z1: 33.5, VAN_Z2: 81.5, CTR_Y: 34.75, CTR_T: 1.25,
   SINK_XC: 15.5, SINK_ZC: 57.5, SINK_L: 13, SINK_W: 16, FAUCET_X: 6.5,   // sink centered on the 48" vanity (owner decision 2026-09-10; A02 symbol 49.5)
   MIR_HW: 11.03, MIR_Y1: 42, MIR_Y2: 76.06,          // Kohler K-26052 Essential 22 1/16" x 34 1/16" mirror, bottom 42", + Artifacts 72582 sconce 3" above -- same as the main bath
-  // toilet centerline: re-centered between the 48" vanity end (81.5) and the shower glass (117.5) -- 18" each side; A02 drew it at 104
-  WC_Z: 99.5,
+  // toilet centerline: re-centred between the 48" vanity end panel (81.5) and the CURB face (114.5) -- 16 1/2" each side, 17 1/2" to the
+  // glass centerline; was 99.5 at the 32" depth, A02 drew 104 (spec decision 10)
+  WC_Z: 98.0,
   // devices: E01 can + GFCI + 3-gang, M01 fan + floor register
   CAN: [37.2, 77.4], FAN: [42.0, 70.0], SWITCH_X: 32.5, GFCI_X: 15.5, REG: [66.5, 70.5, 60, 70],
   // finishes + framing rules
@@ -1850,7 +1856,12 @@ const winHole = rect(D.WIN_X1, D.WIN_SILL, D.WIN_X2, D.WIN_HEAD);
 }
 
 // ---- kitchen partition (north) and the tub chase at the alcove's north end ------------------------------------------------
-box(D.KP_IN, D.KP_OUT, 0, TOP, D.HW_OUT, D.EW_S1, M.gyp, 'wallN');
+//      Bath-side gyp stops at the shower: backer + tile REPLACE it there, as on the plumbing and east walls (spec decision 11 --
+//      the tile used to sit over the gyp, which understated the no-chase shower by 1/2"). Behind the chase option the strip is
+//      hidden by the chase block, so it is simply left out in both views.
+box(D.KP_S1, D.KP_OUT, 0, TOP, D.HW_OUT, D.EW_S1, M.gyp, 'wallN');                       // core + kitchen-side gyp, full length
+box(D.KP_IN, D.KP_S1, 0, TOP, D.HW_OUT, D.CH_Z, M.gyp, 'wallN');                         // bath-side gyp up to the shower
+box(D.KP_IN, D.KP_S1, D.TILE_H, TOP, D.CH_Z, D.EW_S1, M.gyp, 'wallN');                   // ... and above the shower tile
 tagNew('chaseOn', () => box(D.CH_X1, D.KP_IN, 0, TOP, D.CH_Z, D.EW_S1, M.gyp, 'tub'));   // chase block: 8 1/4" framing + gyp return at the pan's front edge (End wall radio)
 
 // ---- east wall (gridline A) with window C: 4'-0" x 1'-0" at 5'-0", tiled returns inside the surround -----------------------
@@ -1923,9 +1934,9 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
   box(xf, xf + 0.6, 4, gh, gz - 0.5, gz + 0.5, M.black, G);                             // glass wall channel at the valve wall
   const pull = xp => { for (const sz of [-1, 1]) { bar(V(xp, 38, gz + sz * 1.7), V(xp, 50, gz + sz * 1.7), 0.45, M.black, G); for (const y of [39, 49]) bar(V(xp, y, gz), V(xp, y, gz + sz * 1.7), 0.35, M.black, G); } };
   const panel = (ga, gb) => { box(ga, gb, 4, gh, gz - 0.19, gz + 0.19, M.glass, G, false); box(ga, gb, gh - 0.6, gh, gz - 0.5, gz + 0.5, M.black, G); };   // fixed panel + header bar
-  tagNew('chaseOn', () => {                                                              // A02 chase: 60 x 32 alcove pan, door hinged on the chase
+  tagNew('chaseOn', () => {                                                              // A02 chase: 60 x 36 alcove pan, door hinged on the chase
     const x1 = D.SH_X1, x2 = D.SH_X2, xe = D.CH_X1, gs = D.DOOR_G_X, gx2 = xe - tt - 0.4;
-    box(x1, x2, 0, yb, z1, z2, M.white, L);                                             // pan (model not chosen; 60 x 32 alcove base)
+    box(x1, x2, 0, yb, z1, z2, M.white, L);                                             // pan (model not chosen; 60 x 36 alcove base after the 2" move)
     box(x1, x2, 0, 4, z1, z1 + D.CURB_W, M.white, L);                                   // threshold along the glass line
     cyl((x1 + x2) / 2, (z1 + D.CURB_W + z2) / 2, yb, yb + 0.2, 2, M.black, L);         // drain
     box(xe - tt, xe, yb, th, z1, ez, M.tile, T);                                        // chase-end tile
@@ -1939,15 +1950,15 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
     pull(gs + 3.5);
   });
   tagNew('chaseOff', () => {                                                             // no chase: tiled floor + curb wall to wall, door hinged on the panel
-    const x1 = xf, x2 = D.KP_IN - tt, gs = D.DOOR_G_X2, gx2 = x2 - 0.4;
+    const x1 = xf, x2 = D.KP_S1 - tt, gs = D.DOOR_G_X2, gx2 = x2 - 0.4;   // tile face 70.625: backer replaces the gyp, so the shower is 67" tile to tile
     box(x1, x2, 0, yb, z1, z2, M.tile, L);                                              // tiled floor (mud-set, sloped to the drain in reality)
     box(x1, x2, 0, 4.5, z1, z1 + 4, M.tile, L);                                         // tiled 4" curb
     cyl((x1 + x2) / 2, (z1 + 4 + z2) / 2, yb, yb + 0.2, 2, M.black, L);                // drain
-    box(D.KP_IN - tt, D.KP_IN, yb, th, z1, ez, M.tile, T);                              // kitchen-wall end tile
-    prism(rect(D.PW_N, yb, D.KP_IN, th), ez, D.EW_S1, M.tile, T, [winHole]);           // east wall tile, full width
-    box(D.KP_IN - tt - 0.1, D.KP_IN, yb, th + 0.5, z1 - 0.5, z1, M.black, T, false);
-    box(D.KP_IN - tt - 0.1, D.KP_IN, th, th + 0.5, z1 - 0.5, ez, M.black, T, false);
-    box(D.PW_N, D.KP_IN, th, th + 0.5, ez - 0.1, ez + 0.1, M.black, T, false);
+    box(D.KP_S1 - tt, D.KP_S1, yb, th, z1, ez, M.tile, T);                              // kitchen-wall end tile
+    prism(rect(D.PW_N, yb, D.KP_S1, th), ez, D.EW_S1, M.tile, T, [winHole]);           // east wall tile, full width
+    box(D.KP_S1 - tt - 0.1, D.KP_S1, yb, th + 0.5, z1 - 0.5, z1, M.black, T, false);
+    box(D.KP_S1 - tt - 0.1, D.KP_S1, th, th + 0.5, z1 - 0.5, ez, M.black, T, false);
+    box(D.PW_N, D.KP_S1, th, th + 0.5, ez - 0.1, ez + 0.1, M.black, T, false);
     panel(xf + 0.6, gs - 0.3);
     box(gs + 0.3, gx2, 4, gh, gz - 0.19, gz + 0.19, M.glass, G, false);                 // 29 1/2" door, free edge at the kitchen wall
     for (const y of [14, 66]) box(gs - 1.6, gs + 1.6, y, y + 3.5, gz - 1.1, gz + 1.1, M.black, G);   // glass-to-glass hinges
@@ -2130,15 +2141,15 @@ label('GUEST BATH  5\'-7 3/4" x 9\'-8 1/2" clear, 9\'-0" ceiling\nplumbing wall 
 label('Door 6  30" x 84"  LH in-swing, hinged at the kitchen wall\nAgeless Iron Loch, OPCI', 54, 92, 34);
 label('S3.2 puts this wall\'s header (a door) at the plumbing-wall corner, 34" south of A02\'s door 6\nDrawn per A02 -- coordinate with Armstrong / Pieruccioni before the hall wall is framed', 40, 100, 31, FLAG);
 label('Window C  4\'-0" x 1\'-0", sill 5\'-0" (A03, A04 type C, section 4)\nA04 schedule lists its rough width as 3\'-0 1/2" -- drawn 4\'-0 1/2"; returns tiled', 33, 84, 148, FLAG);
-tagNew('chaseOn', () => label('For comparison: 60" x 34" alcove pan in the A02 chase, 58 3/4" x 32" to the glass\nthe chase only existed to fit a standard insert. End wall radio: none (default) / chase', 33, 26, 133));
-tagNew('chaseOff', () => label('Full-width tiled shower, no chase (owner default 2026-09-10): 66 1/2" tile to tile x 32" to the glass\ntiled floor + 4" curb, custom frameless glass wall to wall (tile + glass door as upstairs)', 37, 26, 133));
-label('Moen UT3312 Belfield M-CORE 3-Series shower trim, matte black -- same as the main bath (owner 2026-09-10)\nreplaces the BoD UT2313EP tub/shower kit', 10, 90, 133.5, NOTE);
+tagNew('chaseOn', () => label('For comparison: 60" x 36" alcove pan in the A02 chase, 58 3/4" x 34 1/8" to the glass\nthe chase only existed to fit a standard insert. End wall radio: none (default) / chase', 33, 26, 132));
+tagNew('chaseOff', () => label('Full-width tiled shower, no chase (owner default): 67" tile to tile x 34 1/8" to the glass (owner 2026-09-13, was 32")\ntiled floor + 4" curb -- 31 1/8" of FLAT floor inside the curb, which is the dimension you stand in; custom frameless glass wall to wall', 37, 26, 132));
+label('Moen UT3312 Belfield M-CORE 3-Series shower trim, matte black -- same as the main bath (owner 2026-09-10); replaces the BoD UT2313EP kit\nValve 48" / arm 80" are ABOVE SUBFLOOR = 46 1/2" / 78 1/2" above the shower floor -- settle both as above-shower-floor numbers before rough-in\nAnd the valve sits behind the FIXED panel, ~35" from the door: the water cannot be turned on from outside, and walking to it crosses the spray.\nThe chase option\'s answer (a valve in the chase) went away with the chase -- owner call. M01 note 4: listed anti-scald / pressure-balance valve, 120 F max', 10, 96, 132.5, FLAG);
 tagNew('chaseOn', () => label('Frameless glass: fixed panel at the valve end, 30" door hinged on the chase, swings out\n(a door at the valve end would sweep the toilet)', 33, 86, 118, NOTE));
-tagNew('chaseOff', () => label('Frameless glass wall to wall: 36 3/4" fixed panel at the valve end, 29 1/2" door on glass-to-glass hinges,\nswings out and closes against the kitchen wall (a valve-end door would sweep the toilet)', 37, 86, 118, NOTE));
+tagNew('chaseOff', () => label('Frameless glass wall to wall in a 67" opening: 35 7/8" fixed panel at the valve end, 29 9/16" door on glass-to-glass hinges,\nswings out and closes against the kitchen wall (a valve-end door would sweep the toilet)', 37, 86, 116, NOTE));
 label('Tile 0931 (OPCI) to 7\'-0" on three walls, painted wall above (owner: not to the ceiling; height typical)', 40, 90, 148, NOTE);
 label('Single-sink vanity 48" x 24 3/4" (owner 2026-09-10; A02 42 1/2"), sink centered (owner decision): 12" drawers | 24" doors | 12" drawers\ncabinet species TBD in the BoD (drawn alder), quartz assumed; Moen 6402 faucet as upstairs; the E01 receptacle stays on the hall wall', 16, 42, 58);
 label('Kohler Artifacts 72582 two-light sconce over a Kohler K-26052 Essential 22" x 34" mirror -- same as the main bath (owner 2026-09-10)\nreplaces the BoD Bellevue EGBF23259 bar; the E01 circuit-2 box lands on the sink centerline, 24" off the hall wall', 8, 97, D.SINK_ZC, NOTE);
-label('Toilet -- American Standard (model not named)\ncenterline re-centered: 18" to the vanity end, 18" to the shower glass (A02 drew it 4 1/2" further toward the tub)', 22, 34, 99.5, FLAG);
+label('Toilet -- American Standard (model not named)\ncenterline z 98: 16 1/2" to the vanity end panel and 16 1/2" to the CURB FACE -- the nearest finished obstruction, 1" inboard of the glass\n(17 1/2" to the glass centerline; UPC 402.5 / IRC R307.1 minimum is 15"). A02 drew it 6" further toward the shower', 22, 34, 98, FLAG);
 label('Recessed can (E01 ckt 2) and Broan 50 CFM fan (M01) land 9" apart\none moves ~6", or the fan becomes a fan/light', 40, 103, 74, FLAG);
 label('3-gang: vanity light / can / fan', D.SWITCH_X, 55, 36, NOTE);
 label('GFCI, ckt 32', D.GFCI_X, 48, 36, NOTE);
@@ -2152,16 +2163,17 @@ label('Flat gyp ceiling at 9\'-0" (section 4)', 37, 104, 56, NOTE);
 dim(V(D.PW_IN, 2, 112), V(D.KP_IN, 2, 112), '5\'-7 3/4" clear', V(0, 0, 0), V(0, 1, 0));
 dim(V(36, 2, D.HW_IN), V(36, 2, D.EW_IN), '9\'-8 1/2" clear', V(0, 0, 0), V(0, 1, 0));
 tagNew('chaseOn', () => {
-  dim(V(D.PW_N, 100, 116), V(D.CH_X1, 100, 116), '60 1/2" stud to stud (FIELD VERIFY)', V(0, 0, 0), V(0, 1, 0));
-  dim(V(0, 106, 114), V(D.CH_X1, 106, 114), '5\'-3 1/4" from gridline 2 (A02)', V(0, 0, 0), V(0, 1, 0));
+  dim(V(D.PW_N, 100, 112), V(D.CH_X1, 100, 112), '60 1/2" stud to stud (FIELD VERIFY)', V(0, 0, 0), V(0, 1, 0));
+  dim(V(0, 106, 110), V(D.CH_X1, 106, 110), '5\'-3 1/4" from gridline 2 (A02)', V(0, 0, 0), V(0, 1, 0));
 });
-tagNew('chaseOff', () => dim(V(D.PW_IN, 100, 116), V(D.KP_IN, 100, 116), '67 3/4" wall to wall (66 1/2" tile to tile), no chase', V(0, 0, 0), V(0, 1, 0)));
-dim(V(20, 20, D.GLASS_Z), V(20, 20, D.EW_S1 - D.TILE_T), '32" glass to tile (owner)', V(0, 0, 0), V(0, 1, 0));
+tagNew('chaseOff', () => dim(V(D.PW_IN, 100, 112), V(D.KP_IN, 100, 112), '67 3/4" wall to wall (67" tile to tile), no chase', V(0, 0, 0), V(0, 1, 0)));
+dim(V(20, 20, D.GLASS_Z), V(20, 20, D.EW_S1 - D.TILE_T), '34 1/8" glass to tile (owner: 34")', V(0, 0, 0), V(0, 1, 0));
+dim(V(26, 20, D.SH_Z1 + 4), V(26, 20, D.EW_S1 - D.TILE_T), '31 1/8" flat floor inside the curb', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.CTR_X2 + 3, 44, D.VAN_Z1), V(D.CTR_X2 + 3, 44, D.SINK_ZC), '24" to the sink', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.CTR_X2 + 3, 38, D.VAN_Z1), V(D.CTR_X2 + 3, 38, D.VAN_Z2), '48"', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.VAN_X1, 38, D.VAN_Z2 + 3), V(D.CTR_X2, 38, D.VAN_Z2 + 3), '24 3/4"', V(0, 0, 0), V(0, 1, 0));
-dim(V(32, 8, D.VAN_Z2), V(32, 8, D.WC_Z), '18"', V(0, 0, 0), V(0, 1, 0));
-dim(V(32, 8, D.WC_Z), V(32, 8, D.GLASS_Z), '18"', V(0, 0, 0), V(0, 1, 0));
+dim(V(32, 8, D.VAN_Z2), V(32, 8, D.WC_Z), '16 1/2" to the vanity', V(0, 0, 0), V(0, 1, 0));
+dim(V(32, 8, D.WC_Z), V(32, 8, D.SH_Z1), '16 1/2" to the curb', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.CTR_X2, 14, 56), V(D.KP_IN, 14, 56), '43" vanity to kitchen wall', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.PW_IN + 27.5, 14, D.WC_Z + 12), V(D.KP_IN, 14, D.WC_Z + 12), '40" in front of the toilet', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WIN_X1, D.WIN_HEAD + 5, D.EW_IN - 1), V(D.WIN_X2, D.WIN_HEAD + 5, D.EW_IN - 1), 'RO 4\'-0 1/2" x 1\'-0 1/2"', V(0, 0, 0), V(0, 1, 0));

@@ -1863,7 +1863,12 @@ function planks(x1, x2, z1, z2, layer) {
 }
 planks(D.S_FACE, D.N_GYP, D.WELL_Z2, D.E_GYP, 'floor');
 planks(0, D.N_GYP, D.W_GYP, D.WELL_Z2, 'floor');
-box(D.HALL_X1, D.S_FACE, 0, D.LVP_T, D.HALL_Z1, D.HALL_Z2, M.ghostFl, 'context');       // hall floor, ghost
+// Floor across the stair footprint, added 2026-09-11 (phase 1b). The two regions above leave x -60..0,
+// z -150..-25 bare because the stair stands there; with the stair's treads excluded from renders that
+// was a hole in the floor, and the kitchen view looked through it to the ground outside. The stair's
+// bottom run starts at this level regardless, so plain floor is the honest fill.
+planks(D.LNG_X1, 0, D.W_GYP, D.WELL_Z2, 'floor');
+box(D.HALL_X1, D.S_FACE, 0, D.LVP_T, D.HALL_Z1, D.HALL_Z2, M.floorPlank, 'floor', false);   // hall floor
 
 // ---- east wall (gridline A) with window D --------------------------------------------------------
 {
@@ -2064,14 +2069,14 @@ for (const sx of [33, 58.75, 84.5]) {
 
 // ---- kitchen ceiling under the lounge, lounge floor + fascia + cable rail, stair, hall ghosts ---------------------
 box(D.S_FACE, 0, D.CEIL_K, D.LNG_LO, D.HALL_Z1, D.E_GYP, M.gypC, 'lounge');                       // gyp ceiling, kitchen + hall end
-box(D.HALL_X1, D.S_FACE, D.CEIL_K, D.LNG_LO, D.HALL_Z1, D.HALL_Z2, M.ghostFl, 'context');
-box(D.LNG_X1, -1.5, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.ghostFl, 'context');                 // lounge floor (ghost)
-box(D.LNG_X1, D.WELL_X1, D.LNG_LO, D.LNG_HI, D.W_GYP, D.WELL_Z2, M.ghostFl, 'context');
+box(D.HALL_X1, D.S_FACE, D.CEIL_K, D.LNG_LO, D.HALL_Z1, D.HALL_Z2, M.gypC, 'lounge', false);   // hall ceiling
+box(D.LNG_X1, -1.5, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.floorPlank, 'lounge', false);         // lounge floor
+box(D.LNG_X1, D.WELL_X1, D.LNG_LO, D.LNG_HI, D.W_GYP, D.WELL_Z2, M.floorPlank, 'lounge', false);
 box(-1.5, 0, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.trimCasing, 'lounge');                           // floor-edge fascia (rail mounts here)
-box(D.LNG_X1, 0, D.WALL_TOP, 214, D.E_GYP, D.E_OUT, M.ghost, 'context');                           // lounge walls up to the 17'-10" dormer plate (ghost)
-box(D.LNG_X1, 0, D.WALL_TOP, 214, D.W_OUT, D.W_GYP, M.ghost, 'context');
-slopedBoxZ(D.LNG_X1, 0, D.GLB_W / 2, 150, yd, -D.DORM_SLOPE, .75, M.ghostFl, 'context', false);    // 8:12 dormer ceiling over the lounge (ghost)
-slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.ghostFl, 'context', false);
+box(D.LNG_X1, 0, D.WALL_TOP, 214, D.E_GYP, D.E_OUT, M.gyp, 'lounge', false);                       // lounge walls up to the 17'-10" dormer plate
+box(D.LNG_X1, 0, D.WALL_TOP, 214, D.W_OUT, D.W_GYP, M.gyp, 'lounge', false);
+slopedBoxZ(D.LNG_X1, 0, D.GLB_W / 2, 150, yd, -D.DORM_SLOPE, .75, M.gypC, 'lounge', false);        // 8:12 dormer ceiling over the lounge
+slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lounge', false);
 { // 0560 metal railing with airplane cable, fascia-mounted at gridline 3 and around the stair well
   const posts = [-23, 19.75, 62.5, 105.25, 148];
   for (const z of posts) box(0, 1.5, D.LNG_HI - 6, D.RAIL_TOP - 1.5, z - .75, z + .75, M.black, 'lounge');
@@ -2081,16 +2086,32 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.ghostFl, 'c
   box(D.WELL_X1, 0, D.RAIL_TOP - 1.5, D.RAIL_TOP, D.WELL_Z2, D.WELL_Z2 + 1.5, M.black, 'lounge');
   for (let y = 124; y < D.RAIL_TOP - 2; y += 3.75) bar(V(D.WELL_X1 + 1, y, D.WELL_Z2 + .75), V(-1, y, D.WELL_Z2 + .75), .12, M.steel, 'lounge');
 }
-{ // stair (A02: 8 risers west to a 3'-0" landing, 8 back east over the utility), 6x6 post, wood handrail -- ghost
+{ // stair (A02: 8 risers west to a 3'-0" landing, 8 back east over the utility), 6x6 post, wood handrail
+  // The TREADS and the sloped soffit below stay on `context` and out of renders: eight plain boxes are a
+  // sketch of a stair, and a photograph should not assert a stair detail no sheet settles. The enclosing
+  // WALLS, FLOORS and CEILING around them moved back onto exported layers with real materials on
+  // 2026-09-11 -- a plane's existence and position are settled even where its detail is not, and leaving
+  // them out opened a floor-to-ridge hole in the kitchen and island renders that showed the sky where the
+  // stair is. They are a painted shell standing in for the real thing; task 4.2 models this side properly
+  // from A02 and the loft drawing, and should take them over.
   for (let i = 0; i < 8; i++) box(D.WELL_X1, -1.5, 0, D.RISE * (i + 1), D.WELL_Z2 - D.TREAD * (i + 1), D.WELL_Z2 - D.TREAD * i, M.ghost, 'context', false);
   box(D.WELL_X1, -1.5, 0, 60, D.W_GYP, D.LAND_Z, M.ghost, 'context', false);
   slopedBoxZ(-66, D.UT_X1, D.LAND_Z, D.WELL_Z2 - 1, z => 50 + (z - D.LAND_Z) * (60 / 88), 60 / 88, 10, M.ghost, 'context', false);
   box(-2.75, 2.75, 0, D.LNG_LO, -29.75, -24.25, M.trimCasing, 'lounge');                                // 0603 post at the stair foot
   bar(V(.75, 36, D.WELL_Z2), V(.75, 96, D.LAND_Z), 1, M.trimCasing, 'lounge');                            // 1040 wood handrail line
   for (const z of [-36, -58, -80, -102]) { const t = (D.WELL_Z2 - z) / 88; bar(V(.75, 60 * t, z), V(.75, 36 + 60 * t, z), .5, M.black, 'lounge'); }
-  box(D.UT_X1, D.UT_X2, 0, D.LNG_LO, D.W_GYP, -27, M.ghost, 'context');                           // stair south wall / utility east wall
-  box(D.HALL_X1, D.UT_X1, 0, D.LNG_LO, -27, D.HALL_Z1, M.ghost, 'context');                       // utility wall along the hall
-  box(D.HALL_X1, D.S_FACE, 0, D.LNG_LO, D.HALL_Z2, D.HALL_Z2 + 4.5, M.ghost, 'context');           // guest-bath wall along the hall
+  box(D.UT_X1, D.UT_X2, 0, D.LNG_LO, D.W_GYP, -27, M.gyp, 'lounge', false);                       // stair south wall / utility east wall
+  box(D.HALL_X1, D.UT_X1, 0, D.LNG_LO, -27, D.HALL_Z1, M.gyp, 'lounge', false);                   // utility wall along the hall
+  box(D.HALL_X1, D.S_FACE, 0, D.LNG_LO, D.HALL_Z2, D.HALL_Z2 + 4.5, M.gyp, 'lounge', false);       // guest-bath wall along the hall
+  // Boundary shell under the loft floor, added 2026-09-11 (phase 1b). Without it the kitchen and island
+  // renders looked straight out of the house to the south-west: the volume below LNG_LO had no west, east
+  // or south face, because this drawing is of the kitchen and simply stopped. The east and west planes ARE
+  // real house walls -- gridlines A and C run the full length -- so they are drawn at the same gyp faces as
+  // the great room's. The south plane at HALL_X1 is this drawing's own cut line and nothing else, so it is
+  // a blank that stops the view rather than a wall anyone should read; task 4.2 replaces this side wholesale.
+  box(D.HALL_X1, 0, 0, D.WALL_TOP, D.W_GYP, D.W_GYP + .5, M.gyp, 'lounge', false);                     // gridline C, meets wallW at x=0
+  box(D.HALL_X1, 0, 0, D.WALL_TOP, D.E_GYP - .5, D.E_GYP, M.gyp, 'lounge', false);                     // gridline A, meets wallE at x=0
+  box(D.HALL_X1 - .5, D.HALL_X1, 0, D.WALL_TOP, D.W_GYP, D.E_GYP, M.gyp, 'lounge', false);             // drawing cut line
 }
 
 // ---- west wall (gridline C) with windows A1 / A2 -------------------------------------------------
