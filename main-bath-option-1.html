@@ -1576,16 +1576,16 @@ const D = {
   PLATE_TOP: 94, SLOPE: 8 / 12, CEIL_Y0: 93.1, RAFTER_Y0: 94,
   RAFTER_D: 13.25, RAFTER_OC: 24, EAVE_Z: -24, RIDGE_Z: 156,
   // openings
-  WIN_X1: -41.25, WIN_X2: -4.75, WIN_SILL: 61.5, WIN_HEAD: 73.5,        // window F RO 36 1/2" x 12", sill 61 1/2" -- FIELD 2026-09-08 (A03 drew 3'-0", A04 4'-6")
+  WIN_X1: -43.00, WIN_X2: -6.50, WIN_SILL: 61.5, WIN_HEAD: 73.5,        // window F RO 36 1/2" x 12", sill 61 1/2". FIELD 2026-09-13: 45 1/2" from the RO to the stair studs, i.e. 1 3/4" SOUTH of the A02 chain (45 1/2 + 36 1/2 + 6 = the 88" room)
   DOOR_Z1: 77.0, DOOR_Z2: 107.5, DOOR_HEAD: 84.5, DOOR_W: 30, DOOR_T: 1.375,   // door 13 RO
   // shower
-  SH_X1: 0.0, CURB_W: 3.0, GLASS_X: 1.5, GLASS_H: 79, TILE_H: 84,   // owner 2026-09-13: curb line moved 3" south (was 3.0, glass 4.5). Stop is window F's alder casing at x -2 1/4
+  SH_X1: -4.0, CURB_W: 3.0, GLASS_X: -2.5, GLASS_H: 79, TILE_H: 84,   // owner 2026-09-13, second pass: curb face butts window F's casing (north edge now x -4.0), giving 40 5/8" tile to glass / 39 1/8" of flat floor. This is the framers' own set-out
   // vanity
   VAN_X1: 17.5, CTR_X1: 16.0, VAN_Z1: 66.75, VAN_Z2: 126.75, CTR_Y: 34.75, CTR_T: 1.25,   // 21" cabinet / 22 1/2" counter off the stair wall; 60" cabinet centered in the 61 1/2" zone
   SINK_Z: [81.75, 111.75], SINK_L: 18, SINK_W: 13, SINK_XC: 27.625, FAUCET_X: 36.125,
   MIR_Z1: 68.5, MIR_Z2: 125.5, MIR_Y1: 46, MIR_Y2: 82, BAR_ZC: 96.75, BAR_L: 33.1,
   // fixtures / devices (scaled from A02 / E01 / M01)
-  WC_X: -23.0, CAN: [[-23, 36], [-23, 96], [22, 36]], FAN: [-10.5, 72],   // option 1: third can inside the shower (wet-location) -- assumed
+  WC_X: -24.75, CAN: [[-24.75, 36], [-24.75, 96], [18.55, 36]], FAN: [-10.5, 72],   // toilet stays centred on window F, so it moves 1 3/4" south with it; cans follow (E01 puts them on that centreline), shower can on the new pan CL
   SWITCH_Z: 64, GFCI_Z: 96.75,
   // finishes
   PLANK_W: 7, PLANK_L: 48, BASE_H: 3.5, PONY_H: 84, CAP_T: 1.25, TG_W: 5.5, TG_T: 0.75,
@@ -2172,8 +2172,8 @@ function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg
 
 // ---- labels -----------------------------------------------------------------------------------------------------------
 label('OPTION 1 -- glass shower, north-wall plumbing\nvalve wall removed; toilet + drains unchanged', -10, 76, 80);
-label('Shower deepened 3" on 2026-09-13: 35 1/8" of flat floor inside the curb (36 5/8" glass CL to back tile)\nx 54 3/4" long, mud-set tile; 1,927 sq in; well over M01 note 3\'s 30" x 30" rough pan; glass to 7\'-0"', 22, 96, 30, NOTE);
-label('The 3" came off the window wall: the curb line moves from x 3 to x 0, leaving 2 1/4" of painted\nwall to window F\'s alder casing (casing north edge x -2 1/4). That reveal is the limit -- FIELD-VERIFY\nthe casing width before the tile setter sets the curb', 0, 30, 16, FLAG);
+label('Shower 2026-09-13: 40 5/8" tile to glass, 39 1/8" of flat floor inside the curb, x 54 3/4" long\nmud-set tile; 2,147 sq in; well over the sheet notes\' 900 sq in / 30" x 30" rough pan; glass to 7\'-0"', 22, 96, 30, NOTE);
+label('The curb face butts window F\'s casing (north edge x -4.0) -- no painted reveal, the tile edge\nlands on the alder. This is the depth the framers set out. Going further means deleting that\ncasing leg for 43 1/8" tile to glass, which the owner declined 2026-09-13', -4, 30, 16, FLAG);
 label('Supplies rise in this 2x6 stair wall beside the lav supplies and cross into the\nwest wall at the corner (drilled studs, 1/2" PEX); drain in bay 13.5..29.5', 34, 60, 46, NOTE);
 label('Door on the south glass, hinged at the corner post,\nopens out toward the room centre (26" clear)', 4.5, 60, 52, NOTE);
 label('Window F  RO 36 1/2" x 12", sill 61 1/2" (field)\noutside the shower; tempered recommended (~63" bottom edge)', -23, 80, 3, FLAG);
@@ -2188,11 +2188,11 @@ label('1x6 T&G ceiling, 8:12 dormer -- shower open to it above 7\'-0"', -4, yc(6
 // ---- dimensions (clearance table of the spec) ----
 dim(V(D.WS_IN, 2, D.WE_IN + 8), V(D.WN_IN, 2, D.WE_IN + 8), '7\'-3" clear', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WS_IN - 10, 2, D.EXT_IN), V(D.WS_IN - 10, 2, D.WE_IN), '10\'-1 1/2" clear', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.WS_IN, 2, 20), V(D.WC_X, 2, 20), '25 1/2" WC CL to wall (min 15)', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.WC_X, 2, 42), V(D.SH_X1, 2, 42), '23" WC CL to curb face (min 15, NKBA 18)', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.WS_IN, 2, 20), V(D.WC_X, 2, 20), '23 3/4" WC CL to wall (min 15)', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.WC_X, 2, 42), V(D.SH_X1, 2, 42), '20 3/4" WC CL to curb face (min 15, NKBA 18)', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WC_X, 2, 34), V(D.WC_X, 2, D.DOOR_Z1), '43" in front of WC (min 24)', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.SH_X1 + D.CURB_W, 6, 18), V(D.WN_IN - 0.4, 6, 18), '35 1/8" flat floor inside the curb', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.GLASS_X, 6, 50), V(D.WN_IN - 0.4, 6, 50), '36 5/8" glass CL to back tile', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.SH_X1 + D.CURB_W, 6, 18), V(D.WN_IN - 0.4, 6, 18), '39 1/8" flat floor inside the curb', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.GLASS_X, 6, 50), V(D.WN_IN - 0.4, 6, 50), '40 5/8" glass CL to back tile', V(0, 0, 0), V(0, 1, 0));
 dim(V(13, 6, 6.6), V(13, 6, 61.3), '54 3/4" shower inside', V(0, 0, 0), V(0, 1, 0));
 dim(V(30, 6, 61.7), V(30, 6, D.VAN_Z1), '5" slot', V(0, 0, 0), V(0, 1, 0));
 dim(V(37, 74, 40.75), V(37, 74, 52.75), 'niche 12"', V(0, 0, 0), V(0, 1, 0));
@@ -2250,9 +2250,9 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
   // ===== WEST (exterior) wall: WC supply, shower valve, shower arm -- x ordinates off the partition studs =======
   // [x, y, stub r, crosshair r, face z, name, ordinate, height, callout x, callout y]
   for (const [x, y, r, xr, zf, name, ord, ht, cx, cy, cz] of [
-    [D.WC_X - 6, FF + 8, 0.42, 6, WF, 'WC SUPPLY CL', '20" (19 1/2" fin.)', '8 5/8" a.s.f. (8" AFF)', -40, 26, 2],
-    [SHCX, 46, 1.9, 6, WT, 'SHOWER VALVE CL', '69 9/16" (69 1/16" fin.) | 18 7/16" off stair studs', '46" a.s.f. (44 1/2" above pan)', 4, 34, 26],
-    [SHCX, 80, 0.62, 6, WT, 'SHOWER ARM CL', '69 9/16" | 18 7/16" off stair studs', '80" a.s.f. (78 1/2" above pan)', 34, 72, 18],
+    [D.WC_X - 6, FF + 8, 0.42, 6, WF, 'WC SUPPLY CL', '18 1/4" (17 3/4" fin.)', '8 5/8" a.s.f. (8" AFF)', -40, 26, 2],
+    [SHCX, 46, 1.9, 6, WT, 'SHOWER VALVE CL', '67 9/16" (67 1/16" fin.) | 20 7/16" off stair studs', '46" a.s.f. (44 1/2" above pan)', 4, 34, 26],
+    [SHCX, 80, 0.62, 6, WT, 'SHOWER ARM CL', '67 9/16" | 20 7/16" off stair studs', '80" a.s.f. (78 1/2" above pan)', 34, 72, 18],
   ]) {
     bar(V(x, y, zf), V(x, y, zf + (r > 1 ? 1.6 : 3)), r, M.plumb, W);
     markZ(x, y, zf + 0.06, W, xr);
@@ -2281,7 +2281,7 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
     const zs = [WS, 72.25, 76.25, 80.25, 102.25, 106.25, 110.25], tz = ['66 3/4"', '4"', '4"', '22"', '4"', '4"'];
     for (let i = 0; i < tz.length; i++)
       pdim(W, V(NF, -10, zs[i]), V(NF, -10, zs[i + 1]), tz[i], V(0, 0, 0), V(0, 1, 0), zs[i + 1] - zs[i] < 8 ? 15 : 3);
-    const xs = [SS, -29, -1, SHCX], tx = ['20"', '28"', '21 9/16"'];
+    const xs = [SS, D.WC_X - 6, -1, SHCX], tx = ['18 1/4"', '29 3/4"', '19 9/16"'];
     for (let i = 0; i < tx.length; i++)
       pdim(W, V(xs[i], -10, WF), V(xs[i + 1], -10, WF), tx[i], V(0, 0, 0), V(0, 1, 0), 3);
   }
@@ -2298,11 +2298,11 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
     markF(SHCX, SF + 0.8, SHCZ, L, 14);
   }
   pdim(FL, V(D.WC_X, FF, WS), V(D.WC_X, FF, 18), '12 1/2" (12" off finish)', V(0, 1.4, 0), V(1, 0, 0));
-  pdim(FL, V(SS, FF, 18), V(D.WC_X, FF, 18), '26" (25 1/2" fin.)', V(0, 1.4, 0), V(0, 0, 1));
+  pdim(FL, V(SS, FF, 18), V(D.WC_X, FF, 18), '24 1/4" (23 3/4" fin.)', V(0, 1.4, 0), V(0, 0, 1));
   pdim(FL, V(SHCX, SF, WS), V(SHCX, SF, SHCZ), '28 3/8" (27 7/16" off tile)', V(0, 1.4, 0), V(1, 0, 0));
-  pdim(FL, V(SHCX, SF, SHCZ), V(NS, SF, SHCZ), '18 7/16" (17 9/16" off tile)', V(0, 1.4, 0), V(0, 0, 1));
+  pdim(FL, V(SHCX, SF, SHCZ), V(NS, SF, SHCZ), '20 7/16" (19 9/16" off tile)', V(0, 1.4, 0), V(0, 0, 1));
   label('WC FLANGE CL', D.WC_X, 10, 26, ps(FL));
-  label('SHOWER DRAIN CL\n28 3/8" off west-wall studs | 18 7/16" off stair-wall studs', SHCX, 12, SHCZ + 17, ps(FL));
+  label('SHOWER DRAIN CL\n28 3/8" off west-wall studs | 20 7/16" off stair-wall studs', SHCX, 12, SHCZ + 17, ps(FL));
 }
 
 // ===== END EDIT: GEOMETRY =====
