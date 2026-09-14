@@ -1585,7 +1585,7 @@ const D = {
   SINK_Z: [81.75, 111.75], SINK_L: 18, SINK_W: 13, SINK_XC: 27.625, FAUCET_X: 36.125,
   MIR_Z1: 68.5, MIR_Z2: 125.5, MIR_Y1: 46, MIR_Y2: 82, BAR_ZC: 96.75, BAR_L: 33.1,
   // fixtures / devices (scaled from A02 / E01 / M01)
-  WC_X: -24.75, CAN: [[-24.75, 36], [-24.75, 96], [18.55, 36]], FAN: [-10.5, 72],   // toilet stays centred on window F, so it moves 1 3/4" south with it; cans follow (E01 puts them on that centreline), shower can on the new pan CL
+  WC_X: -27.75, CAN: [[-24.75, 36], [-24.75, 96], [18.55, 36]], FAN: [-10.5, 72],   // owner 2026-09-13: toilet moved 3" SOUTH of window F's centreline for room off the shower door (door-swing clearance 2 1/4" -> 3 9/16", tank lid to curb 10 5/8" -> 13 5/8"). Cans stay on the window centreline per E01, so the can is no longer centred over the bowl
   SWITCH_Z: 64, GFCI_Z: 96.75,
   // finishes
   PLANK_W: 7, PLANK_L: 48, BASE_H: 3.5, PONY_H: 84, CAP_T: 1.25, TG_W: 5.5, TG_T: 0.75,
@@ -2188,8 +2188,8 @@ label('1x6 T&G ceiling, 8:12 dormer -- shower open to it above 7\'-0"', -4, yc(6
 // ---- dimensions (clearance table of the spec) ----
 dim(V(D.WS_IN, 2, D.WE_IN + 8), V(D.WN_IN, 2, D.WE_IN + 8), '7\'-3" clear', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WS_IN - 10, 2, D.EXT_IN), V(D.WS_IN - 10, 2, D.WE_IN), '10\'-1 1/2" clear', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.WS_IN, 2, 20), V(D.WC_X, 2, 20), '23 3/4" WC CL to wall (min 15)', V(0, 0, 0), V(0, 1, 0));
-dim(V(D.WC_X, 2, 42), V(D.SH_X1, 2, 42), '20 3/4" WC CL to curb face (min 15, NKBA 18)', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.WS_IN, 2, 20), V(D.WC_X, 2, 20), '20 3/4" WC CL to wall (min 15)', V(0, 0, 0), V(0, 1, 0));
+dim(V(D.WC_X, 2, 42), V(D.SH_X1, 2, 42), '23 3/4" WC CL to curb face (min 15, NKBA 18)', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.WC_X, 2, 34), V(D.WC_X, 2, D.DOOR_Z1), '43" in front of WC (min 24)', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.SH_X1 + D.CURB_W, 6, 18), V(D.WN_IN - 0.4, 6, 18), '39 1/8" flat floor inside the curb', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.GLASS_X, 6, 50), V(D.WN_IN - 0.4, 6, 50), '40 5/8" glass CL to back tile', V(0, 0, 0), V(0, 1, 0));
@@ -2210,7 +2210,7 @@ const SHCX = (D.SH_X1 + D.CURB_W + D.WN_IN - 0.4) / 2;              // 20 9/16 -
 const SHCZ = (D.EXT_IN + 0.4 + 61.5 - 0.19) / 2;                    // 33 7/8  -- centre of the flat floor, length
 centreLine(D.WC_X, D.EXT_IN + 0.2, D.WC_X, 47, 0.9);                // toilet CL, run out past the bowl front
 centreLine(D.WC_X - 15, 18, D.WC_X + 15, 18, 0.9);                  // closet-flange CL: 12" rough-in off the finished wall (z 6 + 12)
-clTag('TOILET CL = WINDOW F CL', D.WC_X, 14, 50);
+clTag('TOILET CL -- 3" south of WINDOW F CL', D.WC_X, 14, 50);
 centreLine(SHCX, D.EXT_IN + 0.6, SHCX, 61.1, 1.7);                  // shower CL, depth
 centreLine(D.SH_X1 + D.CURB_W + 0.3, SHCZ, D.WN_IN - 0.7, SHCZ, 1.7);   // shower CL, length
 clTag('SHOWER CL', 32, 24, 17);
@@ -2250,7 +2250,7 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
   // ===== WEST (exterior) wall: WC supply, shower valve, shower arm -- x ordinates off the partition studs =======
   // [x, y, stub r, crosshair r, face z, name, ordinate, height, callout x, callout y]
   for (const [x, y, r, xr, zf, name, ord, ht, cx, cy, cz] of [
-    [D.WC_X - 6, FF + 8, 0.42, 6, WF, 'WC SUPPLY CL', '18 1/4" (17 3/4" fin.)', '8 5/8" a.s.f. (8" AFF)', -40, 26, 2],
+    [D.WC_X - 6, FF + 8, 0.42, 6, WF, 'WC SUPPLY CL', '15 1/4" (14 3/4" fin.)', '8 5/8" a.s.f. (8" AFF)', -40, 26, 2],
     [SHCX, 46, 1.9, 6, WT, 'SHOWER VALVE CL', '67 9/16" (67 1/16" fin.) | 20 7/16" off stair studs', '46" a.s.f. (44 1/2" above pan)', 4, 34, 26],
     [SHCX, 80, 0.62, 6, WT, 'SHOWER ARM CL', '67 9/16" | 20 7/16" off stair studs', '80" a.s.f. (78 1/2" above pan)', 34, 72, 18],
   ]) {
@@ -2281,7 +2281,7 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
     const zs = [WS, 72.25, 76.25, 80.25, 102.25, 106.25, 110.25], tz = ['66 3/4"', '4"', '4"', '22"', '4"', '4"'];
     for (let i = 0; i < tz.length; i++)
       pdim(W, V(NF, -10, zs[i]), V(NF, -10, zs[i + 1]), tz[i], V(0, 0, 0), V(0, 1, 0), zs[i + 1] - zs[i] < 8 ? 15 : 3);
-    const xs = [SS, D.WC_X - 6, -1, SHCX], tx = ['18 1/4"', '29 3/4"', '19 9/16"'];
+    const xs = [SS, D.WC_X - 6, -1, SHCX], tx = ['15 1/4"', '32 3/4"', '19 9/16"'];
     for (let i = 0; i < tx.length; i++)
       pdim(W, V(xs[i], -10, WF), V(xs[i + 1], -10, WF), tx[i], V(0, 0, 0), V(0, 1, 0), 3);
   }
@@ -2298,7 +2298,7 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
     markF(SHCX, SF + 0.8, SHCZ, L, 14);
   }
   pdim(FL, V(D.WC_X, FF, WS), V(D.WC_X, FF, 18), '12 1/2" (12" off finish)', V(0, 1.4, 0), V(1, 0, 0));
-  pdim(FL, V(SS, FF, 18), V(D.WC_X, FF, 18), '24 1/4" (23 3/4" fin.)', V(0, 1.4, 0), V(0, 0, 1));
+  pdim(FL, V(SS, FF, 18), V(D.WC_X, FF, 18), '21 1/4" (20 3/4" fin.)', V(0, 1.4, 0), V(0, 0, 1));
   pdim(FL, V(SHCX, SF, WS), V(SHCX, SF, SHCZ), '28 3/8" (27 7/16" off tile)', V(0, 1.4, 0), V(1, 0, 0));
   pdim(FL, V(SHCX, SF, SHCZ), V(NS, SF, SHCZ), '20 7/16" (19 9/16" off tile)', V(0, 1.4, 0), V(0, 0, 1));
   label('WC FLANGE CL', D.WC_X, 10, 26, ps(FL));
