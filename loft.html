@@ -2032,10 +2032,12 @@ for (const [cx, cz] of D.CANS) { const pl = new THREE.PointLight(0xfff1dc, 0.55,
   box(x1, x1 + 1.5, y1, y2, zf1, zf2, M.black, 'openings'); box(x2 - 1.5, x2, y1, y2, zf1, zf2, M.black, 'openings');
   box(x1, x2, y2 - 1.5, y2, zf1, zf2, M.black, 'openings'); box(x1, x2, y1, y1 + 1.5, zf1, zf2, M.black, 'openings');
   box(x1 + 1.5, x2 - 1.5, y1 + 1.5, y2 - 1.5, 153.0, 153.2, M.glass, 'openings', false);   // one fixed pane (owner 2026-09-14: picture window; A04's slider is out)
-  box(x1 - 3.5, x2 + 3.5, y2, y2 + 3.5, 149.25, D.EAST_GYP, M.alder, 'openings');
-  box(x1 - 3.5, x1, y1, y2, 149.25, D.EAST_GYP, M.alder, 'openings'); box(x2, x2 + 3.5, y1, y2, 149.25, D.EAST_GYP, M.alder, 'openings');
-  box(x1 - 4.5, x2 + 4.5, y1 - 0.75, y1, 148.75, zf1, M.alder, 'openings');
-  box(x1 - 3.5, x2 + 3.5, y1 - 3.5, y1 - 0.75, 149.25, D.EAST_GYP, M.alder, 'openings');
+  // casing: 3 1/2" x 3/4" square-cut butted picture frame (owner 2026-09-14) -- legs run the full height, head and
+  // sill casing butt between them, no stool and no apron. Same detail as the baths and the kitchen, 1x4 stock here.
+  box(x1 - 3.5, x1, y1 - 3.5, y2 + 3.5, 149.25, D.EAST_GYP, M.alder, 'openings');   // legs, full height
+  box(x2, x2 + 3.5, y1 - 3.5, y2 + 3.5, 149.25, D.EAST_GYP, M.alder, 'openings');
+  box(x1, x2, y2, y2 + 3.5, 149.25, D.EAST_GYP, M.alder, 'openings');               // head, butted between the legs
+  box(x1, x2, y1 - 3.5, y1, 149.25, D.EAST_GYP, M.alder, 'openings');               // sill casing, butted between the legs
   box(D.W2_W, D.W2_E, 0, D.DOOR_HEAD, D.DOOR_Z1, D.DOOR_Z1 + 0.75, M.alder, 'openings');
   box(D.W2_W, D.W2_E, 0, D.DOOR_HEAD, D.DOOR_Z2 - 0.75, D.DOOR_Z2, M.alder, 'openings');
   box(D.W2_W, D.W2_E, D.DOOR_HEAD - 0.75, D.DOOR_HEAD, D.DOOR_Z1, D.DOOR_Z2, M.alder, 'openings');

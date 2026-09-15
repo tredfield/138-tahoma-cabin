@@ -1648,6 +1648,7 @@ const M = {
   applianceFace: new THREE.MeshStandardMaterial({ color: 0xb9bec4, roughness: .3, metalness: .7 }),
   black:   new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .6, metalness: .2 }),
   sinkBasin: new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: .25 }),
+  devicePlate: new THREE.MeshStandardMaterial({ color: 0xf2f0eb, roughness: .35 }),   // switch / receptacle cover plates (white nylon)
   gyp:     new THREE.MeshStandardMaterial({ color: 0xe4e1da, roughness: .95 }),
   gypC:    new THREE.MeshStandardMaterial({ color: 0xf0eeea, roughness: .95 }),
   floorPlank: new THREE.MeshStandardMaterial({ color: 0x4a3728, roughness: .8 }),
@@ -1866,7 +1867,7 @@ function prismXZ(pts, y1, y2, mat, layer, holes = [], edges = true) {
   if (edges) addEdges(m, g, mat.transparent);
   return reg(m, layer);
 }
-// Window in a wall parallel to x (east or west wall): black frame + glass + alder casing on the inside face.
+// Window in a wall parallel to x (east or west wall): black frame + glass + butted alder picture-frame casing inside.
 // zIn = gyp face, dir = +1 if the room is at larger z (west wall), -1 if at smaller z (east wall). slider: center stile.
 function winXY(x1, x2, y1, y2, zIn, zOut, dir, layer, slider = true) {
   const zm = (zIn + zOut) / 2, f = 1.75, ft = 1.5;                  // Milgard black frame
@@ -1882,11 +1883,12 @@ function winXY(x1, x2, y1, y2, zIn, zOut, dir, layer, slider = true) {
   box(x1, x2, y2 - .75, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
   box(x1, x1 + .75, y1, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
   box(x2 - .75, x2, y1, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
-  box(x1 - c, x2 + c, y2, y2 + c, zc1, zc2, M.trimCasing, layer);            // head casing
-  box(x1 - c, x1, y1 - 1, y2, zc1, zc2, M.trimCasing, layer);                // side casings
-  box(x2, x2 + c, y1 - 1, y2, zc1, zc2, M.trimCasing, layer);
-  box(x1 - c - .75, x2 + c + .75, y1 - 1, y1, zIn - dir * 1.5, zc2 + dir * .25, M.trimCasing, layer);   // stool
-  box(x1 - c, x2 + c, y1 - 1 - 2.5, y1 - 1, zc1, zc2, M.trimCasing, layer);  // apron
+  // 3" x 3/4" square-cut butted picture frame (owner 2026-09-14): legs full height, head and sill casing butted
+  // between them, no stool and no apron. Same detail as the baths and the loft; only the stock width differs.
+  box(x1 - c, x1, y1 - c, y2 + c, zc1, zc2, M.trimCasing, layer);            // legs, full height
+  box(x2, x2 + c, y1 - c, y2 + c, zc1, zc2, M.trimCasing, layer);
+  box(x1, x2, y2, y2 + c, zc1, zc2, M.trimCasing, layer);                    // head, butted between the legs
+  box(x1, x2, y1 - c, y1, zc1, zc2, M.trimCasing, layer);                    // sill casing, butted between the legs
 }
 
 // ---- floors -------------------------------------------------------------------------------------
@@ -2103,13 +2105,22 @@ for (const sx of [33, 58.75, 84.5]) {
 // ---- kitchen ceiling under the lounge, lounge floor + fascia + cable rail, stair, hall ghosts ---------------------
 box(D.S_FACE, 0, D.CEIL_K, D.LNG_LO, D.HALL_Z1, D.E_GYP, M.gypC, 'lounge');                       // gyp ceiling, kitchen + hall end
 box(D.HALL_X1, D.S_FACE, D.CEIL_K, D.LNG_LO, D.HALL_Z1, D.HALL_Z2, M.gypC, 'lounge', false);   // hall ceiling
-box(D.LNG_X1, -1.5, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.floorPlank, 'lounge', false);         // lounge floor
-box(D.LNG_X1, D.WELL_X1, D.LNG_LO, D.LNG_HI, D.W_GYP, D.WELL_Z2, M.floorPlank, 'lounge', false);
+// The lounge floor runs to HALL_X1, this drawing's cut line, not to LNG_X1: A02's upper plan carries the
+// loft floor south to gridline 2 (x -123.5, see the loft drawing's spec), and LNG_X1 was only the ghost's
+// extent. Stopping at -60 left the hall end open from the loft down through the ceiling-less rooms below to
+// the HDRI ground, which showed as foliage at the lounge render's east edge (phase 1c second review).
+box(D.HALL_X1, -1.5, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.floorPlank, 'lounge', false);        // lounge floor
+box(D.HALL_X1, D.WELL_X1, D.LNG_LO, D.LNG_HI, D.W_GYP, D.WELL_Z2, M.floorPlank, 'lounge', false);
 box(-1.5, 0, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.trimCasing, 'lounge');                           // floor-edge fascia (rail mounts here)
-box(D.LNG_X1, 0, D.WALL_TOP, 214, D.E_GYP, D.E_OUT, M.gyp, 'lounge', false);                       // lounge walls up to the 17'-10" dormer plate
-box(D.LNG_X1, 0, D.WALL_TOP, 214, D.W_OUT, D.W_GYP, M.gyp, 'lounge', false);
-slopedBoxZ(D.LNG_X1, 0, D.GLB_W / 2, 150, yd, -D.DORM_SLOPE, .75, M.gypC, 'lounge', false);        // 8:12 dormer ceiling over the lounge
-slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lounge', false);
+box(D.WELL_X1, 0, D.LNG_LO, D.LNG_HI, D.WELL_Z2 - 1.5, D.WELL_Z2, M.trimCasing, 'lounge');              // fascia along the stair-well edge (phase 1c review: the sawn plank edge rendered as streaks)
+// The lounge walls and dormer ceiling run to HALL_X1, not LNG_X1: the shell below stops at WALL_TOP, and
+// the volume x -100..-60 above it had no walls or ceiling, so the kitchen render showed sky over the loft
+// rail and the lounge render showed foliage at its east edge (phase 1c second review, finding 1). Like the
+// shell, this is a painted stand-in for the hall end of the loft; task 4.2 models it from the loft drawing.
+box(D.HALL_X1, 0, D.WALL_TOP, yd(D.E_GYP) + .75, D.E_GYP, D.E_OUT, M.gyp, 'lounge', false);       // lounge walls up into the dormer ceiling (at 214, the plate, a 3" slit of sky showed above them)
+box(D.HALL_X1, 0, D.WALL_TOP, yd(D.E_GYP) + .75, D.W_OUT, D.W_GYP, M.gyp, 'lounge', false);
+slopedBoxZ(D.HALL_X1, 0, D.GLB_W / 2, 150, yd, -D.DORM_SLOPE, .75, M.gypC, 'lounge', false);       // 8:12 dormer ceiling over the lounge
+slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lounge', false);
 { // 0560 metal railing with airplane cable, fascia-mounted at gridline 3 and around the stair well
   const posts = [-23, 19.75, 62.5, 105.25, 148];
   for (const z of posts) box(0, 1.5, D.LNG_HI - 6, D.RAIL_TOP - 1.5, z - .75, z + .75, M.black, 'lounge');
@@ -2142,9 +2153,15 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'loun
   // real house walls -- gridlines A and C run the full length -- so they are drawn at the same gyp faces as
   // the great room's. The south plane at HALL_X1 is this drawing's own cut line and nothing else, so it is
   // a blank that stops the view rather than a wall anyone should read; task 4.2 replaces this side wholesale.
-  box(D.HALL_X1, 0, 0, D.WALL_TOP, D.W_GYP, D.W_GYP + .5, M.gyp, 'lounge', false);                     // gridline C, meets wallW at x=0
-  box(D.HALL_X1, 0, 0, D.WALL_TOP, D.E_GYP - .5, D.E_GYP, M.gyp, 'lounge', false);                     // gridline A, meets wallE at x=0
-  box(D.HALL_X1 - .5, D.HALL_X1, 0, D.WALL_TOP, D.W_GYP, D.E_GYP, M.gyp, 'lounge', false);             // drawing cut line
+  // Both planes are drawn at the REAL wall's thickness, outboard of the gyp face, and each stops where the
+  // real wall picks up. Corrected 2026-09-12 (phase 1c): drawn first as half-inch panels INSIDE the gyp face
+  // (E_GYP - .5 .. E_GYP), which put them half an inch into the room. On the east that was in front of the
+  // backsplash tile at 149.6 and its grout at 149.55, so the panel hid a third of the tile field in the sink
+  // view, and it was exactly coplanar with the receptacle cover plates at 149.5, which z-fought to pure black.
+  // The east panel also overlapped the real wall, which already runs from S_FACE, not from x = 0.
+  box(D.HALL_X1, 0, 0, D.WALL_TOP, D.W_OUT, D.W_GYP, M.gyp, 'lounge', false);                          // gridline C, meets wallW at x=0
+  box(D.HALL_X1, D.S_FACE, 0, D.WALL_TOP, D.E_GYP, D.E_OUT, M.gyp, 'lounge', false);                   // gridline A, meets wallE at S_FACE
+  box(D.HALL_X1 - .5, D.HALL_X1, 0, yd(0), D.W_GYP, D.E_GYP, M.gyp, 'lounge', false);                 // drawing cut line, floor to the dormer ridge (its corners above the sloped ceiling are outside the room)
 }
 
 // ---- west wall (gridline C) with windows A1 / A2 -------------------------------------------------
@@ -2217,7 +2234,11 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'loun
 // ---- roof: 1x6 T&G on the ~15:12 rafters, both slopes, gridline 3 to the north wall; exposed 5 1/2" x 24" GLB ridge --
 {
   const th = Math.atan(D.SLOPE), dz = 5.5 * Math.cos(th);
-  for (let z = D.GLB_W / 2, i = 0; z < D.E_GYP + 6; z += dz, i++) {
+  // The first board starts 1.5" inside the GLB's footprint, so its top edge runs up into the beam rather
+  // than stopping a hair below its underside: with the boards starting at exactly GLB_W / 2 the board tops
+  // sat at ~305.7 against GLB_LO 306 and a sliver of sky showed along the whole ridge from the north camera
+  // (phase 1c third review). What is inside the beam is invisible; the visible course pattern is unchanged.
+  for (let z = D.GLB_W / 2 - 1.5, i = 0; z < D.E_GYP + 6; z += dz, i++) {
     const z2 = Math.min(z + dz, D.E_GYP + 6);
     slopedBoxZ(0, D.N_GYP, z, z2, yc, -D.SLOPE, .75, i % 2 ? M.ceilBoardB : M.ceilBoard, 'roof', false);
     slopedBoxZ(0, D.N_GYP, -z2, -z, yc, D.SLOPE, .75, i % 2 ? M.ceilBoardB : M.ceilBoard, 'roof', false);
@@ -2269,7 +2290,7 @@ sun.target.position.set(60, 40, 60); scene.add(sun.target);
 scene.add(new THREE.AmbientLight(0xffffff, 0.35));
 for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.PointLight(0xfff0d8, 1400, 0, 2); pl.position.set(cx, yc(cz) - 8, cz); scene.add(pl); }
 { const pl = new THREE.PointLight(0xfff0d8, 900, 0, 2); pl.position.set(D.FAN_X, D.FAN_Y - 6, 0); scene.add(pl); }
-{ const pl = new THREE.PointLight(0xfff0d8, 600, 0, 2); pl.position.set(-20, 100, 90); scene.add(pl); }
+{ const pl = new THREE.PointLight(0xfff0d8, 600, 0, 2); pl.position.set(-20, 100, 90); pl.userData.noExport = true; scene.add(pl); }   // browser fill only: there is no fixture here, so the export hook skips it (phase 1c, review finding 10)
 
 // ---- electrical (E01): 12 recessed cans on the T&G, Hunter Gilrock fan under the ridge, kitchen receptacles + switch --
 {
@@ -2287,10 +2308,14 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
                                         15 * Math.sin(a) - 2.4, 15 * Math.sin(a) + 2.4, M.cabBox, 'elec');
     bl.rotation.y = -a;
   }
-  const plate = (x, y, z, dx, dz) => box(x - dx, x + dx, y - 2.25, y + 2.25, z - dz, z + dz, M.sinkBasin, 'elec', false);
+  // Cover plates carry their own slot (devicePlate) rather than borrowing the sink's white, and the four on
+  // the backsplash stand 0.3" proud of the tile face (149.6) so they read as devices and not as doubled
+  // tiles (phase 1 review finding 12 / phase 1c second review finding 5). The switch at x 67 still laps the
+  // casing by 1.4"; its real station comes off E01 and is open in views.json.
+  const plate = (x, y, z, dx, dz) => box(x - dx, x + dx, y - 2.25, y + 2.25, z - dz, z + dz, M.devicePlate, 'elec', false);
   for (const z of [86.6, 105.8]) plate(D.S_FACE + .25, z === 86.6 ? 48 : 44, z, .25, 1.4);          // fridge wall: ckt 8 (fridge), 10
-  for (const x of [-37.1, -10.1, 72.7]) plate(x, 44, D.E_GYP - .25, 1.4, .25);                     // east wall counter receptacles 12, 14, 16
-  plate(67, 46, D.E_GYP - .25, 1.4, .25);                                                          // switch S beside the window
+  for (const x of [-37.1, -10.1, 72.7]) plate(x, 44, D.E_GYP - .45, 1.4, .25);                     // east wall counter receptacles 12, 14, 16, on the tile
+  plate(67, 46, D.E_GYP - .45, 1.4, .25);                                                          // switch S beside the window, on the tile
   plate(123.7, 16, D.E_GYP - .25, 1.4, .25);                                                       // living-room receptacle 22
   plate(D.KW_X1 - 1, 24, 70, .25, 1.4); plate(D.KW_X2 + 1, 24, 70, .25, 1.4);                     // island end panels, ckt 14
 }
@@ -2548,7 +2573,10 @@ async function exportGLB() {
       meshes++;
     }
     const lights = [];
-    scene.traverse(o => { if (o.isPointLight || o.isSpotLight) lights.push(o); });   // cans, pendants, sconces are unregistered, so traverse finds them
+    // cans, pendants, sconces are unregistered, so traverse finds them. userData.noExport skips a light that
+    // is lighting for the browser and not for the house: without it a fill light is exported like any other
+    // point, gets a fixture role, and paints a warm pool on a ceiling with nothing hanging there.
+    scene.traverse(o => { if ((o.isPointLight || o.isSpotLight) && !o.userData.noExport) lights.push(o); });
     for (const l of lights) {
       const c = l.clone();
       if (c.isSpotLight) {                                   // GLTFExporter wants the target as a child of the light at (0,0,-1)

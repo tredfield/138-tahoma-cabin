@@ -115,6 +115,7 @@
       <button data-view="todoor">Toward the door</button>
       <button data-view="vanity">Vanity</button>
       <button data-view="shower">Shower</button>
+      <button data-view="window">Window F</button>
       <button data-view="section">Section (looking north)</button>
       <button data-view="top">Plan</button>
       <button data-view="plumbing">Plumbing</button>
@@ -1874,11 +1875,17 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   box(fx1, fx2, fy1, fy1 + fw, fz1, fz2, M.frame, 'ext'); box(fx1, fx2, fy2 - fw, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1, fx1 + fw, fy1, fy2, fz1, fz2, M.frame, 'ext'); box(fx2 - fw, fx2, fy1, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1 + fw, fx2 - fw, fy1 + fw, fy2 - fw, 2.6, 2.9, M.glass, 'ext', false);
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_SILL - 1, D.WIN_SILL + 0.25, 4.5, 7.75, M.alder, 'ext');          // stool
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_SILL - 3.5, D.WIN_SILL - 1, D.EXT_IN, D.EXT_IN + 0.6, M.alder, 'ext');   // apron
-  box(D.WIN_X1 - 2.5, D.WIN_X1, D.WIN_SILL - 1, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.alder, 'ext');
-  box(D.WIN_X2, D.WIN_X2 + 2.5, D.WIN_SILL - 1, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.alder, 'ext');
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_HEAD, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.alder, 'ext');
+  // ---- window F casing: 2 1/2" x 3/4" square-cut butted picture frame (owner 2026-09-14, chosen off the three-style
+  //      mock-up) -- legs run the full height, head and sill casing butt between them, no stool and no apron. The outer
+  //      envelope stops at x -4.0, which holds the 1" painted reveal to the shower curb face at x -3.0.
+  {
+    const c = 2.5, zc1 = D.EXT_IN, zc2 = D.EXT_IN + 0.75;                          // casing width, faces of 3/4" stock
+    const X1 = D.WIN_X1, X2 = D.WIN_X2, Y1 = D.WIN_SILL, Y2 = D.WIN_HEAD;          // the RO
+    box(X1 - c, X1, Y1 - c, Y2 + c, zc1, zc2, M.alder, 'ext');                     // south leg, full height
+    box(X2, X2 + c, Y1 - c, Y2 + c, zc1, zc2, M.alder, 'ext');                     // north leg, full height
+    box(X1, X2, Y2, Y2 + c, zc1, zc2, M.alder, 'ext');                             // head, butted between the legs
+    box(X1, X2, Y1 - c, Y1, zc1, zc2, M.alder, 'ext');                             // sill casing, butted between the legs
+  }
   for (const y of [D.WIN_SILL, D.WIN_HEAD - 0.5]) box(D.WIN_X1, D.WIN_X2, y, y + 0.5, fz2, D.EXT_IN, M.alder, 'ext');   // jamb returns
   for (const x of [D.WIN_X1, D.WIN_X2 - 0.5]) box(x, x + 0.5, D.WIN_SILL, D.WIN_HEAD, fz2, D.EXT_IN, M.alder, 'ext');
 }
@@ -2057,11 +2064,8 @@ function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg
   bar(V(cx, VY, zf), V(cx, VY, zf + 1.0), 3.2, M.black, L); bar(V(cx, VY, zf + 1.0), V(cx, VY, zf + 2.2), 0.9, M.black, L); bar(V(cx, VY, zf + 2.2), V(cx + 4.5, VY + 2.5, zf + 2.6), 0.45, M.black, L);   // valve + lever
   bar(V(cx, AY, zf), V(cx, AY, zf + 7.5), 0.5, M.black, L); bar(V(cx, AY, zf + 7.5), V(cx, AY - 1.4, zf + 8.6), 2.75, M.black, L);   // head (UT3312 single-function)
   tagAt(['SHOWER TRIM', 'Moen UT3312, matte black'], SHCX - 19.5, 64, D.EXT_IN + 0.4 + 0.15, 'z');
-  // through-glass 12" hand-towel bar on the room side of the east panel, x 18..30, y 46 -- aligned with the hall-wall bar (owner 2026-09-09);
-  // this stretch of glass faces the vanity end panel across the 5" slot, so the towel hangs 2" off the cabinet below counter height
-  for (const px of [18.5, 29.5]) { bar(V(px, 46, z2 - 0.7), V(px, 46, z2 + 3.0), 0.5, M.black, 'glass'); bar(V(px, 46, z2 - 0.7), V(px, 46, z2 - 0.2), 0.95, M.black, 'glass'); }
-  bar(V(18.0, 46, z2 + 3.0), V(30.0, 46, z2 + 3.0), 0.45, M.black, 'glass');
-  tagAt(['TOWEL BAR through glass', '12", holes drilled before tempering'], 24, 0.6 + 1.4, z2 + 6, 'y', FLAGT);
+  // The through-glass hand-towel bar that used to hang here (x 18..30, y 46, two holes drilled before tempering) came off the
+  // glass on 2026-09-14; the east panel now ships undrilled. Its replacement location is not drawn yet -- see the spec.
   arc(gx, z2, 28, 180, 270);                                                    // door swing, out toward the room centre
 }
 
@@ -2126,6 +2130,16 @@ function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg
   tpHolder(D.WS_IN, 26, 44, 1, 0);                         // 1028 on the bedroom wall, 10" in front of the bowl (NKBA 8-12"); A02's scaled symbol sat 4" behind the bowl front -- review 2026-09-13
   towelBar(D.WS_IN, 40.5, D.WS_IN, 64.5, 48, 1, 0);        // 1029 24" bar on the bedroom wall
   handTowelEast();                                         // hall-wall hand towel (the valve-wall one is gone)
+  // Left-sink hand towel: ring on the vanity's WEST end panel, facing the cleaning slot (owner 2026-09-14, "for now" --
+  // it came off the east glass panel, and the cabinet end is the only surface there, so the ring lands under the counter).
+  {
+    const zf = D.VAN_Z1, xc = 24, yb = 30;                                  // end-panel face, ring centred on the old bar's x, bracket at y 30
+    bar(V(xc, yb, zf), V(xc, yb, zf - 1.5), 0.4, M.black, 'fixtures');      // standoff bracket
+    const g = new THREE.TorusGeometry(3, 0.25, 12, 36);
+    const ring = new THREE.Mesh(g, M.black);
+    ring.position.set(xc, yb - 3.2, zf - 1.5);
+    reg(ring, 'fixtures');
+  }
   // three receptacles above the vanity (owner 2026-09-09): the E01 GFCI between the sinks + one outside each mirror
   box(D.WN_IN - 0.3, D.WN_IN, 40.5, 45.0, 67.0, 69.8, M.white, 'elec'); box(D.WN_IN - 0.4, D.WN_IN - 0.3, 41.2, 44.3, 67.7, 69.1, M.black, 'elec', false);   // west: the 4" of painted wall between the counter's west end (z 66) and the west mirror frame (z 70.7) -- review 2026-09-13: at z 64.6..67.4 it straddled the shower's tile return and the backsplash
   box(D.WN_IN - 0.3, D.WN_IN, 40.5, 45.0, 123.6, 126.4, M.white, 'elec'); box(D.WN_IN - 0.4, D.WN_IN - 0.3, 41.2, 44.3, 124.3, 125.7, M.black, 'elec', false);   // east: stair wall right of the east mirror -- 2 3/4" plate in the 4.7" between frame and corner (~1" each side)
@@ -2223,11 +2237,11 @@ function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg
   tagAt(['GLASS DOOR 28"', 'hinged at the corner post, swings out'], -12, FL, 52, 'y');
   tagAt(['1" PAINTED REVEAL', 'curb face to window casing; caulk the tile edge'], -3, 36, WW, 'z', FLAGT);
   tagAt(['SUPPLIES via the W wall bottom plate', 'not the stair-wall corner (hold-down post)'], 32, PAN, 12, 'y', FLAGT);
-  tagAt(['WINDOW F', 'RO 36 1/2" x 12", sill 61 1/2"', 'TEMPERED + moisture-rated'], -24.75, 80, WW, 'z', FLAGT);
+  tagAt(['WINDOW F', 'RO 36 1/2" x 12", sill 61 1/2"', 'glass 62" over shower floor / 59 1/2" over curb'], -24.75, 80, WW, 'z', FLAGT);
   tagAt(['DOOR 13', '30" x 84" RH in-swing'], SW, 92, 92, 'x-');
   tagAt(['TOILET', 'CL 3" S of window F CL'], -36, FL, 46, 'y');
   tagAt(['VANITY 60"', 'two sinks, Moen 6402 faucets', 'Kohler K-26052 mirrors + Artifacts 72582 sconces'], 2, FL, 96, 'y');
-  tagAt(['SHEAR WALL W2 (S3.5)', 'OSB on the stair side, or engineer OK for the niches'], NW, 88, 20, 'x-', FLAGT);
+  tagAt(['SHEAR WALL W2 (S3.5)', 'OSB on the STAIR side', '7/16", 0.131 x 2 1/2 @ 4" edge'], NW, 88, 20, 'x-', FLAGT);
   tagAt(['LED CAN wet-rated'], 18, yc(33.86) - 0.6, 33.86, 'y-');
   tagAt(['LED CAN damp-rated'], -24.75, yc(36) - 0.6, 36, 'y-');
   tagAt(['FAN Broan 50 CFM (M01)'], D.FAN[0], yc(D.FAN[1]) - 0.6, D.FAN[1], 'y-');
@@ -2316,7 +2330,7 @@ bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // l
 // ===== END EDIT: GEOMETRY =====
 
 // --- UI wiring (do not rewrite; the layer/view names come from the HTML + VIEWS above) -----------
-const layerBoxes = [...document.querySelectorAll('#layers input, #variants input')];   // checkboxes + the wall-height radios
+const layerBoxes = [...document.querySelectorAll('#layers input, #variants input')];   // checkboxes + the Mirrors radios
 const hdr = document.getElementById('header');   // the caption panel; Show → Caption toggles it like a layer
 const foldN = document.getElementById('foldn');  // '12 of 17 on' next to the Show label while the rows are folded (phones)
 function applyLayers() {
@@ -2338,6 +2352,7 @@ const VIEWS = {
   todoor:   { pos: [34, 64, 112],    tgt: [-48, 40, 70], fov: 70 },
   vanity:   { pos: [-30, 66, 96],    tgt: [40, 40, 96],  fov: 60 },
   shower:   { pos: [-40, 70, 100],   tgt: [24, 40, 34],  fov: 62 },
+  window:   { pos: [-22, 63, 58],     tgt: [-25.5, 67.5, 6], fov: 46 },   // window F head-on: casing, jamb returns and the reveal to the curb
   section:  { pos: [-400, 105, 66],  tgt: [0, 90, 66],   fov: 40 },
   top:      { pos: [-4, 480, 66.5],  tgt: [-4, 0, 66],   fov: 40 },
   plumbing: { pos: [-38, 88, 124],   tgt: [14, 28, 62],  fov: 70 },   // both rough-in walls at once: shower valve/arm + WC on the west, lavs on the stair wall

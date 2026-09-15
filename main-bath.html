@@ -1862,16 +1862,17 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   prism(rect(x1, 0, x2, top), D.EXT_STUD_OUT, D.EXT_IN, M.gyp, 'ext', [hole]);
   prism(rect(x1, 0, x2, top), D.SHEATH_OUT, D.EXT_STUD_OUT, M.ply, 'ext', [hole]);
   prism(rect(x1, 0, x2, top), D.SIDING_OUT, D.SHEATH_OUT, M.siding, 'ext', [hole]);
-  // window F: 3'-0" x 1'-0" frame in the RO, glass mid-wall, interior stool + casing
+  // window F: 3'-0" x 1'-0" frame in the RO, glass mid-wall, interior casing
   const fx1 = D.WIN_X1 + 0.25, fx2 = D.WIN_X2 - 0.25, fy1 = D.WIN_SILL + 0.25, fy2 = D.WIN_HEAD - 0.25, fw = 1.75, fz1 = 1.0, fz2 = 4.5;
   box(fx1, fx2, fy1, fy1 + fw, fz1, fz2, M.frame, 'ext'); box(fx1, fx2, fy2 - fw, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1, fx1 + fw, fy1, fy2, fz1, fz2, M.frame, 'ext'); box(fx2 - fw, fx2, fy1, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1 + fw, fx2 - fw, fy1 + fw, fy2 - fw, 2.6, 2.9, M.glass, 'ext', false);
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_SILL - 1, D.WIN_SILL + 0.25, 4.5, 7.75, M.trimCasing, 'ext');          // stool
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_SILL - 3.5, D.WIN_SILL - 1, D.EXT_IN, D.EXT_IN + 0.6, M.trimCasing, 'ext');   // apron
-  box(D.WIN_X1 - 2.5, D.WIN_X1, D.WIN_SILL - 1, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.trimCasing, 'ext');
-  box(D.WIN_X2, D.WIN_X2 + 2.5, D.WIN_SILL - 1, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.trimCasing, 'ext');
-  box(D.WIN_X1 - 2.5, D.WIN_X2 + 2.5, D.WIN_HEAD, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.6, M.trimCasing, 'ext');
+  // casing: 2 1/2" x 3/4" square-cut butted picture frame -- legs run the full height, head and sill casing butt
+  // between them, no stool and no apron (owner 2026-09-14). Outer envelope x -45.5 to -4.0, same as before.
+  box(D.WIN_X1 - 2.5, D.WIN_X1, D.WIN_SILL - 2.5, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');   // south leg, full height
+  box(D.WIN_X2, D.WIN_X2 + 2.5, D.WIN_SILL - 2.5, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');   // north leg, full height
+  box(D.WIN_X1, D.WIN_X2, D.WIN_HEAD, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');               // head, butted between the legs
+  box(D.WIN_X1, D.WIN_X2, D.WIN_SILL - 2.5, D.WIN_SILL, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');               // sill casing, butted between the legs
   for (const y of [D.WIN_SILL, D.WIN_HEAD - 0.5]) box(D.WIN_X1, D.WIN_X2, y, y + 0.5, fz2, D.EXT_IN, M.trimCasing, 'ext');   // jamb returns
   for (const x of [D.WIN_X1, D.WIN_X2 - 0.5]) box(x, x + 0.5, D.WIN_SILL, D.WIN_HEAD, fz2, D.EXT_IN, M.trimCasing, 'ext');
 }
@@ -2145,7 +2146,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   tagAt(['SHOWER TRIM', 'Moen UT2312EP, matte black'], NWT, 52, 44, 'x-');
   tagAt(['SHOWER PAN TBD', 'BoD Woodbridge 36" x 60" does not fit'], 16, PAN, 30, 'y', FLAGT);
   tagAt(['SHOWER GLASS TBD', 'drawn frameless: 24" fixed + 28" door'], 20, 88, WW, 'z', FLAGT);
-  tagAt(['WINDOW F', 'RO 36 1/2" x 12", sill 61 1/2"', 'TEMPERED + moisture-rated'], -11.75, 88, WW, 'z', FLAGT);
+  tagAt(['WINDOW F', 'RO 36 1/2" x 12", sill 61 1/2"', 'glass 62" over shower floor / 59 1/2" over curb'], -11.75, 88, WW, 'z', FLAGT);
   tagAt(['TOILET', 'American Standard (TBD)'], -13.75, 42, WW, 'z');
   tagAt(['DOOR 13', '30" x 84" RH in-swing', 'Ageless Iron Loch, OPCI'], SW, 92, 92, 'x-');
   tagAt(['2-GANG SWITCH'], SW, 53, D.SWITCH_Z, 'x-');
