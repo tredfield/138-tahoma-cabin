@@ -61,7 +61,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Guest bath (lower floor) &mdash; interior 3D</h1>
-    <div class="sub">138 Tahoma St E, Packwood &middot; Armstrong permit set 2507 (A02, A03, A04, E01, M01, S3.2) + basis of design. Lower-floor <b>GUEST BATH</b> on the east wall between the guest-room-1 closets and the kitchen, entered from the hall. Room 5'-7 5/16" x 9'-8 1/2" clear, flat 9'-0" ceiling; plumbing wall on gridline 2; the kitchen wall is a shear wall with 7/16" OSB on the bath face. <b>Shower</b>: full-width tiled, 66 9/16" tile to tile x 34 1/8" glass to back tile, 4" curb, 31 1/8" flat floor; tile 0931 to 7'-0" on three walls, painted above; frameless glass, 35 7/8" fixed panel + 29 1/8" out-swing door; Moen UT3312 trim, valve 48" / arm 81 1/2" above the subfloor. <b>Window C</b> 4'-0" x 1'-0", sill 5'-0", tempered, over the shower; recessed niche below it, 12 3/4" x 10 1/4" x 3 1/2", bottom 43". <b>Vanity</b> 48" x 24 3/4", single centered sink, Moen 6402 faucet, quartz top; Kohler K-26052 mirror + Kohler Artifacts 72582 sconce. <b>Toilet</b> American Standard elongated, centerline 16 1/2" from the vanity and from the curb. <b>Door 6</b> 30" x 84" LH in-swing at the kitchen corner. Floor COREtec Pro Plus LVP; trim knotty alder with 3 1/2" base; all hardware and accessories matte black. Show &rarr; <b>End wall</b> compares the A02 chase alcove. <b>Plumbing</b> = five tagged centerlines (distances from the east wall studs, heights above the subfloor, everything off bare studs). Orange = field-verify or TBD. Design record and decisions: <code>wiki/construction/guest-bath.md</code>. <b>Not engineered &mdash; geometry and design intent only.</b> Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
+    <div class="sub">138 Tahoma St E, Packwood &middot; Armstrong permit set 2507 (A02, A03, A04, E01, M01, S3.2) + basis of design. Lower-floor <b>GUEST BATH</b> on the east wall between the guest-room-1 closets and the kitchen, entered from the hall. Room 5'-7 5/16" x 9'-8 1/2" clear, flat 9'-0" ceiling; plumbing wall on gridline 2; the kitchen wall is a shear wall with 7/16" OSB on the bath face. <b>Shower</b>: full-width tiled, 66 9/16" tile to tile x 34 1/8" glass to back tile, 3" foam curb 3 1/2" above the floor, 32 1/8" flat floor; tile 0931 to 7'-0" on three walls, painted above; frameless glass, 35 7/8" fixed panel + 29 1/8" out-swing door; Moen UT3312 trim, valve 48" / arm 81 1/2" above the subfloor. <b>Window C</b> 4'-0" x 1'-0", sill 5'-0", tempered, over the shower; recessed niche below it, 12 3/4" x 10 1/4" x 3 1/2", bottom 43". <b>Vanity</b> 48" x 24 3/4", single centered sink, Moen 6402 faucet, quartz top; Kohler K-26052 mirror + Kohler Artifacts 72582 sconce. <b>Toilet</b> American Standard elongated, centerline 16 1/2" from the vanity and from the curb. <b>Door 6</b> 30" x 84" LH in-swing at the kitchen corner. Floor COREtec Pro Plus LVP; trim knotty alder with 3 1/2" base; all hardware and accessories matte black. Show &rarr; <b>End wall</b> compares the A02 chase alcove. <b>Plumbing</b> = five tagged centerlines (distances from the east wall studs, heights above the subfloor, everything off bare studs). Orange = field-verify or TBD. Design record and decisions: <code>wiki/construction/guest-bath.md</code>. <b>Not engineered &mdash; geometry and design intent only.</b> Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -1578,7 +1578,7 @@ const D = {
   // assumed 16" layout (cripples at 31.75 / 47.75) -- use the built bay nearest the shower centre; 2" closed-cell foam stays BEHIND it
   NICHE: [32.5, 47.0, 43.0, 55.0, 3.5],
   // shower (owner 2026-09-10, replaces the A02 tub; depth 32" -> 34" owner 2026-09-13, spec decision 10): frameless glass on the threshold,
-  // 34 1/8" glass to back tile / 31 1/8" of flat floor inside the 4" curb; 60" x 36" alcove pan in the chase comparison view
+  // 34 1/8" glass to back tile / 32 1/8" of flat floor inside the 3" curb (owner 2026-09-14; was 4"); 60" x 36" alcove pan in the chase comparison view
   SH_X1: 3.0, SH_X2: 63.0, SH_Z1: 114.5, SH_Z2: 150.5, PAN_T: 1.5, CURB_W: 3.0, GLASS_Z: 115.5, GLASS_H: 80,
   DOOR_G_X: 32.375, DOOR_G_X2: 40.375,   // glass door / fixed-panel split: with the chase (door hinged on the chase) / without (door hinged on the panel)
   TRIM_Z: 132.5, VALVE_Y: 48, ARM_Y: 81.5,   // above SUBFLOOR; over the 1 1/2" shower floor that is valve 46 1/2" and arm 80" (owner 2026-09-13: 78 1/2" -> 82" in the walkthrough, then 80" on the head-height recommendation -- owners 5'6", guests under 6'4")
@@ -1995,7 +1995,7 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
   tagNew('chaseOff', () => {                                                             // no chase: tiled floor + curb wall to wall, door hinged on the panel
     const x1 = xf, x2 = KP_F - tt, gs = D.DOOR_G_X2, gx2 = x2 - 0.4;   // tile face 70.1875: backer + tile on the shear OSB, so the shower is 66 9/16" tile to tile (67" before the OSB was known -- owner 2026-09-13)
     box(x1, x2, 0, yb, z1, z2, M.tile, L);                                              // tiled floor (mud-set, sloped to the drain in reality)
-    box(x1, x2, 0, 4.5, z1, z1 + 4, M.tile, L);                                         // tiled 4" curb
+    box(x1, x2, 0, 4.1, z1, z1 + 3, M.tile, L);                                         // tiled 3" curb, top 3 1/2" above the LVP (owner 2026-09-14, matching North Bend and the main bath)
     cyl((x1 + x2) / 2, (z1 + 4 + z2) / 2, yb, yb + 0.2, 2, M.black, L);                // drain
     box(KP_F - tt, KP_F, yb, th, z1, ez, M.tile, T);                                    // kitchen-wall end tile, on the OSB
     prism(rect(D.PW_N, yb, KP_F, th), ez, D.EW_S1, M.tile, T, [winHole, nicheHole]);   // east wall tile, full width, with the niche cut
@@ -2194,7 +2194,7 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
   tagAt(['NICHE', '12 3/4" x 10 1/4" x 3 1/2" deep', 'bottom 43", 2" foam behind'], 17, 49, EWT, 'z-');
   tagAt(['VANITY 48" x 24 3/4"', 'single sink centered, Moen 6402', 'alder (TBD), quartz top (TBD)'], D.CTR_X2 - 0.8, 18, D.SINK_ZC, 'x');
   tagAt(['TOILET', 'American Standard, elongated', 'CL 16 1/2" to vanity and curb'], 46, FL, D.WC_Z, 'y');
-  tagNew('chaseOff', () => tagAt(['SHOWER 34 1/8" x 66 9/16"', 'tile to tile, 4" curb, 31 1/8" flat floor', 'frameless glass: 35 7/8" fixed + 29 1/8" door, out-swing'], 50, PAN, 124, 'y'));
+  tagNew('chaseOff', () => tagAt(['SHOWER 34 1/8" x 66 9/16"', 'tile to tile, 3" curb 3 1/2" high, 32 1/8" flat floor', 'frameless glass: 35 7/8" fixed + 29 1/8" door, out-swing'], 50, PAN, 124, 'y'));
   tagNew('chaseOn',  () => tagAt(['SHOWER 60" x 36" alcove pan', 'A02 chase, for comparison'], 50, PAN, 124, 'y'));
   tagAt(['DOOR 6', '30" x 84" LH in-swing', 'Ageless Iron Loch'], 54, FL, 44, 'y');
   tagAt(['HINGE-SIDE CASING', 'RO ~1" from partition: rip or flush jamb'], 57, 92, HW, 'z-', FLAGT);   // hall wall is off by default: face the cutaway camera
@@ -2216,7 +2216,7 @@ tagNew('chaseOn', () => {
 });
 tagNew('chaseOff', () => dim(V(D.PW_IN, 100, 112), V(D.KP_IN, 100, 112), '67 5/16" wall to wall, 66 9/16" tile to tile', V(0, 0, 0), V(0, 1, 0)));
 dim(V(20, 20, D.GLASS_Z), V(20, 20, D.EW_S1 - D.TILE_T), '34 1/8" glass to tile', V(0, 0, 0), V(0, 1, 0));
-dim(V(26, 20, D.SH_Z1 + 4), V(26, 20, D.EW_S1 - D.TILE_T), '31 1/8" flat floor inside the curb', V(0, 0, 0), V(0, 1, 0));
+dim(V(26, 20, D.SH_Z1 + 3), V(26, 20, D.EW_S1 - D.TILE_T), '32 1/8" flat floor inside the curb', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.CTR_X2 + 3, 44, D.VAN_Z1), V(D.CTR_X2 + 3, 44, D.SINK_ZC), '24" to the sink', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.CTR_X2 + 3, 38, D.VAN_Z1), V(D.CTR_X2 + 3, 38, D.VAN_Z2), '48"', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.VAN_X1, 38, D.VAN_Z2 + 3), V(D.CTR_X2, 38, D.VAN_Z2 + 3), '24 3/4"', V(0, 0, 0), V(0, 1, 0));
