@@ -85,15 +85,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Finished exterior &mdash; whole house, 138 Tahoma St E</h1>
-    <div class="sub">Appearance model of the finished house from the Armstrong permit set (A02 / A03 / A04) plus the field corrections
-    already in the porch and rear-deck drawings: 7&frac14;" lap siding, 1x4 casings, 2x10 fascia, cedar T&amp;G soffits, black
-    standing-seam roof, Milgard black windows and sliders, the metal entry door, both decks on their as-built glulams and 6x6 posts,
-    centered 8' stairs, sconces and the stove chimney. <b>Colors</b> below swaps siding, trim, fascia, roof, soffit, wood, decking, door,
-    railing and foundation colors live; three starting schemes (black-on-black is the July 2025 reference build). <b>Siding</b> switches between the contract's horizontal lap and a board-and-batten alternative (12" battens, an interpretation). Grade is illustrative
-    at 14" of stem wall showing (owner, 2026-09-11); ground-level deck guards are drawn but off; <b>Rail mount</b> switches every cable rail between deck-mounted at the edge and fascia-mounted. Sconces and the E01 soffit cans are drawn. Orange labels mark what is not on the
-    sheets. Framing lives in the two deck drawings. <b>Not engineered &mdash; do not build from this.</b> Spec:
-    <code>outputs/house-exterior-3d-spec.md</code>.
-    Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
+    <div class="sub">Appearance model of the finished house, 138 Tahoma St E, from the Armstrong permit set (A02 / A03 / A04) with the field corrections carried in the porch and rear-deck drawings. Siding Hardie Plank 8 1/4" lap at a 7 1/4" reveal (board-and-batten alternative on the <b>Siding</b> radio, 12" battens); trim 1x4 casings, 1x6 corner boards, 1x4 frieze; 2x10 fascia; 1x6 cedar T&amp;G soffits; black standing-seam metal roof, gable ends 15:12 with the 8:12 center dormer, ridge at 27'-6"; Milgard black windows and sliders; metal entry door; both decks on their glulams and 6x6 posts with cable rails (<b>Rail mount</b> radio: deck-mounted or fascia-mounted), centered 8'-0" stairs, sconces at 78", soffit cans and the stove chimney. <b>Colors</b> swaps siding, trim, fascia, roof, soffit, wood, decking, door, railing and foundation colors live, with three starting schemes. Grade is illustrative at 14" of stem wall showing; ground-level deck guards are drawn but off. Framing detail is in the two deck drawings. Orange = field-verify or TBD. Design record and decisions: <code>wiki/construction/exterior-finishes.md</code>. <b>Not engineered &mdash; do not build from this.</b> Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -108,7 +100,7 @@
     <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, sconces, soffit cans, chimney</div>
     <div class="lg"><span class="sw" data-slot="conc"></span>Exposed stem wall (concrete)</div>
     <div class="lg"><span class="sw" style="background:#141414"></span>Windows and sliders (Milgard black)</div>
-    <div class="lg"><span class="sw" style="background:#e07b20"></span>Not on the sheets (orange labels)</div>
+    <div class="lg"><span class="sw" style="background:#e07b20"></span>Field-verify / TBD</div>
   </div>
   <div class="panel" id="controls">
     <div class="row" id="layers">
@@ -1846,6 +1838,50 @@ function label(text, x, y, z, opts = {}) {
 // Style presets for label(): label(text, x, y, z, FLAG) for pending/placeholder call-outs.
 const FLAG = { bg: 'rgba(120,58,8,.92)', color: '#ffe0bf' };
 const NOTE = { bg: 'rgba(40,52,70,.9)', color: '#dfe8f5', size: 26 };
+
+// ---- flat tags (Labels + Plumbing): text drawn ON a surface, not a camera-facing sprite ---------------------------------------
+//      Owner 2026-09-14: labels are for the owner and the trades -- name + the numbers a trade would tape from, nothing else;
+//      decisions and history live in the wiki. tagAt(lines, x, y, z, face, opts): face 'x' = the room side faces +x, 'x-' = faces
+//      -x, 'z' = faces +z, 'z-' = faces -z, 'y' = lying flat on the floor (read from above), 'y-' = on a ceiling (read from below);
+//      the flat ones turn each frame to read from the camera.
+//      opts: layer (default 'label'), fs, flag (orange: field-verify / TBD), bg, color. First line white, the rest light.
+const floorDecals = [];
+function yawFloorDecals() {
+  const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);   // screen-up, in world space
+  let tx = up.x, tz = up.z;
+  if (tx * tx + tz * tz < 1e-4) { const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion); tx = f.x; tz = f.z; }
+  const yaw = Math.atan2(-tx, -tz);
+  for (const d of floorDecals) d.rotation.y = d.userData.ceil ? yaw + Math.PI : yaw;   // ceiling tags face down, so their yaw is mirrored
+}
+function tagAt(lines, x, y, z, face, opts = {}) {
+  const fs = opts.fs || 28, pad = 10, gap = 6;
+  const c = document.createElement('canvas');
+  let ctx = c.getContext('2d');
+  ctx.font = `700 ${fs}px -apple-system, Helvetica, Arial`;
+  const w = Math.max(...lines.map(l => ctx.measureText(l).width));
+  c.width = Math.ceil(w) + pad * 2;  c.height = fs * lines.length + gap * (lines.length - 1) + pad * 2;
+  ctx = c.getContext('2d');
+  ctx.font = `700 ${fs}px -apple-system, Helvetica, Arial`;
+  ctx.fillStyle = opts.flag ? 'rgba(120,58,8,.92)' : (opts.bg || 'rgba(20,23,28,.9)');
+  ctx.beginPath(); ctx.roundRect(0, 0, c.width, c.height, 8); ctx.fill();
+  ctx.textBaseline = 'middle';
+  const body = opts.flag ? '#ffe0bf' : (opts.color || '#dfe8f5');
+  lines.forEach((l, i) => { ctx.fillStyle = i ? body : '#ffffff'; ctx.fillText(l, pad, pad + fs / 2 + i * (fs + gap)); });
+  const tex = new THREE.CanvasTexture(c); tex.anisotropy = 8;
+  const k = 0.06;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(c.width * k, c.height * k),
+                           new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false }));
+  if (face === 'x')       m.rotation.y =  Math.PI / 2;
+  else if (face === 'x-') m.rotation.y = -Math.PI / 2;
+  else if (face === 'z')  { }
+  else if (face === 'z-') m.rotation.y =  Math.PI;
+  else if (face === 'y-') { m.rotation.order = 'YXZ'; m.rotation.x = Math.PI / 2; m.userData.ceil = true; floorDecals.push(m); }   // on a ceiling, read from below
+  else { m.rotation.order = 'YXZ'; m.rotation.x = -Math.PI / 2; floorDecals.push(m); }
+  m.position.set(x, y, z);
+  m.renderOrder = 9;
+  return reg(m, opts.layer || 'label');
+}
+const FLAGT = { flag: true };
 // Dimension: line between p1 and p2 with end ticks and a centered label; `off` shifts it off the member.
 const DIM_MAT = new THREE.LineBasicMaterial({ color: 0xffd27a, transparent: true, opacity: .9 });
 function dim(p1, p2, text, off = V(0, 0, 0), tickDir = V(0, 1, 0), tick = 4) {
@@ -2219,20 +2255,22 @@ requestAnimationFrame(() => {
 // ===========================================================================
 // 6. LABELS (layer 'label') and DIMENSIONS (layer 'dim') -- off by default
 // ===========================================================================
-label('Lap siding: Hardie Plank 8 1/4" board, 7 1/4" reveal (Elevate material list); color not chosen -- the Colors panel swaps it', 0, 60, 120, NOTE);
-label('Roof: black standing-seam metal (Elevate list; A03 0511); ribs drawn at 16" -- panel width is an interpretation', -60, 300, 100, NOTE);
-label('Gable ends ~15:12 (A03 15.00:12, drawn 14.7:12); the middle is the 8:12 dormer, plates 17\'-10" (A02 sec 6)\ndormer from 4\'-3" south of gridline 2 to gridline 3 (A03 east / S3.3 read)', 210, 250, -230, NOTE);
-label('Upper-deck glulam 5 1/2" x 15" and porch glulam 5 1/8" x 12" are PLACEHOLDER sizes -- field sign-off, no document (front spec)', 0, 100, 90, FLAG);
-label('West living-room windows A1 / A2: on A02\'s headers, NOT on A03; A04 counts two A windows -- confirm', -200, 105, -410, FLAG);
-label('Window E sill 3\'-0" above UPPER FLR per A03; A04 type diagram says 4\'-9 5/16" -- one tape settles it', 205, 205, -252, FLAG);
-label('Window F drawn at the as-built sill, 61 1/2" above UPPER FLR (main-bath tape); A03 and A04 disagree', -205, 200, -170, FLAG);
-label('Grade ILLUSTRATIVE: 14" of stem wall showing after backfill (owner 2026-09-11). At this grade the deck plinths of the deck drawings\n(tops 8" above the old -36" grade) sit at or below the surface -- wood-to-earth clearance at the posts is a field question', 0, -14, 140, FLAG);
-label('Rear stair 8\'-0" wide, centered -- width not on record (owner: centered, 2026-09-11)', 0, 20, -700, FLAG);
-label('Ground-deck guards drawn but off: deck surfaces 25" above the illustrative grade (< 30", no guard required)\ntick "Ground-deck railings" to see them', 0, 30, 150, NOTE);
-label('Chimney pipe painted black (A03 1554), 2\' from the north wall on the west slope; stove at the NW corner', -136, 362, -528, NOTE);
-label('Exterior lights per A03 1653 / E01 (upper-deck soffit count is an owner change): sconces flanking door 1 and outside the front windows (owner), at the rear corners and the side corners;\nE01 cans: six in the rear soffit at mid-deck, two under the upper deck; FOUR over it are the owner\'s (E01 draws two), held within 85\" of the ridge so the sloped T&G is 7\'-7\" and 11\'-8\" above the deck. 78" sconce height is the owner\'s; fixtures not chosen', 0, 85, 130, NOTE);
-label('Gutters: not on any sheet, not drawn', 210, 95, 60, NOTE);
-label('Casings 1x4, corner boards 1x6, frieze 1x4: "primed whitewood" trim, profile not on record', -210, 95, 60, NOTE);
+// ---- labels: one flat tag per element -- name + the numbers a trade orders or tapes from (owner 2026-09-14). Decisions: wiki. ----
+//      The house is read from ~90 ft, so tags use fs 110 (6.6" letters). South face tags face +z, west face -x, east face +x; ground tags yaw.
+{
+  const WF = -(D.HW + D.SHEATH + D.SIDING_T) - 0.15, EF = -WF, SF = D.SHEATH + D.SIDING_T + 3.5, GY = D.GRADE + 0.3, T = { fs: 110 }, TF = { ...FLAGT, fs: 110 };
+  tagAt(['SIDING', 'Hardie Plank 8 1/4" lap, 7 1/4" reveal', 'color TBD'], -95, 62, SF, 'z', T);
+  tagAt(['ROOF', 'black standing-seam metal', 'gables 15:12, dormer 8:12'], 0, 248, SF, 'z', T);
+  tagAt(['EXTERIOR LIGHTS', 'sconces at 78", fixtures TBD', 'soffit cans: 6 rear, 2 + 4 front'], 95, 62, SF, 'z', T);
+  tagAt(['TRIM', 'casings 1x4, corners 1x6, frieze 1x4', 'primed whitewood, profile TBD'], WF, 62, -300, 'x-', T);
+  tagAt(['GUTTERS', 'TBD -- not on the sheets'], WF, 190, -300, 'x-', TF);
+  tagAt(['WINDOW F', 'sill 61 1/2" above UPPER FLR, as built'], WF, 232, -170, 'x-', T);
+  tagAt(['WINDOWS A1 / A2', 'FIELD VERIFY count and position'], WF, 140, -410, 'x-', TF);
+  tagAt(['CHIMNEY', 'black pipe, W slope, 2\'-0" off the N wall'], WF, 175, -500, 'x-', T);
+  tagAt(['WINDOW E', 'sill FIELD VERIFY: 3\'-0" (A03) or 4\'-9 5/16" (A04)'], EF, 235, -252, 'x', TF);
+  tagAt(['GRADE ILLUSTRATIVE', '14" of stem wall showing', 'FIELD VERIFY post-to-earth clearance'], 0, GY, 150, 'y', TF);
+  tagAt(['REAR STAIR', '8\'-0" wide, centered, 36" rail'], 0, GY, -735, 'y', T);
+}
 dim(V(D.HW, D.GRADE + 2, 0), V(D.HW, D.GRADE + 2, D.G4), '46\'-0" gridline 1 to 4 (A02)', V(60, 0, 0), V(0, 1, 0));
 dim(V(-D.HW, D.GRADE + 2, 20), V(D.HW, D.GRADE + 2, 20), '26\'-0" C to A (A02)', V(0, 0, 100), V(0, 1, 0));
 dim(V(0, 0, 100), V(0, D.RIDGE, 100), '27\'-6" T.O. RAFTER (A02 / A03)', V(240, 0, 0), V(1, 0, 0));
@@ -2427,7 +2465,7 @@ function walk(now) {
   _move.normalize().multiplyScalar(66 * dt * (keys.has('Shift') ? 2.5 : 1));   // 66 in/s = a 5.5 ft/s walk; Shift runs
   camera.position.add(_move); controls.target.add(_move);
 }
-renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); renderer.render(scene, camera); });
+renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); yawFloorDecals(); renderer.render(scene, camera); });
 </script>
 <script>
   // CDN failure fallback message

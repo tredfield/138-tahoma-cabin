@@ -60,16 +60,9 @@
   <!-- ===== EDIT: HEADER / LEGEND / CONTROLS ===== -->
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
-    <h1>Rear (north, gridline 4) — 8'-9" deck, short ridge GLB and the roof carried to 9'-2"</h1>
-    <div class="sub">138 Tahoma St E · B26-00013 · structural framing; finishes are toggles. Posts and PT4X8 drop beam on the
-    <b>8'-0" line</b> per S3.1 (five PT6X6 posts, PT2X8 joists @ 16"); the joists <b>cantilever 9" to an 8'-9" deck edge</b>
-    so the deck just covers the 18"Ø plinths (owner, 2026-09-02). The <b>5½"×24" ridge GLB ends ≈7'-4"</b> from the sheathing
-    face as built (owner tape, 2026-09-02) and the roof edge is held at <b>≈9'-2"</b> (≈5" past the deck), so the last
-    ≈1'-9" of the ≈15:12 gable is drawn as the <b>outlooker ladder</b> (scheme A of <code>construction/deck-roof-framing</code>, concept only). The two <b>6X10 eave beams
-    cantilever ≈11" past the corner-post caps</b> to the roof edge — pending engineer. The <b>1X6 cedar T&amp;G soffit</b>
-    runs under the rafters from the wall to the gable end (its own layer). The gridline-4 wall is the two-story window wall
-    (no floor in bay 3-4): 7"×14" LVL header, 7"×7" PSL ridge column, doors 9/10, J/K/N windows. <b>Not engineered — do not
-    build from this.</b> Every number is traced in <code>outputs/rear-deck-roof-3d-spec.md</code>.
+    <h1>Rear deck and roof (north, gridline 4) — 8'-9" deck, 7'-4" ridge GLB, roof edge 9'-2"</h1>
+    <div class="sub">138 Tahoma St E, Packwood &middot; B26-00013 &middot; Armstrong permit set 2507 (S3.1, S3.2, S3.3, S4.1, S4.3, A02, A03, A04) + field measurements. <b>REAR DECK AND ROOF</b> at the north gable wall (gridline 4), gridline C to A, 26'-0" wide; structural framing, finishes are toggles. <b>Deck</b>: PT2X8 HF#2 ledger on the wall (Dtl 10/S4.1); PT2X8 HF#2 joists @ 16" o.c. over a PT4X8 HF#2 drop beam on the 8'-0" post line (gridline 5), cantilevered 9" to a PT2X8 rim with its outer face 8'-9" from gridline 4; five PT6X6 HF#2 posts at 6'-9" / 6'-3" / 6'-3" / 6'-9" on 24" sq x 8" pads and 18"&Oslash; plinths 8" above grade, ABU66Z bases with 5/8" x 5" Titen anchors (Dtl 4/S4.1); the corner posts run to the 6X10 eave beams on ACH6Z caps, the three center posts stop under the drop beam. <b>Roof</b>: 15:12 gable; 5 1/2" x 24" GLB ridge beam ending 7'-4" from the sheathing face; 2X14 DF#2 rafters @ 24" o.c. on LRU210 hangers, bearing on 6X10 DF#2 eave beams over the corner posts; roof edge 9'-1 3/4" from gridline 4; 2'-0" eaves; 1X6 cedar T&amp;G soffit on the rafter undersides from the wall to the gable end; 2X10 fascia and standing-seam metal in the finish toggle. The rake framing past the GLB end and the 11" eave-beam cantilever past the post caps are pending the engineer. <b>Wall</b> (gridline 4): 2X6 DF @ 16" o.c.; 7" x 14" 2.0E LVL header full width; 7" x 7" 1.8E PSL ridge column; doors 9 and 10 (96" x 84" sliders); J / K / N windows plus two added windows, RO 36 1/2" x 48 1/2", sill 35 1/2". Show &rarr; layers by trade; <b>Decking / fascia / roofing</b> and the 36" <b>Guardrail</b> are off by default; untick <b>T&amp;G soffit</b> to see the rafters. Orange = field-verify or TBD. Design record and decisions: <code>wiki/construction/deck-roof-framing.md</code>. <b>Not engineered — do not
+    build from this.</b>
     Drag to orbit · scroll to zoom · right-drag to pan. · arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
@@ -82,8 +75,8 @@
     <div class="lg"><span class="sw" style="background:linear-gradient(90deg,#dcb47c 50%,#c4975c 50%)"></span>1X6 cedar T&amp;G soffit</div>
     <div class="lg"><span class="sw" style="background:#8a94a0"></span>Steel hardware (schematic)</div>
     <div class="lg"><span class="sw" style="background:#9aa0a6"></span>Concrete (pads, plinths, stem wall)</div>
-    <div class="lg"><span class="sw" style="background:#d9a441"></span>Rake-extension concept (scheme A)</div>
-    <div class="lg"><span class="sw" style="background:#e07b20"></span>Pending engineer / interpretation</div>
+    <div class="lg"><span class="sw" style="background:#d9a441"></span>Rake extension past the GLB end (TBD, pending engineer)</div>
+    <div class="lg"><span class="sw" style="background:#e07b20"></span>Field-verify / TBD</div>
     <div class="lg"><span class="sw" style="background:#5e646c"></span>House context (faded)</div>
   </div>
   <div class="panel" id="controls">
@@ -1731,6 +1724,50 @@ function label(text, x, y, z, opts = {}) {
 // Style presets for label(): label(text, x, y, z, FLAG) for pending/placeholder call-outs.
 const FLAG = { bg: 'rgba(120,58,8,.92)', color: '#ffe0bf' };
 const NOTE = { bg: 'rgba(40,52,70,.9)', color: '#dfe8f5', size: 26 };
+
+// ---- flat tags (Labels + Plumbing): text drawn ON a surface, not a camera-facing sprite ---------------------------------------
+//      Owner 2026-09-14: labels are for the owner and the trades -- name + the numbers a trade would tape from, nothing else;
+//      decisions and history live in the wiki. tagAt(lines, x, y, z, face, opts): face 'x' = the room side faces +x, 'x-' = faces
+//      -x, 'z' = faces +z, 'z-' = faces -z, 'y' = lying flat on the floor (read from above), 'y-' = on a ceiling (read from below);
+//      the flat ones turn each frame to read from the camera.
+//      opts: layer (default 'label'), fs, flag (orange: field-verify / TBD), bg, color. First line white, the rest light.
+const floorDecals = [];
+function yawFloorDecals() {
+  const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);   // screen-up, in world space
+  let tx = up.x, tz = up.z;
+  if (tx * tx + tz * tz < 1e-4) { const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion); tx = f.x; tz = f.z; }
+  const yaw = Math.atan2(-tx, -tz);
+  for (const d of floorDecals) d.rotation.y = d.userData.ceil ? yaw + Math.PI : yaw;   // ceiling tags face down, so their yaw is mirrored
+}
+function tagAt(lines, x, y, z, face, opts = {}) {
+  const fs = opts.fs || 28, pad = 10, gap = 6;
+  const c = document.createElement('canvas');
+  let ctx = c.getContext('2d');
+  ctx.font = `700 ${fs}px -apple-system, Helvetica, Arial`;
+  const w = Math.max(...lines.map(l => ctx.measureText(l).width));
+  c.width = Math.ceil(w) + pad * 2;  c.height = fs * lines.length + gap * (lines.length - 1) + pad * 2;
+  ctx = c.getContext('2d');
+  ctx.font = `700 ${fs}px -apple-system, Helvetica, Arial`;
+  ctx.fillStyle = opts.flag ? 'rgba(120,58,8,.92)' : (opts.bg || 'rgba(20,23,28,.9)');
+  ctx.beginPath(); ctx.roundRect(0, 0, c.width, c.height, 8); ctx.fill();
+  ctx.textBaseline = 'middle';
+  const body = opts.flag ? '#ffe0bf' : (opts.color || '#dfe8f5');
+  lines.forEach((l, i) => { ctx.fillStyle = i ? body : '#ffffff'; ctx.fillText(l, pad, pad + fs / 2 + i * (fs + gap)); });
+  const tex = new THREE.CanvasTexture(c); tex.anisotropy = 8;
+  const k = 0.06;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(c.width * k, c.height * k),
+                           new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false }));
+  if (face === 'x')       m.rotation.y =  Math.PI / 2;
+  else if (face === 'x-') m.rotation.y = -Math.PI / 2;
+  else if (face === 'z')  { }
+  else if (face === 'z-') m.rotation.y =  Math.PI;
+  else if (face === 'y-') { m.rotation.order = 'YXZ'; m.rotation.x = Math.PI / 2; m.userData.ceil = true; floorDecals.push(m); }   // on a ceiling, read from below
+  else { m.rotation.order = 'YXZ'; m.rotation.x = -Math.PI / 2; floorDecals.push(m); }
+  m.position.set(x, y, z);
+  m.renderOrder = 9;
+  return reg(m, opts.layer || 'label');
+}
+const FLAGT = { flag: true };
 // Dimension: line between p1 and p2 with end ticks and a centered label; `off` shifts it off the member.
 const DIM_MAT = new THREE.LineBasicMaterial({ color: 0xffd27a, transparent: true, opacity: .9 });
 function dim(p1, p2, text, off = V(0, 0, 0), tickDir = V(0, 1, 0), tick = 4) {
@@ -2101,51 +2138,52 @@ box(-150.5, 150.5, -0.75, 0, W1, 72, M.ghostFl, 'context');                     
 // ===========================================================================
 // 7. LABELS (layer 'label') and DIMENSIONS (layer 'dim')
 // ===========================================================================
-// deck
-label('PT6X6 HF#2 CORNER POST · ABU66Z base · ACH6Z cap under the 6X10 eave beam (S3.1, S3.3)\nplinth to eave beam ≈11\'-4"; carries deck + roof (the two heavy piers on this line)', 178, 40, -112);
-label('Three PT6X6 intermediate posts at 6\'-9" / 13\'-0" / 19\'-3" stop under the PT4X8 drop beam (S3.1)\nthe center one is on gridline B, 8" beyond the GLB end — drawn DECK-ONLY (owner 2026-09-02)', 0, -30, -114, NOTE);
-label('PT4X8 HF#2 DROP BEAM — S3.1 (4 segments); hung on the corner posts, bearing on the three center posts', -90, -22, -104);
-label('PT2X8 HF#2 JOISTS @ 16" o.c. — S3.1; bear over the drop beam and cantilever 9" past the post line to a PT2X8 rim\ndeck edge 8\'-9" from gridline 4 (owner 2026-09-02 — just covers the 18"Ø plinths; S3.1 drew the edge at the beam)', 96, 6, -60);
-label('PT2X8 HF#2 LEDGER — Dtl 10/S4.1', -40, -12, -4);
-label('24" sq × 8" pad (S3.1 tag 24) · 18"Ø plinth, top 8" above final grade\nDtl 4/S4.1 · ABU66Z + 5/8"Ø × 5" Titen (front piers got ABA66Z)', -48, -50, -122);
-label('rear piers not yet checked for post centering (front corner piers landed off-center, 2026-09-01) — drawn centered', 75, -32, -124, NOTE);
-// wall
-label('Doors 9 (west) and 10 (east) — 96×84 oversized sliders, RO 8\'-0½" × 7\'-0½" (A04)\n8" between them on gridline B = the PSL column (A02, A03)', 0, 50, -6, NOTE);
-label('J (4) — RO 3\'-10" × 4\'-8", sill ≈8\'-6" (scaled off A03, ±3"); 8" and 4½" gaps\nno floor at this wall: the loft stops at gridline 3 (S3.2), so the row straddles UPPER FLR', 60, 130, -6, NOTE);
-for (const s of [-1, 1]) label('AS BUILT: extra window, outboard of the slider — NOT on A03 / A04 (owner photo 2026-09-02)\nRO 36½"×48½", sill 35½" AFF, 16.6" off the corner, 3" off the slider — field-measured 2026-09-02, symmetric', s * 122, 55, -8, NOTE);
-label('J (2) + K (2) triangles above, N (2) at the peak — A03 / A04 (RO 3\'-6½" × 4\'-10")', -60, 200, -6, NOTE);
-label('7"×14" 2.0E LVL BEAM, FULL WIDTH OF WALL — S3.2 (S4.3: 7½"×14" continuous header, ST6224 straps)\nelevation 7\'-2"–8\'-4" is an INTERPRETATION; a 7" member drawn in a 5½" wall (wall may be 2X8 here)', -100, 93, -8, FLAG);
-label('7"×7" 1.8E PSL COLUMN — S3.2 / S3.3: CB7 1/8-7 base, CCQ7.1 cap under the LVL;\nCCQ7.1 base (inverted) above it, CCQ6-7.13 cap under the ridge GLB · grid 4B plinth remedy still open', 10, 250, -8, NOTE);
-label('upper column drawn 17\'-2" (LVL top → GLB); ForteWEB "Grid 4B Column" is 16\'-8" — 6" off, from the interpreted LVL level', 10, 180, -8, FLAG);
-label('4X8 POSTs flanking the J windows (HSLQ47-SDS2.5 to the header), DBL SILLs, 4-stud corner packs — S3.3 / S4.3', -120, 150, -8, NOTE);
-label('2X6 DF wall @ 16" (S3.2 note 8) · gable studs balloon-framed to the sloped DBL TOP PLATE (S4.3)', 120, 170, -8, NOTE);
-// roof
-label('5½"×24" RAISED GLB RIDGE BEAM — S3.3\nas built ends ≈7\'-4" from the sheathing face (owner tape 2026-09-02; S3.3 scales ≈8\'-6") — cannot be lengthened', 0, 342, -50);
-label('RAKE EXTENSION 7\'-4" → 9\'-1¾" — outlooker ladder, scheme A of construction/deck-roof-framing (CONCEPT)\n2X6 outlookers let into the rafter tops, doubled carrier pair on the GLB end + doubled anchor pairs at ≈5\' and ≈3\' (≈7\' backspan : 1\'-9" cantilever),\n2X14 scabs on the GLB faces with a false ridge · sizes, hold-downs, LRU210 nailing on the last 2½" of beam and the bolt pattern are Pieruccioni\'s — PENDING ENGINEER · schemes B / C on file', 70, 300, -104, FLAG);
-label('2X14 DF#2 RAFTERS @ 24" o.c. — S3.3; hung off the GLB faces on LRU210 hangers (1/S4.3), bearing on the 6X10 drop beams\ndrawn on the S3.3 module (≈11", 35", 59" past gridline 4), last pair moved onto the beam end', -70, 236, -40);
-label('6X10 DF#2 DROP BEAM — S3.3; from the 4-stud pack in the wall over the ACH6Z cap on the corner post', 156, 132, -40);
-for (const s of [-1, 1]) label('≈11" cantilever past the post cap to the roof edge — NOT on the sheets\nPENDING ENGINEER', s * 156, 100, -114, FLAG);
-label('Roof ≈15:12 at the gable ends — A03 15.00:12, drawn 14.7:12 from T.O. RAFTER 27\'-6"\nA02 sec 6\'s 8:12 / 17\'-10" plates are the central DORMER (corrected 2026-09-01)', -92, 250, -84, NOTE);
-label('2\'-0" eave overhang past gridline A', 186, 86, -60, NOTE);
-label('roof edge ≈9\'-2" — ≈5" past the 8\'-9" deck edge (owner kept the roof where it was) — barge pair; 2X10 fascia and roofing in the finish toggle', 30, 322, -116, NOTE);
-label('1X6 CEDAR T&G SOFFIT (A02 dtl 5) on the rafter undersides, wall → gable end, boards run wall-to-gable-end\nhides rafters, outlookers and scabs — untick "T&G soffit" to see the framing', -100, 196, -64);
-// levels, grade, gridlines
-label('LOWER FLR 0\'-0"', -178, 0, -110, NOTE);
-label('UPPER FLR 10\'-0" — reference only, no floor at this wall', -178, 120, -100, NOTE);
-label('T.O. RAFTER 27\'-6"', -30, 333, -122, NOTE);
-label('Grade — ILLUSTRATIVE at −3\'-0" (real LAG 30"–48" below the subfloor)', -150, -34, -150, FLAG);
-label('Gridline C (west)', -156, -32, -142, NOTE); label('Gridline B — ridge', 0, -32, -142, NOTE); label('Gridline A (east)', 156, -32, -142, NOTE);
-label('Gridline 4 — north wall (stud face = z 0)', 196, 20, 0, NOTE); label('Gridline 5 — post line 8\'-0"', 196, 20, -96, NOTE);
+// ---- labels: one flat tag per element -- name + the numbers a trade tapes from. Decisions and history: wiki page. ----------------
+//      The default camera (VIEWS.rear) sits north-west of the deck looking south, so every tag faces -z ('z-'); orange = field-verify / TBD.
+//      fs 88 (same as the front porch, not the interior 28): the rear camera is ~4x farther than a room camera; ~10 px per line at 1600x1000.
+{
+  const TF = { fs: 88 }, TFLAG = { fs: 88, flag: true };
+  const PN = D.POST_LINE - 2.75 - 0.15, RIM = D.DECK_EDGE - 0.15, PLN = D.POST_LINE - 9 - 0.15, WF = P0 - 0.15, RE = D.ROOF_EDGE - 0.15;
+  // deck
+  tagAt(['CORNER POST (2)', 'PT6X6 HF#2, ACH6Z cap', 'ABU66Z on 5/8" x 5" Titen'], -156, 30, PN, 'z-', TF);
+  tagAt(['CENTER POST (3)', 'PT6X6 HF#2, ABU66Z base', 'stops under the drop beam'], 75, -24, PN, 'z-', TF);
+  tagAt(['DROP BEAM PT4X8 HF#2', '4 segments, HUC46Z at corners'], -130, (B_BOT + B_TOP) / 2, D.BEAM_Z0 - 0.15, 'z-', TF);
+  tagAt(['JOISTS PT2X8 HF#2 @ 16" o.c.', 'over the beam, 9" cantilever', 'rim face 8\'-9" from gridline 4'], -30, (J_BOT + J_TOP) / 2, RIM, 'z-', TF);
+  tagAt(['LEDGER PT2X8 HF#2', 'per 10/S4.1'], 100, (J_BOT + J_TOP) / 2, LED_Z0 - 0.15, 'z-', TF);
+  tagAt(['FOOTING (5)', '24" sq x 8" pad, 18"Ø plinth', 'top 8" above grade, Dtl 4/S4.1'], -75, -50, PLN, 'z-', TF);
+  tagAt(['FIELD VERIFY: grade', 'drawn at -3\'-0"'], 75, -46, PLN, 'z-', TFLAG);
+  tagAt(['FIELD VERIFY: post centering', 'plinths drawn centered'], 156, -50, PLN, 'z-', TFLAG);
+  // gridline-4 wall
+  tagAt(['LVL HEADER 7" x 14" 2.0E', 'full width, ST6224 straps'], 60, (D.LVL_BOT + D.LVL_TOP) / 2, WF, 'z-', TF);
+  tagAt(['PSL COLUMN 7" x 7" 1.8E', 'CB7 1/8-7 base, CCQ7.1 cap', 'CCQ7.1 + CCQ6-7.13 above LVL'], 0, 250, WF, 'z-', TF);
+  tagAt(['DOORS 9 + 10', '96" x 84" sliders', 'RO 8\'-0 1/2" x 7\'-0 1/2"'], 0, 50, WF, 'z-', TF);
+  tagAt(['ADDED WINDOW (2): unit TBD', 'RO 36 1/2" x 48 1/2", sill 35 1/2"'], -(WIN.x0 + WIN.x1) / 2, (WIN.y0 + WIN.y1) / 2, WF, 'z-', TFLAG);
+  tagAt(['WINDOWS J (6), K (2), N (2)', 'J RO 3\'-10" x 4\'-8"', 'K, N RO 3\'-6 1/2" x 4\'-10"'], -50, 140, WF, 'z-', TF);
+  tagAt(['GABLE WALL 2X6 DF @ 16" o.c.', '4X8 posts at J, HSLQ47-SDS2.5', 'DBL SILLs, sloped top plate'], 120, 140, W0 - 0.15, 'z-', TF);
+  // roof
+  tagAt(['RIDGE GLB 5 1/2" x 24"', 'ends 7\'-4" from sheathing'], 0, 309, D.RIDGE_END - 0.15, 'z-', TF);
+  tagAt(['RAKE EXTENSION 1\'-9": TBD', 'pending engineer, do not build'], 0, 328, RE, 'z-', TFLAG);
+  tagAt(['RAFTERS 2X14 DF#2 @ 24" o.c.', '15:12, LRU210 hangers at GLB', 'bear on the 6X10 eave beams'], -80, (D.roofTop(80) + D.roofBot(80)) / 2, CARRIER_Z - 0.15, 'z-', TF);
+  tagAt(['EAVE BEAM 6X10 DF#2 (2)', 'from 4-stud pack, ACH6Z cap'], -156, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TF);
+  tagAt(['EAVE BEAM CANTILEVER 11"', 'PENDING ENGINEER'], 156, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TFLAG);
+  tagAt(['SOFFIT 1X6 CEDAR T&G', 'under rafters, wall to gable end'], -100, D.roofBot(100) - 0.4, RE, 'z-', TF);
+}
+// levels and gridlines (context sprites)
+label('LOWER FLR 0\'-0"', -200, 0, -110, NOTE);
+label('UPPER FLR 10\'-0" (no floor at this wall)', -178, 132, -100, NOTE);
+label('T.O. RAFTER 27\'-6"', -80, 333, -122, NOTE);
+label('Gridline C (west)', -156, -30, -108, NOTE); label('Gridline B — ridge', 0, -30, -108, NOTE); label('Gridline A (east)', 156, -30, -108, NOTE);
+label('Gridline 4 — north wall', 196, 20, 0, NOTE); label('Gridline 5 — post line 8\'-0"', 196, 20, -96, NOTE);
 
 // dimensions -------------------------------------------------------------------
 const DX = 176;                                                                    // dimension plane just past gridline A
-dim(V(DX, -4, 0), V(DX, -4, D.DECK_EDGE), '8\'-9" deck edge (9" joist cantilever)', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, -24, 0), V(DX, -24, D.POST_LINE), '8\'-0" post line — gridline 5 (S3.1)', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, 118, 0), V(DX, 118, D.ROOF_EDGE), '≈9\'-1¾" roof edge', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, 106, D.DECK_EDGE), V(DX, 106, D.ROOF_EDGE), '≈5" roof past the deck edge', V(0, 0, 0), V(1, 0, 0));
-dim(V(0, D.RIDGE_TOP + 8, -D.SHEATH_T), V(0, D.RIDGE_TOP + 8, D.RIDGE_END), '7\'-4" ridge GLB as built (from the sheathing face)', V(0, 0, 0), V(0, 1, 0));
-dim(V(0, D.RIDGE_TOP + 8, D.RIDGE_END), V(0, D.RIDGE_TOP + 8, D.ROOF_EDGE), '≈1\'-9" rake extension', V(0, 0, 0), V(0, 1, 0));
-dim(V(-30, D.RIDGE_TOP + 20, 0), V(-30, D.RIDGE_TOP + 20, D.ROOF_EDGE), '≈9\'-1¾" roof edge (S3.3 drew ≈8\'-6")', V(0, 0, 0), V(0, 1, 0));
+dim(V(DX, -4, 0), V(DX, -4, D.DECK_EDGE), '8\'-9" deck edge', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, -24, 0), V(DX, -24, D.POST_LINE), '8\'-0" post line', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, 118, 0), V(DX, 118, D.ROOF_EDGE), '9\'-1 3/4" roof edge', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, 106, D.DECK_EDGE), V(DX, 106, D.ROOF_EDGE), '≈5"', V(0, 0, 0), V(1, 0, 0));
+dim(V(0, D.RIDGE_TOP + 8, -D.SHEATH_T), V(0, D.RIDGE_TOP + 8, D.RIDGE_END), '7\'-4" GLB end, from the sheathing face', V(0, 0, 0), V(0, 1, 0));
+dim(V(0, D.RIDGE_TOP + 8, D.RIDGE_END), V(0, D.RIDGE_TOP + 8, D.ROOF_EDGE), '1\'-9" rake extension', V(0, 0, 0), V(0, 1, 0));
+dim(V(-30, D.RIDGE_TOP + 20, 0), V(-30, D.RIDGE_TOP + 20, D.ROOF_EDGE), '9\'-1 3/4" roof edge', V(0, 0, 0), V(0, 1, 0));
 dim(V(-156, -36, -122), V(156, -36, -122), '26\'-0" gridline C to A', V(0, 0, 0), V(0, 1, 0));
 dim(V(-156, -36, -110), V(-75, -36, -110), '6\'-9"', V(0, 0, 0), V(0, 1, 0));
 dim(V(-75, -36, -110), V(0, -36, -110), '6\'-3"', V(0, 0, 0), V(0, 1, 0));
@@ -2154,7 +2192,7 @@ dim(V(75, -36, -110), V(156, -36, -110), '6\'-9"', V(0, 0, 0), V(0, 1, 0));
 dim(V(156, 148, -116), V(180, 148, -116), '2\'-0" eave', V(0, 0, 0), V(0, 1, 0));
 dim(V(-190, 0, -40), V(-190, D.UPPER_FLR, -40), '10\'-0"', V(0, 0, 0), V(1, 0, 0));
 dim(V(-190, D.UPPER_FLR, -40), V(-190, D.RIDGE_TOP, -40), '17\'-6" to T.O. RAFTER', V(0, 0, 0), V(1, 0, 0));
-dim(V(164, 125, D.POST_LINE - 2.75), V(164, 125, D.ROOF_EDGE), '≈11" past the post cap — PENDING ENGINEER', V(0, 0, 0), V(1, 0, 0));
+dim(V(164, 125, D.POST_LINE - 2.75), V(164, 125, D.ROOF_EDGE), '11" — PENDING ENGINEER', V(0, 0, 0), V(1, 0, 0));
 dim(V(-75, D.GRADE, -132), V(-75, D.PLINTH_TOP, -132), '8" plinth above grade', V(0, 0, 0), V(1, 0, 0));
 dim(V(4, 88, -6), V(100, 88, -6), '8\'-0" door 10', V(0, 0, 0), V(0, 1, 0));
 dim(V(-100, 88, -6), V(-4, 88, -6), '8\'-0" door 9', V(0, 0, 0), V(0, 1, 0));
@@ -2253,7 +2291,7 @@ function walk(now) {
   _move.normalize().multiplyScalar(66 * dt * (keys.has('Shift') ? 2.5 : 1));   // 66 in/s = a 5.5 ft/s walk; Shift runs
   camera.position.add(_move); controls.target.add(_move);
 }
-renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); renderer.render(scene, camera); });
+renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); yawFloorDecals(); renderer.render(scene, camera); });
 </script>
 <script>
   // CDN failure fallback message

@@ -61,14 +61,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Kitchen + great room (lower floor) &mdash; interior 3D</h1>
-    <div class="sub">138 Tahoma St E, Packwood &middot; Armstrong permit set 2507 (A02 lower plan + section 6, A04, E01, M01) and the
-    basis-of-design appliance schedule. Kitchen in full: the east-wall sink run under window D, the fridge / pantry wall
-    under the lounge, and the 6'-8" x 3'-6" island with its cabinet-height knee wall, slide-in range, M01 downdraft and
-    the owner's built-in microwave cubby. The rest of the great room is a shell for scale: sliding doors 9 and 10 and the
-    two-story mountain-view window wall on gridline 4, the two west windows, the wood stove on its 4' x 4' stone hearth,
-    the stair, the lounge floor edge with its cable rail, and the ~15:12 T&amp;G roof underside on the 24" ridge GLB.
-    Orange = not on any sheet (microwave cubby, downdraft model, fridge-door aisle pinch). Sheet-confirmed dimensions
-    are in the spec with citations: <code>outputs/kitchen-great-room-3d-spec.md</code>.
+    <div class="sub">138 Tahoma St E, Packwood &middot; Armstrong permit set 2507 (A02 lower plan + section 6, A04, E01, M01) + basis of design. Lower-floor <b>KITCHEN</b> on the east (gridline A) wall north of the guest bath, open to the double-height <b>LIVING ROOM</b>. East counter run 12'-10 3/4" under window D (4'-0" x 4'-0" slider, sill 3'-6"); fridge / pantry wall on the guest-bath partition under the 9'-0" lounge ceiling; island 6'-8" x 3'-6" with a cabinet-height knee wall, 11 3/4" seating overhang and 3'-6" MIN aisles. Cabinets KraftMaid Thornton knotty alder, base 25" x 36", uppers 12" from 54" to 90"; quartz counters; subway tile counter to uppers. Appliances KitchenAid KRSC536RPS fridge, KSEG950ESS 30" slide-in range with the M01 downdraft, KDFE204KPS dishwasher, GE GCST16S1WSS microwave in the island's south base; Kohler K-6489 farmhouse sink, Moen S73204 faucet, matte black. Great room shell: sliding doors 9 and 10 (96" x 84") with the J / K / N glazing and the two as-built windows, windows A1 / A2 on the west wall, Drolet Columbia II on the A02 4' x 4' x 8" corner pad, stair, lounge floor edge with cable rail, 1x6 T&amp;G on 2X14 rafters @ 24" at ~15:12 on the 5 1/2" x 24" GLB ridge, 12 recessed cans and the Hunter Gilrock fan (E01); LVP floor. Show &rarr; each wall, cabinets, counters, appliances, backsplash, roof, lounge + stair, stove, floor, lights, framing, downdraft duct, stools and the dining placeholder toggle on and off. Orange = field-verify or TBD. Design record and decisions: <code>wiki/construction/kitchen-and-great-room.md</code>.
     <b>Not engineered &mdash; do not build from this.</b>
     Origin gridline 3 x gridline B x LOWER FLR; +X north, +Y up, +Z east.
     Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; <b>arrow keys (or WASD) walk</b>, PageUp/PageDown change eye height, Shift runs.</div>
@@ -80,12 +73,12 @@
     <div class="lg"><span class="sw" style="background:#f2f0ea"></span>Subway tile backsplash</div>
     <div class="lg"><span class="sw" style="background:#b9bec4"></span>Stainless appliances</div>
     <div class="lg"><span class="sw" style="background:#1e2023"></span>Matte black fixtures / window frames</div>
-    <div class="lg"><span class="sw" style="background:#4a3728"></span>Dark rustic LVP floor</div>
+    <div class="lg"><span class="sw" style="background:#4a3728"></span>LVP floor (product TBD)</div>
     <div class="lg"><span class="sw" style="background:#c99a63"></span>1x6 T&amp;G ceiling</div>
     <div class="lg"><span class="sw" style="background:#a8743f"></span>5 1/2" x 24" GLB ridge</div>
     <div class="lg"><span class="sw" style="background:#8a8580"></span>Stone hearth / veneer</div>
     <div class="lg"><span class="sw" style="background:#d9b98a"></span>Framing (studs, headers, rafters)</div>
-    <div class="lg"><span class="sw" style="background:#e07b20"></span>Not on the sheets / interpretation</div>
+    <div class="lg"><span class="sw" style="background:#e07b20"></span>Field-verify / TBD</div>
     <div class="lg"><span class="sw" style="background:#5e646c"></span>House context (faded)</div>
   </div>
   <div class="panel" id="controls">
@@ -103,7 +96,7 @@
       <label><input type="checkbox" data-layer="roof" checked> Roof T&amp;G + ridge</label>
       <label><input type="checkbox" data-layer="lounge" checked> Lounge + stair</label>
       <label><input type="checkbox" data-layer="hearth" checked> Wood stove + pad</label>
-      <label><input type="checkbox" data-layer="dining" checked> Dining table (placeholder)</label>
+      <label><input type="checkbox" data-layer="dining" checked> Dining table (TBD)</label>
       <label><input type="checkbox" data-layer="floor" checked> Floor</label>
       <label><input type="checkbox" data-layer="elec" checked> Lights + outlets</label>
       <label><input type="checkbox" data-layer="framing"> Framing</label>
@@ -1764,6 +1757,49 @@ function label(text, x, y, z, opts = {}) {
 // Style presets for label(): label(text, x, y, z, FLAG) for pending/placeholder call-outs.
 const FLAG = { bg: 'rgba(120,58,8,.92)', color: '#ffe0bf' };
 const NOTE = { bg: 'rgba(40,52,70,.9)', color: '#dfe8f5', size: 26 };
+// ---- flat tags (Labels + Plumbing): text drawn ON a surface, not a camera-facing sprite ---------------------------------------
+//      Owner 2026-09-14: labels are for the owner and the trades -- name + the numbers a trade would tape from, nothing else;
+//      decisions and history live in the wiki. tagAt(lines, x, y, z, face, opts): face 'x' = the room side faces +x, 'x-' = faces
+//      -x, 'z' = faces +z, 'z-' = faces -z, 'y' = lying flat on the floor (read from above), 'y-' = on a ceiling (read from below);
+//      the flat ones turn each frame to read from the camera.
+//      opts: layer (default 'label'), fs, flag (orange: field-verify / TBD), bg, color. First line white, the rest light.
+const floorDecals = [];
+function yawFloorDecals() {
+  const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);   // screen-up, in world space
+  let tx = up.x, tz = up.z;
+  if (tx * tx + tz * tz < 1e-4) { const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion); tx = f.x; tz = f.z; }
+  const yaw = Math.atan2(-tx, -tz);
+  for (const d of floorDecals) d.rotation.y = d.userData.ceil ? yaw + Math.PI : yaw;   // ceiling tags face down, so their yaw is mirrored
+}
+function tagAt(lines, x, y, z, face, opts = {}) {
+  const fs = opts.fs || 28, pad = 10, gap = 6;
+  const c = document.createElement('canvas');
+  let ctx = c.getContext('2d');
+  ctx.font = `700 ${fs}px -apple-system, Helvetica, Arial`;
+  const w = Math.max(...lines.map(l => ctx.measureText(l).width));
+  c.width = Math.ceil(w) + pad * 2;  c.height = fs * lines.length + gap * (lines.length - 1) + pad * 2;
+  ctx = c.getContext('2d');
+  ctx.font = `700 ${fs}px -apple-system, Helvetica, Arial`;
+  ctx.fillStyle = opts.flag ? 'rgba(120,58,8,.92)' : (opts.bg || 'rgba(20,23,28,.9)');
+  ctx.beginPath(); ctx.roundRect(0, 0, c.width, c.height, 8); ctx.fill();
+  ctx.textBaseline = 'middle';
+  const body = opts.flag ? '#ffe0bf' : (opts.color || '#dfe8f5');
+  lines.forEach((l, i) => { ctx.fillStyle = i ? body : '#ffffff'; ctx.fillText(l, pad, pad + fs / 2 + i * (fs + gap)); });
+  const tex = new THREE.CanvasTexture(c); tex.anisotropy = 8;
+  const k = 0.06;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(c.width * k, c.height * k),
+                           new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false }));
+  if (face === 'x')       m.rotation.y =  Math.PI / 2;
+  else if (face === 'x-') m.rotation.y = -Math.PI / 2;
+  else if (face === 'z')  { }
+  else if (face === 'z-') m.rotation.y =  Math.PI;
+  else if (face === 'y-') { m.rotation.order = 'YXZ'; m.rotation.x = Math.PI / 2; m.userData.ceil = true; floorDecals.push(m); }   // on a ceiling, read from below
+  else { m.rotation.order = 'YXZ'; m.rotation.x = -Math.PI / 2; floorDecals.push(m); }
+  m.position.set(x, y, z);
+  m.renderOrder = 9;
+  return reg(m, opts.layer || 'label');
+}
+const FLAGT = { flag: true };
 // Dimension: line between p1 and p2 with end ticks and a centered label; `off` shifts it off the member.
 const DIM_MAT = new THREE.LineBasicMaterial({ color: 0xffd27a, transparent: true, opacity: .9 });
 function dim(p1, p2, text, off = V(0, 0, 0), tickDir = V(0, 1, 0), tick = 4) {
@@ -2227,8 +2263,7 @@ slopedBoxZ(D.LNG_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'loun
   dim(V(D.N_GYP - 1, y0, D.W_GYP), V(D.N_GYP - 1, y0, D.HEARTH_Z2), '4\'-0"', V(0, 3, 0), up);
   dim(V(cx + half, 20, cz), V(D.N_GYP, 20, cz), `${gap}"`, V(0, 0, 0), V(0, 0, 1));
   dim(V(cx, 20, cz - half), V(cx, 20, D.W_GYP), `${gap}"`, V(0, 0, 0), V(1, 0, 0));
-  dim(V(frontX, y0, frontZ), V(eX, y0, eZ), `${past.toFixed(1)}" pad past the front`, V(0, 3, 0), up);
-  label(`Stove per A02: 4' x 4' x 8" stone pad, 24" chamfer, no wall stone.\nColumbia II set diagonally with its back corners ${gap}" off the walls (its body is larger than A02's symbol);\npad extends ${past.toFixed(0)}" past the front face. Manual Fig. 20 / 22 figures for comparison: 12" at the back corners, 16" past the door.`, cx - 18, 58, cz + 18, { ...FLAG, scale: .06 });
+  dim(V(frontX, y0, frontZ), V(eX, y0, eZ), `${past.toFixed(0)}" pad past the front`, V(0, 3, 0), up);
 }
 
 // ---- interior lighting: sun through the north glass, warm point lights at the recessed cans and the fan --
@@ -2321,32 +2356,41 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   rafterPair(0, 4.5);                                                                            // TRIPLE LOWER RAFTER @ DORMER
 }
 
-// ---- labels (interior scale) ------------------------------------------------------------------------
+// ---- labels: one flat tag per element -- name + the numbers a trade tapes or orders from (owner 2026-09-14). Decisions: wiki page. --
+//      Faces: east wall / fronts 'z-' (room side), partition + pantry + fridge doors 'x', knee wall 'z-' (living-room side), north
+//      wall 'x-', west wall 'z', ridge underside 'y-'. Every tag faces the opening Kitchen camera or the view that shows it.
 {
-  const LS = { scale: .06 }, FS = { ...FLAG, scale: .06 }, NS = { ...NOTE, scale: .06 };
-  label('Window D 4\'-0" x 4\'-0", sill 3\'-6" (A04)', 39.75, 96, 146, LS);
-  label('Kohler K-6489 farmhouse sink\nMoen S73204 pulldown, matte black', 39.75, 42, 118, LS);
-  label('KitchenAid KDFE204KPS dishwasher', 9.75, 20, 121, LS);
-  label('KitchenAid KRSC536RPS\ncounter-depth fridge', -19, 76, 78, LS);
-  label('Pantry 30" x 24 1/2" x 90" (A02 sec 6)', -23, 94, 44, LS);
-  label('Island 6\'-8" x 3\'-6" quartz, single level\n11 3/4" seating overhang (A02)', 58.75, 42, 38, LS);
-  label('Knee wall to cabinet height,\nlag bolted to the deck (A02)', 58.75, 18, 51, LS);
-  label('KitchenAid KSEG950ESS 30" slide-in range', 58.75, 42, 86, LS);
-  label('Microwave cubby -- owner 2026-09-09,\nnot on the sheets', 31.6, 10, 86, FS);
-  label('Downdraft per M01; BoD row 10 says\n"W/ HOOD VENT" -- model open', 58.75, 40, 55, FS);
-  label('Fridge doors pinch the 3\'-6" MIN\naisle to ~38"', 0, 28, 78, FS);
-  label('Uppers 54"-90", tile 36"-54" (A02 sec 6)', 85, 94, 138, LS);
-  label('9\'-0" gyp ceiling under the lounge', -24, 104, 100, LS);
-  label('Lounge floor edge on gridline 3\n0560 cable rail, fascia mounted', 0, 162, 60, LS);
-  label('1x6 T&G on 2X14 @ 24", ~15:12\n5 1/2" x 24" GLB ridge, T.O. rafter 27\'-6"', 117, 296, 0, LS);
-  label('Doors 9 / 10: 96" x 84" sliders (A04)', 229, 92, 0, LS);
-  for (const s of [1, -1]) label('AS BUILT: window each side of the sliders,\nRO 36 1/2" x 48 1/2", sill 35 1/2" (owner tape 2026-09-02)', 229, 90, s * 122, NS);
-  label('Mountain-view glazing J / K / N (A03)', 229, 200, 0, LS);
-  label('Windows A 4\'-0" x 4\'-6", sill 3\'-0"', 40, 96, -146, LS);
-  label('Fan downrod length not specified', 117.7, 192, 10, FS);
-  label('Stair: 8 risers to a 3\'-0" landing,\n8 back over the utility (ghost)', -20, 72, -70, NS);
+  const EW = D.E_GYP - 0.15, ET = D.E_GYP - .4 - 0.15, EU = D.E_GYP - D.UP_D - .75 - 0.15, EF = D.ER_DOOR_Z - 0.15;   // east wall: gyp, tile, upper fronts, base fronts
+  const SW = D.S_FACE + 0.15, PF = D.PAN_X2 + .75 + 0.15, FD = D.FR_DOOR_X2 + 0.15, KW = D.KW_Z1 - 0.15;             // partition, pantry doors, fridge doors, knee wall
+  const NW = D.N_GYP - 0.15, WW = D.W_GYP + 0.15, RG = D.GLB_LO - 0.15;                                                // north wall, west wall, ridge underside
+  const T = { fs: 36 }, T2 = { fs: 40 }, TF = { fs: 44 }, FT = { ...FLAGT, fs: 34 }, FTF = { ...FLAGT, fs: 40 };
+  // kitchen
+  tagAt(['KITCHEN', '9\'-0" gyp ceiling under the lounge', 'east run 12\'-10 3/4", aisles 3\'-6" MIN'], SW, 100, 120, 'x', TF);
+  tagAt(['WINDOW D', '4\'-0" x 4\'-0" slider, sill 3\'-6"', 'RO 4\'-0 1/2" x 4\'-0 1/2"'], 39.75, 100, EW, 'z-', T2);
+  tagAt(['CABINETS KraftMaid Thornton', 'knotty alder, base 25" d x 36" h', 'uppers 12" d, 54"-90", quartz top (TBD)'], 85.5, 72, EU, 'z-', T2);
+  tagAt(['BACKSPLASH', 'subway tile, counter to uppers 36"-54"'], 85.5, 45, ET, 'z-', T2);
+  tagAt(['SINK Kohler K-6489', '35 3/4" farmhouse, 36" sink base', 'Moen S73204 pulldown, matte black'], 40, 16, EF, 'z-', T2);
+  tagAt(['DISHWASHER', 'KitchenAid KDFE204KPS', '24" opening, ckt 18'], 2, 28, EF, 'z-', T2);
+  tagAt(['FRIDGE KitchenAid KRSC536RPS', 'counter-depth 35 1/2 x 69 1/4 x 28 3/8', 'alcove 37 3/8", ckt 8'], FD, 28, 78, 'x', TF);
+  tagAt(['PANTRY', '30" w x 24 1/2" d x 90" h', 'four doors, split at 60"'], PF, 66, 44, 'x', TF);
+  // island, on the knee wall's living-room face (the fronts face the sink aisle, away from the opening camera)
+  tagAt(['ISLAND 6\'-8" x 3\'-6"', 'quartz, one level, 11 3/4" overhang', 'knee wall 6 1/2", lag bolt to deck'], 39, 26, KW, 'z-', T);
+  tagAt(['RANGE KitchenAid KSEG950ESS', '30" slide-in, 29 7/8" w', 'downdraft behind (TBD), duct east'], 80, 26, KW, 'z-', T);
+  tagAt(['MICROWAVE CUBBY', 'GE GCST16S1WSS (trim kit TBD)', 'opening 22 1/2" x 14", sill 14 1/2"'], 39, 10, KW, 'z-', { fs: 34 });
+  tagAt(['FIELD VERIFY 3\'-6" MIN AISLES', 'before lag bolting the knee wall'], 79, 10, KW, 'z-', FT);
+  // great room
+  tagAt(['LOUNGE FLOOR EDGE', 'gridline 3, floor 9\'-0" a.f.f.', 'cable rail 0560, fascia mount, 36" h'], 0.15, 114, 75, 'x', T2);
+  tagAt(['ROOF', '1x6 T&G on 2X14 DF#2 @ 24" o.c., ~15:12', '5 1/2" x 24" GLB ridge, T.O. rafter 27\'-6"'], 205, RG, 0, 'y-', TF);
+  tagAt(['LIGHTING ckt 4', '12 recessed cans, 3 x 4 on the T&G', 'fan Hunter Gilrock 52", downrod TBD'], 145, RG, 0, 'y-', TF);
+  tagAt(['DOORS 9 / 10 sliding, black', '96" x 84", RO 8\'-0 1/2" x 7\'-0 1/2"', 'glazing J / K / N above per A03'], NW, 95, 0, 'x-', TF);
+  tagAt(['WINDOW as built, one each side', 'RO 36 1/2" x 48 1/2", sill 35 1/2"', 'fixed, black frame'], NW, 95, 122, 'x-', TF);
+  tagAt(['FIELD VERIFY WINDOWS A1 / A2 count + position', '4\'-0" x 4\'-6" fixed, sill 3\'-0", RO + 1/2"'], 40.75, 99, WW, 'z', FTF);
+  tagAt(['WOOD STOVE Drolet Columbia II', '25 5/8" w x 25 1/8" d x 29" h, 6" flue', 'corner pad 4\' x 4\' x 8" stone, 24" chamfer'], 204, 66, WW, 'z', T);
+  tagAt(['VERIFY CLEARANCES ON THE STOVE LABEL', 'pad 16" past the door, flue between rafters'], 204, 52, WW, 'z', FT);
+  // context sprites (direction names)
+  const NS = { ...NOTE, scale: .06 };
+  label('Stair up to the lounge', -20, 72, -70, NS);
   label('Hall to the front door', -80, 60, 3, NS);
-  label('12 recessed cans, circuit 4 (E01)', 117.7, yc(41) - 12, 41, LS);
 }
 
 // ---- dimensions ------------------------------------------------------------------------------------
@@ -2355,8 +2399,9 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   dim(V(D.IS_X1, D.CTR_Y, D.IS_Z1), V(D.IS_X2, D.CTR_Y, D.IS_Z1), '6\'-8" counter', V(0, 4, -6), up);
   dim(V(D.IS_X2, D.CTR_Y, D.IS_Z1), V(D.IS_X2, D.CTR_Y, D.IS_Z2), '3\'-6"', V(8, 4, 0), up);
   dim(V(D.IS_X2, D.CTR_Y, D.IS_Z1), V(D.IS_X2, D.CTR_Y, D.KW_Z1), '11 3/4"', V(8, 14, 0), up);
+  dim(V(D.KW_X1, D.BOX_TOP, D.KW_Z1 - 6), V(D.KW_X2, D.BOX_TOP, D.KW_Z1 - 6), '6\'-6 1/4" box FIELD VERIFY', V(0, 0, 0), V(0, 0, -1));
   dim(V(58.75, D.CTR_Y, D.IS_Z2), V(58.75, D.CTR_Y, D.ER_CTR_Z), '3\'-6" MIN aisle', V(0, 4, 0), up);
-  dim(V(D.FR_DOOR_X2, D.CTR_Y, 78), V(D.KW_X1, D.CTR_Y, 78), '~38" at the fridge doors (3\'-6" MIN)', V(0, 4, 0), up);
+  dim(V(D.FR_DOOR_X2, D.CTR_Y, 78), V(D.KW_X1, D.CTR_Y, 78), '~38" at the fridge doors', V(0, 4, 0), up);
   dim(V(85, D.CTR_Y, D.ER_CTR_Z), V(85, D.CTR_Y, D.E_GYP), '2\'-1"', V(0, 4, 0), up);
   dim(V(D.WD_X1, D.WD_Y2, D.E_GYP - 1), V(D.WD_X2, D.WD_Y2, D.E_GYP - 1), 'RO 4\'-0 1/2"', V(0, 6, 0), up);
   dim(V(72, 0, D.E_GYP - 1), V(72, D.WD_Y1, D.E_GYP - 1), 'sill 3\'-6"', V(0, 0, 0), ex);
@@ -2367,7 +2412,7 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   dim(V(D.S_FACE, 0, 121), V(D.ER_X2, 0, 121), '12\'-10 3/4" counter run', V(0, 2, 0), up);
   dim(V(-21, D.UP_HI, D.PAN_Z1), V(-21, D.UP_HI, D.PAN_Z2), '30"', V(0, 4, 0), up);
   dim(V(-21, D.UP_HI, D.PAN_Z2), V(-21, D.UP_HI, D.SR_Z1), '37 3/8" alcove', V(0, 4, 0), up);
-  dim(V(D.S_FACE, 0, -60), V(D.N_OUT, 0, -60), '23\'-11 3/4" partition to gridline 4 (A02)', V(0, 2, 0), up);
+  dim(V(D.S_FACE, 0, -60), V(D.N_OUT, 0, -60), '23\'-11 3/4" partition to gridline 4', V(0, 2, 0), up);
   dim(V(120, 0, D.W_OUT), V(120, 0, D.E_OUT), '26\'-0" gridline C to A', V(0, 2, 0), up);
   dim(V(D.N_GYP - 1, 86, -D.DR_Z2), V(D.N_GYP - 1, 86, -D.DR_Z), '8\'-0" door 9', V(0, 3, 0), up);
   dim(V(D.N_GYP - 1, 86, D.DR_Z), V(D.N_GYP - 1, 86, D.DR_Z2), '8\'-0" door 10', V(0, 3, 0), up);
@@ -2398,8 +2443,7 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   cyl(xc, zc, H + 36 + 6, yc(zc) - .2, .25, M.black, 'dining');
   cyl(xc, zc, H + 36, H + 36 + 6, 10, M.black, 'dining');
   cyl(xc, zc, H + 35.5, H + 36, 8, M.led, 'dining');
-  label('Typical 6-seat table 72" x 36" x 30" (placeholder, 3 chairs a side);\n43 1/2" clear to the cabinets and to the north wall, 39" walkway to door 10', xc, 40, zc, { ...FLAG, scale: .06 });
-  label('Dining chandelier SHM10018MBK (BoD row 46) -- location assumed,\nnot on E01', xc, H + 46, zc + 14, { ...FLAG, scale: .06 });
+  tagAt(['DINING TABLE (TBD)', '72" x 36" x 30" placeholder, 6 seats', 'chandelier SHM10018MBK over centre (TBD)'], x1 + 2 - 0.15, 27, zc, 'x-', { fs: 36 });
   const up = V(0, 1, 0);
   dim(V(D.ER_X2, 30, 140), V(D.N_GYP, 30, 140), '10\'-3" cabinet end to north wall', V(0, 4, 0), up);
   dim(V(D.ER_X2, 30, zc + L / 2 + 6), V(x1, 30, zc + L / 2 + 6), '43 1/2"', V(0, 2, 0), up);
@@ -2557,7 +2601,7 @@ function walk(now) {
   _move.normalize().multiplyScalar(66 * dt * (keys.has('Shift') ? 2.5 : 1));   // 66 in/s = a 5.5 ft/s walk; Shift runs
   camera.position.add(_move); controls.target.add(_move);
 }
-renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); renderer.render(scene, camera); });
+renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); yawFloorDecals(); renderer.render(scene, camera); });
 </script>
 <script>
   // CDN failure fallback message

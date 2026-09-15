@@ -59,30 +59,20 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Front (south, gridline 1) — porch, upper deck and 6'-0" roof extension</h1>
-    <div class="sub">138 Tahoma St E · B26-00013 · structural framing only, finishes are toggles.
-    Porch <b>5'-0" deep</b> with four posts and footings held at the <b>4'-0" line</b>; <b>both deck beams are
-    now glulams spanning the corner posts</b> &mdash; the porch glulam still bears on the two center posts, which
-    stop under it; the upper deck gets the larger glulam with no center post (field change signed off by
-    Pieruccioni, sizes pending). <b>The corner posts stop at the glulam; nothing is above it.</b> The upper-deck
-    joists hang on the glulam with their tops flush. The steep <b>&asymp;15:12</b> main gable (A03; the 8:12 on A02
-    sec 6 is the central dormer) is carried out to <b>6'-0"</b>, its eave line at the top of that glulam. <b>The ridge GLB
-    ends 4'-0" past the wall as built</b>; the last 2'-0" of roof is drawn as the outlooker ladder from the wiki's
-    rake-extension schemes (scheme A, concept only). <b>Not engineered — do not build from
-    this.</b> Grade, hanger shapes, both glulam sizes and the ridge post between the P windows are placeholders;
-    every number is traced in <code>outputs/front-porch-deck-3d-spec.md</code>.
+    <div class="sub">138 Tahoma St E, Packwood &middot; B26-00013 &middot; Armstrong permit set 2507 (S3.1, S3.2, S3.3, S4.1, S4.3, A02, A03, A04) + as built. South facade on <b>gridline 1</b>: the 26'-0" gable-end wall (gridline C to A), the entrance <b>porch</b> at LOWER FLR, the <b>upper deck</b> at UPPER FLR 10'-0" and the ~15:12 main gable carried <b>6'-0"</b> past the wall. <b>Porch</b> 5'-0" deep: (4) PT6X6 HF#2 posts at 0 / 9'-0" / 17'-0" / 26'-0" from gridline C on the 4'-0" line, ABU66Z bases on 24" sq x 8" pads with 18"&Oslash; plinths 8" above grade; PT2X8 HF#2 ledger, PT2X6 HF#2 joists @ 16" o.c. cantilevered 12" to a PT2X6 rim; one 26'-0" glulam beam hung on the corner posts and bearing on the two center posts (size TBD). <b>Upper deck</b> 4'-2 3/4" to the beam face: PT2X8 HF#2 ledger with (2) DTT2Z ties, PT2X6 HF#2 joists @ 16" o.c. face-hung on a 26'-0" flush glulam over the corner posts (size TBD), 36" guard. <b>Wall</b> 2X6 DF @ 16" o.c., 2X12 DF#2 upper rim, 4X8 DF-L#2 headers at door 1 and windows A, 5 1/2" x 10 1/2" GLB header with (2) trimmers over door 12, O and P triangle windows per A03, ridge post between the P windows (size TBD). <b>Roof</b> 5 1/2" x 24" ridge GLB ending 4'-0" past the wall, 2X14 DF#2 rafters @ 24" o.c. on LRU210 hangers, 6X8 DF#2 eave beams on A and C top-flush with the deck glulam, 2'-0" eaves, roof edge at 6'-0"; the last 2'-0" of rake framing and the eave-beam support past the glulam are TBD (drawn as concepts). Grade is shown at -3'-0" for illustration only. Show &rarr; <b>Sheathing / decking</b> adds the 7/16" wall OSB, 19/32" roof sheathing, decking and the guard; <b>Grade / soil</b> opens the footing excavations; <b>Hardware</b> is schematic. Orange = field-verify or TBD. Design record and decisions: <code>wiki/construction/deck-roof-framing.md</code>. <b>Not engineered — do not build from this.</b>
     Drag to orbit · scroll to zoom · right-drag to pan. · arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
-    <div class="lg"><span class="sw" style="background:#8f9a5a"></span>Pressure-treated (posts, deck beams, joists, ledgers)</div>
+    <div class="lg"><span class="sw" style="background:#8f9a5a"></span>Pressure-treated (posts, joists, ledgers, guard)</div>
     <div class="lg"><span class="sw" style="background:#d8c39a"></span>Wall framing 2X6 DF</div>
     <div class="lg"><span class="sw" style="background:#d2a86a"></span>Headers, rim, floor framing</div>
     <div class="lg"><span class="sw" style="background:#c48a4e"></span>Roof: 2X14 rafters, 6X8 eave beams</div>
-    <div class="lg"><span class="sw" style="background:#b07a3a"></span>Glulam (ridge GLB, GLB header)</div>
+    <div class="lg"><span class="sw" style="background:#b07a3a"></span>Glulam (ridge, header, deck beams)</div>
     <div class="lg"><span class="sw" style="background:#8a94a0"></span>Steel hardware (schematic)</div>
     <div class="lg"><span class="sw" style="background:#9aa0a6"></span>Concrete (pads, plinths, stem wall)</div>
-    <div class="lg"><span class="sw" style="background:#d9a441"></span>Rake-extension concept (scheme A)</div>
-    <div class="lg"><span class="sw" style="background:#e07b20"></span>Pending engineer</div>
+    <div class="lg"><span class="sw" style="background:#d9a441"></span>Rake extension framing (TBD)</div>
+    <div class="lg"><span class="sw" style="background:#e07b20"></span>Field-verify / TBD</div>
     <div class="lg"><span class="sw" style="background:#5e646c"></span>House context (faded)</div>
   </div>
   <div class="panel" id="controls">
@@ -2089,51 +2079,103 @@ box(-150.5, 150.5, 119.25, 120, -72, W0, M.ghostFl, 'context');                 
 // ===========================================================================
 const FLAG = { bg: 'rgba(120,58,8,.92)', color: '#ffe0bf' };
 const NOTE = { bg: 'rgba(40,52,70,.9)', color: '#dfe8f5', size: 26 };
-// porch
-label('PT6X6 HF#2 CORNER POST · ABU66Z base · bracket under the glulam (S3.2, S3.3)\nstops at the underside of the upper-deck glulam (~8\'-7"); nothing above it — site photos 2026-09-01', 174, 40, 60);
-label('Two PT6X6 center posts at 9\'-0" and 17\'-0" stop under the porch glulam\nfield change signed off by Pieruccioni (owner statement 2026-09-01) — no document on record', 48, -30, 66, FLAG);
-label('PORCH GLULAM spanning 26\'-0" between the corner posts, bearing on the two center posts — field change\nreplaces S3.1\'s PT4X6; drawn 5⅛"×12" PLACEHOLDER, size pending written confirmation', -100, -24, 58, FLAG);
-label('PT2X6 HF#2 JOISTS @ 16" o.c. — S3.1\ncantilever ~1\'-0" past the beam to the 5\'-0" edge', 96, 6, 62);
-label('PT2X8 HF#2 LEDGER — Dtl 10/S4.1', -40, -12, 2);
-label('24" sq × 8" pad (S3.1 tag 24) · 18"Ø plinth, top 8" above final grade\nDtl 4/S4.1 · ABU66Z + 5/8"Ø × 5" Titen', -48, -50, 72);
-label('as-poured plinth centering is an open field issue (2026-09-01) — drawn centered', 48, -32, 72, NOTE);
-// upper deck
-label('GLULAM FLUSH BEAM spanning 26\'-0" on the corner posts — field change; joists hang on its inner face, tops flush (photos)\nreplaces S3.2\'s PT4X8 + intermediate posts; drawn 5½"×15" PLACEHOLDER, size pending written confirmation', 0, 98, 58, FLAG);
-label('PT2X6 HF#2 JOISTS @ 16" o.c., 4\'-3½" deep — S3.2 / A02', -96, 124, 44);
-label('PT2X8 HF#2 LEDGER — Dtl 10/S4.1 · DTT2Z tension ties (2), Dtl 11', -40, 108, 2);
-// wall
-label('Door 1 — 36×84, RO 3\'-0½" × 7\'-0½" (A04)', 0, 50, 4, NOTE);
-label('Window A (2) — 4\'-0" × 4\'-6", sill 3\'-0" (A03, A04)', 88, 62, 4, NOTE);
-label('Door 12 — 72×84 slider, head 17\'-0" (A04, A02 sec 5)', 0, 150, 4, NOTE);
-label('O (2) — triangle RO 3\'-6½" × 4\'-10", 1\'-0" off the door (A03)', 76, 170, 4, NOTE);
-label('P (2) — triangle RO 3\'-6½" × 4\'-10", 4¼" apart on B (A03)', 30, 250, 4, NOTE);
-label('2X6 DF framed wall @ 16" (A02 sec 4) · 2X12 DF#2 rim (S3.2)', -118, 113, 4, NOTE);
-label('5½"×10½" GLB HEADER (2 TRIMMERS) — S3.3\nover door 12, 17\'-0½" to 17\'-11" (A02 sec 5)', 64, 214, 6);
-label('Ridge post between the P windows — 4¼" gap on A03\nsize NOT on the sheets (interpretation)', 0, 292, 6, FLAG);
-// roof
-label('5½"×24" RAISED GLB RIDGE BEAM — S3.3\nas built ends 4\'-0" past the wall (owner 2026-09-01; drawn ≈4\'-6")', 0, 340, 22);
-label('RAKE EXTENSION 4\'→6\' — outlooker ladder, scheme A of construction/deck-roof-framing (CONCEPT)\n2X6 outlookers let into the rafter tops, doubled carrier + anchor pairs (4\' backspan : 2\' cantilever), 2X14 scabs lapped 4\' on the GLB\nsizes, hold-downs and the bolt pattern are Pieruccioni\'s — PENDING ENGINEER; schemes B / C also on file', 60, 300, 68, FLAG);
-label('2X14 DF#2 RAFTERS @ 24" o.c. — S3.3\nhung off the GLB faces on LRU210 hangers (1/S4.3)', 70, 236, 50);
-label('6X8 DF#2 eave beam — S3.3; eave line = top of the deck glulam (~9\'-10½" at A / C)\ndrawn top-flush with the glulam and hung on its faces at the corner post; enters the wall at the rim', 156, 132, 20);
-for (const s of [-1, 1]) label('roof edge ≈1\'-9" past the glulam face — how the eave is carried there is NOT on record\nPENDING ENGINEER', s * 156, 104, 70, FLAG);
-label('Roof ≈15:12 at the gable ends — A03 label 15.00:12; the A03 rake foot scales to 14.7:12 from T.O. RAFTER 27\'-6"\nA02 sec 6\'s 8:12 / 17\'-10" plates are the central DORMER. Drawn 14.7:12; rafter underside meets the glulam top at A / C', -92, 250, 60, FLAG);
-label('2\'-0" eave overhang past gridline A', 186, 86, 80, NOTE);
-// levels and grade
+// ---- flat tags (Labels + Plumbing): text drawn ON a surface, not a camera-facing sprite ---------------------------------------
+//      Owner 2026-09-14: labels are for the owner and the trades -- name + the numbers a trade would tape from, nothing else;
+//      decisions and history live in the wiki. tagAt(lines, x, y, z, face, opts): face 'x' = the room side faces +x, 'x-' = faces
+//      -x, 'z' = faces +z, 'z-' = faces -z, 'y' = lying flat on the floor (read from above), 'y-' = on a ceiling (read from below);
+//      the flat ones turn each frame to read from the camera.
+//      opts: layer (default 'label'), fs, flag (orange: field-verify / TBD), bg, color. First line white, the rest light.
+const floorDecals = [];
+function yawFloorDecals() {
+  const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);   // screen-up, in world space
+  let tx = up.x, tz = up.z;
+  if (tx * tx + tz * tz < 1e-4) { const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion); tx = f.x; tz = f.z; }
+  const yaw = Math.atan2(-tx, -tz);
+  for (const d of floorDecals) d.rotation.y = d.userData.ceil ? yaw + Math.PI : yaw;   // ceiling tags face down, so their yaw is mirrored
+}
+function tagAt(lines, x, y, z, face, opts = {}) {
+  const fs = opts.fs || 28, pad = 10, gap = 6;
+  const c = document.createElement('canvas');
+  let ctx = c.getContext('2d');
+  ctx.font = `700 ${fs}px -apple-system, Helvetica, Arial`;
+  const w = Math.max(...lines.map(l => ctx.measureText(l).width));
+  c.width = Math.ceil(w) + pad * 2;  c.height = fs * lines.length + gap * (lines.length - 1) + pad * 2;
+  ctx = c.getContext('2d');
+  ctx.font = `700 ${fs}px -apple-system, Helvetica, Arial`;
+  ctx.fillStyle = opts.flag ? 'rgba(120,58,8,.92)' : (opts.bg || 'rgba(20,23,28,.9)');
+  ctx.beginPath(); ctx.roundRect(0, 0, c.width, c.height, 8); ctx.fill();
+  ctx.textBaseline = 'middle';
+  const body = opts.flag ? '#ffe0bf' : (opts.color || '#dfe8f5');
+  lines.forEach((l, i) => { ctx.fillStyle = i ? body : '#ffffff'; ctx.fillText(l, pad, pad + fs / 2 + i * (fs + gap)); });
+  const tex = new THREE.CanvasTexture(c); tex.anisotropy = 8;
+  const k = 0.06;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(c.width * k, c.height * k),
+                           new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false }));
+  if (face === 'x')       m.rotation.y =  Math.PI / 2;
+  else if (face === 'x-') m.rotation.y = -Math.PI / 2;
+  else if (face === 'z')  { }
+  else if (face === 'z-') m.rotation.y =  Math.PI;
+  else if (face === 'y-') { m.rotation.order = 'YXZ'; m.rotation.x = Math.PI / 2; m.userData.ceil = true; floorDecals.push(m); }   // on a ceiling, read from below
+  else { m.rotation.order = 'YXZ'; m.rotation.x = -Math.PI / 2; floorDecals.push(m); }
+  m.position.set(x, y, z);
+  m.renderOrder = 9;
+  return reg(m, opts.layer || 'label');
+}
+const FLAGT = { flag: true };
+
+// ---- labels: one flat tag per element -- name + the numbers a trade tapes or orders from. Decisions and history: the wiki page. ----
+//      Every tag faces +z (south), toward the default Front camera. Sizes are placeholders where the tag says FIELD VERIFY / TBD.
+{
+  const TF = { fs: 88 }, TFLAG = { fs: 88, flag: true };           // sized for the Front view (~10 px per line at 1600x1000)
+  const PZ = D.POST_LINE + 2.75 + 0.15;                            // south face of the 6X6 posts
+  const GZ = BZ1 + 0.15;                                           // south face of the porch glulam
+  const UGZ = UGLB_Z1 + 0.15;                                      // south face of the upper-deck glulam
+  const WZ = D.SHEATH_T + 0.15;                                    // wall sheathing face
+  const RZ = 45 + RW * 2 + 0.15;                                   // south face of the carrier rafter pair (z 45 .. 48)
+  const EZ = D.ROOF_EDGE + 0.15;                                   // roof edge: barge pair and eave-beam ends
+  // porch and footings
+  tagAt(['CORNER POST (2)', 'PT6X6 HF#2, cap under glulam', 'ABU66Z on 5/8" x 5" Titen'], 156, 40, PZ, 'z', TF);
+  tagAt(['CENTER POST (2)', 'PT6X6 HF#2, ABU66Z base', 'stops under the porch glulam'], -48, -23, PZ, 'z', TF);
+  tagAt(['PORCH GLULAM 26\'-0"', 'FIELD VERIFY size'], -135, -13, GZ, 'z', TFLAG);
+  tagAt(['PORCH JOISTS', 'PT2X6 HF#2 @ 16" o.c.', 'cantilever 12" to PT2X6 rim'], 120, -4, D.PORCH_EDGE + 0.15, 'z', TF);
+  tagAt(['PORCH LEDGER', 'PT2X8 HF#2, LedgerLok', 'per 10/S4.1'], -40, -5, LED_Z1 + 0.15, 'z', TF);
+  tagAt(['FOOTING (4)', '24" sq x 8" pad', '18"Ø plinth, top 8" above grade'], 66, -50, D.POST_LINE + 9 + 0.15, 'z', TF);
+  // upper deck
+  tagAt(['DECK GLULAM 26\'-0"', 'FIELD VERIFY size'], 50, 111, UGZ, 'z', TFLAG);
+  tagAt(['DECK JOISTS', 'PT2X6 HF#2 @ 16" o.c.', 'face-hung on glulam, tops flush'], -70, 111, UGZ, 'z', TF);
+  tagAt(['DECK LEDGER', 'PT2X8 HF#2, LedgerLok', '(2) DTT2Z ties per 11/S4.1'], -110, 131, WZ, 'z', TF);
+  // gable wall
+  tagAt(['GABLE WALL', '2X6 DF @ 16" o.c.', '2X12 DF#2 upper rim'], -130, 60, WZ, 'z', TF);
+  tagAt(['DOOR 1', 'RO 3\'-0 1/2" x 7\'-0 1/2"', '4X8 DF-L#2 header'], 0, 50, WZ, 'z', TF);
+  tagAt(['WINDOW A (2)', 'RO 4\'-0 1/2" x 4\'-6 1/2"', 'sill 3\'-0", 4X8 DF-L#2 header'], 100, 62, WZ, 'z', TF);
+  tagAt(['DOOR 12 SLIDER', 'RO 6\'-0 1/2" x 7\'-0 1/2"', 'head 17\'-0"'], 0, 160, WZ, 'z', TF);
+  tagAt(['GLB HEADER', '5 1/2" x 10 1/2"', '(2) trimmers each side'], 0, 210, WZ, 'z', TF);
+  tagAt(['WINDOW O (2)', 'RO 3\'-6 1/2" x 4\'-10"', '1\'-0" off door 12'], -95, 175, WZ, 'z', TF);
+  tagAt(['WINDOW P (2)', 'RO 3\'-6 1/2" x 4\'-10"', '4 1/4" apart on B'], 30, 250, WZ, 'z', TF);
+  tagAt(['RIDGE POST', 'FIELD VERIFY size'], 0, 292, WZ, 'z', TFLAG);
+  // roof
+  tagAt(['RIDGE GLB', '5 1/2" x 24"', 'ends 4\'-0" past the wall'], 0, 318, D.RIDGE_END + 0.15, 'z', TF);
+  tagAt(['RAFTERS', '2X14 DF#2 @ 24" o.c.', 'LRU210 hangers at the ridge'], -90, 210, RZ, 'z', TF);
+  tagAt(['PITCH ~15:12', 'FIELD VERIFY'], -60, 246, RZ, 'z', TFLAG);
+  tagAt(['EAVE BEAM, A and C', '6X8 DF#2', 'top flush with the deck glulam'], 156, 115, EZ, 'z', TF);
+  tagAt(['EAVE PAST THE GLULAM', 'support TBD'], -156, 104, EZ, 'z', TFLAG);
+  tagAt(['RAKE EXTENSION 2\'-0"', 'framing TBD'], 100, 197, EZ, 'z', TFLAG);
+}
+// context sprites: levels and gridlines
 label('LOWER FLR 0\'-0"', -178, 0, 66, NOTE);
 label('UPPER FLR 10\'-0"', -178, 120, 58, NOTE);
 label('T.O. RAFTER 27\'-6"', -30, 333, 76, NOTE);
-label('Grade — ILLUSTRATIVE at −3\'-0" (real LAG 30"–48" below the subfloor)', -150, -34, 110, FLAG);
 label('Gridline C', -156, -32, 92, NOTE); label('Gridline B — ridge', 0, -32, 92, NOTE); label('Gridline A', 156, -32, 92, NOTE);
 
 // dimensions -------------------------------------------------------------------
 const DX = 176;                                                                    // dimension plane just past gridline A
-dim(V(DX, -4, 0), V(DX, -4, D.PORCH_EDGE), '5\'-0" porch (was 4\'-0")', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, -24, 0), V(DX, -24, D.POST_LINE), '4\'-0" post line (unchanged)', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, 112, 0), V(DX, 112, D.UPPER_EDGE), '≈4\'-2¾" to the glulam face (A02 drew 4\'-3½")', V(0, 0, 0), V(1, 0, 0));
-dim(V(-170, D.UPPER_FLR - 0.5, D.UPPER_EDGE), V(-170, D.UPPER_FLR + 35.5, D.UPPER_EDGE), '36" guard as built (A03 drew 2\'-6½")', V(0, 0, 0), V(1, 0, 0));
-dim(V(0, D.RIDGE_TOP + 8, 0), V(0, D.RIDGE_TOP + 8, D.RIDGE_END), '4\'-0" ridge GLB as built', V(0, 0, 0), V(0, 1, 0));
+dim(V(DX, -4, 0), V(DX, -4, D.PORCH_EDGE), '5\'-0" porch', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, -24, 0), V(DX, -24, D.POST_LINE), '4\'-0" post line', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, 112, 0), V(DX, 112, D.UPPER_EDGE), '4\'-2 3/4" to the glulam face -- FIELD VERIFY', V(0, 0, 0), V(1, 0, 0));
+dim(V(-170, D.UPPER_FLR - 0.5, D.UPPER_EDGE), V(-170, D.UPPER_FLR + 35.5, D.UPPER_EDGE), '36" guard', V(0, 0, 0), V(1, 0, 0));
+dim(V(0, D.RIDGE_TOP + 8, 0), V(0, D.RIDGE_TOP + 8, D.RIDGE_END), '4\'-0" ridge GLB', V(0, 0, 0), V(0, 1, 0));
 dim(V(0, D.RIDGE_TOP + 8, D.RIDGE_END), V(0, D.RIDGE_TOP + 8, D.ROOF_EDGE), '2\'-0" rake extension', V(0, 0, 0), V(0, 1, 0));
-dim(V(-30, D.RIDGE_TOP + 20, 0), V(-30, D.RIDGE_TOP + 20, D.ROOF_EDGE), '6\'-0" roof edge (S3.3 drew ≈4\'-6")', V(0, 0, 0), V(0, 1, 0));
+dim(V(-30, D.RIDGE_TOP + 20, 0), V(-30, D.RIDGE_TOP + 20, D.ROOF_EDGE), '6\'-0" roof edge', V(0, 0, 0), V(0, 1, 0));
 dim(V(-156, -36, 80), V(156, -36, 80), '26\'-0" gridline C to A', V(0, 0, 0), V(0, 1, 0));
 dim(V(-156, -36, 68), V(-48, -36, 68), '9\'-0"', V(0, 0, 0), V(0, 1, 0));
 dim(V(-48, -36, 68), V(48, -36, 68), '8\'-0"', V(0, 0, 0), V(0, 1, 0));
@@ -2141,7 +2183,7 @@ dim(V(48, -36, 68), V(156, -36, 68), '9\'-0"', V(0, 0, 0), V(0, 1, 0));
 dim(V(156, 148, 74), V(180, 148, 74), '2\'-0" eave', V(0, 0, 0), V(0, 1, 0));
 dim(V(-190, 0, 40), V(-190, D.UPPER_FLR, 40), '10\'-0"', V(0, 0, 0), V(1, 0, 0));
 dim(V(-190, D.UPPER_FLR, 40), V(-190, D.RIDGE_TOP, 40), '17\'-6" to T.O. RAFTER', V(0, 0, 0), V(1, 0, 0));
-dim(V(164, 125, D.POST_LINE + 2.75), V(164, 125, D.ROOF_EDGE), '≈1\'-9" past the glulam — PENDING ENGINEER', V(0, 0, 0), V(1, 0, 0));
+dim(V(164, 125, D.POST_LINE + 2.75), V(164, 125, D.ROOF_EDGE), '1\'-9 1/4" past the glulam', V(0, 0, 0), V(1, 0, 0));
 dim(V(0, D.GRADE, 100), V(0, D.PLINTH_TOP, 100), '8" plinth above grade', V(0, 0, 0), V(1, 0, 0));
 
 
@@ -2234,7 +2276,7 @@ function walk(now) {
   _move.normalize().multiplyScalar(66 * dt * (keys.has('Shift') ? 2.5 : 1));   // 66 in/s = a 5.5 ft/s walk; Shift runs
   camera.position.add(_move); controls.target.add(_move);
 }
-renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); renderer.render(scene, camera); });
+renderer.setAnimationLoop(() => { walk(performance.now()); controls.update(); yawFloorDecals(); renderer.render(scene, camera); });
 </script>
 <script>
   // CDN failure fallback message
