@@ -61,7 +61,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Main bath &mdash; Option 1: glass shower, north-wall plumbing</h1>
-    <div class="sub">138 Tahoma St E, Packwood &middot; upper-floor <b>MAIN BATH, option 1</b>, the owner's glass-shower proposal: valve wall removed, 39 5/8" x 54 7/8" glass shower in the 7'-3" x 10'-1 1/2" room. Show &rarr; Mirrors swaps two mirrors for one; Plumbing = six tagged centerlines off the S and W wall studs. Orange = field-verify or TBD. Design record: <code>wiki/construction/main-bath.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
+    <div class="sub">138 Tahoma St E, Packwood &middot; upper-floor <b>MAIN BATH, option 1</b>, the owner's glass-shower proposal: valve wall removed, 39 5/8" x 53 5/8" glass shower in the 7'-3" x 10'-1 1/2" room. Show &rarr; Mirrors swaps two mirrors for one; Plumbing = six tagged centerlines off the S and W wall studs. Orange = field-verify or TBD. Design record: <code>wiki/construction/main-bath.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -1784,7 +1784,7 @@ function tagAt(lines, x, y, z, face, opts = {}) {
 }
 const FLAGT = { flag: true };
 const SHCX = (D.SH_X1 + D.CURB_W + D.WN_IN - 0.4) / 2;              // 19 1/16 -- centre of the flat floor, depth (tags, centrelines, plumbing)
-const SHCZ = (D.EXT_IN + 0.4 + 61.5 - 0.19) / 2;                    // 33 7/8  -- centre of the flat floor, length
+const SHCZ = (D.EXT_IN + 0.4 + 61.5 - 0.19) / 2;                    // 33 7/8  -- the drain's z along the length (fixed; owner 2026-09-14: the east curb took 1 1/2" of floor, so this is now 5/8" east of the flat floor's centre z 33 3/16)
 // Dimension: line between p1 and p2 with end ticks and a centered label; `off` shifts it off the member.
 const DIM_MAT = new THREE.LineBasicMaterial({ color: 0xffd27a, transparent: true, opacity: .9 });
 function dim(p1, p2, text, off = V(0, 0, 0), tickDir = V(0, 1, 0), tick = 4) {
@@ -2016,13 +2016,14 @@ function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg
 
 // ---- OPTION 1 / 4 shower: mud-set tile floor, glass on the south + east lines. The south curb line is D.SH_X1 per option
 //      (opt 1: -3.0 = 38 1/8" of flat floor inside the curb, 39 5/8" glass CL to back tile, owner 2026-09-13; opt 4: 3.0 = 32 1/8" / 33 5/8"); HEAD and VALVE (Moen UT3312) on the west (exterior)
-//      wall -- owner 2026-09-09 accepts the valve body + riser in the 2x6 stud cavity with freeze protection (no chase); east glass at z 61.5 leaves a 5" cleaning slot to the
-//      vanity end panel; foot rest (centre bay) + shampoo niche (bay by the door) in the stair wall (owner 2026-09-09) --
+//      wall -- owner 2026-09-09 accepts the valve body + riser in the 2x6 stud cavity with freeze protection (no chase); east glass at z 61.5 on a 3" curb matching the
+//      south one (z 60 .. 63, owner 2026-09-14: symmetrical curbs, the glass does not move) -- 5" glass to vanity above the curb, 3 3/4" curb face to vanity at the floor; foot rest (centre bay) + shampoo niche (bay by the door) in the stair wall (owner 2026-09-09) --
 {
   const L = 'shower', x1 = D.SH_X1, x2 = D.WN_IN, z1 = D.EXT_IN, z2 = 61.5, gx = D.GLASS_X, H = D.TILE_H, GH = D.GLASS_H, VY = 48, AY = 81.5, zc = z1, zf = z1 + 0.4;   // no chase: zf = tile face of the west wall. H = tile height (7'-0", flush with the glass -- owner 2026-09-13), GH = glass height (7'-0"); VY / AY = valve and arm CL above the subfloor = 46 1/2" / 80" above the pan, the guest bath's heights (owner 2026-09-13 review; arm 82" -> 80" the same evening, owners 5'6")
-  const tf = x2 - 0.4, cx = (x1 + D.CURB_W + tf) / 2, cz = (zf + z2 - 0.19) / 2;   // tf = stair-wall tile face; (cx, cz) = centre of the FLAT floor inside the curb -- drain and trim both sit on it
+  const tf = x2 - 0.4, cx = (x1 + D.CURB_W + tf) / 2, cz = (zf + z2 - 0.19) / 2, ec1 = z2 - D.CURB_W / 2, ec2 = z2 + D.CURB_W / 2;   // tf = stair-wall tile face; cx = depth centre of the flat floor (drain, valve, head); cz = the drain's z, 33 7/8" -- NOT moved when the east curb (ec1 .. ec2 = z 60 .. 63) took 1 1/2" of floor on 2026-09-14, so it sits 5/8" east of the flat floor's centre
   box(x1, x2, 0, 1.5, zc, z2, M.shTile, L);                                   // tiled floor (mud bed)
   box(x1, x1 + D.CURB_W, 0, 4.1, zc, z2, M.shTile, L);                         // 3" curb under the south glass, top 3 1/2" above the LVP (owner 2026-09-14, both baths alike)
+  box(x1, tf, 0, 4.1, ec1, ec2, M.shTile, L);                                  // 3" curb under the east glass, same section, centred on the glass line like the south one; south curb's outer face to the stair-wall tile face (owner 2026-09-14: symmetrical)
   cyl(cx, cz, 1.5, 1.7, 2, M.black, L);                                        // 2" drain, centred on the flat floor; joist bay 13.5..29.5
   box(x1, x2, 0, H, z1, zf, M.shTile, L);                                      // tile: west wall
   // stair-wall niches (owner 2026-09-09): shampoo 12" x 24" (y 48-72) with a shelf, foot rest 12" x 10" (y 18-28); 3 1/2" deep,
@@ -2041,14 +2042,14 @@ function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg
   }
   tagAt(['SHAMPOO NICHE', '12" x 24" x 3 1/2", bottom 48", mid shelf'], D.WN_IN - 0.4 - 0.15, 78, 46.75, 'x-');
   tagAt(['FOOT REST', '12" x 10" x 3 1/2", bottom 18"'], D.WN_IN - 0.4 - 0.15, 34, 23, 'x-');
-  box(x2 - 0.4, x2, 0, H, z2, D.VAN_Z1, M.shTile, L);                          // tile carried across the 5" slot to the vanity end panel
-  box(x1, x2, H, H + 0.5, z1, zf + 0.1, M.black, L, false); box(x2 - 0.5, x2, H, H + 0.5, z1, z2, M.black, L, false);   // edge trim
+  box(x2 - 0.4, x2, 0, H, z2, ec2, M.shTile, L);                               // stair-wall tile stops flush with the east curb's outer face (z 63) -- owner 2026-09-14; painted gyp from there to the vanity end panel
+  box(x1, x2, H, H + 0.5, z1, zf + 0.1, M.black, L, false); box(x2 - 0.5, x2, H, H + 0.5, z1, ec2 + 0.5, M.black, L, false); box(x2 - 0.5, x2, 4.1, H + 0.5, ec2, ec2 + 0.5, M.black, L, false);   // edge trim: tops + the tile's exposed east edge above the curb
   // glass: south line -- fixed z 6.6..33 + 28" door z 33.4..61.1 hinged on the corner post at z 61.5, both standing on the 4" curb;
-  // east line -- one fixed panel x (x1+0.4)..38.1. There is NO curb on the east line, so that panel runs down to the tiled floor (y 1.5), not to curb top.
+  // east line -- one fixed panel x (x1+0.4)..38.1 standing on the matching 3" east curb (owner 2026-09-14), so all three panels bottom at curb top y 4 like the corner post.
   glassPanel(gx - 0.19, gx + 0.19, 4, GH, zf + 0.2, 33); glassPanel(gx - 0.19, gx + 0.19, 4, GH, 33.4, z2 - 0.6);
-  glassPanel(x1 + 0.4, x2 - 0.4, 1.5, GH, z2 - 0.19, z2 + 0.19);
+  glassPanel(x1 + 0.4, x2 - 0.4, 4, GH, z2 - 0.19, z2 + 0.19);
   box(gx - 0.5, gx + 0.5, 4, GH, zf, zf + 0.6, M.black, 'glass');                          // wall channel, window wall -- needs flat 2x blocking behind it (open bay, M01 vent nearby): framer
-  box(x2 - 1.0, x2 - 0.4, 1.5, GH, z2 - 0.5, z2 + 0.5, M.black, 'glass');                  // wall channel, north end of the east panel -- mid-bay, needs blocking: framer
+  box(x2 - 1.0, x2 - 0.4, 4, GH, z2 - 0.5, z2 + 0.5, M.black, 'glass');                    // wall channel, north end of the east panel, on the curb top -- mid-bay, needs blocking: framer
   cyl(gx, z2, 4, GH, 0.6, M.black, 'glass');                                               // corner post
   for (const y of [14, 66]) box(gx - 1.1, gx + 1.1, y, y + 3.5, z2 - 3.6, z2 - 0.6, M.black, 'glass');   // hinges at the post
   for (const sx of [-1, 1]) { bar(V(gx + sx * 1.7, 38, 36.5), V(gx + sx * 1.7, 50, 36.5), 0.45, M.black, 'glass'); for (const y of [39, 49]) bar(V(gx, y, 36.5), V(gx + sx * 1.7, y, 36.5), 0.35, M.black, 'glass'); }   // pull at the free edge
@@ -2062,7 +2063,6 @@ function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg
   bar(V(18.0, 46, z2 + 3.0), V(30.0, 46, z2 + 3.0), 0.45, M.black, 'glass');
   tagAt(['TOWEL BAR through glass', '12", holes drilled before tempering'], 24, 0.6 + 1.4, z2 + 6, 'y', FLAGT);
   arc(gx, z2, 28, 180, 270);                                                    // door swing, out toward the room centre
-  tagAt(['NO CURB at the east glass', 'channel on tile; slope to drain; waterproof edge'], 12, 1.5 + 1.4, z2 - 8, 'y', FLAGT);
 }
 
 // ---- vanity: 60" double, plywood cabinet (0661), counter + undermount sinks, Moen 6402, mirror, Bellevue bar -------
@@ -2219,7 +2219,7 @@ function clTag(text, x, y, z) { label(text, x, y, z, { layer: 'cl', size: 24, bg
 {
   const SW = D.WS_IN + 0.15, WW = D.EXT_IN + 0.15, NW = D.WN_IN - 0.15, FL = 0.6 + 1.4, PAN = 1.5 + 1.4;
   tagAt(['MAIN BATH -- OPTION 1', 'glass shower, stair-wall plumbing', '7\'-3" x 10\'-1 1/2" clear'], SW, 72, 40, 'x-');   // bedroom wall is off by default: face the cutaway camera
-  tagAt(['SHOWER 39 5/8" x 54 7/8"', 'glass to tile, 3" curb 3 1/2" high, 38 1/8" flat floor', 'tile + glass to 7\'-0"'], SHCX, PAN, 18, 'y');
+  tagAt(['SHOWER 39 5/8" x 53 5/8"', 'glass to tile; 3" curbs 3 1/2" high, S + E', '38 1/8" x 53 5/8" flat floor; tile + glass to 7\'-0"'], SHCX, PAN, 18, 'y');
   tagAt(['GLASS DOOR 28"', 'hinged at the corner post, swings out'], -12, FL, 52, 'y');
   tagAt(['1" PAINTED REVEAL', 'curb face to window casing; caulk the tile edge'], -3, 36, WW, 'z', FLAGT);
   tagAt(['SUPPLIES via the W wall bottom plate', 'not the stair-wall corner (hold-down post)'], 32, PAN, 12, 'y', FLAGT);
@@ -2244,8 +2244,8 @@ dim(V(D.WC_X, 2, 42), V(D.SH_X1, 2, 42), '24 3/4" WC CL to curb face (min 15)', 
 dim(V(D.WC_X, 2, 34), V(D.WC_X, 2, D.DOOR_Z1), '43" in front of WC (min 24)', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.SH_X1 + D.CURB_W, 6, 18), V(D.WN_IN - 0.4, 6, 18), '38 1/8" flat floor inside the curb', V(0, 0, 0), V(0, 1, 0));
 dim(V(D.GLASS_X, 6, 50), V(D.WN_IN - 0.4, 6, 50), '39 5/8" glass CL to back tile', V(0, 0, 0), V(0, 1, 0));
-dim(V(13, 6, 6.4), V(13, 6, 61.31), '54 7/8" shower inside', V(0, 0, 0), V(0, 1, 0));
-dim(V(30, 6, 61.7), V(30, 6, D.VAN_Z1), '5" slot', V(0, 0, 0), V(0, 1, 0));
+dim(V(13, 6, 6.4), V(13, 6, 60), '53 5/8" shower inside', V(0, 0, 0), V(0, 1, 0));   // west tile face to the east curb's inner face
+dim(V(30, 6, 63), V(30, 6, D.VAN_Z1), '3 3/4" curb to vanity', V(0, 0, 0), V(0, 1, 0));   // east curb's outer face to the vanity end panel at the floor (5" glass to vanity above it)
 dim(V(37, 74, 40.75), V(37, 74, 52.75), 'niche 12"', V(0, 0, 0), V(0, 1, 0));
 dim(V(37, 48, 54.5), V(37, 72, 54.5), '24" (48"-72")', V(0, 0, 0), V(0, 0, 1));
 dim(V(37, 18, 23), V(37, 28, 23), 'foot rest 10" (18"-28")', V(0, 0, 0), V(0, 0, 1));
@@ -2260,7 +2260,7 @@ dim(V(D.WIN_X2 + 8, 0, D.EXT_IN + 1), V(D.WIN_X2 + 8, D.WIN_SILL, D.EXT_IN + 1),
 centreLine(D.WC_X, D.EXT_IN + 0.2, D.WC_X, 47, 0.9);                // toilet CL, run out past the bowl front
 centreLine(D.WC_X - 15, 18, D.WC_X + 15, 18, 0.9);                  // closet-flange CL: 12" rough-in off the finished wall (z 6 + 12)
 clTag('TOILET CL -- 3" south of WINDOW F CL', D.WC_X, 14, 50);
-centreLine(SHCX, D.EXT_IN + 0.6, SHCX, 61.1, 1.7);                  // shower CL, depth
+centreLine(SHCX, D.EXT_IN + 0.6, SHCX, 59.7, 1.7);                  // shower CL, depth -- to the east curb's inner face (z 60)
 centreLine(D.SH_X1 + D.CURB_W + 0.3, SHCZ, D.WN_IN - 0.7, SHCZ, 1.7);   // shower CL, length
 clTag('SHOWER CL', 32, 24, 17);
 bar(V(32, 22, 17), V(SHCX, 2.0, SHCZ), 0.13, CL_MAT, 'cl');                 // leader from the call-out down to the intersection
