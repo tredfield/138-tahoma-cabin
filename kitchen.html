@@ -1653,7 +1653,7 @@ const M = {
   applianceFace: new THREE.MeshStandardMaterial({ color: 0xb9bec4, roughness: .3, metalness: .7 }),
   black:   new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .6, metalness: .2 }),
   sinkBasin: new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: .25 }),
-  devicePlate: new THREE.MeshStandardMaterial({ color: 0xf2f0eb, roughness: .35 }),   // switch / receptacle cover plates (white nylon)
+  devicePlate: new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .35 }),   // switch / receptacle cover plates (black, Decora-style; owner 2026-09-16)
   gyp:     new THREE.MeshStandardMaterial({ color: 0xfae4c8, roughness: .95 }),
   gypC:    new THREE.MeshStandardMaterial({ color: 0xf0eeea, roughness: .95 }),
   floorPlank: new THREE.MeshStandardMaterial({ color: 0x51310b, roughness: .8 }),
@@ -1929,7 +1929,7 @@ function fronts(place, u1, u2, kind, y1 = D.TOE, y2 = D.BOX_TOP, frontMat = M.ca
   const F = 2.1875, R = .25;                                 // Thornton five-piece front: 2 3/16" stiles and rails around a 1/4"-recessed panel (kraftmaid.com; owner's samples 2026-09-16)
   const panel = (ua, ub, ya, yb, mat = frontMat) => {
     const x1 = ua + g / 2, x2 = ub - g / 2, y1 = ya + g / 2, y2 = yb - g / 2;
-    if (y2 - y1 < 8 || x2 - x1 < 2 * F + 3) { place(x1, x2, y1, y2, 0, dT, mat, true); return; }   // slab drawer front: KraftMaid makes five-piece fronts under 8" as slabs
+    if (y2 - y1 < 2 * F + 1 || x2 - x1 < 2 * F + 3) { place(x1, x2, y1, y2, 0, dT, mat, true); return; }   // slab only where two rails and a 1" strip cannot fit: KraftMaid's five-piece drawer front is standard on Thornton (slab is the CLDF option), so the 6" top drawers are framed too (owner 2026-09-16)
     place(x1, x1 + F, y1, y2, 0, dT, mat, true); place(x2 - F, x2, y1, y2, 0, dT, mat, true);        // stiles, full height
     place(x1 + F, x2 - F, y2 - F, y2, 0, dT, mat, true); place(x1 + F, x2 - F, y1, y1 + F, 0, dT, mat, true);   // rails between the stiles
     place(x1 + F, x2 - F, y1 + F, y2 - F, 0, dT - R, mat, false);                                    // recessed panel
@@ -2514,6 +2514,7 @@ const VIEWS = {
   stove:   { pos: [130, 60, -20], tgt: [200, 26, -132], fov: 58 },
   lounge:  { pos: [-50, 195, -50], tgt: [70, 30, 95], fov: 62 },
   dining:  { pos: [60, 66, 20], tgt: [175, 30, 80], fov: 62 },
+  swatch:  { pos: [100, 52, 70], tgt: [82, 36, 126], fov: 58 },   // finish swatch: the sink-run drawer stack, door base and uppers about 5 ft away, for one-image finish rounds
   top:     { pos: [92, 292, 1], tgt: [92, 0, 0], fov: 72 },
 };
 // ===== END EDIT: VIEWS =====
