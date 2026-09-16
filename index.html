@@ -33,13 +33,13 @@
   .chips a{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:#2c313a;color:#dfe3e8;}
   .chips a:hover{background:#3a404b;}
   .chips a.open{background:var(--accent);border-color:var(--accent);color:#1b1e23;font-weight:600;}
-  .renders{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;}
-  .renders figure{margin:0;}
-  .renders .wide{grid-column:1 / -1;}
-  .renders a{display:block;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#14161a;}
-  .renders img{width:100%;height:auto;display:block;transition:transform .2s ease;}
-  .renders a:hover img{transform:scale(1.02);}
-  .renders figcaption{font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:4px;}
+  .lede a.navlink{color:var(--cedar);text-decoration:underline;text-underline-offset:3px;}
+  .lede a.navlink:hover{color:#fff;}
+  .gallery.large .grid{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;}
+  .gallery figure{margin:0;}
+  .gallery figure.wide{grid-column:1 / -1;}
+  .gallery figure.wide a{aspect-ratio:auto;}
+  .gallery.large figcaption{font-size:13px;color:var(--muted);line-height:1.45;margin-top:8px;}
   .gallery .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
   .gallery a{display:block;border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:#14161a;}
   .gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s ease;}
@@ -62,7 +62,7 @@
     <h1>The cabin, in 3D</h1>
     <p class="lede">Interactive framing drawings of the parts of the build being worked out in the field. Drag to orbit, walk with the arrow keys,
     scroll to zoom, tick layers on and off, jump between camera views. They show geometry and field conditions —
-    they are <b>not engineered drawings</b>.</p>
+    they are <b>not engineered drawings</b>. <a class="navlink" href="renders.html">Photo renders of the rooms →</a></p>
   </div>
 </header>
 
@@ -172,19 +172,9 @@
         <h3><a href="kitchen.html">Kitchen &amp; great room &mdash; lower floor interior</a></h3>
         <p>Lower-floor kitchen and great room: the sink run under window D, the fridge and pantry wall under the lounge, a 6'-8" x 3'-6" island, the wood stove and the stair.</p>
         <span class="meta">Updated 2026-09-15 &middot; 8 camera views</span>
-        <!-- renders:kitchen -->
-          <span class="meta">Renders (finishes are stand-ins until the samples are photographed)</span>
-          <div class="renders">
-            <figure><a href="img/renders/kitchen/kitchen__default__875ca66.jpg" target="_blank" rel="noopener"><img src="img/renders/kitchen/kitchen__default__875ca66.jpg" alt="Kitchen view from the north-west, default finishes, staged with a bowl, cutting board, plant and basket (decoration, not measured). The bar stools and the dining table are measured placeholders and an open owner decision. The view through window D is a stock sky image, not this site." loading="lazy"></a><figcaption>Kitchen view from the north-west, default finishes, staged with a bowl, cutting board, plant and basket (decoration, not measured). The bar stools and the dining table are measured placeholders and an open owner decision. The view through window D is a stock sky image, not this site.</figcaption></figure>
-            <figure><a href="img/renders/kitchen/island__default__875ca66.jpg" target="_blank" rel="noopener"><img src="img/renders/kitchen/island__default__875ca66.jpg" alt="Island view from the east, default finishes, staged with a cutting board and a bowl on the island (decoration, not measured); the plant and basket sit behind this camera. The dining table and chairs are measured placeholders and an open owner decision. Window views are stand-ins: the owner&#x27;s Mount Rainier photograph, stretched wide, in the north slider, a stock sky in the other windows." loading="lazy"></a><figcaption>Island view from the east, default finishes, staged with a cutting board and a bowl on the island (decoration, not measured); the plant and basket sit behind this camera. The dining table and chairs are measured placeholders and an open owner decision. Window views are stand-ins: the owner&#x27;s Mount Rainier photograph, stretched wide, in the north slider, a stock sky in the other windows.</figcaption></figure>
-            <figure><a href="img/renders/kitchen/sink__default__875ca66.jpg" target="_blank" rel="noopener"><img src="img/renders/kitchen/sink__default__875ca66.jpg" alt="Sink view, default finishes, staged with a potted plant left of the sink and a wicker basket right of it (decoration, not measured). The light switch beside the window overlaps the casing, a takeoff still to be read from sheet E01. The view through window D is a stock sky image, not this site." loading="lazy"></a><figcaption>Sink view, default finishes, staged with a potted plant left of the sink and a wicker basket right of it (decoration, not measured). The light switch beside the window overlaps the casing, a takeoff still to be read from sheet E01. The view through window D is a stock sky image, not this site.</figcaption></figure>
-            <figure class="wide"><a href="img/renders/kitchen/island__default-vs-alder-husk-vs-alder-praline__875ca66.jpg" target="_blank" rel="noopener"><img src="img/renders/kitchen/island__default-vs-alder-husk-vs-alder-praline__875ca66.jpg" alt="Island view comparing two cabinet stain options against the default: alder-husk (lighter) and alder-praline (medium brown). Both approximate KraftMaid Thornton knotty alder swatch chips over a CC0 knotty-pine stand-in, not the owner&#x27;s sample; read them as light against dark, not as a colour match. The dining table and chairs at the right edge are measured placeholders; window views are stand-ins. The cabinet stain is an open owner decision." loading="lazy"></a><figcaption>Island view comparing two cabinet stain options against the default: alder-husk (lighter) and alder-praline (medium brown). Both approximate KraftMaid Thornton knotty alder swatch chips over a CC0 knotty-pine stand-in, not the owner&#x27;s sample; read them as light against dark, not as a colour match. The dining table and chairs at the right edge are measured placeholders; window views are stand-ins. The cabinet stain is an open owner decision.</figcaption></figure>
-            <figure class="wide"><a href="img/renders/kitchen/island__default-vs-quartz-warm-vs-quartz-cool__875ca66.jpg" target="_blank" rel="noopener"><img src="img/renders/kitchen/island__default-vs-quartz-warm-vs-quartz-cool__875ca66.jpg" alt="Island view comparing two quartz counter options against the default: quartz-warm (Calacatta-style, warm white with bold taupe veins) and quartz-cool (Carrara-style, cool grey-white with fine grey veins). All three are procedural stand-ins for a slab, not photographs of one. The dining table and chairs at the right edge are measured placeholders; window views are stand-ins. The counter is an open owner decision." loading="lazy"></a><figcaption>Island view comparing two quartz counter options against the default: quartz-warm (Calacatta-style, warm white with bold taupe veins) and quartz-cool (Carrara-style, cool grey-white with fine grey veins). All three are procedural stand-ins for a slab, not photographs of one. The dining table and chairs at the right edge are measured placeholders; window views are stand-ins. The counter is an open owner decision.</figcaption></figure>
-            <figure class="wide"><a href="img/renders/kitchen/sink__default-vs-painted-trim__875ca66.jpg" target="_blank" rel="noopener"><img src="img/renders/kitchen/sink__default-vs-painted-trim__875ca66.jpg" alt="Sink view comparing the default knotty alder window casing against painted-trim, a warm off-white per Basis of Design line 0680. The painted colour is a rendered approximation, not a paint chip match; the view through window D, a third of each panel, is a stock sky image and not this site. The trim finish is an open owner decision." loading="lazy"></a><figcaption>Sink view comparing the default knotty alder window casing against painted-trim, a warm off-white per Basis of Design line 0680. The painted colour is a rendered approximation, not a paint chip match; the view through window D, a third of each panel, is a stock sky image and not this site. The trim finish is an open owner decision.</figcaption></figure>
-          </div>
-          <!-- /renders:kitchen -->
         <div class="chips">
           <a class="open" href="kitchen.html">Open drawing</a>
+          <a href="renders.html#kitchen">Photo renders</a>
           <a href="kitchen.html?view=island">Island</a>
           <a href="kitchen.html?view=north">Window wall</a>
           <a href="kitchen.html?view=lounge">From the lounge</a>
