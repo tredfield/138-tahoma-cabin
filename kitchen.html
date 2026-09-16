@@ -1641,7 +1641,10 @@ scene.add(fill);
 const M = {
   cabFront: new THREE.MeshStandardMaterial({ color: 0x9a5406, roughness: .72 }),
   cabBox:   new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // cabinet boxes / interiors
-  diningTable: new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // dining table placeholder: its own slot so a cabinet stain never restains it (render review 2026-09-15)
+  diningTable: new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),
+  islandFront: new THREE.MeshStandardMaterial({ color: 0x9a5406, roughness: .72 }),   // island fronts, end panels: own slot, the island is its own finish decision (owner 2026-09-16)
+  islandBox:   new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // island boxes, toe kicks, cubby interior
+  islandBack:  new THREE.MeshStandardMaterial({ color: 0xfae4c8, roughness: .95 }),   // knee wall's living-room face (A02: wall to match cabinet height); gypsum today, may become a cabinet-finish back panel   // dining table placeholder: its own slot so a cabinet stain never restains it (render review 2026-09-15)
   fanBlade: new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // ceiling fan blades, same reason
   trimCasing: new THREE.MeshStandardMaterial({ color: 0x683907, roughness: .75 }),   // knotty alder casing (assumed)
   counterTop: new THREE.MeshStandardMaterial({ color: 0xe9e6df, roughness: .35 }),
@@ -1651,7 +1654,7 @@ const M = {
   black:   new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .6, metalness: .2 }),
   sinkBasin: new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: .25 }),
   devicePlate: new THREE.MeshStandardMaterial({ color: 0xf2f0eb, roughness: .35 }),   // switch / receptacle cover plates (white nylon)
-  gyp:     new THREE.MeshStandardMaterial({ color: 0xe4e1da, roughness: .95 }),
+  gyp:     new THREE.MeshStandardMaterial({ color: 0xfae4c8, roughness: .95 }),
   gypC:    new THREE.MeshStandardMaterial({ color: 0xf0eeea, roughness: .95 }),
   floorPlank: new THREE.MeshStandardMaterial({ color: 0x51310b, roughness: .8 }),
   floorPlankB: new THREE.MeshStandardMaterial({ color: 0x432909, roughness: .8 }),
@@ -1921,9 +1924,9 @@ box(D.S_BACK, D.S_FACE, 0, D.LNG_LO, D.S_END, D.E_GYP, M.gyp, 'wallS');
 // ---- cabinet fronts ------------------------------------------------------------------------------
 // place(ua, ub, ya, yb, da, db, mat, edges): maps run coordinate u, height y and depth d (0 = box face, + toward the
 // viewer) to a world box. kind: 'door' | 'doors' | 'drawers' | 'sink' | 'blind' | 'up' | 'pantry' | 'micro'.
-function fronts(place, u1, u2, kind, y1 = D.TOE, y2 = D.BOX_TOP) {
+function fronts(place, u1, u2, kind, y1 = D.TOE, y2 = D.BOX_TOP, frontMat = M.cabFront, boxMat = M.cabBox) {   // frontMat / boxMat: the island passes its own slots
   const g = .125, dT = .75, pO = 1.25, pT = .4, pL = 5;      // reveal, door thickness, pull offset / thickness / length
-  const panel = (ua, ub, ya, yb, mat = M.cabFront) => place(ua + g / 2, ub - g / 2, ya + g / 2, yb - g / 2, 0, dT, mat, true);
+  const panel = (ua, ub, ya, yb, mat = frontMat) => place(ua + g / 2, ub - g / 2, ya + g / 2, yb - g / 2, 0, dT, mat, true);
   const pullH = (uc, y) => place(uc - pL / 2, uc + pL / 2, y - pT / 2, y + pT / 2, pO - pT, pO, M.black, false);
   const pullV = (u, yc) => place(u - pT / 2, u + pT / 2, yc - pL / 2, yc + pL / 2, pO - pT, pO, M.black, false);
   const w = u2 - u1, um = (u1 + u2) / 2;
@@ -1934,7 +1937,7 @@ function fronts(place, u1, u2, kind, y1 = D.TOE, y2 = D.BOX_TOP) {
     panel(u1, u2, y2 - 6, y2); pullH(um, y2 - 3);            // top drawer
     if (kind === 'door') { panel(u1, u2, y1, y2 - 6); pullV(u2 - 2.5, y2 - 6 - 4); }
     else if (kind === 'doors') { panel(u1, um, y1, y2 - 6); panel(um, u2, y1, y2 - 6); pullV(um - 2.5, y2 - 10); pullV(um + 2.5, y2 - 10); }
-    else { panel(u1, u1 + w * .45, y1, y2 - 6, M.cabBox); panel(u1 + w * .45, u2, y1, y2 - 6); pullV(u2 - 2.5, y2 - 10); }
+    else { panel(u1, u1 + w * .45, y1, y2 - 6, boxMat); panel(u1 + w * .45, u2, y1, y2 - 6); pullV(u2 - 2.5, y2 - 10); }
   } else if (kind === 'sink') {                              // false drawer front + 2 doors
     panel(u1, u2, y2 - 6, y2); panel(u1, um, y1, y2 - 6); panel(um, u2, y1, y2 - 6); pullV(um - 2.5, y2 - 10); pullV(um + 2.5, y2 - 10);
   } else if (kind === 'up') {                                // 1 or 2 doors full height, pulls low
@@ -2052,19 +2055,19 @@ tileZY(D.SR_Z1, D.E_GYP - .4, D.CTR_Y, D.UP_LO, D.S_FACE, D.S_FACE + .4, 'tile')
 }
 
 // ---- island: knee wall, boxes, microwave cubby, fronts, counter, range, downdraft, stools -------------------------
-box(D.KW_X1, D.KW_X2, 0, D.BOX_TOP, D.KW_Z1, D.KW_Z2, M.gyp, 'cabinets');                          // knee wall (WALL TO MATCH CABINET HEIGHT)
-box(D.KW_X1 - .75, D.KW_X1, 0, D.BOX_TOP, D.KW_Z1, D.IB_DOOR_Z2, M.cabFront, 'cabinets');            // end panels
-box(D.KW_X2, D.KW_X2 + .75, 0, D.BOX_TOP, D.KW_Z1, D.IB_DOOR_Z2, M.cabFront, 'cabinets');
-box(D.RG_X2, D.KW_X2, D.TOE, D.BOX_TOP, D.KW_Z2, D.IB_Z2, M.cabBox, 'cabinets');                 // north box (drawers)
-box(D.RG_X2, D.KW_X2, 0, D.TOE, D.KW_Z2, D.IB_Z2 - D.TOE_IN, M.cabBox, 'cabinets', false);
+box(D.KW_X1, D.KW_X2, 0, D.BOX_TOP, D.KW_Z1, D.KW_Z2, M.islandBack, 'cabinets');                   // knee wall (WALL TO MATCH CABINET HEIGHT)
+box(D.KW_X1 - .75, D.KW_X1, 0, D.BOX_TOP, D.KW_Z1, D.IB_DOOR_Z2, M.islandFront, 'cabinets');         // end panels
+box(D.KW_X2, D.KW_X2 + .75, 0, D.BOX_TOP, D.KW_Z1, D.IB_DOOR_Z2, M.islandFront, 'cabinets');
+box(D.RG_X2, D.KW_X2, D.TOE, D.BOX_TOP, D.KW_Z2, D.IB_Z2, M.islandBox, 'cabinets');              // north box (drawers)
+box(D.RG_X2, D.KW_X2, 0, D.TOE, D.KW_Z2, D.IB_Z2 - D.TOE_IN, M.islandBox, 'cabinets', false);
 { // south box with the microwave cubby (owner decision, orange trim)
   const x1 = D.KW_X1, x2 = D.RG_X1, za = D.KW_Z2, zb = D.IB_Z2;
-  box(x1, x2, D.TOE, D.MW_Y1, za, zb, M.cabBox, 'cabinets');
-  box(x1, x2, D.MW_Y2, D.BOX_TOP, za, zb, M.cabBox, 'cabinets');
-  box(x1, D.MW_X1, D.MW_Y1, D.MW_Y2, za, zb, M.cabBox, 'cabinets');
-  box(D.MW_X2, x2, D.MW_Y1, D.MW_Y2, za, zb, M.cabBox, 'cabinets');
-  box(x1, x2, D.MW_Y1, D.MW_Y2, za, D.MW_Z1, M.cabBox, 'cabinets');
-  box(x1, x2, 0, D.TOE, za, zb - D.TOE_IN, M.cabBox, 'cabinets', false);
+  box(x1, x2, D.TOE, D.MW_Y1, za, zb, M.islandBox, 'cabinets');
+  box(x1, x2, D.MW_Y2, D.BOX_TOP, za, zb, M.islandBox, 'cabinets');
+  box(x1, D.MW_X1, D.MW_Y1, D.MW_Y2, za, zb, M.islandBox, 'cabinets');
+  box(D.MW_X2, x2, D.MW_Y1, D.MW_Y2, za, zb, M.islandBox, 'cabinets');
+  box(x1, x2, D.MW_Y1, D.MW_Y2, za, D.MW_Z1, M.islandBox, 'cabinets');
+  box(x1, x2, 0, D.TOE, za, zb - D.TOE_IN, M.islandBox, 'cabinets', false);
   // cubby face trim (flag color) and the GE GCST16S1WSS microwave
   const f = .75;
   box(D.MW_X1 - .1, D.MW_X2 + .1, D.MW_Y2 - .1, D.MW_Y2 + f, zb, zb + f, M.flag, 'cabinets', false);
@@ -2076,8 +2079,8 @@ box(D.RG_X2, D.KW_X2, 0, D.TOE, D.KW_Z2, D.IB_Z2 - D.TOE_IN, M.cabBox, 'cabinets
   box(mx - D.MW_W / 2 + .8, mx + D.MW_W / 2 - 5, my + .8, my + D.MW_H - .8, mz2, mz2 + .3, M.black, 'appliances', false);   // door glass
   box(mx + D.MW_W / 2 - 4.2, mx + D.MW_W / 2 - .8, my + .8, my + D.MW_H - .8, mz2, mz2 + .3, M.applianceFace, 'appliances', false);      // control panel
 }
-fronts(placeI, D.KW_X1, D.RG_X1, 'micro');
-fronts(placeI, D.RG_X2, D.KW_X2, 'drawers');
+fronts(placeI, D.KW_X1, D.RG_X1, 'micro', D.TOE, D.BOX_TOP, M.islandFront, M.islandBox);
+fronts(placeI, D.RG_X2, D.KW_X2, 'drawers', D.TOE, D.BOX_TOP, M.islandFront, M.islandBox);
 // island counter (6'-8" x 3'-6", 11 3/4" seating overhang west), notched for the slide-in range
 prismXZ([[D.IS_X1, D.IS_Z1], [D.IS_X2, D.IS_Z1], [D.IS_X2, D.IS_Z2], [D.RG_X2, D.IS_Z2], [D.RG_X2, D.KW_Z2], [D.RG_X1, D.KW_Z2],
          [D.RG_X1, D.IS_Z2], [D.IS_X1, D.IS_Z2]], D.BOX_TOP, D.CTR_Y, M.counterTop, 'counters');
