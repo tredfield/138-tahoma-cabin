@@ -1639,9 +1639,11 @@ scene.add(fill);
 
 // ===== EDIT: M (materials, one per legend swatch) =====
 const M = {
-  cabFront: new THREE.MeshStandardMaterial({ color: 0xb8894f, roughness: .72 }),
-  cabBox:   new THREE.MeshStandardMaterial({ color: 0x9a6f3c, roughness: .75 }),   // cabinet boxes / interiors
-  trimCasing: new THREE.MeshStandardMaterial({ color: 0xd2b48c, roughness: .75 }),   // knotty alder casing (assumed)
+  cabFront: new THREE.MeshStandardMaterial({ color: 0x9a5406, roughness: .72 }),
+  cabBox:   new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // cabinet boxes / interiors
+  diningTable: new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // dining table placeholder: its own slot so a cabinet stain never restains it (render review 2026-09-15)
+  fanBlade: new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // ceiling fan blades, same reason
+  trimCasing: new THREE.MeshStandardMaterial({ color: 0x683907, roughness: .75 }),   // knotty alder casing (assumed)
   counterTop: new THREE.MeshStandardMaterial({ color: 0xe9e6df, roughness: .35 }),
   backsplash: new THREE.MeshStandardMaterial({ color: 0xf2f0ea, roughness: .3 }),
   backsplashGrout: new THREE.MeshStandardMaterial({ color: 0xd7d3cb, roughness: .8 }),
@@ -1651,14 +1653,14 @@ const M = {
   devicePlate: new THREE.MeshStandardMaterial({ color: 0xf2f0eb, roughness: .35 }),   // switch / receptacle cover plates (white nylon)
   gyp:     new THREE.MeshStandardMaterial({ color: 0xe4e1da, roughness: .95 }),
   gypC:    new THREE.MeshStandardMaterial({ color: 0xf0eeea, roughness: .95 }),
-  floorPlank: new THREE.MeshStandardMaterial({ color: 0x4a3728, roughness: .8 }),
-  floorPlankB: new THREE.MeshStandardMaterial({ color: 0x3e2d21, roughness: .8 }),
-  ceilBoard: new THREE.MeshStandardMaterial({ color: 0xc99a63, roughness: .8 }),
-  ceilBoardB: new THREE.MeshStandardMaterial({ color: 0xbf8f58, roughness: .8 }),
-  glb:     new THREE.MeshStandardMaterial({ color: 0xa8743f, roughness: .75 }),
+  floorPlank: new THREE.MeshStandardMaterial({ color: 0x51310b, roughness: .8 }),
+  floorPlankB: new THREE.MeshStandardMaterial({ color: 0x432909, roughness: .8 }),
+  ceilBoard: new THREE.MeshStandardMaterial({ color: 0x997752, roughness: .8 }),
+  ceilBoardB: new THREE.MeshStandardMaterial({ color: 0x8d6d4c, roughness: .8 }),
+  glb:     new THREE.MeshStandardMaterial({ color: 0x7e6140, roughness: .75 }),
   glass:   new THREE.MeshStandardMaterial({ color: 0x9fc4d8, roughness: .1, metalness: .1, transparent: true, opacity: .28, side: THREE.DoubleSide }),
   hearthVeneer: new THREE.MeshStandardMaterial({ color: 0x8a8580, roughness: .95 }),
-  hearthTop: new THREE.MeshStandardMaterial({ color: 0x6f6a66, roughness: .9 }),
+  hearthTop: new THREE.MeshStandardMaterial({ color: 0x676564, roughness: .9 }),
   stoveBody: new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: .55, metalness: .4 }),
   wood:    new THREE.MeshStandardMaterial({ color: 0xd9b98a, roughness: .85 }),   // DF framing
   lvl:     new THREE.MeshStandardMaterial({ color: 0xc9a072, roughness: .85 }),
@@ -2146,7 +2148,7 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   for (const z of [-36, -58, -80, -102]) { const t = (D.WELL_Z2 - z) / 88; bar(V(.75, 60 * t, z), V(.75, 36 + 60 * t, z), .5, M.black, 'lounge'); }
   box(D.UT_X1, D.UT_X2, 0, D.LNG_LO, D.W_GYP, -27, M.gyp, 'lounge', false);                       // stair south wall / utility east wall
   box(D.HALL_X1, D.UT_X1, 0, D.LNG_LO, -27, D.HALL_Z1, M.gyp, 'lounge', false);                   // utility wall along the hall
-  box(D.HALL_X1, D.S_FACE, 0, D.LNG_LO, D.HALL_Z2, D.HALL_Z2 + 4.5, M.gyp, 'lounge', false);       // guest-bath wall along the hall
+  box(D.HALL_X1, D.S_BACK, 0, D.LNG_LO, D.HALL_Z2, D.HALL_Z2 + 4.5, M.gyp, 'lounge', false);       // guest-bath wall along the hall; stops at the partition's south face -- run to S_FACE its end face shared the partition's room-side plane and the two z-fought in renders (phase 2 critic finding 1)
   // Boundary shell under the loft floor, added 2026-09-11 (phase 1b). Without it the kitchen and island
   // renders looked straight out of the house to the south-west: the volume below LNG_LO had no west, east
   // or south face, because this drawing is of the kitchen and simply stopped. The east and west planes ARE
@@ -2305,7 +2307,7 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   cyl(D.FAN_X, 0, D.FAN_Y - 5.5, D.FAN_Y - 3, 3, M.led, 'elec');                                // light kit
   for (let i = 0; i < 6; i++) {                                                                  // 6 blades, 52" sweep
     const a = i * Math.PI / 3, bl = box(D.FAN_X + 15 * Math.cos(a) - 11, D.FAN_X + 15 * Math.cos(a) + 11, D.FAN_Y - 1.2, D.FAN_Y - .7,
-                                        15 * Math.sin(a) - 2.4, 15 * Math.sin(a) + 2.4, M.cabBox, 'elec');
+                                        15 * Math.sin(a) - 2.4, 15 * Math.sin(a) + 2.4, M.fanBlade, 'elec');
     bl.rotation.y = -a;
   }
   // Cover plates carry their own slot (devicePlate) rather than borrowing the sink's white, and the four on
@@ -2450,8 +2452,8 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
 {
   const L = 72, W = 36, H = 30, xc = (D.ER_X2 + D.N_GYP) / 2, zc = 75;            // centred in the 10'-3" gap and on the east half of the room
   const x1 = xc - W / 2, x2 = xc + W / 2, z1 = zc - L / 2, z2 = zc + L / 2;
-  box(x1, x2, H - 1.25, H, z1, z2, M.cabBox, 'dining');                                 // top
-  box(x1 + 2, x2 - 2, H - 4.5, H - 1.25, z1 + 2, z2 - 2, M.cabBox, 'dining', false);     // apron
+  box(x1, x2, H - 1.25, H, z1, z2, M.diningTable, 'dining');                                 // top
+  box(x1 + 2, x2 - 2, H - 4.5, H - 1.25, z1 + 2, z2 - 2, M.diningTable, 'dining', false);     // apron
   for (const [lx, lz] of [[x1 + 3, z1 + 3], [x2 - 3, z1 + 3], [x1 + 3, z2 - 3], [x2 - 3, z2 - 3]]) box(lx - 1.5, lx + 1.5, 0, H - 4.5, lz - 1.5, lz + 1.5, M.black, 'dining', false);
   function chair(cx, cz, side) {                                                         // side +1: chair north of the table, -1: south; seat 17" square, 18" high, back to 36"
     const sx1 = side > 0 ? x2 - 5 : x1 - 12, sx2 = sx1 + 17;                            // 5" tucked under the table
