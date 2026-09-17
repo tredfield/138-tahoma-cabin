@@ -2009,9 +2009,9 @@ const OPEN = {                                     // rough openings in wall-loc
   N: {   // u = -x; the wall is symmetric, so the u lists equal the world-x lists (door 9 is the west one: x -100..-4 -> u 4..100)
     door9: rect(4, 100, 0, 84.5), door10: rect(-100, -4, 0, 84.5),
     J: [rect(-50, -4, 102, 158), rect(4, 50, 102, 158), rect(-100.5, -54.5, 102, 158), rect(54.5, 100.5, 102, 158), rect(-50, -4, 161, 217), rect(4, 50, 161, 217)],
-    K: [[[-54.5, 161], [-54.5, 219], [-97, 161]], [[54.5, 161], [97, 161], [54.5, 219]]],
-    Nw: [[[-4, 223], [-4, 281], [-46.5, 223]], [[4, 223], [46.5, 223], [4, 281]]],
-    asb: [rect(-140.4, -103.9, 35.5, 84), rect(103.9, 140.4, 35.5, 84)],      // as built, owner tape 2026-09-02
+    K: [[[-54.5, 161], [-54.5, 217.35], [-100.5, 161]], [[54.5, 161], [100.5, 161], [54.5, 217.35]]],   // full width of the J below, sloped leg at the 14.7:12 roof pitch (owner 2026-09-17)
+    Nw: [[[-4, 223], [-4, 279.35], [-50, 223]], [[4, 223], [50, 223], [4, 279.35]]],                      // same rule over the upper J (owner 2026-09-17)
+    asb: [rect(-140.4, -103.9, 36, 84.5), rect(103.9, 140.4, 36, 84.5)],      // as built, owner tape 2026-09-02; heads on the slider header at 84.5 (owner 2026-09-17)
   },
   E: {   // u = -z
     C: rect(205.75, 254.25, 60, 72.5), Dw: rect(331.5, 380, 41.75, 90.25), E: rect(222.5, 283, 156, 192.5),

@@ -61,7 +61,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Kitchen + great room (lower floor) &mdash; interior 3D</h1>
-    <div class="sub">Lower-floor <b>KITCHEN</b> on the east wall north of the guest bath, open to the double-height <b>LIVING ROOM</b>: 12'-10 3/4" counter run under window D and a 6'-8" x 3'-6" island with 3'-6" min aisles. Orange = field-verify or TBD. Design record: <code>wiki/construction/kitchen-and-great-room.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; <b>arrow keys (or WASD) walk</b>, PageUp/PageDown change eye height, Shift runs.</div>
+    <div class="sub">Lower-floor <b>KITCHEN</b> on the east wall north of the guest bath, open to the double-height <b>LIVING ROOM</b>: 12'-10 3/4" counter run under window D and a 6'-8" x 3'-6" island with 3'-6" min aisles. <b>Gable trim</b> compares two trim readings on the window wall. Orange = field-verify or TBD. Design record: <code>wiki/construction/kitchen-and-great-room.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; <b>arrow keys (or WASD) walk</b>, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -103,6 +103,11 @@
       <label><input type="checkbox" data-layer="dim"> Dimensions</label>
       <label><input type="checkbox" data-layer="caption"> Caption</label>
     </div>
+    <div class="row fold" id="variants">
+      <span class="lbl">Gable trim</span>
+      <label><input type="radio" name="gabletrim" data-layer="trimN1" checked> Per window, as drawn</label>
+      <label><input type="radio" name="gabletrim" data-layer="trimN2"> One board per gap</label>
+    </div>
     <div class="row" id="views">
       <span class="lbl">View</span>
       <button data-view="kitchen" class="on">Kitchen</button>
@@ -110,6 +115,7 @@
       <button data-view="sink">Sink wall</button>
       <button data-view="fridge">Fridge wall</button>
       <button data-view="north">Window wall</button>
+      <button data-view="northtrim">Gable trim</button>
       <button data-view="stove">Stove</button>
       <button data-view="lounge">From lounge</button>
       <button data-view="stair">Stair</button>
@@ -2096,7 +2102,7 @@ function tileZY(z1, z2, y1, y2, x1, x2, layer) {          // tile field on the s
 }
 tileXY(-48, D.WD_X1 - D.CAS_R, D.CTR_Y, D.UP_LO, D.E_GYP - .4, D.E_GYP, 'tile');
 tileXY(D.WD_X2 + D.CAS_R, D.ER_X2, D.CTR_Y, D.UP_LO, D.E_GYP - .4, D.E_GYP, 'tile');
-tileXY(D.WD_X1 - D.CAS_R, D.WD_X2 + D.CAS_R, D.CTR_Y, D.WD_Y1 - 1, D.E_GYP - .4, D.E_GYP, 'tile');
+tileXY(D.WD_X1 - D.CAS_R, D.WD_X2 + D.CAS_R, D.CTR_Y, D.WD_Y1 + .25 - D.CAS_W, D.E_GYP - .4, D.E_GYP, 'tile');   // stops on the sill casing's bottom edge (casing audit 2026-09-17: it used to run 2 1/4" up behind the casing)
 tileZY(D.SR_Z1, D.E_GYP - .4, D.CTR_Y, D.UP_LO, D.S_FACE, D.S_FACE + .4, 'tile');
 
 // ---- fridge: KitchenAid KRSC536RPS french-door counter-depth (35 1/2 x 69 1/4 x 28 3/8) -------------------------
@@ -2213,10 +2219,10 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   // geometry on the exported `lounge` layer. What the sheets do settle is the arithmetic: 16 risers at
   // 7 1/2", 11" treads, a 3'-0" landing, 3'-0" minimum clear width, keynotes 0560 and 1040.
   //
-  // Geometry is the loft drawing's, transcribed rather than re-derived (same x and z, y + 120). The
-  // framed rail in the owner's field photographs of 2026-09-16 is the framer's TEMPORARY construction
-  // rail -- 2x4s nailed flat over the tread ends, a loose bottom plate and a scrap panel leaning on it
-  // -- so it says nothing about the finished guard, which stays the sheets' cable rail.
+  // Geometry is the loft drawing's, transcribed rather than re-derived (same x and z, y + 120). The framed
+  // low wall in the owner's field photographs of 2026-09-16 is NOT a temporary rail (that reading was wrong):
+  // it is the stair divider built as a stub wall for the metal guard, drawn below. The open side of flight 1
+  // toward the great room keeps the sheets' fascia-mounted 0560 cable rail; his photographs show no wall there.
   //
   // Interpretations, not sheet-settled: the 1 1/16" tread over a 3/4" closed riser with a 1" nosing, the
   // 10" outer stringer on the open side, and the drywall soffit under flight 1 (the alternative is an
@@ -2275,12 +2281,20 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
       bar(V(G, D.LAND_Y + RH - 1 - 3 * c, D.LAND_Z), V(G, D.LAND_Y + RH - 1 - 3 * c, -148), .1, M.steel, 'lounge');
     }
   }
-  // Stair south wall / utility east wall. It used to run the full z -150 .. -27 at full height, which put a
-  // wall straight through the landing: you turn from flight 1 to flight 2 across this line, so nothing can
-  // stand on it there. Full height alongside flight 1, and only up to the landing's underside beneath the
-  // landing itself, which is also how the loft drawing draws its stair divider (it stops at z -114).
-  box(D.UT_X1, D.UT_X2, 0, D.LNG_LO, D.LAND_Z, -27, M.gyp, 'lounge', false);
+  // Stair divider between the flights (utility east wall). FIELD CONDITION (owner photographs 2026-09-16, confirmed
+  // 2026-09-17): the framers built it as a LOW wall -- top plate two 2x4s, about 3" above the step edges of the
+  // upper flight (flight 2) -- for the metal guard to land on, in place of the fascia-mounted 0560 rail the sheets
+  // call. It used to be drawn 9'-0" tall along flight 1. Nothing stands on the landing line (you turn across it);
+  // under the landing it is a 50" wall as before. The 3" is the owner's estimate from his photographs: orange tag.
+  const yn2 = z => D.LAND_Y + (z - D.LAND_Z) * (D.RISE / D.TREAD);   // flight-2 nosing line: 60 at the landing, 120 at the well line
+  prismZY([[D.LAND_Z, 0], [-27, 0], [-27, yn2(-27) + 3], [D.LAND_Z, D.LAND_Y + 3]], D.UT_X1, D.UT_X2, M.gyp, 'lounge', [], false);
   box(D.UT_X1, D.UT_X2, 0, D.LAND_Y - 10, D.W_GYP, D.LAND_Z, M.gyp, 'lounge', false);
+  { // 0560 cable guard ON the divider: posts stand on the wall top, rail 36" over the flight-2 nosings
+    const DX = (D.UT_X1 + D.UT_X2) / 2, RH = 36;
+    for (const z of [-30, -58, -86, -112]) box(DX - 1, DX + 1, yn2(z) + 3, yn2(z) + RH, z - 1, z + 1, M.black, 'lounge');
+    bar(V(DX, yn2(-27) + RH - .5, -27), V(DX, yn2(D.LAND_Z) + RH - .5, D.LAND_Z), 1, M.black, 'lounge');
+    for (let k = 1; k <= 10; k++) bar(V(DX, yn2(-27) + RH - 1 - 3 * k, -27), V(DX, yn2(D.LAND_Z) + RH - 1 - 3 * k, D.LAND_Z), .1, M.steel, 'lounge');
+  }
   box(D.HALL_X1, D.UT_X1, 0, D.LNG_LO, -27, D.HALL_Z1, M.gyp, 'lounge', false);                   // utility wall along the hall
   box(D.HALL_X1, D.S_BACK, 0, D.LNG_LO, D.HALL_Z2, D.HALL_Z2 + 4.5, M.gyp, 'lounge', false);       // guest-bath wall along the hall; stops at the partition's south face -- run to S_FACE its end face shared the partition's room-side plane and the two z-fought in renders (phase 2 critic finding 1)
   // Boundary shell under the loft floor, added 2026-09-11 (phase 1b). Without it the kitchen and island
@@ -2318,25 +2332,37 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   for (const s of [1, -1]) {
     J.push([s * 4, s * 50, 102, 158], [s * 54.5, s * 100.5, 102, 158], [s * 4, s * 50, 161, 217]);
   }
-  const K = [[[54.5, 161], [97, 161], [54.5, 219]], [[-54.5, 161], [-97, 161], [-54.5, 219]]];
-  const N = [[[4, 223], [46.5, 223], [4, 281]], [[-4, 223], [-46.5, 223], [-4, 281]]];
-  const XW = [[103.9, 140.4, 35.5, 84], [-140.4, -103.9, 35.5, 84]];   // AS BUILT windows flanking the sliders (owner tape 2026-09-02; rear-deck spec item 13)
+  // K and N triangles: the FULL WIDTH of the J below (46") with the hypotenuse on the roof slope (14.7/12), so the
+  // apex is 46 x 1.225 = 56.35 above the base. A03's north elevation draws them this way (K leg at 54.1, hypotenuse
+  // 1.22, outer corner over the J's edge) and the owner confirmed the field matches (2026-09-17). A04's schedule gives
+  // 3'-6 1/2" x 4'-10" for K, N, O and P alike, which is what this drawing carried until then; the sheets disagree
+  // with each other and the field settles it. One tape of a base and a leg is still owed.
+  const K = [[[54.5, 161], [100.5, 161], [54.5, 217.35]], [[-54.5, 161], [-100.5, 161], [-54.5, 217.35]]];
+  const N = [[[4, 223], [50, 223], [4, 279.35]], [[-4, 223], [-50, 223], [-4, 279.35]]];
+  // AS BUILT windows flanking the sliders: RO 36 1/2" x 48 1/2" (owner tape 2026-09-02); head on the SLIDER HEADER at
+  // 84 1/2" -- one continuous LVL over doors and windows per S4.3, owner confirmed 2026-09-17 -- so the sill is 36"
+  // (the tape read 35 1/2", inside its tolerance; a re-tape is owed and the drawing flags it).
+  const XW = [[103.9, 140.4, 36, 84.5], [-140.4, -103.9, 36, 84.5]];
   const norm = r => [Math.min(r[0], r[1]), Math.max(r[0], r[1]), r[2], r[3]];
   const holes = J.map(norm).map(r => rect(r[0], r[2], r[1], r[3])).concat(K, N, XW.map(r => rect(r[0], r[2], r[1], r[3])));
   prismZY(outline, D.N_GYP, D.N_OUT, M.gyp, 'wallN', holes);
   prismZY(outline, D.N_OUT, D.N_SIDE, M.siding, 'wallN', holes);
   const xf1 = 232.25, xf2 = 233.75, xg = 233, f = 1.75, c = D.CAS_W;
+  // Two readings of the gable-wall trim, chosen by the "Gable trim" radio (variant 'trimN1' / 'trimN2'; owner review
+  // round 2026-09-17). 'trimN1' is the per-window picture frame: every opening gets its own four 1x4 boards, which
+  // pile on top of each other where openings sit closer than 7" (3" between stacked J's, 4 1/2" beside them). 'trimN2'
+  // puts ONE board in each such gap, sized gap + 1/2" -- see the block after the doors. Only the selected reading exports.
+  const tb = (v, y1, y2, z1, z2) => { const m = box(D.N_GYP - .75, D.N_GYP, y1, y2, z1, z2, M.trimCasing, 'wallN'); m.userData.variant = v; return m; };
+  function casingN(z1, z2, y1, y2) {                           // square-cut butted picture frame (owner 2026-09-14), per window
+    tb('trimN1', y1 - c, y2 + c, z1 - c, z1); tb('trimN1', y1 - c, y2 + c, z2, z2 + c);   // legs, full height
+    tb('trimN1', y2, y2 + c, z1, z2); tb('trimN1', y1 - c, y1, z1, z2);                   // head and sill casing, butted between the legs
+  }
   function glazeZY(z1, z2, y1, y2, mullion = false) {          // black frame + glass + alder casing on the room side
     box(xf1, xf2, y1, y1 + f, z1, z2, M.black, 'wallN'); box(xf1, xf2, y2 - f, y2, z1, z2, M.black, 'wallN');
     box(xf1, xf2, y1, y2, z1, z1 + f, M.black, 'wallN'); box(xf1, xf2, y1, y2, z2 - f, z2, M.black, 'wallN');
     if (mullion) box(xf1, xf2, y1, y2, (z1 + z2) / 2 - 1, (z1 + z2) / 2 + 1, M.black, 'wallN');
     box(xg - .125, xg + .125, y1 + f, y2 - f, z1 + f, z2 - f, M.glass, 'wallN', false);
-    // square-cut butted picture frame, same detail as winXY (owner 2026-09-14): legs full height,
-    // head and sill butted between them, no stool and no apron.
-    box(D.N_GYP - .75, D.N_GYP, y1 - c, y2 + c, z1 - c, z1, M.trimCasing, 'wallN');   // legs, full height
-    box(D.N_GYP - .75, D.N_GYP, y1 - c, y2 + c, z2, z2 + c, M.trimCasing, 'wallN');
-    box(D.N_GYP - .75, D.N_GYP, y2, y2 + c, z1, z2, M.trimCasing, 'wallN');           // head, butted between the legs
-    box(D.N_GYP - .75, D.N_GYP, y1 - c, y1, z1, z2, M.trimCasing, 'wallN');           // sill casing, butted between the legs
+    casingN(z1, z2, y1, y2);
   }
   for (const r of J.map(norm)) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);
   for (const r of XW) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);           // unit type not on record
@@ -2362,24 +2388,54 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   }
   function glazeTri(p) {
     prismZY(p, xg - .125, xg + .125, M.glass, 'wallN', [], false);
-    prismZY(triRing(p, c), D.N_GYP - .8, D.N_GYP, M.trimCasing, 'wallN', [p]);
+    prismZY(triRing(p, c), D.N_GYP - .8, D.N_GYP, M.trimCasing, 'wallN', [p]).userData.variant = 'trimN1';
     for (let i = 0; i < 3; i++) { const a = p[i], b = p[(i + 1) % 3]; bar(V(xg, a[1], a[0]), V(xg, b[1], b[0]), .9, M.black, 'wallN'); }
   }
   K.forEach(glazeTri); N.forEach(glazeTri);
   // doors 9 / 10: 96 x 84 sliders, one fixed + one sliding panel each, black frames
+  // The door frame sits 1/4" inside its RO like every window frame here, and the casing sits on the FRAME line, so
+  // the slider head casing and the as-built window head casing beside it are one line (owner 2026-09-17: the field
+  // has the heads level on one header; the drawing had the door casing on the RO and the window casing 1/4" lower).
   for (const s of [-1, 1]) {
-    const z1 = Math.min(s * D.DR_Z, s * D.DR_Z2), z2 = Math.max(s * D.DR_Z, s * D.DR_Z2), zm = (z1 + z2) / 2;
-    box(xf1, xf2, 0, .5, z1, z2, M.black, 'wallN'); box(xf1, xf2, D.DR_Y2 - f, D.DR_Y2, z1, z2, M.black, 'wallN');   // track / head
-    box(xf1, xf2, 0, D.DR_Y2, z1, z1 + f, M.black, 'wallN'); box(xf1, xf2, 0, D.DR_Y2, z2 - f, z2, M.black, 'wallN');
+    const z1 = Math.min(s * D.DR_Z, s * D.DR_Z2) + .25, z2 = Math.max(s * D.DR_Z, s * D.DR_Z2) - .25, zm = (z1 + z2) / 2, yT = D.DR_Y2 - .25;
+    box(xf1, xf2, 0, .5, z1, z2, M.black, 'wallN'); box(xf1, xf2, yT - f, yT, z1, z2, M.black, 'wallN');   // track / head
+    box(xf1, xf2, 0, yT, z1, z1 + f, M.black, 'wallN'); box(xf1, xf2, 0, yT, z2 - f, z2, M.black, 'wallN');
     for (const [pa, pb, xo] of [[z1 + f, zm + 1, 1.2], [zm - 1, z2 - f, -1.2]]) {                 // fixed panel out, slider in
       const xa = xf1 + xo, xb = xf2 + xo, pf = 2.5;
-      box(xa, xb, .5, .5 + pf, pa, pb, M.black, 'wallN'); box(xa, xb, D.DR_Y2 - f - pf, D.DR_Y2 - f, pa, pb, M.black, 'wallN');
-      box(xa, xb, .5, D.DR_Y2 - f, pa, pa + pf, M.black, 'wallN'); box(xa, xb, .5, D.DR_Y2 - f, pb - pf, pb, M.black, 'wallN');
-      box(xg + xo - .125, xg + xo + .125, .5 + pf, D.DR_Y2 - f - pf, pa + pf, pb - pf, M.glass, 'wallN', false);
+      box(xa, xb, .5, .5 + pf, pa, pb, M.black, 'wallN'); box(xa, xb, yT - f - pf, yT - f, pa, pb, M.black, 'wallN');
+      box(xa, xb, .5, yT - f, pa, pa + pf, M.black, 'wallN'); box(xa, xb, .5, yT - f, pb - pf, pb, M.black, 'wallN');
+      box(xg + xo - .125, xg + xo + .125, .5 + pf, yT - f - pf, pa + pf, pb - pf, M.glass, 'wallN', false);
     }
     box(D.N_GYP - 1.6, D.N_GYP - .8, 34, 44, zm - 1.4 * s - .4, zm - 1.4 * s + .4, M.black, 'wallN', false);   // handle
-    box(D.N_GYP - .75, D.N_GYP, D.DR_Y2, D.DR_Y2 + c, z1 - c, z2 + c, M.trimCasing, 'wallN');                        // casing
-    box(D.N_GYP - .75, D.N_GYP, 0, D.DR_Y2, z1 - c, z1, M.trimCasing, 'wallN'); box(D.N_GYP - .75, D.N_GYP, 0, D.DR_Y2, z2, z2 + c, M.trimCasing, 'wallN');
+    tb('trimN1', yT, yT + c, z1 - c, z2 + c);                                                                 // head casing over the legs
+    tb('trimN1', 0, yT, z1 - c, z1); tb('trimN1', 0, yT, z2, z2 + c);                                        // legs
+  }
+  // ---- Gable trim, variant 'trimN2': ONE BOARD PER GAP (the alternative reading for the owner's review) --------
+  // Where two openings sit closer than two 1x4s, one board covers the gap and laps each frame 1/4", so its width is
+  // the gap + 1/2": 3" between stacked J's -> 1x4; 4 1/2" beside them -> 5 1/2" (1x6); 3.9" slider-to-window -> 4 7/8"
+  // (1x6 rip); 6" upper J to N -> 7 1/4" (1x8); the 8 1/2" centre strip -> 9" (1x10 rip). Everything else is 1x4.
+  {
+    const v = 'trimN2', c4 = c, cb = 4.5;                                    // 3 1/2" stock; centre board z -4.5..4.5
+    const jR = 49.75, oL = 54.75, oR = 100.25, dR = 99.75, wL = 104.15, wR = 140.15;   // frame lines (RO +/- 1/4")
+    const yA1 = 84.25, yB1 = 102.25, yB0 = yB1 - c4, yC0 = 157.75, yC1 = 161.25, yD0 = 216.25, yD1 = 223.5;
+    tb(v, 0, 284.3, -cb, cb);                                                // centre board, floor to the top of the N boards
+    for (const s of [1, -1]) {
+      const Z = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
+      tb(v, yA1, yA1 + c4, ...Z(cb, wR + c4));                               // band A: slider head + window head, 84 1/4" .. 87 3/4"
+      tb(v, 0, yA1, ...Z(dR - .25, wL + .25));                               // slider / as-built window shared board, 4 7/8"
+      tb(v, 36.25 - c4, yA1, ...Z(wR, wR + c4));                             // as-built window outer leg
+      tb(v, 36.25 - c4, 36.25, ...Z(wL + .25, wR));                          // as-built window sill casing
+      tb(v, yB0, yB1, ...Z(cb, oR + c4));                                    // band B: lower J sill casing
+      tb(v, yB0, yD0, ...Z(jR - .25, oL + .25));                             // inner / outer J shared vertical, 5 1/2" (1x6)
+      tb(v, yB0, yC1, ...Z(oR, oR + c4));                                    // outer J outer leg
+      tb(v, yC0, yC1, ...Z(cb, oR + c4));                                    // band C: lower J head / upper J sill / K base
+      tb(v, yD0, yD1, ...Z(cb, oL + .25));                                   // band D: upper J head / N base, 7 1/4" (1x8)
+      const kb = [[100.3, yC1], [103.75, yC1], [103.75, 162.5], [55, 222.3], [55, 216.7]].map(q => [s * q[0], q[1]]);   // K hypotenuse board
+      const nb = [[49.6, yD1], [54.1, yD1], [cb, 284.3], [cb, 278.7]].map(q => [s * q[0], q[1]]);                       // N hypotenuse board
+      if (s < 0) { kb.reverse(); nb.reverse(); }
+      prismZY(kb, D.N_GYP - .75, D.N_GYP, M.trimCasing, 'wallN').userData.variant = v;
+      prismZY(nb, D.N_GYP - .75, D.N_GYP, M.trimCasing, 'wallN').userData.variant = v;
+    }
   }
   // Base: 4" x 1/2" (owner 2026-09-16 -- he has 4" at home and read 3 1/2" as too narrow), broken
   // around both slider openings instead of running straight across them as it used to.
@@ -2580,7 +2636,17 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   tagAt(['ROOF', '1x6 T&G on 2X14 DF#2 @ 24" o.c., ~15:12', '5 1/2" x 24" GLB ridge, T.O. rafter 27\'-6"'], 205, RG, 0, 'y-', TF);
   tagAt(['LIGHTING ckt 4', '12 recessed cans, 3 x 4 on the T&G', 'fan Hunter Gilrock 52", downrod TBD'], 145, RG, 0, 'y-', TF);
   tagAt(['DOORS 9 / 10 sliding, black', '96" x 84", RO 8\'-0 1/2" x 7\'-0 1/2"', 'glazing J / K / N above per A03'], NW, 95, 0, 'x-', TF);
-  tagAt(['WINDOW as built, one each side', 'RO 36 1/2" x 48 1/2", sill 35 1/2"', 'fixed, black frame'], NW, 95, 122, 'x-', TF);
+  tagAt(['WINDOW as built, one each side', 'RO 36 1/2" x 48 1/2", sill 36"', 'head on the slider header, fixed, black frame'], NW, 95, 122, 'x-', TF);
+  tagAt(['FIELD VERIFY WINDOW SILL', 'drawn 36", tape read 35 1/2"'], NW, 26, -122, 'x-', FTF);
+  tagAt(['FIELD VERIFY STAIR DIVIDER', 'top 3" over the flight-2 nosings', '0560 cable rail on top, 36"'], D.UT_X2 + 0.15, 78, -72, 'x', FTF);
+  // gable trim, west half (the Gable trim view): each board's stock, per reading
+  tagAt(['CASING', '1x4 = 3 1/2" x 3/4"', 'legs, head, sill casing'], NW, 93, -122, 'x-', TF);
+  tagAt(['HEAD CASING', '84 1/4" to 87 3/4", sliders and windows'], NW, 93, -52, 'x-', T2);
+  tagAt(['TRIM AS DRAWN', 'two 1x4 in each 3" and 4 1/2" gap'], NW, 130, -52, 'x-', FTF).userData.variant = 'trimN1';
+  tagAt(['SHARED BOARD 1x6', '5 1/2" over the 4 1/2" gap'], NW, 130, -52, 'x-', T2).userData.variant = 'trimN2';
+  tagAt(['BAND 1x8', '7 1/4" over the 6" gap'], NW, 220, -27, 'x-', T2).userData.variant = 'trimN2';
+  tagAt(['CENTRE BOARD', '9" (1x10 rip) over the 8 1/2" strip'], NW, 45, 0, 'x-', T2).userData.variant = 'trimN2';
+  tagAt(['SHARED BOARD', '4 7/8" (1x6 rip) over the 3.9" gap'], NW, 45, -102, 'x-', T2).userData.variant = 'trimN2';
   tagAt(['FIELD VERIFY WINDOWS A1 / A2 count + position', '4\'-0" x 4\'-6" fixed, sill 3\'-0", RO + 1/2"'], 40.75, 99, WW, 'z', FTF);
   tagAt(['WOOD STOVE Drolet Columbia II', '25 5/8" w x 25 1/8" d x 29" h, 6" flue', 'corner pad 4\' x 4\' x 8" stone, 24" chamfer'], 204, 66, WW, 'z', T);
   tagAt(['VERIFY CLEARANCES ON THE STOVE LABEL', 'pad 16" past the door, flue between rafters'], 204, 52, WW, 'z', FT);
@@ -2674,6 +2740,7 @@ const VIEWS = {
   sink:    { pos: [40, 62, 62], tgt: [40, 48, 150], fov: 68 },
   fridge:  { pos: [70, 62, 78], tgt: [-48, 44, 72], fov: 62 },
   north:   { pos: [20, 66, 95], tgt: [230, 130, 0], fov: 70 },
+  northtrim: { pos: [40, 125, -72], tgt: [230, 150, -72], fov: 76 },   // gable trim review: the west half of the window wall, square on
   stove:   { pos: [130, 60, -20], tgt: [200, 26, -132], fov: 58 },
   lounge:  { pos: [-50, 195, -50], tgt: [70, 30, 95], fov: 62 },
   stair:   { pos: [52, 64, 40], tgt: [-34, 30, -100], fov: 66 },   // from the great room down the flight to the landing (owner 2026-09-16)
@@ -2744,7 +2811,7 @@ async function exportGLB() {
     const strip = o => { for (const ch of [...o.children]) { if (ch.isLine || ch.isSprite) o.remove(ch); else strip(ch); } };
     let meshes = 0;
     for (const p of parts) {                                 // layer decides, not visibility: labels are hidden but so is anything the user toggled off
-      if (p.isSprite || skip.has(p.userData.layer)) continue;
+      if (p.isSprite || skip.has(p.userData.layer) || (p.userData.variant && !p.visible)) continue;   // a variant its radio has not selected is not the house
       const c = p.clone(true);
       strip(c);                                              // drop the addEdges() outlines and any sprite children
       root.add(c);

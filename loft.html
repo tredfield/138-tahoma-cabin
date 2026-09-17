@@ -1613,7 +1613,7 @@ const D = {
     doors: [[-100, -4], [4, 100]], doorY: [-120, -35.5],
     lowerJ: [[-100.5, -54.5], [-50, -4], [4, 50], [54.5, 100.5]], lowerJY: [-18, 38],
     upperJ: [[-50, -4], [4, 50]], upperJY: [41, 97],
-    flank: [[-140.4, -103.9], [103.9, 140.4]], flankY: [-84.5, -36],
+    flank: [[-140.4, -103.9], [103.9, 140.4]], flankY: [-84, -35.5],
   },
   WIN_D: [15.5, 64, -78.25, -29.75], WIN_A1: [16.5, 65, -84.25, -29.75], WIN_A2: [124, 172.5, -84.25, -29.75],
 };
@@ -2005,8 +2005,8 @@ for (const [cx, cz] of D.CANS) { const pl = new THREE.PointLight(0xfff1dc, 0.55,
   cables(V(DX, D.RAIL_H - 1, -25), V(D.RAIL_X, D.RAIL_H - 1, -25));
   const yn2 = z => D.LANDING_Y + (z - D.LANDING_Z2) * (D.RISE / D.TREAD);       // flight-2 nosing line (0 at z = -26)
   const yn1 = z => D.LOWER + (D.WELL_Z - z) * (D.RISE / D.TREAD);               // flight-1 nosing line (-60 at the landing)
-  prismZY([[D.LANDING_Z2, D.LOWER], [D.WELL_Z, D.LOWER], [D.WELL_Z, -1], [D.LANDING_Z2, D.LANDING_Y - 1]], D.DIV_X1, D.DIV_X2, M.gyp, 'stair');
-  for (const z of [-26, -55.3, -84.7, -114]) post(DX, yn2(z) - 1, yn2(z) + D.RAIL_H, z);
+  prismZY([[D.LANDING_Z2, D.LOWER], [D.WELL_Z, D.LOWER], [D.WELL_Z, yn2(D.WELL_Z) + 3], [D.LANDING_Z2, D.LANDING_Y + 3]], D.DIV_X1, D.DIV_X2, M.gyp, 'stair');
+  for (const z of [-26, -55.3, -84.7, -114]) post(DX, yn2(z) + 3, yn2(z) + D.RAIL_H, z);
   bar(V(DX, yn2(-26) + D.RAIL_H - 0.5, -26), V(DX, yn2(-114) + D.RAIL_H - 0.5, -114), 1, M.black, 'rail');
   cables(V(DX, yn2(-26) + D.RAIL_H - 1, -26), V(DX, yn2(-114) + D.RAIL_H - 1, -114));
   const G = D.GUARD_X;
@@ -2072,7 +2072,7 @@ for (const [cx, cz] of D.CANS) { const pl = new THREE.PointLight(0xfff1dc, 0.55,
   for (const [a, b] of O.lowerJ) holes.push(rect(a, O.lowerJY[0], b, O.lowerJY[1]));
   for (const [a, b] of O.upperJ) holes.push(rect(a, O.upperJY[0], b, O.upperJY[1]));
   for (const [a, b] of O.flank) holes.push(rect(a, O.flankY[0], b, O.flankY[1]));
-  for (const s of [1, -1]) { holes.push([[s * 54.5, 41], [s * 97, 41], [s * 54.5, 99]]); holes.push([[s * 4, 103], [s * 46.5, 103], [s * 4, 161]]); }
+  for (const s of [1, -1]) { holes.push([[s * 54.5, 41], [s * 100.5, 41], [s * 54.5, 97.35]]); holes.push([[s * 4, 103], [s * 50, 103], [s * 4, 159.35]]); }
   prismZY([[-150, D.LOWER], [150, D.LOWER], [150, D.GR_WALL_TOP], [0, D.GR_Y0], [-150, D.GR_WALL_TOP]], 230, D.G4, M.ghost, 'context', holes);
   box(229, D.G4, D.LVL_Y1, D.LVL_Y2, -150, 150, M.ghost, 'context');
   const [d1, d2, d3, d4] = D.WIN_D, [a1, a2, a3, a4] = D.WIN_A1, [b1, b2, b3, b4] = D.WIN_A2;
@@ -2104,6 +2104,7 @@ for (const [cx, cz] of D.CANS) { const pl = new THREE.PointLight(0xfff1dc, 0.55,
   tagAt(['WINDOW E 5\'-0" x 3\'-0" FIXED', 'RO 5\'-0 1/2" x 3\'-0 1/2", sill 36"'], -63, 82, EW, 'z-', T);
   tagAt(['SILL 36" AS DRAWN: FIELD VERIFY'], -63, 26, EW, 'z-', { ...FLAGT, fs: 44 });
   tagAt(['STAIR 3\'-0" MIN CLEAR, SWITCHBACK', '16 R @ 7 1/2", 11" treads', 'handrail 1040 @ 34", 0560 rail on divider'], D.DIV_X2 + 0.15, -62, -62, 'x', T);
+  tagAt(['FIELD VERIFY STAIR DIVIDER', 'top 3" over the flight-2 nosings, rail on top'], D.DIV_X2 + 0.15, -40, -70, 'x', { ...FLAGT, fs: 44 });
   // electrical + HVAC
   tagAt(['(4) LED CANS ckt 20', 'switched at door 15'], -27, yc(31) - 3, 31, 'y-', T);
   tagAt(['FLOOR RECEP (E01)'], -13, FL, 44, 'y', T);
