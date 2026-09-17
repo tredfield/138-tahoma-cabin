@@ -1592,7 +1592,7 @@ const D = {
   // devices: E01 can + GFCI + 3-gang, M01 fan + floor register
   CAN: [37.2, 77.4], FAN: [38.0, 105.0], SHCAN: [36.9, 134.0], SWITCH_X: 32.5, GFCI_X: 15.5, REG: [66.0, 70.0, 60, 70],   // owner 2026-09-13: fan moved beside the shower glass (M01 had it at 42 / 70, 9" from the E01 can) and a wet-rated can added over the shower
   // finishes + framing rules
-  PLANK_W: 7, PLANK_L: 48, BASE_H: 3.5,
+  PLANK_W: 7, PLANK_L: 48, BASE_H: 4,
   JOIST_X0: -2.2, JOIST_OC: 16, DRAG_X: 71.8,
 };
 // ===== END EDIT: D =====
@@ -1948,7 +1948,7 @@ tagNew('chaseOn', () => box(D.CH_X1, D.KP_IN, 0, TOP, D.CH_Z, D.EW_S1, M.gyp, 't
 // ---- ceiling: painted gyp, flat at 9'-0" under the upper-floor joists -------------------------------------------------------
 box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceiling');
 
-// ---- knotty alder base 3 1/2" x 3/4" (assumed, per the main bath); skipped at the tub, the vanity and the door casing ------
+// ---- knotty alder base 4" x 3/4" (owner 2026-09-16, house-wide; species assumed per the main bath); skipped at the tub, the vanity and the door casing ------
 {
   const y1 = D.FLOOR_T, y2 = D.FLOOR_T + D.BASE_H, t = 0.75;
   box(D.PW_IN, D.PW_IN + t, y1, y2, D.VAN_Z2, D.CH_Z, M.alder, 'wallS');                       // plumbing wall, vanity end to the tub

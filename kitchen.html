@@ -1573,6 +1573,7 @@ const D = {
   DORM_Y0: 213.1, DORM_SLOPE: 8 / 12,                         // lounge (dormer) ceiling, ghost: y = Y0 + S*(156-|z|)
   // --- window D / A, doors 9-10 ---
   WD_X1: 15.5, WD_X2: 64, WD_Y1: 41.75, WD_Y2: 90.25,
+  CAS_W: 3, CAS_R: 3.25, BASE_H: 4, BASE_T: 0.5,   // casing stock 3", reveal to tile/cabinet 3 1/4"; base 4" x 1/2" (owner 2026-09-16)
   WA1_X1: 16.5, WA1_X2: 65, WA2_X1: 124, WA2_X2: 172.5, WA_Y1: 35.75, WA_Y2: 90.25,
   DR_Z: 4, DR_Z2: 100, DR_Y2: 84.5,
   // --- east-wall run ---
@@ -1654,6 +1655,7 @@ const M = {
   black:   new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .6, metalness: .2 }),
   sinkBasin: new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: .25 }),
   devicePlate: new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .35 }),   // switch / receptacle cover plates (black, Decora-style; owner 2026-09-16)
+  faucet:   new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .6, metalness: .2 }),   // kitchen faucet: own slot, it is its own finish decision (owner 2026-09-16); values are black's today
   gyp:     new THREE.MeshStandardMaterial({ color: 0xfae4c8, roughness: .95 }),
   gypC:    new THREE.MeshStandardMaterial({ color: 0xf0eeea, roughness: .95 }),
   floorPlank: new THREE.MeshStandardMaterial({ color: 0x51310b, roughness: .8 }),
@@ -1988,10 +1990,16 @@ box(D.DW_X1 + .3, D.DW_X2 - .3, 0, D.TOE, D.ER_BOX_Z + 1, D.E_GYP, M.applianceFa
 box(D.DW_X1 + 2, D.DW_X2 - 2, 32.2, 32.8, D.ER_DOOR_Z - 1.2, D.ER_DOOR_Z - .8, M.black, 'appliances', false);
 
 // ---- uppers: east wall (either side of window D), diagonal corner, south wall, over-fridge ---------
-box(-24, 15, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D, D.E_GYP, M.cabBox, 'cabinets');
-fronts(placeEU, -24, -3, 'up', D.UP_LO, D.UP_HI); fronts(placeEU, -3, 15, 'up', D.UP_LO, D.UP_HI);
-box(64.5, 106.5, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D, D.E_GYP, M.cabBox, 'cabinets');
-fronts(placeEU, 64.5, 85.5, 'up', D.UP_LO, D.UP_HI); fronts(placeEU, 85.5, 106.5, 'up', D.UP_LO, D.UP_HI);
+// The uppers stop at window D's casing reveal, not over it (owner 2026-09-16: "the kitchen window
+// trim is being cut off by the cabinets"). D.CAS_R is the same 3 1/4" the tile field already used,
+// so tile, casing and cabinet now agree. Boxes come out 36 1/4" and 39 1/4", which are not catalogue
+// widths: the cabinet order needs a filler against each casing leg, or a different door split.
+box(-24, D.WD_X1 - D.CAS_R, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D, D.E_GYP, M.cabBox, 'cabinets');
+fronts(placeEU, -24, (-24 + D.WD_X1 - D.CAS_R) / 2, 'up', D.UP_LO, D.UP_HI);
+fronts(placeEU, (-24 + D.WD_X1 - D.CAS_R) / 2, D.WD_X1 - D.CAS_R, 'up', D.UP_LO, D.UP_HI);
+box(D.WD_X2 + D.CAS_R, 106.5, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D, D.E_GYP, M.cabBox, 'cabinets');
+fronts(placeEU, D.WD_X2 + D.CAS_R, (D.WD_X2 + D.CAS_R + 106.5) / 2, 'up', D.UP_LO, D.UP_HI);
+fronts(placeEU, (D.WD_X2 + D.CAS_R + 106.5) / 2, 106.5, 'up', D.UP_LO, D.UP_HI);
 box(106.5, D.ER_X2, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D - .75, D.E_GYP, M.cabFront, 'cabinets');   // end panel
 prismXZ([[-48, 126], [-36, 126], [-24, 138], [-24, 150], [-48, 150]], D.UP_LO, D.UP_HI, M.cabFront, 'cabinets');   // diagonal corner upper
 box(-48, -36, D.UP_LO, D.UP_HI, D.SR_Z1, 126, M.cabBox, 'cabinets');
@@ -2016,19 +2024,27 @@ box(-48, D.PAN_X2, D.FR_TOP + .25, D.OFC_LO, D.PAN_Z2, D.FR_Z1, M.cabFront, 'cab
 prismXZ([[-48, D.SR_Z1], [D.SR_CTR_X, D.SR_Z1], [D.SR_CTR_X, D.ER_CTR_Z], [D.SK_X1 + .5, D.ER_CTR_Z], [D.SK_X1 + .5, D.SK_Z2 - .5],
          [D.SK_X2 - .5, D.SK_Z2 - .5], [D.SK_X2 - .5, D.ER_CTR_Z], [D.ER_X2, D.ER_CTR_Z], [D.ER_X2, D.E_GYP], [-48, D.E_GYP]],
         D.BOX_TOP, D.CTR_Y, M.counterTop, 'counters');
-// Kohler K-6489 apron-front sink (35 3/4 x 21 9/16 x 9 5/8), single bowl, white; Moen S73204 pulldown, matte black
+// Kohler K-6489 apron-front sink (35 3/4 x 21 9/16 x 9 5/8), single bowl, white; Moen 7260BL Belfield pulldown, matte black
 prismXZ(rect(D.SK_X1, D.SK_Z1, D.SK_X2, D.SK_Z2), D.CTR_Y - D.SK_H, D.CTR_Y - .5, M.sinkBasin, 'counters',
         [rect(D.SK_X1 + 1.5, D.SK_Z1 + 2, D.SK_X2 - 1.5, D.SK_Z2 - 1.5)]);
 box(D.SK_X1 + 1.5, D.SK_X2 - 1.5, D.CTR_Y - D.SK_H, D.CTR_Y - D.SK_H + 1, D.SK_Z1 + 2, D.SK_Z2 - 1.5, M.sinkBasin, 'counters', false);
 cyl((D.SK_X1 + D.SK_X2) / 2, (D.SK_Z1 + D.SK_Z2) / 2, D.CTR_Y - D.SK_H + 1, D.CTR_Y - D.SK_H + 1.2, 1.75, M.black, 'counters');
 {
+  // Moen 7260BL Belfield single-handle high-arc pulldown, matte black. Spout height 9", spout reach
+  // 7 11/16", overall height 15 5/8", 2 1/2" escutcheon, lever handle -- Moen spec sheet 7260sp rev.
+  // 21-03-2021. Single-hole mount (the sheet also allows 3 holes). fy is height above the counter,
+  // fwd is reach out over the bowl; the arc is five segments from the straight body to the wand.
   const fx = (D.SK_X1 + D.SK_X2) / 2, fz = D.FAU_Z;
-  cyl(fx, fz, D.CTR_Y, D.CTR_Y + 9, 1.1, M.black, 'counters');
-  bar(V(fx, D.CTR_Y + 9, fz), V(fx, D.CTR_Y + 16, fz - 1.5), .55, M.black, 'counters');
-  bar(V(fx, D.CTR_Y + 16, fz - 1.5), V(fx, D.CTR_Y + 16.5, fz - 6), .55, M.black, 'counters');
-  bar(V(fx, D.CTR_Y + 16.5, fz - 6), V(fx, D.CTR_Y + 12, fz - 10), .55, M.black, 'counters');
-  bar(V(fx, D.CTR_Y + 12, fz - 10), V(fx, D.CTR_Y + 9, fz - 10.5), .7, M.black, 'counters');
-  bar(V(fx + 2.6, D.CTR_Y, fz), V(fx + 2.6, D.CTR_Y + 1.5, fz), .5, M.black, 'counters');   // side handle
+  const fy = h => D.CTR_Y + h, fwd = d => fz - d;
+  cyl(fx, fz, fy(-.4), fy(.55), 1.25, M.faucet, 'counters');                                      // escutcheon, buried so no face is coplanar with the counter
+  cyl(fx, fz, fy(.55), fy(9.6), .78, M.faucet, 'counters');                                       // straight body
+  bar(V(fx, fy(9.6), fwd(0)),    V(fx, fy(12.8), fwd(.8)),     .62, M.faucet, 'counters');
+  bar(V(fx, fy(12.8), fwd(.8)),  V(fx, fy(14.7), fwd(2.6)),    .62, M.faucet, 'counters');
+  bar(V(fx, fy(14.7), fwd(2.6)), V(fx, fy(15.0), fwd(5.0)),    .62, M.faucet, 'counters');        // apex: tube top is 15 5/8" over the deck
+  bar(V(fx, fy(15.0), fwd(5.0)), V(fx, fy(13.8), fwd(6.9)),    .62, M.faucet, 'counters');
+  bar(V(fx, fy(13.8), fwd(6.9)), V(fx, fy(11.9), fwd(7.6875)), .62, M.faucet, 'counters');
+  cyl(fx, fwd(7.6875), fy(9.0), fy(11.9), .72, M.faucet, 'counters');                             // pulldown wand, outlet 9" over the deck
+  bar(V(fx + .8, fy(6.6875), fz), V(fx + 3.3125, fy(7.6), fz), .38, M.faucet, 'counters');        // side lever handle
 }
 
 // ---- backsplash: subway tile, counter to uppers, around window D ------------------------------------
@@ -2043,9 +2059,9 @@ function tileZY(z1, z2, y1, y2, x1, x2, layer) {          // tile field on the s
   for (let y = y1 + 3; y < y2 - .1; y += 3) box(x2, x2 + .05, y - .06, y + .06, z1, z2, M.backsplashGrout, layer, false);
   for (let y = y1, r = 0; y < y2 - .1; y += 3, r++) for (let z = z1 + (r % 2 ? 3 : 0); z < z2; z += 6) box(x2, x2 + .05, y, y + 3, z - .06, z + .06, M.backsplashGrout, layer, false);
 }
-tileXY(-48, D.WD_X1 - 3.25, D.CTR_Y, D.UP_LO, D.E_GYP - .4, D.E_GYP, 'tile');
-tileXY(D.WD_X2 + 3.25, D.ER_X2, D.CTR_Y, D.UP_LO, D.E_GYP - .4, D.E_GYP, 'tile');
-tileXY(D.WD_X1 - 3.25, D.WD_X2 + 3.25, D.CTR_Y, D.WD_Y1 - 1, D.E_GYP - .4, D.E_GYP, 'tile');
+tileXY(-48, D.WD_X1 - D.CAS_R, D.CTR_Y, D.UP_LO, D.E_GYP - .4, D.E_GYP, 'tile');
+tileXY(D.WD_X2 + D.CAS_R, D.ER_X2, D.CTR_Y, D.UP_LO, D.E_GYP - .4, D.E_GYP, 'tile');
+tileXY(D.WD_X1 - D.CAS_R, D.WD_X2 + D.CAS_R, D.CTR_Y, D.WD_Y1 - 1, D.E_GYP - .4, D.E_GYP, 'tile');
 tileZY(D.SR_Z1, D.E_GYP - .4, D.CTR_Y, D.UP_LO, D.S_FACE, D.S_FACE + .4, 'tile');
 
 // ---- fridge: KitchenAid KRSC536RPS french-door counter-depth (35 1/2 x 69 1/4 x 28 3/8) -------------------------
@@ -2153,7 +2169,12 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   for (let i = 0; i < 8; i++) box(D.WELL_X1, -1.5, 0, D.RISE * (i + 1), D.WELL_Z2 - D.TREAD * (i + 1), D.WELL_Z2 - D.TREAD * i, M.ghost, 'context', false);
   box(D.WELL_X1, -1.5, 0, 60, D.W_GYP, D.LAND_Z, M.ghost, 'context', false);
   slopedBoxZ(-66, D.UT_X1, D.LAND_Z, D.WELL_Z2 - 1, z => 50 + (z - D.LAND_Z) * (60 / 88), 60 / 88, 10, M.ghost, 'context', false);
-  box(-2.75, 2.75, 0, D.LNG_LO, -29.75, -24.25, M.trimCasing, 'lounge');                                // 0603 post at the stair foot
+  // 0603 post at the stair foot. Moved 2026-09-16 from x -2.75..2.75 / z -29.75..-24.25, where it was
+  // CENTRED on the loft edge and so stood 2 3/4" out into the great room past the loft fascia, leaving a
+  // sliver of soffit showing between post and beam (the owner circled it). It now sits in the inside
+  // corner of the loft edge (gridline 3, x 0) and the stair well (z -25) with both faces flush, which is
+  // how the field photographs of the built framing read. Field-measured condition -- confirm the offset.
+  box(-5.5, 0, 0, D.LNG_LO, -30.5, -25, M.trimCasing, 'lounge');
   bar(V(.75, 36, D.WELL_Z2), V(.75, 96, D.LAND_Z), 1, M.trimCasing, 'lounge');                            // 1040 wood handrail line
   for (const z of [-36, -58, -80, -102]) { const t = (D.WELL_Z2 - z) / 88; bar(V(.75, 60 * t, z), V(.75, 36 + 60 * t, z), .5, M.black, 'lounge'); }
   box(D.UT_X1, D.UT_X2, 0, D.LNG_LO, D.W_GYP, -27, M.gyp, 'lounge', false);                       // stair south wall / utility east wall
@@ -2207,21 +2228,38 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
     box(xf1, xf2, y1, y2, z1, z1 + f, M.black, 'wallN'); box(xf1, xf2, y1, y2, z2 - f, z2, M.black, 'wallN');
     if (mullion) box(xf1, xf2, y1, y2, (z1 + z2) / 2 - 1, (z1 + z2) / 2 + 1, M.black, 'wallN');
     box(xg - .125, xg + .125, y1 + f, y2 - f, z1 + f, z2 - f, M.glass, 'wallN', false);
-    box(D.N_GYP - .75, D.N_GYP, y2, y2 + c, z1 - c, z2 + c, M.trimCasing, 'wallN');
-    box(D.N_GYP - .75, D.N_GYP, y1 - 1, y2, z1 - c, z1, M.trimCasing, 'wallN'); box(D.N_GYP - .75, D.N_GYP, y1 - 1, y2, z2, z2 + c, M.trimCasing, 'wallN');
-    box(D.N_GYP - 1.5, D.N_GYP, y1 - 1, y1, z1 - c - .75, z2 + c + .75, M.trimCasing, 'wallN');
-    box(D.N_GYP - .75, D.N_GYP, y1 - 3.5, y1 - 1, z1 - c, z2 + c, M.trimCasing, 'wallN');
+    // square-cut butted picture frame, same detail as winXY (owner 2026-09-14): legs full height,
+    // head and sill butted between them, no stool and no apron.
+    box(D.N_GYP - .75, D.N_GYP, y1 - c, y2 + c, z1 - c, z1, M.trimCasing, 'wallN');   // legs, full height
+    box(D.N_GYP - .75, D.N_GYP, y1 - c, y2 + c, z2, z2 + c, M.trimCasing, 'wallN');
+    box(D.N_GYP - .75, D.N_GYP, y2, y2 + c, z1, z2, M.trimCasing, 'wallN');           // head, butted between the legs
+    box(D.N_GYP - .75, D.N_GYP, y1 - c, y1, z1, z2, M.trimCasing, 'wallN');           // sill casing, butted between the legs
   }
   for (const r of J.map(norm)) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);
   for (const r of XW) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);           // unit type not on record
-  function offsetPoly(p, c) {                                // convex [z, y] polygon pushed outward by c (mitered casing outline)
-    const n = p.length, area = p.reduce((a, q, i) => { const r = p[(i + 1) % n]; return a + q[0] * r[1] - r[0] * q[1]; }, 0), sg = area > 0 ? 1 : -1;
-    const L = p.map((q, i) => { const r = p[(i + 1) % n], dx = r[0] - q[0], dy = r[1] - q[1], h = Math.hypot(dx, dy); return { px: q[0] + sg * dy / h * c, py: q[1] - sg * dx / h * c, dx, dy }; });
-    return p.map((_, i) => { const a = L[(i + n - 1) % n], b = L[i], det = a.dx * b.dy - a.dy * b.dx, t = ((b.px - a.px) * b.dy - (b.py - a.py) * b.dx) / det; return [a.px + a.dx * t, a.py + a.dy * t]; });
+  // Triangular fixed glass: glass prism + black frame bars + flat alder casing whose outer corners
+  // are CUT SQUARE rather than mitred. The old build offset the whole triangle as a mitre, and a
+  // mitre at a closing angle grows without limit -- the spikes the owner circled on 2026-09-16.
+  //
+  // Note the house-wide square-cut butted detail (owner 2026-09-14) cannot be taken literally on a
+  // triangle: butting flat stock at an acute corner forces one piece to run past the other, 5.1" at
+  // the 36-degree apex here, which is a tab rather than a joint. Cutting the outer corner square
+  // instead keeps flat square-cut stock and a 3" reveal all the way round with nothing overhanging.
+  // Which of the two the triangles should use is the owner's call; this is the no-spike reading.
+  function triRing(q, w) {                                   // outward offset, corners cut square
+    const m = q.length;
+    const ar = q.reduce((t, g, i) => { const r = q[(i + 1) % m]; return t + g[0] * r[1] - r[0] * g[1]; }, 0), sq = ar > 0 ? 1 : -1;
+    const ring = [];
+    for (let i = 0; i < m; i++) {
+      const a = q[i], b = q[(i + 1) % m];
+      const dz = b[0] - a[0], dy = b[1] - a[1], h = Math.hypot(dz, dy), nz = sq * dy / h, ny = -sq * dz / h;
+      ring.push([a[0] + nz * w, a[1] + ny * w], [b[0] + nz * w, b[1] + ny * w]);
+    }
+    return ring;
   }
-  function glazeTri(p) {                                     // triangular fixed glass: glass prism + black frame bars + mitered alder casing
+  function glazeTri(p) {
     prismZY(p, xg - .125, xg + .125, M.glass, 'wallN', [], false);
-    prismZY(offsetPoly(p, 3), D.N_GYP - .8, D.N_GYP, M.trimCasing, 'wallN', [p]);
+    prismZY(triRing(p, c), D.N_GYP - .8, D.N_GYP, M.trimCasing, 'wallN', [p]);
     for (let i = 0; i < 3; i++) { const a = p[i], b = p[(i + 1) % 3]; bar(V(xg, a[1], a[0]), V(xg, b[1], b[0]), .9, M.black, 'wallN'); }
   }
   K.forEach(glazeTri); N.forEach(glazeTri);
@@ -2240,8 +2278,17 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
     box(D.N_GYP - .75, D.N_GYP, D.DR_Y2, D.DR_Y2 + c, z1 - c, z2 + c, M.trimCasing, 'wallN');                        // casing
     box(D.N_GYP - .75, D.N_GYP, 0, D.DR_Y2, z1 - c, z1, M.trimCasing, 'wallN'); box(D.N_GYP - .75, D.N_GYP, 0, D.DR_Y2, z2, z2 + c, M.trimCasing, 'wallN');
   }
-  box(D.N_GYP - .5, D.N_GYP, 0, 3.5, -150, 150, M.trimCasing, 'wallN', false);   // base
+  // Base: 4" x 1/2" (owner 2026-09-16 -- he has 4" at home and read 3 1/2" as too narrow), broken
+  // around both slider openings instead of running straight across them as it used to.
+  for (const [b1, b2] of [[-150, -D.DR_Z2], [-D.DR_Z, D.DR_Z], [D.DR_Z2, 150]])
+    box(D.N_GYP - D.BASE_T, D.N_GYP, 0, D.BASE_H, b1, b2, M.trimCasing, 'wallN', false);
 }
+
+// ---- base trim in the living room (owner 2026-09-16: "trim is missing on the floor in the rest of
+// the living room"). The north gable wall had base; the west and east walls had none. Each run stops
+// on the north base's face (x 229.5) rather than crossing it, so no two pieces share a face plane.
+box(0, D.N_GYP - D.BASE_T, 0, D.BASE_H, D.W_GYP, D.W_GYP + D.BASE_T, M.trimCasing, 'wallW', false);
+box(D.ER_X2, D.N_GYP - D.BASE_T, 0, D.BASE_H, D.E_GYP - D.BASE_T, D.E_GYP, M.trimCasing, 'wallE', false);
 
 // ---- roof: 1x6 T&G on the ~15:12 rafters, both slopes, gridline 3 to the north wall; exposed 5 1/2" x 24" GLB ridge --
 {
@@ -2403,7 +2450,7 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   tagAt(['WINDOW D', '4\'-0" x 4\'-0" slider, sill 3\'-6"', 'RO 4\'-0 1/2" x 4\'-0 1/2"'], 39.75, 100, EW, 'z-', T2);
   tagAt(['CABINETS KraftMaid Thornton', 'knotty alder, base 25" d x 36" h', 'uppers 12" d, 54"-90", quartz top (TBD)'], 85.5, 72, EU, 'z-', T2);
   tagAt(['BACKSPLASH', 'subway tile, counter to uppers 36"-54"'], 85.5, 45, ET, 'z-', T2);
-  tagAt(['SINK Kohler K-6489', '35 3/4" farmhouse, 36" sink base', 'Moen S73204 pulldown, matte black'], 40, 16, EF, 'z-', T2);
+  tagAt(['SINK Kohler K-6489', '35 3/4" farmhouse, 36" sink base', 'Moen 7260BL Belfield pulldown, matte black'], 40, 16, EF, 'z-', T2);
   tagAt(['DISHWASHER', 'KitchenAid KDFE204KPS', '24" opening, ckt 18'], 2, 28, EF, 'z-', T2);
   tagAt(['FRIDGE KitchenAid KRSC536RPS', 'counter-depth 35 1/2 x 69 1/4 x 28 3/8', 'alcove 37 3/8", ckt 8'], FD, 28, 78, 'x', TF);
   tagAt(['PANTRY', '30" w x 24 1/2" d x 90" h', 'four doors, split at 60"'], PF, 66, 44, 'x', TF);

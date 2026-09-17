@@ -1589,7 +1589,7 @@ const D = {
   WC_X: -27.75, CAN: [[-24.75, 36], [-24.75, 96], [18.0, 33.86]], FAN: [-10.5, 72],   // shower can on the drain's z (33 7/8"), 1" south of the depth CL: a 4" IC housing cannot centre on x 19 1/16 with the 2X14 rafter at x 21 1/4 (review 2026-09-13).   // owner 2026-09-13: toilet moved 3" SOUTH of window F's centreline for room off the shower door (door-swing clearance 2 1/4" -> 3 9/16", tank lid to curb 10 5/8" -> 13 5/8"). Cans stay on the window centreline per E01, so the can is no longer centred over the bowl
   SWITCH_Z: 71.5, GFCI_Z: 96.75,   // switch: review 2026-09-13 -- E01's scaled z 64 put the plate under the towel bar's east bracket; now 3/4" off the door casing
   // finishes
-  PLANK_W: 7, PLANK_L: 48, BASE_H: 3.5, PONY_H: 84, CAP_T: 1.25, TG_W: 5.5, TG_T: 0.75,
+  PLANK_W: 7, PLANK_L: 48, BASE_H: 4, PONY_H: 84, CAP_T: 1.25, TG_W: 5.5, TG_T: 0.75,
 };
 // ===== END EDIT: D =====
 
@@ -1870,7 +1870,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   prism(rect(x1, 0, x2, top), D.EXT_STUD_OUT, D.EXT_IN, M.gyp, 'ext', [hole]);
   prism(rect(x1, 0, x2, top), D.SHEATH_OUT, D.EXT_STUD_OUT, M.ply, 'ext', [hole]);
   prism(rect(x1, 0, x2, top), D.SIDING_OUT, D.SHEATH_OUT, M.siding, 'ext', [hole]);
-  // window F: 3'-0" x 1'-0" frame in the RO, glass mid-wall, interior stool + casing
+  // window F: 3'-0" x 1'-0" frame in the RO, glass mid-wall, square-cut butted interior casing (no stool -- owner 2026-09-14; the comment said stool until 2026-09-16 but the geometry never drew one)
   const fx1 = D.WIN_X1 + 0.25, fx2 = D.WIN_X2 - 0.25, fy1 = D.WIN_SILL + 0.25, fy2 = D.WIN_HEAD - 0.25, fw = 1.75, fz1 = 1.0, fz2 = 4.5;
   box(fx1, fx2, fy1, fy1 + fw, fz1, fz2, M.frame, 'ext'); box(fx1, fx2, fy2 - fw, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1, fx1 + fw, fy1, fy2, fz1, fz2, M.frame, 'ext'); box(fx2 - fw, fx2, fy1, fy2, fz1, fz2, M.frame, 'ext');
@@ -1923,7 +1923,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   prismZY([[D.WE_IN, 0], [D.WE_OUT, 0], [D.WE_OUT, yc(D.WE_OUT)], [D.WE_IN, yc(D.WE_IN)]], D.WS_OUT, D.WN_OUT, M.gyp, 'wallE');
 }
 
-// ---- knotty alder base, 3 1/2" x 3/4" (owner 2026-09-08: trim likely knotty alder); skipped in the shower, at the door and behind the vanity
+// ---- knotty alder base, 4" x 3/4" (owner 2026-09-16: he has 4" at home and read 3 1/2" as too narrow; species owner 2026-09-08); skipped in the shower, at the door and behind the vanity
 {
   const y1 = 0.6, y2 = 0.6 + D.BASE_H, t = 0.75;
   box(D.WS_IN, D.WS_IN + t, y1, y2, D.EXT_IN, D.DOOR_Z1 - 2.5, M.alder, 'wallS');                 // bedroom wall, both sides of the door casing

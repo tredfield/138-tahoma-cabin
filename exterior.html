@@ -1962,6 +1962,22 @@ function triOffset(t, d) {
   const k = (r + d) / r;
   return [a, b, c].map(p => [I.x + (p.x - I.x) * k, I.y + (p.y - I.y) * k]);
 }
+// Outward offset of a polygon with the corners CUT SQUARE instead of mitred. triOffset's incenter
+// homothety is a true mitred offset -- every side lands exactly d out -- which is what the inner glass
+// line wants, but at a closing angle a mitre grows without limit, so the gable triangles' casing grew a
+// spike at each acute corner (owner 2026-09-16, same fault as the kitchen drawing's gable wall). Only
+// the outer casing boundary needs the corners taken off.
+function polyOffsetSquare(p, d) {
+  const n = p.length;
+  const ar = p.reduce((t, q, i) => { const r = p[(i + 1) % n]; return t + q[0] * r[1] - r[0] * q[1]; }, 0), sg = ar > 0 ? 1 : -1;
+  const ring = [];
+  for (let i = 0; i < n; i++) {
+    const a = p[i], b = p[(i + 1) % n];
+    const dx = b[0] - a[0], dy = b[1] - a[1], h = Math.hypot(dx, dy), nx = sg * dy / h, ny = -sg * dx / h;
+    ring.push([a[0] + nx * d, a[1] + ny * d], [b[0] + nx * d, b[1] + ny * d]);
+  }
+  return ring;
+}
 // Sloped slab in the X-Y plane (vertical thickness t) extruded along z between za and zb; yFn gives the underside at x.
 function slab(xa, xb, yFn, t, za, zb, mat, layer) {
   return PZ([[xa, yFn(xa)], [xb, yFn(xb)], [xb, yFn(xb) + t], [xa, yFn(xa) + t]], za, zb, mat, layer);
@@ -2110,9 +2126,9 @@ const OPEN = {                                     // rough openings in wall-loc
     wallBox(wall, r[0][0] - D.TRIM_W, r[1][0] + D.TRIM_W, r[0][1] - D.TRIM_W - 1.5, r[0][1] - D.TRIM_W, wt0, wt1 + 0.75, M.trim, 'trim');
     if (opts.slider) { const um = (r[0][0] + r[1][0]) / 2; wallBox(wall, um - 1, um + 1, inner[0][1], inner[2][1], -2.5, -0.5, M.win, L); }
   }
-  function winTri(wall, t) {                                   // triangle window, mitered frame and casing
+  function winTri(wall, t) {                                   // triangle window: mitred frame, casing with the outer corners cut square
     const inner = triOffset(t, -FW);
-    frameRing(wall, t, inner); pane(wall, inner); casing(wall, triOffset(t, D.TRIM_W), t);
+    frameRing(wall, t, inner); pane(wall, inner); casing(wall, polyOffsetSquare(t, D.TRIM_W), t);
   }
   function slider(wall, r) {                                   // glass slider door: frame, two panels, center stile, bottom rail, casing open at the sill
     const inner = rectOffset(r, -FW), um = (r[0][0] + r[1][0]) / 2;

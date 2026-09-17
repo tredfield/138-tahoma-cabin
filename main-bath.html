@@ -1584,7 +1584,7 @@ const D = {
   WC_X: -24.75, CAN: [[-24.75, 36], [-24.75, 96]], FAN: [-10.5, 72],   // toilet and both cans on window F's centerline, as the sheets intend
   SWITCH_Z: 64, GFCI_Z: 96.75,
   // finishes
-  PLANK_W: 7, PLANK_L: 48, BASE_H: 3.5, PONY_H: 84, CAP_T: 1.25, TG_W: 5.5, TG_T: 0.75,
+  PLANK_W: 7, PLANK_L: 48, BASE_H: 4, PONY_H: 84, CAP_T: 1.25, TG_W: 5.5, TG_T: 0.75,
 };
 // ===== END EDIT: D =====
 
@@ -1915,7 +1915,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   tagV(box(D.SH_X1 - 0.75, D.WN_IN, D.PONY_H, D.PONY_H + D.CAP_T, D.WV_W - 0.75, D.WV_E + 0.75, M.counter, 'wallV'), 'valveShort');   // cap (material to match the counter, assumed)
 }
 
-// ---- knotty alder base, 3 1/2" x 3/4" (owner 2026-09-08: trim likely knotty alder); skipped in the shower, at the door and behind the vanity
+// ---- knotty alder base, 4" x 3/4" (owner 2026-09-16: he has 4" at home and read 3 1/2" as too narrow; species owner 2026-09-08); skipped in the shower, at the door and behind the vanity
 {
   const y1 = 0.6, y2 = 0.6 + D.BASE_H, t = 0.75;
   box(D.WS_IN, D.SH_X1, y1, y2, D.EXT_IN, D.EXT_IN + t, M.trimCasing, 'ext');                          // window wall, toilet side
