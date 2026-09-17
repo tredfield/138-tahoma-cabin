@@ -112,6 +112,7 @@
       <button data-view="north">Window wall</button>
       <button data-view="stove">Stove</button>
       <button data-view="lounge">From lounge</button>
+      <button data-view="stair">Stair</button>
       <button data-view="dining">Dining</button>
       <button data-view="top">Plan</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
@@ -1573,11 +1574,12 @@ const D = {
   DORM_Y0: 213.1, DORM_SLOPE: 8 / 12,                         // lounge (dormer) ceiling, ghost: y = Y0 + S*(156-|z|)
   // --- window D / A, doors 9-10 ---
   WD_X1: 15.5, WD_X2: 64, WD_Y1: 41.75, WD_Y2: 90.25,
-  CAS_W: 3, CAS_R: 3.25, BASE_H: 4, BASE_T: 0.5,   // casing stock 3", reveal to tile/cabinet 3 1/4"; base 4" x 1/2" (owner 2026-09-16)
+  CAS_W: 3.5, CAS_R: 3.75, BASE_H: 4, BASE_T: 0.5,   // casing 1x4 stock, 3 1/2" x 3/4", reveal to tile/cabinet 3 3/4"; base 4" x 1/2" (owner 2026-09-16)
   WA1_X1: 16.5, WA1_X2: 65, WA2_X1: 124, WA2_X2: 172.5, WA_Y1: 35.75, WA_Y2: 90.25,
   DR_Z: 4, DR_Z2: 100, DR_Y2: 84.5,
   // --- east-wall run ---
   ER_X1: -48, ER_X2: 106.9, ER_CTR_Z: 125, ER_DOOR_Z: 126, ER_BOX_Z: 126.75,
+  SW_X: 78.5,                                                  // disposal switch, moved north of receptacle 16 to clear window D's casing (owner 2026-09-16); E01 draws it at 67
   DW_X1: -2.25, DW_X2: 21.75, SINKB_X1: 21.75, SINKB_X2: 57.75,
   // --- south-wall run, fridge, pantry ---
   SR_Z1: 96.6, SR_CTR_X: -23, SR_DOOR_X: -24, SR_BOX_X: -24.75,
@@ -1598,9 +1600,15 @@ const D = {
   STOVE_W: 25.625, STOVE_D: 25.125, STOVE_H: 29,                 // Drolet Columbia II (BoD row 8)
   CAN_X: [39.7, 117.7, 196.3], CAN_Z: [-111.4, -38.2, 41.0, 111.8],
   FAN_X: 117.7, FAN_Y: 180,
-  // --- lounge / stair / hall (ghost) ---
-  LNG_X1: -60, WELL_X1: -38.8, WELL_Z2: -25, LAND_Z: -114, RISE: 7.5, TREAD: 11,
-  UT_X1: -42.4, UT_X2: -38.8, HALL_Z1: -22.6, HALL_Z2: 29.6, HALL_X1: -100,
+  // --- lounge / stair / hall ---
+  // Stair numbers are the loft drawing's, transcribed (outputs/loft-3d.html: same x and z, y + 120).
+  // Where the two disagreed by an inch the loft's win: flight-1 north edge -0.5 (was -1.5), south edge
+  // -37.9 (was -38.8), divider east face -37.9 (was -38.8), so flight 1 is 37.4" wide, over the 3'-0"
+  // minimum clear. WELL_X1 stays the flight-1 well edge the loft-floor fascia and its rail run to.
+  LNG_X1: -60, WELL_X1: -38.8, WELL_Z2: -25, LAND_Z: -114, LAND_Y: 60, RISE: 7.5, TREAD: 11,
+  F1_X1: -37.9, F1_X2: -0.5, F2_X1: -76, GUARD_X: 0.5, HANDRAIL_X: -4.9,
+  POST_W: 3.5,                                                 // 0603 stair-foot post: 4X4 DF#2 per S3.2 (owner 2026-09-16, over A02's 6x6 keynote)
+  UT_X1: -42.4, UT_X2: -37.9, HALL_Z1: -22.6, HALL_Z2: 29.6, HALL_X1: -100,
 };
 // ===== END EDIT: D =====
 
@@ -1645,9 +1653,10 @@ const M = {
   diningTable: new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),
   islandFront: new THREE.MeshStandardMaterial({ color: 0x9a5406, roughness: .72 }),   // island fronts, end panels: own slot, the island is its own finish decision (owner 2026-09-16)
   islandBox:   new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // island boxes, toe kicks, cubby interior
-  islandBack:  new THREE.MeshStandardMaterial({ color: 0xfae4c8, roughness: .95 }),   // knee wall's living-room face (A02: wall to match cabinet height); gypsum today, may become a cabinet-finish back panel   // dining table placeholder: its own slot so a cabinet stain never restains it (render review 2026-09-15)
+  islandBack:  new THREE.MeshStandardMaterial({ color: 0x9a5406, roughness: .72 }),   // island seating-side / knee-wall faces: cabinet-finish panel in the island wood, not painted gypsum (owner's wife 2026-09-16). Own slot so it can follow the island when the island goes green and the perimeter does not
   fanBlade: new THREE.MeshStandardMaterial({ color: 0x7c4304, roughness: .75 }),   // ceiling fan blades, same reason
   trimCasing: new THREE.MeshStandardMaterial({ color: 0x683907, roughness: .75 }),   // knotty alder casing (assumed)
+  stair:   new THREE.MeshStandardMaterial({ color: 0xc9a77a, roughness: .8 }),      // stair treads and risers, same slot and tone as the loft drawing; the tread finish is not on any sheet
   counterTop: new THREE.MeshStandardMaterial({ color: 0xe9e6df, roughness: .35 }),
   backsplash: new THREE.MeshStandardMaterial({ color: 0xf2f0ea, roughness: .3 }),
   backsplashGrout: new THREE.MeshStandardMaterial({ color: 0xd7d3cb, roughness: .8 }),
@@ -1655,6 +1664,7 @@ const M = {
   black:   new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .6, metalness: .2 }),
   sinkBasin: new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: .25 }),
   devicePlate: new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .35 }),   // switch / receptacle cover plates (black, Decora-style; owner 2026-09-16)
+  deviceFace:  new THREE.MeshStandardMaterial({ color: 0x2c3035, roughness: .3 }),    // the device in the plate: duplex outlet faces or a rocker paddle, a shade off the plate so it reads
   faucet:   new THREE.MeshStandardMaterial({ color: 0x1e2023, roughness: .6, metalness: .2 }),   // kitchen faucet: own slot, it is its own finish decision (owner 2026-09-16); values are black's today
   gyp:     new THREE.MeshStandardMaterial({ color: 0xfae4c8, roughness: .95 }),
   gypC:    new THREE.MeshStandardMaterial({ color: 0xf0eeea, roughness: .95 }),
@@ -1732,6 +1742,23 @@ function bar(p1, p2, r, mat, layer) {
   m.position.copy(p1).addScaledVector(v, 0.5);
   m.quaternion.setFromUnitVectors(V(0, 1, 0), v.clone().normalize());
   return reg(m, layer);
+}
+// Smooth swept tube through [x, y, z] points, with round ends (faucet arc, curved rails).
+// 20-sided section on a Catmull-Rom curve: a chain of bar() cylinders shows its 8 facets and its
+// joints, which is what made the faucet read as clunky (owner 2026-09-16).
+function tube(pts, r, mat, layer, caps = true) {
+  const curve = new THREE.CatmullRomCurve3(pts.map(p => V(p[0], p[1], p[2])), false, 'catmullrom', .5);
+  const g = new THREE.TubeGeometry(curve, Math.max(32, pts.length * 20), r, 20, false);
+  const m = new THREE.Mesh(g, mat);
+  m.castShadow = m.receiveShadow = true;
+  reg(m, layer);
+  if (caps) for (const q of [pts[0], pts[pts.length - 1]]) {
+    const c = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 12), mat);
+    c.position.set(q[0], q[1], q[2]);
+    c.castShadow = c.receiveShadow = true;
+    reg(c, layer);
+  }
+  return m;
 }
 // Billboard text sprite label. opts: layer, size, bg, color, scale.
 function label(text, x, y, z, opts = {}) {
@@ -1885,12 +1912,12 @@ function winXY(x1, x2, y1, y2, zIn, zOut, dir, layer, slider = true) {
   if (slider) box((x1 + x2) / 2 - 1, (x1 + x2) / 2 + 1, y1, y2, zm - ft / 2, zm + ft / 2, M.black, layer);
   box(x1 + f, x2 - f, y1 + f, y2 - f, zm - .125, zm + .125, M.glass, layer, false);
   // jamb liners + casing on the room side
-  const c = 3, ct = .75, zc1 = zIn, zc2 = zIn + dir * ct;
+  const c = D.CAS_W, ct = .75, zc1 = zIn, zc2 = zIn + dir * ct;
   const zL = zm + dir * ft / 2;                                        // jamb liners, frame to the gyp face
   box(x1, x2, y2 - .75, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
   box(x1, x1 + .75, y1, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
   box(x2 - .75, x2, y1, y2, Math.min(zIn, zL), Math.max(zIn, zL), M.trimCasing, layer, false);
-  // 3" x 3/4" square-cut butted picture frame (owner 2026-09-14): legs full height, head and sill casing butted
+  // 3 1/2" x 3/4" square-cut butted picture frame (owner 2026-09-14, width 2026-09-16): legs full height, head and sill casing butted
   // between them, no stool and no apron. Same detail as the baths and the loft; only the stock width differs.
   box(x1 - c, x1, y1 - c, y2 + c, zc1, zc2, M.trimCasing, layer);            // legs, full height
   box(x2, x2 + c, y1 - c, y2 + c, zc1, zc2, M.trimCasing, layer);
@@ -1909,7 +1936,7 @@ planks(0, D.N_GYP, D.W_GYP, D.WELL_Z2, 'floor');
 // z -150..-25 bare because the stair stands there; with the stair's treads excluded from renders that
 // was a hole in the floor, and the kitchen view looked through it to the ground outside. The stair's
 // bottom run starts at this level regardless, so plain floor is the honest fill.
-planks(D.LNG_X1, 0, D.W_GYP, D.WELL_Z2, 'floor');
+planks(D.F2_X1, 0, D.W_GYP, D.WELL_Z2, 'floor');
 box(D.HALL_X1, D.S_FACE, 0, D.LVP_T, D.HALL_Z1, D.HALL_Z2, M.floorPlank, 'floor', false);   // hall floor
 
 // ---- east wall (gridline A) with window D --------------------------------------------------------
@@ -1991,8 +2018,8 @@ box(D.DW_X1 + 2, D.DW_X2 - 2, 32.2, 32.8, D.ER_DOOR_Z - 1.2, D.ER_DOOR_Z - .8, M
 
 // ---- uppers: east wall (either side of window D), diagonal corner, south wall, over-fridge ---------
 // The uppers stop at window D's casing reveal, not over it (owner 2026-09-16: "the kitchen window
-// trim is being cut off by the cabinets"). D.CAS_R is the same 3 1/4" the tile field already used,
-// so tile, casing and cabinet now agree. Boxes come out 36 1/4" and 39 1/4", which are not catalogue
+// trim is being cut off by the cabinets"). D.CAS_R is the same 3 3/4" the tile field already used,
+// so tile, casing and cabinet now agree. Boxes come out 35 3/4" and 38 3/4", which are not catalogue
 // widths: the cabinet order needs a filler against each casing leg, or a different door split.
 box(-24, D.WD_X1 - D.CAS_R, D.UP_LO, D.UP_HI, D.E_GYP - D.UP_D, D.E_GYP, M.cabBox, 'cabinets');
 fronts(placeEU, -24, (-24 + D.WD_X1 - D.CAS_R) / 2, 'up', D.UP_LO, D.UP_HI);
@@ -2033,18 +2060,26 @@ cyl((D.SK_X1 + D.SK_X2) / 2, (D.SK_Z1 + D.SK_Z2) / 2, D.CTR_Y - D.SK_H + 1, D.CT
   // Moen 7260BL Belfield single-handle high-arc pulldown, matte black. Spout height 9", spout reach
   // 7 11/16", overall height 15 5/8", 2 1/2" escutcheon, lever handle -- Moen spec sheet 7260sp rev.
   // 21-03-2021. Single-hole mount (the sheet also allows 3 holes). fy is height above the counter,
-  // fwd is reach out over the bowl; the arc is five segments from the straight body to the wand.
+  // fwd is reach out over the bowl.
+  //
+  // Redrawn 2026-09-16 (owner: "the moen faucet is drawn a bit clunky"). The stations are the spec
+  // sheet's and have not moved: outlet 9" over the deck, reach 7 11/16", tube top 15 5/8". What
+  // changed is how it is built. The arc was five straight bar() cylinders on an 8-sided section, so
+  // it showed a kink and a bulge at each of the four joints and faceted along every run; it is now
+  // one swept tube on a 20-sided section. The column goes 1 9/16" to 1 5/16" dia and the arc 1 1/4"
+  // to 1 1/8", which is the proportion on the sheet's elevation, and the pulldown wand is a slim
+  // neck with a wider spray head instead of a single fat cylinder hanging off the tube.
   const fx = (D.SK_X1 + D.SK_X2) / 2, fz = D.FAU_Z;
   const fy = h => D.CTR_Y + h, fwd = d => fz - d;
   cyl(fx, fz, fy(-.4), fy(.55), 1.25, M.faucet, 'counters');                                      // escutcheon, buried so no face is coplanar with the counter
-  cyl(fx, fz, fy(.55), fy(9.6), .78, M.faucet, 'counters');                                       // straight body
-  bar(V(fx, fy(9.6), fwd(0)),    V(fx, fy(12.8), fwd(.8)),     .62, M.faucet, 'counters');
-  bar(V(fx, fy(12.8), fwd(.8)),  V(fx, fy(14.7), fwd(2.6)),    .62, M.faucet, 'counters');
-  bar(V(fx, fy(14.7), fwd(2.6)), V(fx, fy(15.0), fwd(5.0)),    .62, M.faucet, 'counters');        // apex: tube top is 15 5/8" over the deck
-  bar(V(fx, fy(15.0), fwd(5.0)), V(fx, fy(13.8), fwd(6.9)),    .62, M.faucet, 'counters');
-  bar(V(fx, fy(13.8), fwd(6.9)), V(fx, fy(11.9), fwd(7.6875)), .62, M.faucet, 'counters');
-  cyl(fx, fwd(7.6875), fy(9.0), fy(11.9), .72, M.faucet, 'counters');                             // pulldown wand, outlet 9" over the deck
-  bar(V(fx + .8, fy(6.6875), fz), V(fx + 3.3125, fy(7.6), fz), .38, M.faucet, 'counters');        // side lever handle
+  cyl(fx, fz, fy(.4), fy(8.7), .66, M.faucet, 'counters');                                        // column, 1 5/16" dia
+  tube([[fx, fy(7.4), fz], [fx, fy(11.5), fwd(.3)], [fx, fy(14.5), fwd(2.3)], [fx, fy(15.06), fwd(4.9)],
+        [fx, fy(13.6), fwd(7.05)], [fx, fy(12.1), fwd(7.6875)]], .56, M.faucet, 'counters');      // arc, 1 1/8" dia
+  cyl(fx, fwd(7.6875), fy(10.9), fy(12.3), .47, M.faucet, 'counters');                            // wand neck
+  cyl(fx, fwd(7.6875), fy(9.3), fy(11.05), .6, M.faucet, 'counters');                             // pulldown wand body
+  cyl(fx, fwd(7.6875), fy(9.0), fy(9.4), .5, M.faucet, 'counters');                               // spray face, outlet 9" over the deck
+  tube([[fx + .15, fy(6.8), fz], [fx + 1.0, fy(6.95), fz]], .44, M.faucet, 'counters');           // handle boss on the column
+  tube([[fx + .9, fy(6.95), fz], [fx + 2.2, fy(7.3), fz], [fx + 3.35, fy(7.85), fz]], .27, M.faucet, 'counters');   // side lever handle
 }
 
 // ---- backsplash: subway tile, counter to uppers, around window D ------------------------------------
@@ -2078,7 +2113,10 @@ tileZY(D.SR_Z1, D.E_GYP - .4, D.CTR_Y, D.UP_LO, D.S_FACE, D.S_FACE + .4, 'tile')
 }
 
 // ---- island: knee wall, boxes, microwave cubby, fronts, counter, range, downdraft, stools -------------------------
-box(D.KW_X1, D.KW_X2, 0, D.BOX_TOP, D.KW_Z1, D.KW_Z2, M.islandBack, 'cabinets');                   // knee wall (WALL TO MATCH CABINET HEIGHT)
+// Knee wall (A02: WALL TO MATCH CABINET HEIGHT, LAG BOLT TO DECK). Its seating-side face is finished
+// in the island's cabinet wood, not painted (owner's wife 2026-09-16) -- it was drawn as gypsum
+// because A02 frames it as a wall. If the island is ordered in the green, this face goes green too.
+box(D.KW_X1, D.KW_X2, 0, D.BOX_TOP, D.KW_Z1, D.KW_Z2, M.islandBack, 'cabinets');
 box(D.KW_X1 - .75, D.KW_X1, 0, D.BOX_TOP, D.KW_Z1, D.IB_DOOR_Z2, M.islandFront, 'cabinets');         // end panels
 box(D.KW_X2, D.KW_X2 + .75, 0, D.BOX_TOP, D.KW_Z1, D.IB_DOOR_Z2, M.islandFront, 'cabinets');
 box(D.RG_X2, D.KW_X2, D.TOE, D.BOX_TOP, D.KW_Z2, D.IB_Z2, M.islandBox, 'cabinets');              // north box (drawers)
@@ -2138,7 +2176,13 @@ box(D.HALL_X1, D.S_FACE, D.CEIL_K, D.LNG_LO, D.HALL_Z1, D.HALL_Z2, M.gypC, 'loun
 // extent. Stopping at -60 left the hall end open from the loft down through the ceiling-less rooms below to
 // the HDRI ground, which showed as foliage at the lounge render's east edge (phase 1c second review).
 box(D.HALL_X1, -1.5, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.floorPlank, 'lounge', false);        // lounge floor
-box(D.HALL_X1, D.WELL_X1, D.LNG_LO, D.LNG_HI, D.W_GYP, D.WELL_Z2, M.floorPlank, 'lounge', false);
+// West of the well line the loft floor stops at the well's west edge (x -76), not at the flight-1 edge
+// it used to stop at: flight 2 climbs from y 60 to the loft floor over x -76..-42.4, so a floor at
+// 108..120 there ran through its top four steps. Found 2026-09-16 when the stair was drawn for real;
+// harmless until then because nothing was drawn under it. Its exposed edge gets the same 1 1/2" fascia
+// as the loft edge does.
+box(D.HALL_X1, D.F2_X1 - 1.5, D.LNG_LO, D.LNG_HI, D.W_GYP, D.WELL_Z2, M.floorPlank, 'lounge', false);
+box(D.F2_X1 - 1.5, D.F2_X1, D.LNG_LO, D.LNG_HI, D.W_GYP, D.WELL_Z2, M.trimCasing, 'lounge');
 box(-1.5, 0, D.LNG_LO, D.LNG_HI, D.WELL_Z2, D.E_GYP, M.trimCasing, 'lounge');                           // floor-edge fascia (rail mounts here)
 box(D.WELL_X1, 0, D.LNG_LO, D.LNG_HI, D.WELL_Z2 - 1.5, D.WELL_Z2, M.trimCasing, 'lounge');              // fascia along the stair-well edge (phase 1c review: the sawn plank edge rendered as streaks)
 // The lounge walls and dormer ceiling run to HALL_X1, not LNG_X1: the shell below stops at WALL_TOP, and
@@ -2158,26 +2202,85 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   box(D.WELL_X1, 0, D.RAIL_TOP - 1.5, D.RAIL_TOP, D.WELL_Z2, D.WELL_Z2 + 1.5, M.black, 'lounge');
   for (let y = 124; y < D.RAIL_TOP - 2; y += 3.75) bar(V(D.WELL_X1 + 1, y, D.WELL_Z2 + .75), V(-1, y, D.WELL_Z2 + .75), .12, M.steel, 'lounge');
 }
-{ // stair (A02: 8 risers west to a 3'-0" landing, 8 back east over the utility), 6x6 post, wood handrail
-  // The TREADS and the sloped soffit below stay on `context` and out of renders: eight plain boxes are a
-  // sketch of a stair, and a photograph should not assert a stair detail no sheet settles. The enclosing
-  // WALLS, FLOORS and CEILING around them moved back onto exported layers with real materials on
-  // 2026-09-11 -- a plane's existence and position are settled even where its detail is not, and leaving
-  // them out opened a floor-to-ridge hole in the kitchen and island renders that showed the sky where the
-  // stair is. They are a painted shell standing in for the real thing; task 4.2 models this side properly
-  // from A02 and the loft drawing, and should take them over.
-  for (let i = 0; i < 8; i++) box(D.WELL_X1, -1.5, 0, D.RISE * (i + 1), D.WELL_Z2 - D.TREAD * (i + 1), D.WELL_Z2 - D.TREAD * i, M.ghost, 'context', false);
-  box(D.WELL_X1, -1.5, 0, 60, D.W_GYP, D.LAND_Z, M.ghost, 'context', false);
-  slopedBoxZ(-66, D.UT_X1, D.LAND_Z, D.WELL_Z2 - 1, z => 50 + (z - D.LAND_Z) * (60 / 88), 60 / 88, 10, M.ghost, 'context', false);
-  // 0603 post at the stair foot. Moved 2026-09-16 from x -2.75..2.75 / z -29.75..-24.25, where it was
-  // CENTRED on the loft edge and so stood 2 3/4" out into the great room past the loft fascia, leaving a
-  // sliver of soffit showing between post and beam (the owner circled it). It now sits in the inside
-  // corner of the loft edge (gridline 3, x 0) and the stair well (z -25) with both faces flush, which is
-  // how the field photographs of the built framing read. Field-measured condition -- confirm the offset.
-  box(-5.5, 0, 0, D.LNG_LO, -30.5, -25, M.trimCasing, 'lounge');
-  bar(V(.75, 36, D.WELL_Z2), V(.75, 96, D.LAND_Z), 1, M.trimCasing, 'lounge');                            // 1040 wood handrail line
-  for (const z of [-36, -58, -80, -102]) { const t = (D.WELL_Z2 - z) / 88; bar(V(.75, 60 * t, z), V(.75, 36 + 60 * t, z), .5, M.black, 'lounge'); }
-  box(D.UT_X1, D.UT_X2, 0, D.LNG_LO, D.W_GYP, -27, M.gyp, 'lounge', false);                       // stair south wall / utility east wall
+{ // stair (A02: 16 R @ 7 1/2" and 11" treads, 8 risers west to a 3'-0" landing, 8 back east over the
+  // utility), 0603 post at the foot, 0560 cable guard, 1040 wood handrail
+  //
+  // FULLY DRAWN 2026-09-16 at the owner's request ("it would be nice to fully render the stairs with
+  // landing in the kitch and living room view"). It used to be eight translucent boxes, a landing block
+  // and a sketch handrail, all on `context` and so excluded from every render, on the reasoning that a
+  // photograph should not assert a stair detail no sheet settles. The owner has asked for the opposite,
+  // so treads, risers, outer stringer, soffit, landing, both flights and the guard are now real
+  // geometry on the exported `lounge` layer. What the sheets do settle is the arithmetic: 16 risers at
+  // 7 1/2", 11" treads, a 3'-0" landing, 3'-0" minimum clear width, keynotes 0560 and 1040.
+  //
+  // Geometry is the loft drawing's, transcribed rather than re-derived (same x and z, y + 120). The
+  // framed rail in the owner's field photographs of 2026-09-16 is the framer's TEMPORARY construction
+  // rail -- 2x4s nailed flat over the tread ends, a loose bottom plate and a scrap panel leaning on it
+  // -- so it says nothing about the finished guard, which stays the sheets' cable rail.
+  //
+  // Interpretations, not sheet-settled: the 1 1/16" tread over a 3/4" closed riser with a 1" nosing, the
+  // 10" outer stringer on the open side, and the drywall soffit under flight 1 (the alternative is an
+  // exposed stringer with open risers). Tread finish is nobody's decision yet.
+  const yn = z => (D.WELL_Z2 - 1 - z) * (D.RISE / D.TREAD);      // riser-face line: y 0 at the well line, 60 at the landing
+  const ynT = z => yn(z) + D.RISE;                               // tread-top / nosing line
+  const TT = 1.0625, RT = .75, NOSE = 1, PX = -D.POST_W, PZ = D.WELL_Z2 - D.POST_W;   // post west face in x, in z
+  for (let k = 0; k < 8; k++) {
+    const yt = D.RISE * (k + 1), z2 = D.WELL_Z2 - 1 - D.TREAD * k, z1 = z2 - D.TREAD;
+    if (k === 0) {                                               // bottom tread and riser notched around the 0603 post
+      box(D.F1_X1, PX, yt - TT, yt, z1, z2 + NOSE, M.stair, 'lounge');
+      box(PX, D.F1_X2, yt - TT, yt, z1, PZ, M.stair, 'lounge');
+      box(D.F1_X1, PX, 0, yt - TT, z2 - RT, z2, M.stair, 'lounge');
+    } else {
+      box(D.F1_X1, D.F1_X2, yt - TT, yt, z1, z2 + NOSE, M.stair, 'lounge');
+      box(D.F1_X1, D.F1_X2, yt - D.RISE, yt - TT, z2 - RT, z2, M.stair, 'lounge');
+    }
+  }
+  // outer stringer on the open side, top edge on the nosing line, running out to the floor at the foot
+  prismZY([[PZ, ynT(PZ)], [-103, D.LAND_Y], [-103, D.LAND_Y - 10], [-29.7, 0], [PZ, 0]],
+          D.F1_X2, D.GUARD_X, M.trimCasing, 'lounge');   // dies into the post's west face, not through the post
+  slopedBoxZ(D.F1_X1, D.F1_X2, D.LAND_Z, -31.2, z => ynT(z) - 11, -D.RISE / D.TREAD, .5, M.gypC, 'lounge', false);   // soffit under flight 1, stopped where its underside reaches the floor
+  box(D.F2_X1, D.F1_X2, D.LAND_Y - 10, D.LAND_Y, D.W_GYP, D.LAND_Z, M.stair, 'lounge');                  // 3'-0" landing, both flights wide
+  for (let k = 0; k < 8; k++) {                                  // flight 2, back east over the utility, behind the divider
+    const zk = D.LAND_Z + D.TREAD * k;
+    box(D.F2_X1, D.UT_X1, D.LAND_Y + D.RISE * (k + 1) - 10, D.LAND_Y + D.RISE * (k + 1), zk, zk + D.TREAD, M.stair, 'lounge');
+  }
+  // 0603 post at the stair foot: 4X4 DF#2 per S3.2 with (2) LCE4Z, the owner's call 2026-09-16 over
+  // A02 keynote 0602/0603's 6x6. It runs the full 10'-0" from the slab to the TOP OF THE LOFT SUBFLOOR
+  // and is strapped to the loft framing at the joist, not stopped under it -- the owner's field
+  // photographs of 2026-09-16 show its top flush with the subfloor and a steel clip on the face at the
+  // joist, and A02 section 6's chain at keynote 0603 sums to 10'-0", which is this post floor to
+  // subfloor. It used to stop at the loft floor's underside (y 108). Both faces stay flush with the
+  // loft fascia line (x 0) and the well line (z -25) as drawn 2026-09-16; the bottom lands on the slab
+  // at the bottom riser, which is why the bottom tread and riser above are notched around it.
+  box(PX, 0, 0, D.LNG_HI, PZ, D.WELL_Z2, M.trimCasing, 'lounge');
+  // The connector goes on the ONE face where post and loft framing actually meet and can both be reached:
+  // the gridline-3 plane at x 0, where the post's north face and the loft fascia's outer face are flush, so
+  // a strap laps from one onto the other. Drawn as the owner's photographs show it -- a narrow vertical
+  // strap across the joint at the joist's depth. S3.2 calls (2) LCE4Z CAP per post; only this one is on a
+  // face anything can see, and the second is recorded on the spec rather than drawn into the fascia.
+  box(0, .12, D.LNG_LO + .5, D.LNG_LO + 10.5, -27, -23, M.steel, 'lounge');
+  // 1040 wood handrail, 34" over the nosings, running the full flight -- IRC R311.7.8.2 wants it continuous
+  // from above the top riser to above the lowest one, so it starts at the 0603 post rather than 11" up.
+  bar(V(D.HANDRAIL_X, yn(PZ) + 34, PZ), V(D.HANDRAIL_X, yn(D.LAND_Z) + 34, D.LAND_Z), .75, M.trimCasing, 'lounge');
+  for (const z of [-30, -55, -80, -105])                                                                 // standoffs to the guard posts; without them the 1040 floated 5 1/2" off the rail
+    bar(V(D.GUARD_X - 1, yn(z) + 34, z), V(D.HANDRAIL_X, yn(z) + 34, z), .25, M.black, 'lounge');
+  { // 0560 cable guard on the open side of flight 1 and along the landing
+    const G = D.GUARD_X, RH = 36;
+    for (const z of [-37, -63, -89, D.LAND_Z]) box(G - 1, G + 1, yn(z) - 1, yn(z) + RH, z - 1, z + 1, M.black, 'lounge');
+    box(G - 1, G + 1, D.LAND_Y, D.LAND_Y + RH, -149, -147, M.black, 'lounge');
+    bar(V(G, yn(PZ) + RH - .5, PZ), V(G, yn(D.LAND_Z) + RH - .5, D.LAND_Z), 1, M.black, 'lounge');   // rail dies into the 0603 post, not 11" short of it
+    bar(V(G, D.LAND_Y + RH - .5, D.LAND_Z), V(G, D.LAND_Y + RH - .5, -148), 1, M.black, 'lounge');
+    for (let c = 1; c <= 10; c++) {
+      bar(V(G, yn(PZ) + RH - 1 - 3 * c, PZ), V(G, yn(D.LAND_Z) + RH - 1 - 3 * c, D.LAND_Z), .1, M.steel, 'lounge');
+      bar(V(G, D.LAND_Y + RH - 1 - 3 * c, D.LAND_Z), V(G, D.LAND_Y + RH - 1 - 3 * c, -148), .1, M.steel, 'lounge');
+    }
+  }
+  // Stair south wall / utility east wall. It used to run the full z -150 .. -27 at full height, which put a
+  // wall straight through the landing: you turn from flight 1 to flight 2 across this line, so nothing can
+  // stand on it there. Full height alongside flight 1, and only up to the landing's underside beneath the
+  // landing itself, which is also how the loft drawing draws its stair divider (it stops at z -114).
+  box(D.UT_X1, D.UT_X2, 0, D.LNG_LO, D.LAND_Z, -27, M.gyp, 'lounge', false);
+  box(D.UT_X1, D.UT_X2, 0, D.LAND_Y - 10, D.W_GYP, D.LAND_Z, M.gyp, 'lounge', false);
   box(D.HALL_X1, D.UT_X1, 0, D.LNG_LO, -27, D.HALL_Z1, M.gyp, 'lounge', false);                   // utility wall along the hall
   box(D.HALL_X1, D.S_BACK, 0, D.LNG_LO, D.HALL_Z2, D.HALL_Z2 + 4.5, M.gyp, 'lounge', false);       // guest-bath wall along the hall; stops at the partition's south face -- run to S_FACE its end face shared the partition's room-side plane and the two z-fought in renders (phase 2 critic finding 1)
   // Boundary shell under the loft floor, added 2026-09-11 (phase 1b). Without it the kitchen and island
@@ -2222,7 +2325,7 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   const holes = J.map(norm).map(r => rect(r[0], r[2], r[1], r[3])).concat(K, N, XW.map(r => rect(r[0], r[2], r[1], r[3])));
   prismZY(outline, D.N_GYP, D.N_OUT, M.gyp, 'wallN', holes);
   prismZY(outline, D.N_OUT, D.N_SIDE, M.siding, 'wallN', holes);
-  const xf1 = 232.25, xf2 = 233.75, xg = 233, f = 1.75, c = 3;
+  const xf1 = 232.25, xf2 = 233.75, xg = 233, f = 1.75, c = D.CAS_W;
   function glazeZY(z1, z2, y1, y2, mullion = false) {          // black frame + glass + alder casing on the room side
     box(xf1, xf2, y1, y1 + f, z1, z2, M.black, 'wallN'); box(xf1, xf2, y2 - f, y2, z1, z2, M.black, 'wallN');
     box(xf1, xf2, y1, y2, z1, z1 + f, M.black, 'wallN'); box(xf1, xf2, y1, y2, z2 - f, z2, M.black, 'wallN');
@@ -2244,7 +2347,7 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   // Note the house-wide square-cut butted detail (owner 2026-09-14) cannot be taken literally on a
   // triangle: butting flat stock at an acute corner forces one piece to run past the other, 5.1" at
   // the 36-degree apex here, which is a tab rather than a joint. Cutting the outer corner square
-  // instead keeps flat square-cut stock and a 3" reveal all the way round with nothing overhanging.
+  // instead keeps flat square-cut stock and a 3 1/2" reveal all the way round with nothing overhanging.
   // Which of the two the triangles should use is the owner's call; this is the no-spike reading.
   function triRing(q, w) {                                   // outward offset, corners cut square
     const m = q.length;
@@ -2369,13 +2472,26 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   }
   // Cover plates carry their own slot (devicePlate) rather than borrowing the sink's white, and the four on
   // the backsplash stand 0.3" proud of the tile face (149.6) so they read as devices and not as doubled
-  // tiles (phase 1 review finding 12 / phase 1c second review finding 5). The switch at x 67 still laps the
-  // casing by 1.4"; its real station comes off E01 and is open in views.json.
+  // tiles (phase 1 review finding 12 / phase 1c second review finding 5).
+  //
+  // The disposal switch has MOVED off E01's station (owner 2026-09-16). E01 puts it about 3" off window
+  // D's opening, where a 2 3/4" plate laps the casing leg and cannot be installed without notching the
+  // trim; it now sits north of receptacle 16 at D.SW_X, clear of the casing, and the sheet conflict is
+  // recorded on the wiki page rather than drawn. Its plate is also the reason the owner read one of the
+  // two devices as "an extra outlet": every plate was an identical blank rectangle. Receptacles now
+  // carry two duplex faces and a switch carries one rocker paddle, so they read apart at a glance.
   const plate = (x, y, z, dx, dz) => box(x - dx, x + dx, y - 2.25, y + 2.25, z - dz, z + dz, M.devicePlate, 'elec', false);
+  const faceE = (kind, x, y, zf) => {                          // east wall, room side is the smaller z
+    const z1 = zf - .14, z2 = zf + .03;                        // 0.14" proud, lapped into the plate so no two faces share a plane
+    if (kind === 's') box(x - .55, x + .55, y - 1.3, y + 1.3, z1, z2, M.deviceFace, 'elec', false);
+    else for (const dy of [-1.05, 1.05]) box(x - .5, x + .5, y + dy - .55, y + dy + .55, z1, z2, M.deviceFace, 'elec', false);
+  };
   for (const z of [86.6, 105.8]) plate(D.S_FACE + .25, z === 86.6 ? 48 : 44, z, .25, 1.4);          // fridge wall: ckt 8 (fridge), 10
-  for (const x of [-37.1, -10.1, 72.7]) plate(x, 44, D.E_GYP - .45, 1.4, .25);                     // east wall counter receptacles 12, 14, 16, on the tile
-  plate(67, 46, D.E_GYP - .45, 1.4, .25);                                                          // switch S beside the window, on the tile
-  plate(123.7, 16, D.E_GYP - .25, 1.4, .25);                                                       // living-room receptacle 22
+  for (const x of [-37.1, -10.1, 72.7]) {                                                          // east wall counter receptacles 12, 14, 16, on the tile
+    plate(x, 44, D.E_GYP - .45, 1.4, .25); faceE('r', x, 44, D.E_GYP - .7);
+  }
+  plate(D.SW_X, 46, D.E_GYP - .45, 1.4, .25); faceE('s', D.SW_X, 46, D.E_GYP - .7);                // disposal switch S
+  plate(123.7, 16, D.E_GYP - .25, 1.4, .25); faceE('r', 123.7, 16, D.E_GYP - .5);                  // living-room receptacle 22
   plate(D.KW_X1 - 1, 24, 70, .25, 1.4); plate(D.KW_X2 + 1, 24, 70, .25, 1.4);                     // island end panels, ckt 14
 }
 
@@ -2560,7 +2676,9 @@ const VIEWS = {
   north:   { pos: [20, 66, 95], tgt: [230, 130, 0], fov: 70 },
   stove:   { pos: [130, 60, -20], tgt: [200, 26, -132], fov: 58 },
   lounge:  { pos: [-50, 195, -50], tgt: [70, 30, 95], fov: 62 },
+  stair:   { pos: [52, 64, 40], tgt: [-34, 30, -100], fov: 66 },   // from the great room down the flight to the landing (owner 2026-09-16)
   dining:  { pos: [60, 66, 20], tgt: [175, 30, 80], fov: 62 },
+  faucet:  { pos: [48, 52, 118], tgt: [39.8, 44, 147.5], fov: 46 },   // faucet close-up, URL only (?view=faucet): no button, it is a review view and not a room view
   swatch:  { pos: [100, 52, 70], tgt: [82, 36, 126], fov: 58 },   // finish swatch: the sink-run drawer stack, door base and uppers about 5 ft away, for one-image finish rounds
   top:     { pos: [92, 292, 1], tgt: [92, 0, 0], fov: 72 },
 };

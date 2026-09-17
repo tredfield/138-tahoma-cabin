@@ -1584,7 +1584,7 @@ const D = {
   WC_X: -24.75, CAN: [[-24.75, 36], [-24.75, 96]], FAN: [-10.5, 72],   // toilet and both cans on window F's centerline, as the sheets intend
   SWITCH_Z: 64, GFCI_Z: 96.75,
   // finishes
-  PLANK_W: 7, PLANK_L: 48, BASE_H: 4, PONY_H: 84, CAP_T: 1.25, TG_W: 5.5, TG_T: 0.75,
+  PLANK_W: 7, PLANK_L: 48, BASE_H: 4, CAS_W: 3.5, PONY_H: 84, CAP_T: 1.25, TG_W: 5.5, TG_T: 0.75,   // casing 1x4, 3 1/2" (owner 2026-09-16, house-wide; was 2 1/2")
 };
 // ===== END EDIT: D =====
 
@@ -1867,12 +1867,14 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   box(fx1, fx2, fy1, fy1 + fw, fz1, fz2, M.frame, 'ext'); box(fx1, fx2, fy2 - fw, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1, fx1 + fw, fy1, fy2, fz1, fz2, M.frame, 'ext'); box(fx2 - fw, fx2, fy1, fy2, fz1, fz2, M.frame, 'ext');
   box(fx1 + fw, fx2 - fw, fy1 + fw, fy2 - fw, 2.6, 2.9, M.glass, 'ext', false);
-  // casing: 2 1/2" x 3/4" square-cut butted picture frame -- legs run the full height, head and sill casing butt
-  // between them, no stool and no apron (owner 2026-09-14). Outer envelope x -45.5 to -4.0, same as before.
-  box(D.WIN_X1 - 2.5, D.WIN_X1, D.WIN_SILL - 2.5, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');   // south leg, full height
-  box(D.WIN_X2, D.WIN_X2 + 2.5, D.WIN_SILL - 2.5, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');   // north leg, full height
-  box(D.WIN_X1, D.WIN_X2, D.WIN_HEAD, D.WIN_HEAD + 2.5, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');               // head, butted between the legs
-  box(D.WIN_X1, D.WIN_X2, D.WIN_SILL - 2.5, D.WIN_SILL, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');               // sill casing, butted between the legs
+  // casing: 3 1/2" x 3/4" square-cut butted picture frame -- legs run the full height, head and sill casing butt
+  // between them, no stool and no apron (owner 2026-09-14; width 3 1/2" house-wide, owner 2026-09-16, from
+  // 2 1/2"). Outer envelope x -46.5 to -3.0: 2" of wall left to the bedroom partition at -48.5 and 6" to
+  // the shower curb at 3.0, so the wider stock still lands clear at both ends.
+  box(D.WIN_X1 - D.CAS_W, D.WIN_X1, D.WIN_SILL - D.CAS_W, D.WIN_HEAD + D.CAS_W, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');   // south leg, full height
+  box(D.WIN_X2, D.WIN_X2 + D.CAS_W, D.WIN_SILL - D.CAS_W, D.WIN_HEAD + D.CAS_W, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');   // north leg, full height
+  box(D.WIN_X1, D.WIN_X2, D.WIN_HEAD, D.WIN_HEAD + D.CAS_W, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');               // head, butted between the legs
+  box(D.WIN_X1, D.WIN_X2, D.WIN_SILL - D.CAS_W, D.WIN_SILL, D.EXT_IN, D.EXT_IN + 0.75, M.trimCasing, 'ext');               // sill casing, butted between the legs
   for (const y of [D.WIN_SILL, D.WIN_HEAD - 0.5]) box(D.WIN_X1, D.WIN_X2, y, y + 0.5, fz2, D.EXT_IN, M.trimCasing, 'ext');   // jamb returns
   for (const x of [D.WIN_X1, D.WIN_X2 - 0.5]) box(x, x + 0.5, D.WIN_SILL, D.WIN_HEAD, fz2, D.EXT_IN, M.trimCasing, 'ext');
 }
@@ -1887,8 +1889,8 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
   box(D.WS_OUT, D.WS_IN, 0, h, dz2 - 0.75, dz2, M.trimCasing, 'wallS');
   box(D.WS_OUT, D.WS_IN, h - 0.75, h, dz1, dz2, M.trimCasing, 'wallS');
   for (const [xa, xb] of [[D.WS_IN, D.WS_IN + 0.6], [D.WS_OUT - 0.6, D.WS_OUT]]) {     // casing, both faces
-    box(xa, xb, 0, h + 2.5, dz1 - 2.5, dz1, M.trimCasing, 'wallS'); box(xa, xb, 0, h + 2.5, dz2, dz2 + 2.5, M.trimCasing, 'wallS');
-    box(xa, xb, h, h + 2.5, dz1 - 2.5, dz2 + 2.5, M.trimCasing, 'wallS');
+    box(xa, xb, 0, h + D.CAS_W, dz1 - D.CAS_W, dz1, M.trimCasing, 'wallS'); box(xa, xb, 0, h + D.CAS_W, dz2, dz2 + D.CAS_W, M.trimCasing, 'wallS');
+    box(xa, xb, h, h + D.CAS_W, dz1 - D.CAS_W, dz2 + D.CAS_W, M.trimCasing, 'wallS');
   }
   // leaf, hinged at the z2 (east) jamb, RH in-swing, drawn open 75 deg into the bath
   const grp = new THREE.Group();
@@ -1919,8 +1921,8 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.35));
 {
   const y1 = 0.6, y2 = 0.6 + D.BASE_H, t = 0.75;
   box(D.WS_IN, D.SH_X1, y1, y2, D.EXT_IN, D.EXT_IN + t, M.trimCasing, 'ext');                          // window wall, toilet side
-  box(D.WS_IN, D.WS_IN + t, y1, y2, D.EXT_IN, D.DOOR_Z1 - 2.5, M.trimCasing, 'wallS');                 // bedroom wall, both sides of the door casing
-  box(D.WS_IN, D.WS_IN + t, y1, y2, D.DOOR_Z2 + 2.5, D.WE_IN, M.trimCasing, 'wallS');
+  box(D.WS_IN, D.WS_IN + t, y1, y2, D.EXT_IN, D.DOOR_Z1 - D.CAS_W, M.trimCasing, 'wallS');             // bedroom wall, both sides of the door casing
+  box(D.WS_IN, D.WS_IN + t, y1, y2, D.DOOR_Z2 + D.CAS_W, D.WE_IN, M.trimCasing, 'wallS');
   box(D.WS_IN, D.VAN_X1, y1, y2, D.WE_IN - t, D.WE_IN, M.trimCasing, 'wallE');                        // hall wall up to the vanity end panel
   box(D.SH_X1, D.VAN_X1, y1, y2, D.WV_E, D.WV_E + t, M.trimCasing, 'wallV');                          // shower/vanity wall, vanity side
   box(D.SH_X1 - t, D.SH_X1, y1, y2, D.WV_W, D.WV_E + t, M.trimCasing, 'wallV');                       // its exposed end

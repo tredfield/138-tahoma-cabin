@@ -1592,7 +1592,7 @@ const D = {
   // devices: E01 can + GFCI + 3-gang, M01 fan + floor register
   CAN: [37.2, 77.4], FAN: [38.0, 105.0], SHCAN: [36.9, 134.0], SWITCH_X: 32.5, GFCI_X: 15.5, REG: [66.0, 70.0, 60, 70],   // owner 2026-09-13: fan moved beside the shower glass (M01 had it at 42 / 70, 9" from the E01 can) and a wet-rated can added over the shower
   // finishes + framing rules
-  PLANK_W: 7, PLANK_L: 48, BASE_H: 4,
+  PLANK_W: 7, PLANK_L: 48, BASE_H: 4, CAS_W: 3.5,   // casing 1x4, 3 1/2" (owner 2026-09-16, house-wide; was 2 1/2")
   JOIST_X0: -2.2, JOIST_OC: 16, DRAG_X: 71.8,
 };
 // ===== END EDIT: D =====
@@ -1870,9 +1870,9 @@ const KP_F = D.KP_S1 - D.KP_OSB;   // face of the kitchen wall's shear OSB on th
   box(x2 - 0.75, x2, 0, h, D.HW_OUT, D.HW_IN, M.alder, L);
   box(x1, x2, h - 0.75, h, D.HW_OUT, D.HW_IN, M.alder, L);
   for (const [za, zb] of [[D.HW_IN, D.HW_IN + 0.6], [D.HW_OUT - 0.6, D.HW_OUT]]) {   // casing, both faces
-    const cx2 = za >= D.HW_IN ? Math.min(x2 + 2.5, D.KP_IN) : x2 + 2.5;             // bath side: the RO is ~1" from the kitchen partition's drywall, so the hinge-side casing is a rip, not 2 1/2" (tape the built RO)
-    box(x1 - 2.5, x1, 0, h + 2.5, za, zb, M.alder, L); box(x2, cx2, 0, h + 2.5, za, zb, M.alder, L);
-    box(x1 - 2.5, cx2, h, h + 2.5, za, zb, M.alder, L);
+    const cx2 = za >= D.HW_IN ? Math.min(x2 + D.CAS_W, D.KP_IN) : x2 + D.CAS_W;     // bath side: the RO is ~1" from the kitchen partition's drywall, so the hinge-side casing is a rip, not the full 3 1/2" (tape the built RO)
+    box(x1 - D.CAS_W, x1, 0, h + D.CAS_W, za, zb, M.alder, L); box(x2, cx2, 0, h + D.CAS_W, za, zb, M.alder, L);
+    box(x1 - D.CAS_W, cx2, h, h + D.CAS_W, za, zb, M.alder, L);
   }
   const grp = new THREE.Group();
   grp.position.set(x2 - 0.75 - 0.15, 0, D.HW_IN - D.DOOR_T / 2);                // hinge pin at the north jamb, bath side of the stop
@@ -1952,7 +1952,7 @@ box(D.PW_IN, D.KP_IN, D.CEIL, D.CEIL + D.GYP_T, D.HW_IN, D.EW_IN, M.gyp, 'ceilin
 {
   const y1 = D.FLOOR_T, y2 = D.FLOOR_T + D.BASE_H, t = 0.75;
   box(D.PW_IN, D.PW_IN + t, y1, y2, D.VAN_Z2, D.CH_Z, M.alder, 'wallS');                       // plumbing wall, vanity end to the tub
-  box(D.CTR_X2, D.DOOR_X1 - 2.5, y1, y2, D.HW_IN, D.HW_IN + t, M.alder, 'wallW');               // hall wall, counter to the door casing
+  box(D.CTR_X2, D.DOOR_X1 - D.CAS_W, y1, y2, D.HW_IN, D.HW_IN + t, M.alder, 'wallW');           // hall wall, counter to the door casing
   box(D.KP_IN - t, D.KP_IN, y1, y2, D.HW_IN, D.CH_Z, M.alder, 'wallN');                        // kitchen wall up to the chase
   tagNew('chaseOn', () => box(D.CH_X1, D.KP_IN, y1, y2, D.CH_Z - t, D.CH_Z, M.alder, 'tub'));   // chase return
 }
