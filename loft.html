@@ -65,7 +65,7 @@
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
-    <div class="lg"><span class="sw" style="background:#d9b48a"></span>DF framing (joists, studs, rafters, 4X12 beam)</div>
+    <div class="lg"><span class="sw" style="background:#d9b48a"></span>Framing (joists, studs, 4X12 beam; eng. 2x12 rafters as built)</div>
     <div class="lg"><span class="sw" style="background:#6e5640"></span>PSL / LVL engineered lumber</div>
     <div class="lg"><span class="sw" style="background:#b8905e"></span>Ridge glulam 5 1/2" x 24"</div>
     <div class="lg"><span class="sw" style="background:#9a6a3c"></span>1x6 T&amp;G ceiling</div>
@@ -1577,14 +1577,14 @@ const D = {
   EAST_GYP: 150, EAST_STUD1: 150.5, EAST_STUD2: 156, SHEATH: 156.5, SIDING: 157.25,
   DORMER_S: -176.5,                  // dormer south end (bath/bedroom partition line)
   PLATE_TOP: 94, PLATE_BOT: 91,
-  WIN_X1: -93.5, WIN_X2: -33.0, WIN_Y1: 36, WIN_Y2: 72.5, HDR_H: 7.25,   // window E RO + 4X8 header
+  WIN_X1: -95.0, WIN_X2: -34.25, WIN_Y1: 36, WIN_Y2: 74, HDR_H: 7.25,   // window E RO as built (owner tape 2026-09-18): 60 3/4" x 38", sill 36", 37" from the floor edge; sheets had 60 1/2 x 36 1/2 at -93.5..-33
   PONY_Z1: 109.5, PONY_X1: 0, PONY_X2: 6.5,
   // ceiling / roof
   CEIL_Y0: 93.1, RAFT_Y0: 94, SLOPE_D: 2 / 3,        // dormer: y = Y0 + SLOPE_D * (156 - |z|)
   GR_Y0: 188.5, GR_SLOPE: 1.225,                      // great room T&G: y = 188.5 - 1.225 |z|
   GLB_Y1: 186, GLB_Y2: 210, GLB_HW: 2.75,
   GLB_X1: -176.5, GLB_X2: 236,
-  RAFT_D: 13.25, RAFT_W: 1.5, EAVE: 180,
+  RAFT_D: 11.875, RAFT_W: 1.5, EAVE: 180,             // as built (owner photo 2026-09-18): engineered 2x12s, tripled at the dormer end, in place of S3.3's 2X14 DF#2; 11 7/8" assumed
   DORMER_RAFTERS: [-10.7, -34.7, -58.7, -82.7, -106.7, -130.7, -154.7],
   DRAG_RAFTER: -82.7,
   TRIPLE_S1: -178.75, TRIPLE_S2: -174.25,
@@ -1955,8 +1955,8 @@ for (const [cx, cz] of D.CANS) { const pl = new THREE.PointLight(0xfff1dc, 0.55,
   // west (gridline C) dormer wall at the stair well + bath (with window F), and the stair's west wall below
   prism(rect(D.DORMER_S, 0, D.EDGE_X, yc(-150)), -D.EAST_STUD1, -D.EAST_GYP, M.gyp, 'walls', [rect(-164.75, 61.5, -128.25, 73.5)]);
   prism(rect(D.WELL_X1, D.LOWER, D.EDGE_X, 0), -D.EAST_STUD1, -D.EAST_GYP, M.gyp, 'walls');
-  // pony wall closing the low pocket where the rail stops (interpretation of A02's hatched stub) -- orange
-  prismZY([[D.PONY_Z1, 0], [D.EAST_GYP, 0], [D.EAST_GYP, yg(D.EAST_GYP)], [D.PONY_Z1, yg(D.PONY_Z1)]], D.PONY_X1, D.PONY_X2, M.flag, 'walls');
+  // north-east corner: nothing framed there as of 2026-09-18 (owner photo) -- A02's hatched stub is not built; the corner
+  // is left open as the owner chose and carries one orange CORNER GUARD TBD tag (D.PONY_Z1 marks where the rail ends).
   // dormer gable-end face above the great-room roof (gyp on the lounge side of the gridline-3 gable wall)
   prismZY([[D.GLB_HW, yg(D.GLB_HW)], [D.EAST_GYP, yg(D.EAST_GYP)], [D.EAST_GYP, yc(D.EAST_GYP)], [D.GLB_HW, yc(D.GLB_HW)]], D.GABLE_GYP, D.GABLE_X1, M.gypDbl, 'walls');
   prismZY([[-D.EAST_GYP, yg(-D.EAST_GYP)], [-D.GLB_HW, yg(-D.GLB_HW)], [-D.GLB_HW, yc(-D.GLB_HW)], [-D.EAST_GYP, yc(-D.EAST_GYP)]], D.GABLE_GYP, D.GABLE_X1, M.gypDbl, 'walls');
@@ -2097,12 +2097,11 @@ for (const [cx, cz] of D.CANS) { const pl = new THREE.PointLight(0xfff1dc, 0.55,
   tagAt(['LOUNGE', '10\'-0" x 14\'-8" clear floor', '1x6 T&G ceiling, 8\'-1" to 16\'-3"'], W2, 106, 95, 'x', TB);
   tagAt(['LOFT FLOOR', '2X12 DF#2 @ 16", 3/4" T&G subfloor', 'LVP (TBD)'], RIM, -6.4, 40, 'x', T);
   tagAt(['CABLE RAIL 0560, 36"', '2" sq. black posts, 3/16" SS cable @ 3"'], RIM, 43, 5, 'x', T);
-  tagAt(['RAIL END: WALL STUB (TBD)', 'VERIFY guard w/ architect'], D.PONY_X2 + 0.15, 10, 127, 'x', { ...FLAGT, fs: 36 });
+  tagAt(['CORNER GUARD TBD', 'rail ends z 110; roof 54" -> 5" over the floor edge to the wall'], RIM, 10, 127, 'x', { ...FLAGT, fs: 36 });
   tagAt(['RIDGE GLB 5 1/2" x 24" 24F-V4 DF', 'bottom 15\'-6" above loft floor'], D.COL_X2 + 0.15, 170, 0, 'x', TB);   // on the column face, under the beam (its side is edge-on from the great room)
   tagAt(['RIDGE COLUMN', '7" x 7" 1.8E PSL', 'cap CCQ6-7.13SDS2.5'], D.COL_X2 + 0.15, 140, 0, 'x', TB);
   tagAt(['DOOR 15  36" x 84" LH in-swing', 'RO 3\'-0 1/2" x 7\'-0 1/2"', 'Ageless Iron Loch'], W2, 120, 20, 'x', TB);
-  tagAt(['WINDOW E 5\'-0" x 3\'-0" FIXED', 'RO 5\'-0 1/2" x 3\'-0 1/2", sill 36"'], -63, 82, EW, 'z-', T);
-  tagAt(['SILL 36" AS DRAWN: FIELD VERIFY'], -63, 26, EW, 'z-', { ...FLAGT, fs: 44 });
+  tagAt(['WINDOW E 5\'-0" x 3\'-0" FIXED', 'RO 5\'-0 3/4" x 3\'-2" as built, sill 36"', '37" to the floor edge'], -64.6, 84, EW, 'z-', T);
   tagAt(['STAIR 3\'-0" MIN CLEAR, SWITCHBACK', '16 R @ 7 1/2", 11" treads', 'handrail 1040 @ 34", 0560 rail on divider'], D.DIV_X2 + 0.15, -62, -62, 'x', T);
   tagAt(['FIELD VERIFY STAIR DIVIDER', 'top 3" over the flight-2 nosings, rail on top'], D.DIV_X2 + 0.15, -40, -70, 'x', { ...FLAGT, fs: 44 });
   // electrical + HVAC
@@ -2118,7 +2117,7 @@ for (const [cx, cz] of D.CANS) { const pl = new THREE.PointLight(0xfff1dc, 0.55,
   tagAt(['DRAG JOIST 2X12 DF#2, A35 @ 6" (8/S4.3)'], D.DRAG_X, JT, 100, 'y', TFR);
   tagAt(['6X12 DF#2 DRAG BEAM, (2) HDU5 EA. END'], -79.75, JT, -100, 'y', TFR);
   tagAt(['7" x 11 1/4" 2.0E LVL on 6X8 DF#2 POSTS'], -120.5, JT, 2, 'y', TFR);
-  tagAt(['2X14 DF#2 RAFTERS @ 24" O.C., 8:12'], W2, 132, 50, 'x', TFR);
+  tagAt(['ENG. 2x12 RAFTERS @ 24" O.C., 8:12 (as built)', 'triple @ dormer end -- S3.3: 2X14 DF#2'], W2, 132, 50, 'x', TFR);
 }
 // ---- dimensions -------------------------------------------------------------------------------------------------------------------
 {
@@ -2128,9 +2127,10 @@ for (const [cx, cz] of D.CANS) { const pl = new THREE.PointLight(0xfff1dc, 0.55,
   dim(V(-60, 2, D.WELL_Z), V(-60, 2, D.GA), '15\'-2" joist span', V(0, -16, 0), V(0, 1, 0));
   dim(V(-100, 0, D.EAST_GYP), V(-100, yc(D.EAST_GYP), D.EAST_GYP), '8\'-1"', V(0, 0, -4), V(1, 0, 0));
   dim(V(-100, 0, 0), V(-100, D.GLB_Y1, 0), '15\'-6"', V(0, 0, 0), V(1, 0, 0));
-  dim(V(D.WIN_X1, 30, D.EAST_GYP), V(D.WIN_X2, 30, D.EAST_GYP), 'RO 5\'-0 1/2"', V(0, 0, -3), V(0, 1, 0));
-  dim(V(D.WIN_X1 - 6, D.WIN_Y1, D.EAST_GYP), V(D.WIN_X1 - 6, D.WIN_Y2, D.EAST_GYP), 'RO 3\'-0 1/2"', V(0, 0, -3), V(1, 0, 0));
-  dim(V(D.WIN_X2 + 6, 0, D.EAST_GYP), V(D.WIN_X2 + 6, D.WIN_Y1, D.EAST_GYP), 'sill 36" -- FIELD VERIFY', V(0, 0, -3), V(1, 0, 0));
+  dim(V(D.WIN_X1, 30, D.EAST_GYP), V(D.WIN_X2, 30, D.EAST_GYP), 'RO 5\'-0 3/4"', V(0, 0, -3), V(0, 1, 0));
+  dim(V(D.WIN_X1 - 6, D.WIN_Y1, D.EAST_GYP), V(D.WIN_X1 - 6, D.WIN_Y2, D.EAST_GYP), 'RO 3\'-2"', V(0, 0, -3), V(1, 0, 0));
+  dim(V(D.WIN_X2 + 6, 0, D.EAST_GYP), V(D.WIN_X2 + 6, D.WIN_Y1, D.EAST_GYP), 'sill 36"', V(0, 0, -3), V(1, 0, 0));
+  dim(V(D.WIN_X2, 30, D.EAST_GYP), V(D.EDGE_X, 30, D.EAST_GYP), '37"', V(0, 0, -3), V(0, 1, 0));
   dim(V(D.W2_E, D.DOOR_HEAD + 8, D.DOOR_Z1), V(D.W2_E, D.DOOR_HEAD + 8, D.DOOR_Z2), 'RO 3\'-0 1/2"', V(4, 0, 0), V(0, 1, 0));
   dim(V(D.BEAM_X1, -16, D.BEAM_Z1), V(D.EDGE_X, -16, D.BEAM_Z1), '3\'-9"', V(0, 0, -6), V(0, 1, 0));
   dim(V(D.EDGE_X, 0, 0), V(D.EDGE_X, yg(0), 0), '15\'-8 1/2"', V(0, 0, -10), V(1, 0, 0));
