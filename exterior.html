@@ -2076,8 +2076,9 @@ const OPEN = {                                     // rough openings in wall-loc
     for (let z = sg.za + D.RIB_SP / 2; z < sg.zb; z += D.RIB_SP)                                       // standing-seam ribs down the slope
       slab(s * 3.5, s * D.EAVE, x => sg.top(x) + D.ROOF_T, D.RIB_H, z - D.RIB_W / 2, z + D.RIB_W / 2, M.roofRib, L);
     // eave fascia: full rafter-tail depth, roofing top down to the soffit (reads as the deep black fascia of the reference build).
-    // Run-past corners (owner 2026-09-18): the board stops at the roof edge, i.e. at the rake fascia's back face, so the rake laps in front of its end
-    B(s * D.EAVE, s * (D.EAVE + FW), sg.sof(D.EAVE), sg.top(D.EAVE) + D.ROOF_T, sg.za, sg.zb, M.fascia, 'trim');
+    // Run-past corners (owner 2026-09-18): the board stops at the roof edge, i.e. at the rake fascia's back face, so the rake laps in front of its end.
+    // Top beveled to the roof plane (owner review 2026-09-18): a level top stood 1" (dormer) / 1 3/4" (gables) above the rake board's top edge at the corner
+    PZ([[s * D.EAVE, sg.sof(D.EAVE)], [s * (D.EAVE + FW), sg.sof(D.EAVE)], [s * (D.EAVE + FW), sg.top(D.EAVE + FW) + D.ROOF_T], [s * D.EAVE, sg.top(D.EAVE) + D.ROOF_T]], sg.za, sg.zb, M.fascia, 'trim');
   }
   // rake fascia along the four roof edges (gable ends and the dormer's overhanging cheeks), same full depth: one board, plumb cut,
   // running RAKE_PAST past the rafter tails so its tail laps in front of the eave fascia's end (run-past joint, owner 2026-09-18)
