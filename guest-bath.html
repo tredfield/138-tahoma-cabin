@@ -30,7 +30,12 @@
   #err{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#ffb4a8;font-size:14px;text-align:center;display:none;padding:20px;}
   #hint{position:absolute;bottom:2px;right:10px;font-size:10px;color:#6b727b;}
   #legendbtn{display:none;}
-  #foldn{display:none;font-size:10.5px;color:#8b929b;}   /* '12 of 17 on' -- phones only, while the layer rows are folded */
+  #foldn{display:none;font-size:10.5px;color:#8b929b;}   /* '12 of 17 on' -- while the layer rows are folded (every screen) */
+  #foldbtn{cursor:pointer;padding:6px 8px;margin:-6px -8px;}   /* click the Show label to fold the layer + option rows on any screen; bigger tap target, same layout */
+  #foldbtn::after{content:' \25BE';color:#aab0b8;}
+  #controls.folded #foldbtn::after{content:' \25B8';}
+  #controls.folded #layers label, #controls.folded .row.fold{display:none;}
+  #controls.folded #foldn{display:inline;}
   @media (max-width: 760px), (max-height: 520px) {
     #header{max-width:calc(100vw - 24px);padding:7px 10px;}
     #header h1{font-size:13px;cursor:pointer;}
@@ -44,11 +49,6 @@
     .row{gap:3px 9px;font-size:10.5px;}
     .row .lbl{width:auto;}
     .row button{padding:3px 8px;font-size:10.5px;}
-    #foldbtn{cursor:pointer;padding:6px 8px;margin:-6px -8px;}   /* tap the Show label to fold the layer + option rows; bigger tap target, same layout */
-    #foldbtn::after{content:' \25BE';color:#aab0b8;}
-    #controls.folded #foldbtn::after{content:' \25B8';}
-    #controls.folded #layers label, #controls.folded .row.fold{display:none;}
-    #controls.folded #foldn{display:inline;}
     #hint{display:none;}
   }
 </style>
@@ -2288,7 +2288,7 @@ dim(V(0, 108, 40), V(0, 120, 40), '1\'-0" floor', V(0, 0, 0), V(0, 0, 1));
 // --- UI wiring (do not rewrite; the layer/view names come from the HTML + VIEWS above) -----------
 const layerBoxes = [...document.querySelectorAll('#layers input, .row.fold input')];   // checkboxes + the Sink / End wall radios
 const hdr = document.getElementById('header');   // the caption panel; Show → Caption toggles it like a layer
-const foldN = document.getElementById('foldn');  // '12 of 17 on' next to the Show label while the rows are folded (phones)
+const foldN = document.getElementById('foldn');  // '12 of 17 on' next to the Show label while the rows are folded (any screen)
 function applyLayers() {
   const cbs = layerBoxes.filter(c => c.type === 'checkbox');
   foldN.textContent = `${cbs.filter(c => c.checked).length} of ${cbs.length} on`;
@@ -2331,10 +2331,10 @@ document.querySelectorAll('#views button').forEach(b => b.onclick = () => setVie
 // small-screen toggles: tap the title for the description, Legend button for the legend
 document.querySelector('#header h1').addEventListener('click', () => document.getElementById('header').classList.toggle('open'));
 document.getElementById('legendbtn').addEventListener('click', () => document.getElementById('legend').classList.toggle('open'));
-// Show label folds the layer checkboxes and any .row.fold option row down to a one-line count. Starts folded on small
-// screens; the desktop CSS ignores .folded, so the class is harmless there.
+// Show label folds the layer checkboxes and any .row.fold option row down to a one-line count. Starts folded on every
+// screen, desktop included (owner 2026-09-18); clicking Show or the count unfolds it. The View row stays put.
 const foldPanel = document.getElementById('controls');
-foldPanel.classList.toggle('folded', matchMedia('(max-width: 760px), (max-height: 520px)').matches);
+foldPanel.classList.add('folded');
 for (const id of ['foldbtn', 'foldn']) document.getElementById(id).addEventListener('click', () => foldPanel.classList.toggle('folded'));
 
 addEventListener('resize', () => {
