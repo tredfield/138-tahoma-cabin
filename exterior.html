@@ -1617,7 +1617,7 @@ const D = {
   RIB_SP: 16, RIB_H: 1, RIB_W: 0.75,       // standing-seam ribs (panel width is an interpretation)
   TRIM_T: 0.75, TRIM_W: 3.5, CORNER_W: 5.5, // 1x4 casings and frieze, 1x6 corner boards (profile not on record)
   FASCIA_W: 1.5,                           // 2X10 fascia thickness (A02 dtl 5); drawn the full rafter-tail depth
-  RAKE_PAST: 5, KICK_L: 4, KICK_H: 3,      // run-past corners (owner 2026-09-18): the rake fascia runs 5" past the rafter tails = 3 1/2" past the eave fascia face; the eave fascia stops at its back face; black kick-out fin 4" long x 3" high at the seam
+  RAKE_PAST: 5,                            // run-past corners (owner 2026-09-18): the rake fascia runs 5" past the rafter tails = 3 1/2" past the eave fascia face; the eave fascia stops at its back face. The kick-out flashing at the seam is a FASCIA tag line, not modeled (owner review 2026-09-18: a drawn fin read as a protrusion, and no other roof edge metal is drawn)
   FRAME_W: 2, FRAME_IN: 4.5, FRAME_OUT: 1.25,   // window frame face width; depth into the wall / proud of the siding
   UPPER_FLR: 120, PLATE: 108,
   STEM_TOP: -11.5, SIDING_BOT: -12, STEM_T: 8, STEM_BOT: -60,
@@ -2087,17 +2087,6 @@ const OPEN = {                                     // rough openings in wall-loc
   rake(D.topEnd, DEP_END, D.R_ROOF_EDGE, D.R_ROOF_EDGE - FW);
   rake(D.topDor, DEP_DOR, D.DORM_S + D.DORM_OH, D.DORM_S + D.DORM_OH + FW);
   rake(D.topDor, DEP_DOR, D.DORM_N - D.DORM_OH, D.DORM_N - D.DORM_OH - FW);
-  // kick-out flashing at the eight rake seams (owner 2026-09-18): a black fin on the eave fascia top against the rake's back face,
-  // KICK_L along the eave, KICK_H high at the rake tapering to 1", riding 1" onto the roofing and held 1/4" back from the fascia face
-  const kick = (zBack, zIn, yBase) => { for (const wall of [WALLS.E, WALLS.W]) {
-    const uB = wall.uOf(zBack), uI = wall.uOf(zIn), y1 = yBase + 1, yH = yBase + D.KICK_H;
-    const pts = uB < uI ? [[uB, yBase], [uI, yBase], [uI, y1], [uB, yH]] : [[uI, yBase], [uB, yBase], [uB, yH], [uI, y1]];
-    wallPrism(wall, pts, D.EAVE - 1 - (D.HW + D.SHEATH), D.EAVE + FW - 0.25 - (D.HW + D.SHEATH), M.fascia, 'trim');
-  } };
-  kick(D.F_ROOF_EDGE, D.F_ROOF_EDGE - D.KICK_L, D.topEnd(D.EAVE) + D.ROOF_T);
-  kick(D.R_ROOF_EDGE, D.R_ROOF_EDGE + D.KICK_L, D.topEnd(D.EAVE) + D.ROOF_T);
-  kick(D.DORM_S + D.DORM_OH, D.DORM_S + D.DORM_OH - D.KICK_L, D.topDor(D.EAVE) + D.ROOF_T);
-  kick(D.DORM_N - D.DORM_OH, D.DORM_N - D.DORM_OH + D.KICK_L, D.topDor(D.EAVE) + D.ROOF_T);
   B(-3.5, 3.5, D.RIDGE + D.ROOF_T, D.RIDGE + D.ROOF_T + 2, D.R_ROOF_EDGE - FW, D.F_ROOF_EDGE + FW, M.roofRib, L);   // ridge cap
   // eave returns: close the end-bay soffit cavity where each eave dies into a dormer cheek wall
   for (const s of [-1, 1]) for (const [z1, z2] of [[D.DORM_S, D.DORM_S + FW], [D.DORM_N, D.DORM_N - FW]]) {
