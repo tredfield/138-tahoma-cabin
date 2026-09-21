@@ -1643,6 +1643,21 @@ D.RISE = (D.DECK - D.GRADE) / D.RISERS;                     // 6 1/4" risers
 D.SIDE_TOP = D.sofEnd(D.HW + D.SHEATH);                     // ~117: end-bay side walls meet the soffit (one story under the 15:12)
 D.DORM_TOP = D.sofDor(D.HW + D.SHEATH);                     // ~209: dormer walls meet the soffit
 D.CHEEK_X0 = (D.PLUMB_DOR + D.SOF_T + D.ROOF_T) / (D.PITCH_END - D.PITCH_DOR);   // ~32.5: cheek walls start where the dormer soffit clears the end roof
+D.SEC_END = 1 / Math.cos(Math.atan(D.PITCH_END));           // 1.58: a width measured square to the roof -> plumb, at 14.7:12
+D.SEC_DOR = 1 / Math.cos(Math.atan(D.PITCH_DOR));           // 1.20: the same at 8:12
+D.EAVE_FASCIA = 9;                                          // side-eave fascia face, measured square to the roof (owner 2026-09-21)
+// Side eaves: the rafter tails are cut down toward the tip, so the soffit runs from the rafter underside at the wall
+// out to EAVE_FASCIA below the roofing at the eave tip, where the single 9" board closes it. The gable extensions keep
+// the full-depth plane (`sofEnd` / `sofDor`) because the 12" two-board rake covers them -- which is why the rake hangs
+// about 3" below the eave fascia at the corners, as the owner described. ASSUMPTION: a straight taper across the 2'-0"
+// overhang. If the tails are instead constant-depth lookouts, the soffit is parallel to the roof and the wall/frieze
+// tops rise about 6" (one constant: drop the `sofEnd` term).
+const taper = (x, sofFn, topFn, sec) => {
+  const t = Math.min(1, Math.max(0, (Math.abs(x) - (D.HW + D.SHEATH)) / (D.EAVE - D.HW - D.SHEATH)));
+  return sofFn(x) * (1 - t) + (topFn(x) + D.ROOF_T - D.EAVE_FASCIA * sec) * t;
+};
+D.sofSide = x => taper(x, D.sofEnd, D.topEnd, D.SEC_END);
+D.sofDorSide = x => taper(x, D.sofDor, D.topDor, D.SEC_DOR);
 D.UNDER_A = D.topEnd(D.HW) - D.PLUMB_END;                   // ~120: rafter underside at gridlines A/C, derived from RAFT (not a measured number)
 D.R_EAVE_BEAM = [D.UNDER_A - 9.5, D.UNDER_A];               // 6X10 rear eave beams, top tight under the rafters (owner 2026-09-21)
 D.R_POST_TOP = D.R_EAVE_BEAM[0];                            // rear corner posts run to the beam soffit
@@ -2075,15 +2090,15 @@ const OPEN = {                                     // rough openings in wall-loc
   const L = 'roof', FW = D.FASCIA_W;
   const segs = [   // the three roof sections: south end bay (15:12), dormer (8:12), north end bay (15:12)
     // za..zb: the roof slab, to the cheek plane; fza..fzb: the eave fascia, which stops at each cheek-end rake's back face (run-past joint)
-    { top: D.topEnd, sof: D.sofEnd, za: D.DORM_S, zb: D.F_ROOF_EDGE, fza: D.DORM_S + FW, fzb: D.F_ROOF_EDGE },
-    { top: D.topDor, sof: D.sofDor, za: D.DORM_N - D.DORM_OH, zb: D.DORM_S + D.DORM_OH, fza: D.DORM_N - D.DORM_OH, fzb: D.DORM_S + D.DORM_OH },
-    { top: D.topEnd, sof: D.sofEnd, za: D.R_ROOF_EDGE, zb: D.DORM_N, fza: D.R_ROOF_EDGE, fzb: D.DORM_N - FW },
+    { top: D.topEnd, sof: D.sofSide, za: D.DORM_S, zb: D.F_ROOF_EDGE, fza: D.DORM_S + FW, fzb: D.F_ROOF_EDGE },
+    { top: D.topDor, sof: D.sofDorSide, za: D.DORM_N - D.DORM_OH, zb: D.DORM_S + D.DORM_OH, fza: D.DORM_N - D.DORM_OH, fzb: D.DORM_S + D.DORM_OH },
+    { top: D.topEnd, sof: D.sofSide, za: D.R_ROOF_EDGE, zb: D.DORM_N, fza: D.R_ROOF_EDGE, fzb: D.DORM_N - FW },
   ];
   for (const sg of segs) for (const s of [-1, 1]) {
     slab(0, s * D.EAVE, sg.top, D.ROOF_T, sg.za, sg.zb, M.roof, L);                                  // roofing over the rafters
     for (let z = sg.za + D.RIB_SP / 2; z < sg.zb; z += D.RIB_SP)                                       // standing-seam ribs down the slope
       slab(s * 3.5, s * D.EAVE, x => sg.top(x) + D.ROOF_T, D.RIB_H, z - D.RIB_W / 2, z + D.RIB_W / 2, M.roofRib, L);
-    // eave fascia: full rafter-tail depth, roofing top down to the soffit (reads as the deep black fascia of the reference build).
+    // eave fascia: ONE 9" board measured square to the roof, roofing top down to the tapered tail underside (owner 2026-09-21).
     // Run-past corners (owner 2026-09-18): the board stops at each rake fascia's back face -- the gable and dormer rakes at the roof edges, the
     // short cheek-end rakes 1 1/2" inside the cheek planes -- so every rake laps in front of its end.
     // Top beveled to the roof plane (owner review 2026-09-18): a level top stood 1" (dormer) / 1 3/4" (gables) above the rake board's top edge at the corner
@@ -2126,9 +2141,9 @@ const OPEN = {                                     // rough openings in wall-loc
     boardsAlongSlope(s * GLB_HW, s * D.EAVE, D.sofEnd, zS, D.F_ROOF_EDGE, SL);                          // front extension
     boardsAlongSlope(s * GLB_HW, s * D.EAVE, D.sofEnd, zN, D.R_ROOF_EDGE, SL);                          // rear extension
     const xw = s * (D.HW + D.SHEATH);
-    boardsAlongSlope(xw, s * D.EAVE, D.sofEnd, D.DORM_S, zS, SL);                                       // side eave, front end bay
-    boardsAlongSlope(xw, s * D.EAVE, D.sofEnd, zN, D.DORM_N, SL);                                       // side eave, rear end bay
-    boardsAlongSlope(xw, s * D.EAVE, D.sofDor, D.DORM_N - D.DORM_OH, D.DORM_S + D.DORM_OH, SL);          // dormer eave
+    boardsAlongSlope(xw, s * D.EAVE, D.sofSide, D.DORM_S, zS, SL);                                      // side eave, front end bay (tails cut down to the 9" fascia)
+    boardsAlongSlope(xw, s * D.EAVE, D.sofSide, zN, D.DORM_N, SL);                                      // side eave, rear end bay
+    boardsAlongSlope(xw, s * D.EAVE, D.sofDorSide, D.DORM_N - D.DORM_OH, D.DORM_S + D.DORM_OH, SL);      // dormer eave
     boardsAlongSlope(s * 1, s * D.EAVE, D.sofDor, D.DORM_S, D.DORM_S + D.DORM_OH, SL);                   // dormer rake overhangs (6")
     boardsAlongSlope(s * 1, s * D.EAVE, D.sofDor, D.DORM_N - D.DORM_OH, D.DORM_N, SL);
   }
@@ -2258,10 +2273,16 @@ function stair(zEdge, dir, layer) {                   // solid closed steps; dir
   function buildRails(mount) {
     MOUNT_TAG = mount;
     const f = mount === 'fascia', inset = f ? -0.75 : 1.75;
-    { // upper deck (always on): along the glulam, returns along the deck ends to the wall
-      const y0 = D.UPPER_FLR - 0.5, zr = D.F_DECK_EDGE - inset, xr = f ? HW + 2.75 + 0.75 : HW - 1.75;   // fascia returns sit on the 6x8 eave-beam faces
+    { // upper deck (always on): the outer run along the glulam only. No side returns -- the 15:12 roof is barely 2"
+      // above the deck at x = +/-154 and the 6X8 eave beam fills that opening from under the deck surface up to the
+      // rafters, so nothing can be walked off and nothing is built there (owner 2026-09-21; the returns drawn here
+      // before that date passed straight through the roof).
+      // The run dies into the cedar ceiling at each end (owner 2026-09-21): the gable extension's soffit drops to the
+      // rail top at x = +/-126 1/2, so about 21' of rail, not the deck's full 25'-8".
+      const y0 = D.UPPER_FLR - 0.5, zr = D.F_DECK_EDGE - inset;
+      const xClip = (D.RIDGE - D.PLUMB_END - D.SOF_T - (y0 + D.RAIL_H)) / D.PITCH_END;
+      const xr = Math.min(f ? HW + 2.75 + 0.75 : HW - 1.75, xClip);
       railRun(-xr, zr, xr, zr, y0, L, { postBottom: f ? 110 : y0 });
-      for (const s of [-1, 1]) railRun(s * xr, sh, s * xr, zr, y0, L, { postBottom: f ? 112 : y0, ends: [true, false] });
     }
     { // front porch guard: edge run in two pieces around the 8' stair, returns wall -> 6x6 and 6x6 -> corner
       const y0 = D.DECK, zr = D.F_PORCH_EDGE - inset, xr = HW - inset, pb = f ? D.F_JOIST[0] : y0;
