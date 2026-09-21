@@ -1640,24 +1640,20 @@ D.topDor = x => D.RIDGE - D.PITCH_DOR * Math.abs(x);        // rafter top, dorme
 D.sofEnd = x => D.topEnd(x) - D.PLUMB_END - D.SOF_T;        // soffit underside
 D.sofDor = x => D.topDor(x) - D.PLUMB_DOR - D.SOF_T;
 D.RISE = (D.DECK - D.GRADE) / D.RISERS;                     // 6 1/4" risers
-D.SIDE_TOP = D.sofEnd(D.HW + D.SHEATH);                     // ~117: end-bay side walls meet the soffit (one story under the 15:12)
-D.DORM_TOP = D.sofDor(D.HW + D.SHEATH);                     // ~209: dormer walls meet the soffit
-D.CHEEK_X0 = (D.PLUMB_DOR + D.SOF_T + D.ROOF_T) / (D.PITCH_END - D.PITCH_DOR);   // ~32.5: cheek walls start where the dormer soffit clears the end roof
+D.SIDE_TOP = D.sofEnd(D.HW + D.SHEATH);                     // end-bay side walls meet the soffit at the rafter underside (one story under the 15:12)
+D.DORM_TOP = D.sofDor(D.HW + D.SHEATH);                     // dormer walls meet the soffit at the rafter underside
+D.CHEEK_X0 = (D.PLUMB_DOR + D.SOF_T + D.ROOF_T) / (D.PITCH_END - D.PITCH_DOR);   // ~30: cheek walls start where the dormer soffit clears the end roof
 D.SEC_END = 1 / Math.cos(Math.atan(D.PITCH_END));           // 1.58: a width measured square to the roof -> plumb, at 14.7:12
-D.SEC_DOR = 1 / Math.cos(Math.atan(D.PITCH_DOR));           // 1.20: the same at 8:12
-D.EAVE_FASCIA = 9;                                          // side-eave fascia face, measured square to the roof (owner 2026-09-21)
-// Side eaves: the rafter tails are cut down toward the tip, so the soffit runs from the rafter underside at the wall
-// out to EAVE_FASCIA below the roofing at the eave tip, where the single 9" board closes it. The gable extensions keep
-// the full-depth plane (`sofEnd` / `sofDor`) because the 12" two-board rake covers them -- which is why the rake hangs
-// about 3" below the eave fascia at the corners, as the owner described. ASSUMPTION: a straight taper across the 2'-0"
-// overhang. If the tails are instead constant-depth lookouts, the soffit is parallel to the roof and the wall/frieze
-// tops rise about 6" (one constant: drop the `sofEnd` term).
-const taper = (x, sofFn, topFn, sec) => {
-  const t = Math.min(1, Math.max(0, (Math.abs(x) - (D.HW + D.SHEATH)) / (D.EAVE - D.HW - D.SHEATH)));
-  return sofFn(x) * (1 - t) + (topFn(x) + D.ROOF_T - D.EAVE_FASCIA * sec) * t;
-};
-D.sofSide = x => taper(x, D.sofEnd, D.topEnd, D.SEC_END);
-D.sofDorSide = x => taper(x, D.sofDor, D.topDor, D.SEC_DOR);
+D.EAVE_FASCIA = 9;                                          // side-eave fascia: ONE 9" board, PLUMB, top tight under the roofing (owner 2026-09-21)
+// Side eaves: the 9" board stands plumb on the tail ends and the cedar soffit meets its bottom edge, running back to the
+// wall parallel to the roof -- so the whole side-eave assembly is 9" plumb (about 5 1/2" square to the roof, i.e. shallow
+// lookout framing rather than the full 11 7/8" rafter). No taper. The gable extensions keep the full-depth plane because
+// the 12" two-board rake covers them, which is why the rake hangs below the eave board where they meet.
+// The tail gets a plumb cut 9" tall for the fascia and a level cut back off its bottom, so the soffit is level for the
+// last ~10" of the overhang and then picks up the sloped rafter underside inboard of that. Nothing tapers, and the
+// soffit still meets the wall at the rafter underside, so the wall and frieze tops do not move.
+D.sofSide = x => Math.max(D.sofEnd(x), D.topEnd(D.EAVE) + D.ROOF_T - D.EAVE_FASCIA);
+D.sofDorSide = x => Math.max(D.sofDor(x), D.topDor(D.EAVE) + D.ROOF_T - D.EAVE_FASCIA);
 D.UNDER_A = D.topEnd(D.HW) - D.PLUMB_END;                   // ~120: rafter underside at gridlines A/C, derived from RAFT (not a measured number)
 D.R_EAVE_BEAM = [D.UNDER_A - 9.5, D.UNDER_A];               // 6X10 rear eave beams, top tight under the rafters (owner 2026-09-21)
 D.R_POST_TOP = D.R_EAVE_BEAM[0];                            // rear corner posts run to the beam soffit
