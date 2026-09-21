@@ -85,7 +85,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Finished exterior &mdash; whole house, 138 Tahoma St E</h1>
-    <div class="sub"><b>HOUSE EXTERIOR</b>, 138 Tahoma St E: Hardie lap siding, 7 1/4" reveal; black standing-seam roof, 15:12 gables, ridge 27'-6". Colors recolors every finish live; Siding swaps lap for board-and-batten; Rail mount: deck or fascia posts; Fascia joint: the rake ends run 3 1/2" past the eave fascia (as built) or square to it. Orange = field-verify or TBD. Design record: <code>wiki/construction/exterior-finishes.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
+    <div class="sub"><b>HOUSE EXTERIOR</b>, 138 Tahoma St E: Hardie lap siding, 7 1/4" reveal; black standing-seam roof, 15:12 gables, ridge 27'-6". Colors recolors every finish live; Siding swaps lap for board-and-batten; Rail mount: deck or fascia posts. Orange = field-verify or TBD. Design record: <code>wiki/construction/exterior-finishes.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -127,11 +127,6 @@
       <span class="lbl">Rail mount</span>
       <label><input type="radio" name="railmount" value="deck" checked> Deck-mounted at the edge</label>
       <label><input type="radio" name="railmount" value="fascia"> Fascia-mounted</label>
-    </div>
-    <div class="row fold" id="fasciajoint">
-      <span class="lbl">Fascia joint</span>
-      <label><input type="radio" name="fasciajoint" value="runpast" checked> Rake runs 3&frac12;" past (as built)</label>
-      <label><input type="radio" name="fasciajoint" value="square"> Rake square to the eave</label>
     </div>
     <div class="row fold" id="colors">
       <span class="lbl">Colors</span>
@@ -1622,7 +1617,6 @@ const D = {
   RIB_SP: 16, RIB_H: 1, RIB_W: 0.75,       // standing-seam ribs (panel width is an interpretation)
   TRIM_T: 0.75, TRIM_W: 3.5, CORNER_W: 5.5, // 1x4 casings and frieze, 1x6 corner boards (profile not on record)
   FASCIA_W: 1.5,                           // 2X10 fascia thickness (A02 dtl 5); drawn the full rafter-tail depth
-  RAKE_SQUARE: 1.5,                        // square-joint corners (Fascia joint radio, owner 2026-09-21): the same rake boards cut flush with the eave fascia face, i.e. FASCIA_W past the rafter tails, the rake still lapping the eave board's end
   RAKE_PAST: 5,                            // run-past corners (owner 2026-09-18): the rake fascia runs 5" past the rafter tails = 3 1/2" past the eave fascia face; the eave fascia stops at its back face. The kick-out flashing at the seam is a FASCIA tag line, not modeled (owner review 2026-09-18: a drawn fin read as a protrusion, and no other roof edge metal is drawn)
   FRAME_W: 2, FRAME_IN: 4.5, FRAME_OUT: 1.25,   // window frame face width; depth into the wall / proud of the siding
   UPPER_FLR: 120, PLATE: 108,
@@ -1937,17 +1931,6 @@ ground.userData.layer = 'site'; parts.push(ground);            // toggleable; ex
 // --- helpers for this drawing --------------------------------------------------------------------------------
 const B = (x1, x2, y1, y2, z1, z2, mat, layer) => box(x1, x2, y1, y2, z1, z2, mat, layer, false);    // no outlines: finished surfaces
 const PZ = (pts, za, zb, mat, layer, holes = []) => prism(pts, Math.min(za, zb), Math.max(za, zb), mat, layer, holes, false);
-// Fascia joint (owner 2026-09-21): a rake board whose outer end is cut two ways. ptsFor(past) returns the board's outline for a given
-// run-past, and both shapes ride on ONE mesh so setJoint() swaps the geometry in place. Deliberately not two boards on a visibility
-// toggle: the glTF export goes by layer, not visibility, so the hidden one would land in every render as a board inside a board
-// (coincident faces z-fight in Cycles).
-const JOINT_BOARDS = [];
-const shapeZ = (pts, za, zb) => new THREE.ExtrudeGeometry(new THREE.Shape(pts.map(q => new THREE.Vector2(q[0], q[1]))), { depth: Math.abs(zb - za), bevelEnabled: false });
-function jointBoard(ptsFor, za, zb) {
-  const m = PZ(ptsFor(D.RAKE_PAST), za, zb, M.fascia, 'trim');
-  JOINT_BOARDS.push({ m, geo: { runpast: m.geometry, square: shapeZ(ptsFor(D.RAKE_SQUARE), za, zb) } });
-  return m;
-}
 // Wall frames: openings and trim are built in wall-local coordinates (u along the wall, y up, w outward from the
 // sheathing face) and rotated into place. Ry(rot) sends local x to (cos,0,-sin) and local z to (sin,0,cos).
 const WALLS = {
@@ -2100,9 +2083,8 @@ const OPEN = {                                     // rough openings in wall-loc
     PZ([[s * D.EAVE, sg.sof(D.EAVE)], [s * (D.EAVE + FW), sg.sof(D.EAVE)], [s * (D.EAVE + FW), sg.top(D.EAVE + FW) + D.ROOF_T], [s * D.EAVE, sg.top(D.EAVE) + D.ROOF_T]], sg.fza, sg.fzb, M.fascia, 'trim');
   }
   // rake fascia along the four roof edges (gable ends and the dormer's overhanging cheeks), same full depth: one board, plumb cut,
-  // running RAKE_PAST past the rafter tails so its tail laps in front of the eave fascia's end (run-past joint, owner 2026-09-18),
-  // or cut square at RAKE_SQUARE, flush with that face, still lapping it -- the Fascia joint radio (owner 2026-09-21)
-  const rake = (topFn, depth, z1, z2) => { for (const s of [-1, 1]) jointBoard(past => { const xe = s * (D.EAVE + past); return [[0, topFn(0) + D.ROOF_T], [xe, topFn(xe) + D.ROOF_T], [xe, topFn(xe) + D.ROOF_T - depth], [0, topFn(0) + D.ROOF_T - depth]]; }, z1, z2); };
+  // running RAKE_PAST past the rafter tails so its tail laps in front of the eave fascia's end (run-past joint, owner 2026-09-18)
+  const rake = (topFn, depth, z1, z2) => { for (const s of [-1, 1]) { const xe = s * (D.EAVE + D.RAKE_PAST); PZ([[0, topFn(0) + D.ROOF_T], [xe, topFn(xe) + D.ROOF_T], [xe, topFn(xe) + D.ROOF_T - depth], [0, topFn(0) + D.ROOF_T - depth]], z1, z2, M.fascia, 'trim'); } };
   const DEP_END = D.PLUMB_END + D.SOF_T + D.ROOF_T, DEP_DOR = D.PLUMB_DOR + D.SOF_T + D.ROOF_T;
   rake(D.topEnd, DEP_END, D.F_ROOF_EDGE, D.F_ROOF_EDGE + FW);
   rake(D.topEnd, DEP_END, D.R_ROOF_EDGE, D.R_ROOF_EDGE - FW);
@@ -2112,8 +2094,8 @@ const OPEN = {                                     // rough openings in wall-loc
   // cheek-end rakes: the short 15:12 rake boards that close each end-bay roof overhang where it meets a dormer cheek wall, from the
   // wall line to the eave tip and RAKE_PAST beyond it -- the same run-past joint as the other eight corners (owner 2026-09-18, third review)
   for (const s of [-1, 1]) for (const [z1, z2] of [[D.DORM_S, D.DORM_S + FW], [D.DORM_N, D.DORM_N - FW]]) {
-    const xa = s * (D.HW + D.SHEATH);
-    jointBoard(past => { const xb = s * (D.EAVE + past); return [[xa, D.sofEnd(xa)], [xb, D.sofEnd(xb)], [xb, D.topEnd(xb) + D.ROOF_T], [xa, D.topEnd(xa) + D.ROOF_T]]; }, z1, z2);
+    const xa = s * (D.HW + D.SHEATH), xb = s * (D.EAVE + D.RAKE_PAST);
+    PZ([[xa, D.sofEnd(xa)], [xb, D.sofEnd(xb)], [xb, D.topEnd(xb) + D.ROOF_T], [xa, D.topEnd(xa) + D.ROOF_T]], z1, z2, M.fascia, 'trim');
   }
   // chimney pipe (A03 1554, painted black): through the west slope 2' from the north wall, 2' above the ridge line
   const C = D.CHIM, yRoof = D.topEnd(C.x) + D.ROOF_T;
@@ -2285,24 +2267,15 @@ function stair(zEdge, dir, layer) {                   // solid closed steps; dir
     B(x - 0.75, x + 0.75, D.DECK - drop, D.DECK - drop + D.RAIL_H, zE + dir * run - 0.75, zE + dir * run + 0.75, M.rail, RL);
   }
 }
-// Rail mount and Fascia joint radios: the option rows that change what is drawn. applyVariants() re-hides the unselected variant
-// after applyLayers(), which resets every part visible -- so every path that calls applyLayers() calls it straight after, or a layer
-// checkbox would bring the other variant back. Registered on the next frame so it runs after the template's layer wiring.
-let MOUNT = 'deck', JOINT = 'runpast';
-function applyVariants() { for (const p of parts) if ((p.userData.mount && p.userData.mount !== MOUNT) || (p.userData.joint && p.userData.joint !== JOINT)) p.visible = false; }
-function setMount(m) { MOUNT = m; const r = document.querySelector(`#railmount input[value="${m}"]`); if (r) r.checked = true; applyLayers(); applyVariants(); }
-// Fascia joint: swaps each rake board's geometry between the run-past and square cuts, and the FASCIA tag with it.
-function setJoint(j) {
-  JOINT = j === 'square' ? 'square' : 'runpast';
-  for (const b of JOINT_BOARDS) b.m.geometry = b.geo[JOINT];
-  const r = document.querySelector(`#fasciajoint input[value="${JOINT}"]`); if (r) r.checked = true;
-  applyLayers(); applyVariants();
-}
+// Rail mount radio: one of the two rail sets is visible. Registered on the next frame so it runs after the template's layer wiring.
+let MOUNT = 'deck';
+function applyMount() { for (const p of parts) if (p.userData.mount && p.userData.mount !== MOUNT) p.visible = false; }
+function setMount(m) { MOUNT = m; const r = document.querySelector(`#railmount input[value="${m}"]`); if (r) r.checked = true; applyLayers(); applyMount(); }
 requestAnimationFrame(() => {
-  document.querySelectorAll('#layers input[type=checkbox]').forEach(cb => cb.addEventListener('change', applyVariants));
+  document.querySelectorAll('#layers input[type=checkbox]').forEach(cb => cb.addEventListener('change', applyMount));
   document.querySelectorAll('#railmount input').forEach(r => r.addEventListener('change', () => { if (r.checked) setMount(r.value); r.blur(); }));
-  document.querySelectorAll('#fasciajoint input').forEach(r => r.addEventListener('change', () => { if (r.checked) setJoint(r.value); r.blur(); }));
-});   // the two rows are SET from the URL down in the UI wiring, not here: the glTF export hook runs on module eval, before this frame
+  setMount(new URLSearchParams(location.search).get('mount') === 'fascia' ? 'fascia' : 'deck');
+});
 // ===========================================================================
 // 6. LABELS (layer 'label') and DIMENSIONS (layer 'dim') -- off by default
 // ===========================================================================
@@ -2319,9 +2292,7 @@ requestAnimationFrame(() => {
   tagAt(['WINDOWS A1 / A2', 'FIELD VERIFY count and position'], WF, 140, -410, 'x-', TF);
   tagAt(['CHIMNEY', 'black pipe, W slope, 2\'-0" off the N wall'], WF, 175, -500, 'x-', T);
   tagAt(['WINDOW E', 'sill FIELD VERIFY: 3\'-0" (A03) or 4\'-9 5/16" (A04)'], EF, 235, -252, 'x', TF);
-  // one tag per Fascia joint option, same spot; the radio shows the matching one (the label layer is excluded from the glTF export)
-  tagAt(['FASCIA', '2x10, rake runs 3 1/2" past the eave', 'black kick-out at the seam'], WF, 232, -55, 'x-', T).userData.joint = 'runpast';   // west face above the dormer roof line, by its south corner; clear of the Fascia corner view (east)
-  tagAt(['FASCIA', '2x10, rake cut square to the eave', 'black kick-out at the seam'], WF, 232, -55, 'x-', T).userData.joint = 'square';
+  tagAt(['FASCIA', '2x10, rake runs 3 1/2" past the eave', 'black kick-out at the seam'], WF, 232, -55, 'x-', T);   // west face above the dormer roof line, by its south corner; clear of the Fascia corner view (east)
   tagAt(['GRADE ILLUSTRATIVE', '14" of stem wall showing', 'FIELD VERIFY post-to-earth clearance'], 0, GY, 150, 'y', TF);
   tagAt(['REAR STAIR', '8\'-0" wide, centered, 36" rail'], 0, GY, -735, 'y', T);
 }
@@ -2399,7 +2370,7 @@ const VIEWS = {
   west:   { pos: [-1250, 150, -276], tgt: [0, 150, -276], fov: 40 },
   porch:  { pos: [-170, 41, 330], tgt: [0, 100, 40], fov: 58 },
   top:    { pos: [0, 1250, -275], tgt: [0, 0, -276], fov: 40 },
-  corner: { pos: [268, 128, -22], tgt: [182, 200, -136], fov: 46 },   // review view: the dormer's SE rake-to-eave corner from below (either Fascia joint reads here, owner 2026-09-18 / 2026-09-21)
+  corner: { pos: [268, 128, -22], tgt: [182, 200, -136], fov: 46 },   // review view: the dormer's SE rake-to-eave corner from below (run-past joint, owner 2026-09-18)
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
@@ -2441,10 +2412,6 @@ for (const l of (params.get('hide') || '').split(',').filter(Boolean)) { const c
 // Caption is off by default; Show → Caption turns it on. ?show=caption (or the older ?caption=1 / ?caption=0) presets it.
 if (params.has('caption')) { const cb = layerBoxes.find(c => c.dataset.layer === 'caption'); if (cb) cb.checked = params.get('caption') !== '0'; }
 applyLayers();
-// Option rows from the URL: ?mount=fascia hangs the rails on the fascia, ?joint=square cuts the twelve rake ends square (both
-// default to as built). Set here, before the glTF export hook below runs, so ?export=glb&joint=square exports the square cut.
-setMount(params.get('mount') === 'fascia' ? 'fascia' : 'deck');
-setJoint(params.get('joint') === 'square' ? 'square' : 'runpast');
 if (params.get('ui') === '0') document.querySelectorAll('.panel, #hint').forEach(e => { e.style.display = 'none'; });   // ?ui=0: hide the panels for clean thumbnails
 // ===== glTF export hook (photoreal-render pipeline; paste this whole block into an older drawing) =====
 // ?export=glb builds a metric binary glTF of the measured geometry and PUTs it to the local receiver that
