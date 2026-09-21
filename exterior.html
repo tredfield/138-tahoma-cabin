@@ -160,6 +160,7 @@
       <button data-view="porch">At the porch</button>
       <button data-view="top">Plan</button>
       <button data-view="corner">Fascia corner</button>
+      <button data-view="rake">Gable rake</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
     </div>
   </div>
@@ -1611,7 +1612,7 @@ const D = {
   G1: 0, G2: -192.5, G3: -316, G4: -552,   // gridlines 1-4 (A02 chain 16'-0 1/2" / 10'-3 1/2" / 19'-8" = 46'-0")
   DORM_S: -141.5, DORM_N: -316, DORM_OH: 6,   // 8:12 dormer section between its cheek walls (spec premise 2); rake overhang past them
   RIDGE: 330, PITCH_END: 14.7 / 12, PITCH_DOR: 8 / 12,   // T.O. RAFTER 27'-6"; A03 15:12 ends (drawn 14.7:12, front spec), A02 sec 6 8:12 dormer
-  RAFT: 13.25,                             // 2X14 rafters
+  RAFT: 11.875,                            // as built: PWI 36L / LPI 36 I-joists in the dormer bays (owner tape + flange stamp 2026-09-21), engineered 2x12s at the 15:12 ends (owner photographs 2026-09-18); S3.3 draws 2X14 DF#2 @ 24" o.c. throughout
   ROOF_T: 1.5,                             // 19/32" sheathing + standing-seam panel above the rafter top
   SOF_T: 0.75, BOARD: 5.5,                 // 1X6 cedar T&G soffit (A02 dtl 5)
   RIB_SP: 16, RIB_H: 1, RIB_W: 0.75,       // standing-seam ribs (panel width is an interpretation)
@@ -1628,7 +1629,7 @@ const D = {
   F_GLB_LO: [-19, -7], F_GLB_UP: [103.5, 118.5], F_POST_TOP: 103.5, F_EAVE_BEAM: [110.8, 118.3], F_JOIST: [-7, -1.5], F_UJOIST: [113, 118.5],
   // rear (north) end -- outputs/rear-deck-roof-3d-spec.md, z translated by -552
   R_POSTS: [-156, -75, 0, 75, 156], R_POST_Z: -648, R_DECK_EDGE: -657, R_ROOF_EDGE: -661.75,
-  R_BEAM: [-16, -8.75], R_POST_TOP: 108.8, R_EAVE_BEAM: [108.8, 118.3], R_JOIST: [-8.75, -1.5],
+  R_BEAM: [-16, -8.75], R_JOIST: [-8.75, -1.5],   // R_EAVE_BEAM / R_POST_TOP derive from the rafter underside below
   STAIR_W: 96, RISERS: 4, TREAD: 11, NOSE: 1, RAIL_H: 36,   // owner 2026-09-11: centered 8' stairs; 36" as-built rail height
   CHIM: { x: -136, z: -528, r: 4, top: 354 },   // A03 north / east: 11.3' west of the ridge, 2' from the north wall; painted black
 };
@@ -1642,6 +1643,12 @@ D.RISE = (D.DECK - D.GRADE) / D.RISERS;                     // 6 1/4" risers
 D.SIDE_TOP = D.sofEnd(D.HW + D.SHEATH);                     // ~117: end-bay side walls meet the soffit (one story under the 15:12)
 D.DORM_TOP = D.sofDor(D.HW + D.SHEATH);                     // ~209: dormer walls meet the soffit
 D.CHEEK_X0 = (D.PLUMB_DOR + D.SOF_T + D.ROOF_T) / (D.PITCH_END - D.PITCH_DOR);   // ~32.5: cheek walls start where the dormer soffit clears the end roof
+D.UNDER_A = D.topEnd(D.HW) - D.PLUMB_END;                   // ~120: rafter underside at gridlines A/C, derived from RAFT (not a measured number)
+D.R_EAVE_BEAM = [D.UNDER_A - 9.5, D.UNDER_A];               // 6X10 rear eave beams, top tight under the rafters (owner 2026-09-21)
+D.R_POST_TOP = D.R_EAVE_BEAM[0];                            // rear corner posts run to the beam soffit
+// FRONT eave beams (F_EAVE_BEAM) stay at 118.3: raising them to UNDER_A would drive the 6X8 up through the upper
+// deck boards, which the drawing lays over them. The front beam sits inside the upper-deck framing zone and is
+// hidden by the decking, so no gap shows there -- the relation is a field-verify item, not a drawn one.
 // ===== END EDIT: D =====
 
 // --- renderer / scene ------------------------------------------------------
@@ -2084,13 +2091,21 @@ const OPEN = {                                     // rough openings in wall-loc
   }
   // rake fascia along the four roof edges (gable ends and the dormer's overhanging cheeks), same full depth: one board, plumb cut,
   // running RAKE_PAST past the rafter tails so its tail laps in front of the eave fascia's end (run-past joint, owner 2026-09-18)
-  const rake = (topFn, depth, z1, z2) => { for (const s of [-1, 1]) { const xe = s * (D.EAVE + D.RAKE_PAST); PZ([[0, topFn(0) + D.ROOF_T], [xe, topFn(xe) + D.ROOF_T], [xe, topFn(xe) + D.ROOF_T - depth], [0, topFn(0) + D.ROOF_T - depth]], z1, z2, M.fascia, 'trim'); } };
+  // `off` is the plumb drop from the roofing top to the board's own top edge, so one rake can carry two lapped boards
+  const rake = (topFn, off, depth, z1, z2) => { for (const s of [-1, 1]) { const xe = s * (D.EAVE + D.RAKE_PAST); const y = x => topFn(x) + D.ROOF_T - off; PZ([[0, y(0)], [xe, y(xe)], [xe, y(xe) - depth], [0, y(0) - depth]], z1, z2, M.fascia, 'trim'); } };
   const DEP_END = D.PLUMB_END + D.SOF_T + D.ROOF_T, DEP_DOR = D.PLUMB_DOR + D.SOF_T + D.ROOF_T;
-  rake(D.topEnd, DEP_END, D.F_ROOF_EDGE, D.F_ROOF_EDGE + FW);
-  rake(D.topEnd, DEP_END, D.R_ROOF_EDGE, D.R_ROOF_EDGE - FW);
-  rake(D.topDor, DEP_DOR, D.DORM_S + D.DORM_OH, D.DORM_S + D.DORM_OH + FW);
-  rake(D.topDor, DEP_DOR, D.DORM_N - D.DORM_OH, D.DORM_N - D.DORM_OH - FW);
-  B(-3.5, 3.5, D.RIDGE + D.ROOF_T, D.RIDGE + D.ROOF_T + 2, D.R_ROOF_EDGE - FW, D.F_ROOF_EDGE + FW, M.roofRib, L);   // ridge cap
+  // The two gable ends are TWO boards as built (owner 2026-09-21): a 9 x 1 1/2 base against the rafter carrying a
+  // 7 1/4 x 1 1/4 board lapped over its top edge and standing proud, the pair covering rafter + sheathing + soffit edge.
+  // Board widths are measured square to the roof, so they convert to plumb by /cos; the ~3" lap is what closes the
+  // depth (ASSUMPTION -- the lap was not taped, the two widths were). Both boards run the full RAKE_PAST tail.
+  const SEC = 1 / Math.cos(Math.atan(D.PITCH_END)), BASE_P = 9 * SEC, LAP_P = 7.25 * SEC, LAP_T = 1.25;
+  for (const [z0, dir] of [[D.F_ROOF_EDGE, 1], [D.R_ROOF_EDGE, -1]]) {
+    rake(D.topEnd, DEP_END - BASE_P, BASE_P, z0, z0 + dir * FW);                    // base board, bottom edge at the soffit
+    rake(D.topEnd, 0, LAP_P, z0 + dir * FW, z0 + dir * (FW + LAP_T));               // lapped board, outboard, top at the roofing
+  }
+  rake(D.topDor, 0, DEP_DOR, D.DORM_S + D.DORM_OH, D.DORM_S + D.DORM_OH + FW);      // dormer cheeks stay one board
+  rake(D.topDor, 0, DEP_DOR, D.DORM_N - D.DORM_OH, D.DORM_N - D.DORM_OH - FW);
+  B(-3.5, 3.5, D.RIDGE + D.ROOF_T, D.RIDGE + D.ROOF_T + 2, D.R_ROOF_EDGE - FW - LAP_T, D.F_ROOF_EDGE + FW + LAP_T, M.roofRib, L);   // ridge cap, out to the lapped rake board's face
   // cheek-end rakes: the short 15:12 rake boards that close each end-bay roof overhang where it meets a dormer cheek wall, from the
   // wall line to the eave tip and RAKE_PAST beyond it -- the same run-past joint as the other eight corners (owner 2026-09-18, third review)
   for (const s of [-1, 1]) for (const [z1, z2] of [[D.DORM_S, D.DORM_S + FW], [D.DORM_N, D.DORM_N - FW]]) {
@@ -2292,7 +2307,7 @@ requestAnimationFrame(() => {
   tagAt(['WINDOWS A1 / A2', 'FIELD VERIFY count and position'], WF, 140, -410, 'x-', TF);
   tagAt(['CHIMNEY', 'black pipe, W slope, 2\'-0" off the N wall'], WF, 175, -500, 'x-', T);
   tagAt(['WINDOW E', 'sill FIELD VERIFY: 3\'-0" (A03) or 4\'-9 5/16" (A04)'], EF, 235, -252, 'x', TF);
-  tagAt(['FASCIA', '2x10, rake runs 3 1/2" past the eave', 'black kick-out at the seam'], WF, 232, -55, 'x-', T);   // west face above the dormer roof line, by its south corner; clear of the Fascia corner view (east)
+  tagAt(['FASCIA', 'gable rake 9" base + 7 1/4" lap', 'rake runs 3 1/2" past the eave'], WF, 232, -55, 'x-', T);   // west face above the dormer roof line, by its south corner; clear of the Fascia corner view (east)
   tagAt(['GRADE ILLUSTRATIVE', '14" of stem wall showing', 'FIELD VERIFY post-to-earth clearance'], 0, GY, 150, 'y', TF);
   tagAt(['REAR STAIR', '8\'-0" wide, centered, 36" rail'], 0, GY, -735, 'y', T);
 }
@@ -2371,6 +2386,7 @@ const VIEWS = {
   porch:  { pos: [-170, 41, 330], tgt: [0, 100, 40], fov: 58 },
   top:    { pos: [0, 1250, -275], tgt: [0, 0, -276], fov: 40 },
   corner: { pos: [268, 128, -22], tgt: [182, 200, -136], fov: 46 },   // review view: the dormer's SE rake-to-eave corner from below (run-past joint, owner 2026-09-18)
+  rake:   { pos: [250, 72, 196], tgt: [120, 162, 74], fov: 50 },      // review view: the front gable's east rake from below and outside, where the lapped board's step and its run-past tail both read (owner 2026-09-21)
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
