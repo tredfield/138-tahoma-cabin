@@ -2197,10 +2197,14 @@ const OPEN = {                                     // rough openings in wall-loc
   // ---- Gable window walls: ONE BOARD PER GAP (owner 2026-09-21, chosen over a picture frame per opening and over a
   // capped mitre). Casing edges sit on the RO lines like every casing on this drawing (the frame fills its RO here and
   // sits 1/4" inside it on the interior drawings, so each shared board reads 1/2" narrower than the kitchen drawing's
-  // stock call-out). Joinery: VERTICALS run through -- the centre board to the peak, every shared vertical and outer
-  // leg from the bottom of its lowest sill casing to the top of its highest head band -- and the horizontal bands BUTT
-  // between them; a rake board sits on the board below with a level cut and dies into a vertical with a plumb cut;
-  // the centre board runs past the rakes and is capped to both slopes so the trim comes to one point under the ridge.
+  // stock call-out). A slider and the windows mulled beside it are a DOOR unit: one head casing over every leg (door
+  // convention), the mullion between two sliders stopping under it; the window wall above is its own unit whose centre
+  // board starts at its lowest sill casing, and nothing crosses the siding between the two (owner 2026-09-21: "the
+  // sliders and windows above should be separate"). Within a unit, VERTICALS run through -- the centre board to the
+  // peak, every shared vertical and outer leg from the bottom of its lowest sill casing to the top of its highest head
+  // band -- and the horizontal bands BUTT between them; a rake board sits on the board below with a level cut and dies
+  // into a vertical with a plumb cut; the centre board runs past the rakes and is capped to both slopes so the trim
+  // comes to one point under the ridge.
   // The drip nose stays only under the bottom window of a stack and under isolated windows (owner 2026-09-21).
   const tb = (wall, u1, u2, y1, y2) => wallBox(wall, u1, u2, y1, y2, wt0, wt1, M.trim, 'trim');
   const tp = (wall, pts) => wallPrism(wall, pts, wt0, wt1, M.trim, 'trim');
@@ -2216,21 +2220,24 @@ const OPEN = {                                     // rough openings in wall-loc
     return tp(wall, q);
   }
   const capped = (wall, hw, y0, yTop, m) => tp(wall, [[-hw, y0], [hw, y0], [hw, yTop], [0, yTop + m * hw], [-hw, yTop]]);   // centre board, top cut to both slopes
-  {  // NORTH: doors 9 / 10, four lower J, two upper J, K and N triangles, the two as-built windows
-    const W = WALLS.N, m = D.PITCH_END, cbw = 4, hm = c * Math.sqrt(1 + m * m);   // centre board u -4 .. 4: the 8" strip between the doors, the inner J's and the N's
-    capped(W, cbw, 0, 279.35 + hm, m);                                             // threshold to the peak; the N rakes' top edges meet its corners
+  {  // NORTH: the DOOR unit (doors 9 / 10 with the as-built windows beside them) and the WINDOW WALL (four lower J, two upper J,
+     // K and N triangles) above it, 10 1/2" of siding between
+    const W = WALLS.N, m = D.PITCH_END, cbw = 4, hm = c * Math.sqrt(1 + m * m);   // centre strip u -4 .. 4: the 8" between the doors, the inner J's and the N's
+    tb(W, -143.9, 143.9, 84.5, 88);                                                // head casing: ONE board over both sliders, both as-built windows and every leg (heads on one header, owner 2026-09-17)
+    tb(W, -cbw, cbw, 0, 84.5);                                                     // mullion between the doors, 8", threshold to the head casing
+    capped(W, cbw, 98.5, 279.35 + hm, m);                                          // window-wall centre board, lower J sill casing to the peak; the N rakes' top edges meet its corners
+    nose(W, -104, 104, 102);                                                       // one drip nose under the lower J sill casings, the centre board, the verticals and the legs (bottom of the stack only)
     for (const s of [1, -1]) {
       const U = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
-      // verticals, full height
-      tb(W, ...U(100, 103.9), 0, 88);                                              // slider / as-built window shared board, 3.9": threshold to the head band's top
-      tb(W, ...U(140.4, 143.9), 32.5, 88);                                         // as-built window outer leg: sill casing bottom to the head band's top
+      // door unit: legs butt under the head casing
+      tb(W, ...U(100, 103.9), 0, 84.5);                                            // slider / as-built window shared board, 3.9": threshold to the head casing
+      tb(W, ...U(140.4, 143.9), 32.5, 84.5);                                       // as-built window outer leg: sill casing bottom to the head casing
+      tb(W, ...U(103.9, 140.4), 32.5, 36); nose(W, ...U(103.9, 143.9), 36);       // as-built window sill casing and its drip nose, under the outer leg, butting the shared board
+      // window wall: verticals full height
       tb(W, ...U(50, 54.5), 98.5, 223);                                            // inner / outer J shared vertical, 4 1/2": lower J sill casing bottom to band D's top; the K rake dies into it
       tb(W, ...U(100.5, 104), 98.5, 161);                                          // outer J outer leg: sill casing bottom to band C's top; the K rake sits on it
-      // bands, butted between the verticals
-      tb(W, ...U(4, 100), 84.5, 88); tb(W, ...U(103.9, 140.4), 84.5, 88);         // band A: slider head and as-built window head, one line on the shared header (owner 2026-09-17)
-      tb(W, ...U(103.9, 140.4), 32.5, 36); nose(W, ...U(103.9, 143.9), 36);       // as-built window sill casing and its drip nose, under the outer leg, butting the shared board
-      tb(W, ...U(4, 50), 98.5, 102); tb(W, ...U(54.5, 100.5), 98.5, 102);         // band B: lower J sill casings ...
-      nose(W, ...U(4, 104), 102);                                                  //   ... and one drip nose under both, the legs and the shared vertical
+      // window wall: bands, butted between the verticals
+      tb(W, ...U(4, 50), 98.5, 102); tb(W, ...U(54.5, 100.5), 98.5, 102);         // band B: lower J sill casings
       tb(W, ...U(4, 50), 158, 161); tb(W, ...U(54.5, 100.5), 158, 161);           // band C: lower J head / upper J sill / K base, 3"
       tb(W, ...U(4, 50), 217, 223);                                                // band D: upper J head / N base, 6"
       // rakes, underside on the RO hypotenuse
