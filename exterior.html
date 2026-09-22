@@ -96,7 +96,7 @@
     <div class="lg"><span class="sw" data-slot="soffit"></span>Cedar T&amp;G soffit</div>
     <div class="lg"><span class="sw" data-slot="wood"></span>Glulams, eave beams, 6x6 posts</div>
     <div class="lg"><span class="sw" data-slot="deck"></span>Decking and stair treads</div>
-    <div class="lg"><span class="sw" data-slot="door"></span>Entry door (metal)</div>
+    <div class="lg"><span class="sw" data-slot="door"></span>Door 1: JELD-WEN Full View steel 3/0 x 7/0</div>
     <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, sconces, soffit cans, chimney</div>
     <div class="lg"><span class="sw" data-slot="conc"></span>Exposed stem wall (concrete)</div>
     <div class="lg"><span class="sw" style="background:#141414"></span>Windows and sliders (Milgard black)</div>
@@ -1623,6 +1623,9 @@ const D = {
   FASCIA_W: 1.5,                           // 2X10 fascia thickness (A02 dtl 5); drawn the full rafter-tail depth
   RAKE_PAST: 5,                            // run-past corners (owner 2026-09-18): the rake fascia runs 5" past the rafter tails = 3 1/2" past the eave fascia face; the eave fascia stops at its back face. The kick-out flashing at the seam is a FASCIA tag line, not modeled (owner review 2026-09-18: a drawn fin read as a protrusion, and no other roof edge metal is drawn)
   FRAME_W: 2, FRAME_IN: 4.5, FRAME_OUT: 1.25,   // window frame face width; depth into the wall / proud of the siding
+  DOOR1: { SLAB_W: 35.75, SLAB_H: 83, SLAB_T: 1.75, THRESH: 1, CLEAR: 0.125, LITE_W: 23.875, LITE_H: 65.875, LITE_TOP: 4.6875, LITE_FACE: 1.375, LITE_PROUD: 0.5, KNOB_Y: 35, BOLT_Y: 40.5, BACKSET: 2.375 },
+                                           // door 1: JELD-WEN Full View steel 3/0 x 7/0 (Contours CT7-686), architectural manual p.14 -- wiki construction/front-entry-door (owner 2026-09-22: 7/0, clear glass, black).
+                                           // THRESH (threshold height), CLEAR (slab-to-jamb gap) and LITE_PROUD are assumptions; LITE_FACE is derived from the listed 9.26 ft2 daylight area; KNOB_Y / BOLT_Y from manual p.4 (bores 44" and 38 1/2" below the top of a 79" slab)
   UPPER_FLR: 120, PLATE: 108,
   STEM_TOP: -11.5, SIDING_BOT: -12, STEM_T: 8, STEM_BOT: -60,
   GRADE: -25.5,                            // ILLUSTRATIVE: 14" of stem wall showing after backfill (owner 2026-09-11)
@@ -1767,7 +1770,7 @@ const M = {
   soffit2: std({ color: 0xb58d5c, roughness: .8 }),
   wood:    std({ color: 0xb98a5c, roughness: .8 }),
   deck:    std({ color: 0xa67c52, roughness: .85 }),
-  door:    std({ color: 0x151515, roughness: .5, metalness: .2 }),
+  door:    std({ color: 0x151515, roughness: .35, metalness: .15 }),                 // factory-painted steel (JELD-WEN Black), satin
   rail:    std({ color: 0x151515, roughness: .45, metalness: .5 }),
   conc:    std({ color: 0x9d9b95, roughness: .95 }),
   win:     std({ color: 0x141414, roughness: .5 }),                       // Milgard black frames (contract, not a slot)
@@ -2175,11 +2178,29 @@ const OPEN = {                                     // rough openings in wall-loc
     wallBox(wall, inner[0][0], inner[1][0], inner[0][1], inner[0][1] + 4, -3, -0.5, M.win, L);
     if (opts.casing !== false) casing(wall, uPoly(r[0][0], r[1][0], r[0][1], r[2][1], c), null);
   }
-  function entryDoor(wall, r) {                                // door 1: metal slab in a U frame, casing open at the threshold
-    const [u1, u2, y1, y2] = [r[0][0], r[1][0], r[0][1], r[2][1]];
-    wallPrism(wall, uPoly(u1 + FW, u2 - FW, y1, y2 - FW, FW), wi, wo, M.win, L);
-    wallBox(wall, u1 + FW, u2 - FW, y1, y2 - FW, -4, -2.25, M.door, L);
-    wallBox(wall, u2 - FW - 8, u2 - FW - 6.5, 38, 46, -2.25, -1.25, M.rail, L);   // lever, schematic
+  function knob(wall, u, y, w) {                               // 2 1/4" ball knob on a 2 3/4" rose, 2 3/4" off the door face (A04 GEO = Schlage Georgian; finish not on record, drawn black)
+    const p = wall.o.clone().addScaledVector(wall.n, w); p.x += u * Math.cos(wall.rot); p.z += -u * Math.sin(wall.rot); p.y = y;
+    const rose = new THREE.Mesh(new THREE.CylinderGeometry(1.375, 1.375, 0.5, 24), M.rail), stem = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 1.75, 12), M.rail), ball = new THREE.Mesh(new THREE.SphereGeometry(1.125, 24, 16), M.rail);
+    rose.quaternion.setFromUnitVectors(V(0, 1, 0), wall.n); rose.position.copy(p).addScaledVector(wall.n, 0.25);
+    stem.quaternion.setFromUnitVectors(V(0, 1, 0), wall.n); stem.position.copy(p).addScaledVector(wall.n, 1.375);
+    ball.position.copy(p).addScaledVector(wall.n, 2.75);
+    for (const m of [rose, stem, ball]) { m.castShadow = m.receiveShadow = true; reg(m, L); }
+  }
+  function entryDoor(wall, r) {                                // door 1: JELD-WEN Full View steel 3/0 x 7/0 centered in A04's opening (spec: Door 1) -- jamb, threshold, slab opened for the lite, lite frame through it, glass, knob + deadbolt, 1x4 casing
+    const [u1, u2, y1, y2] = [r[0][0], r[1][0], r[0][1], r[2][1]], K = D.DOOR1, uc = (u1 + u2) / 2;
+    const s1 = uc - K.SLAB_W / 2, s2 = uc + K.SLAB_W / 2, sb = y1 + K.THRESH, st = sb + K.SLAB_H;    // slab edges, bottom, top
+    const j1 = s1 - K.CLEAR, j2 = s2 + K.CLEAR, jt = st + K.CLEAR;                                    // jamb opening: slab + 1/8" clearance
+    const f1 = -2.25, f0 = f1 - K.SLAB_T;                                                             // slab outer face 2 1/4" inside the sheathing face; inner face
+    wallPrism(wall, [[u1, y1], [u1, y2], [u2, y2], [u2, y1], [j2, y1], [j2, jt], [j1, jt], [j1, y1]], wi, wo, M.win, L);   // jamb: what A04's opening leaves round the slab (1/4" a side, 3/8" at the head) -- the framed opening is untaped
+    wallBox(wall, j1, j2, y1, sb, f0, f1 + 1, M.win, L);                                              // threshold, 1" high (assumption)
+    const lf1 = uc - K.LITE_W / 2, lf2 = uc + K.LITE_W / 2, lt = st - K.LITE_TOP, lb = lt - K.LITE_H;   // lite frame 23 7/8 x 65 7/8: 5 15/16" from each edge, 4 11/16" below the top, 12 7/16" bottom rail
+    const g1 = lf1 + K.LITE_FACE, g2 = lf2 - K.LITE_FACE, gt = lt - K.LITE_FACE, gb = lb + K.LITE_FACE;   // daylight opening 21 1/8 x 63 1/8
+    wallPrism(wall, rect(s1, s2, sb, st), f0, f1, M.door, L, [rect(lf1, lf2, lb, lt)]);                // slab, 1 3/4" steel, opened for the lite frame
+    wallPrism(wall, rect(lf1, lf2, lb, lt), f0 - K.LITE_PROUD, f1 + K.LITE_PROUD, M.door, L, [rect(g1, g2, gb, gt)]);   // lite frame through the slab, 1 3/8" face standing 1/2" proud both sides, painted with the slab
+    wallPrism(wall, rect(g1, g2, gb, gt), (f0 + f1) / 2 - 0.125, (f0 + f1) / 2 + 0.125, M.glass, L);   // clear insulated glass at mid-slab (owner 2026-09-22)
+    const ul = s2 - K.BACKSET, hb = f1 + 0.02;                                                        // lock side: right from outside = LH IN SWING (A04); hardware sits a hair off the face
+    knob(wall, ul, sb + K.KNOB_Y, hb);                                                                // Georgian knob, 35" above the slab bottom
+    wallBox(wall, ul - 1.5, ul + 1.5, sb + K.BOLT_Y - 3.875, sb + K.BOLT_Y + 3.875, hb, hb + 1, M.rail, L);   // Schlage Encode deadbolt (A04 BE489WB), Camelot trim 3 x 7 3/4, schematic
     casing(wall, uPoly(u1, u2, y1, y2, c), null);
   }
   function sconce(wall, u, y) {                                // A03 1653: fixture not chosen; a box and an unlit warm point light for the render pipeline
@@ -2391,6 +2412,7 @@ requestAnimationFrame(() => {
   tagAt(['SIDING', 'Hardie Plank 8 1/4" lap, 7 1/4" reveal', 'color TBD'], -95, 62, SF, 'z', T);
   tagAt(['ROOF', 'black standing-seam metal', 'gables 15:12, dormer 8:12'], 0, 248, SF, 'z', T);
   tagAt(['EXTERIOR LIGHTS', 'sconces at 78", fixtures TBD', 'soffit cans: 6 rear, 2 + 4 front'], 95, 62, SF, 'z', T);
+  tagAt(['DOOR 1', 'JELD-WEN Full View steel 3/0 x 7/0, LH inswing', 'clear Low-E, black; framed opening FIELD VERIFY'], 0, 99, SF, 'z', T);
   tagAt(['TRIM', 'casings 1x4, corners 1x6, frieze 1x4', 'primed whitewood, profile TBD'], WF, 62, -300, 'x-', T);
   tagAt(['GUTTERS', 'TBD -- not on the sheets'], WF, 190, -300, 'x-', TF);
   tagAt(['WINDOW F', 'sill 61 1/2" above UPPER FLR, as built'], WF, 232, -170, 'x-', T);
@@ -2479,6 +2501,7 @@ const VIEWS = {
   rake:   { pos: [250, 72, 196], tgt: [120, 162, 74], fov: 50 },
   eave:   { pos: [262, 46, -6], tgt: [174, 105, -92], fov: 52 },
   gableN: { pos: [0, 150, -1060], tgt: [0, 140, -552], fov: 36 },   // review view: the north window wall square on -- one board per gap, rakes, capped centre board (owner 2026-09-21)
+  door:   { pos: [24, 50, 160], tgt: [0, 44, 0], fov: 36 },         // review view: door 1 from the front stairs -- the JELD-WEN Full View slab, lite frame, glass, knob and deadbolt (owner 2026-09-22)
   gableS: { pos: [0, 200, 430], tgt: [0, 200, 0], fov: 30 },        // review view: door 12, the O triangles, the band and the P pair     // review view: the east side eave close up from below and outside -- 9" fascia, narrowed tail ends, cedar T&G tucked inside (owner 2026-09-21)      // review view: the front gable's east rake from below and outside, where the lapped board's step and its run-past tail both read (owner 2026-09-21)
 };
 // ===== END EDIT: VIEWS =====
