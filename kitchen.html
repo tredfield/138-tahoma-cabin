@@ -2347,11 +2347,14 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   // and over a capped mitre). Where two openings sit closer than two 1x4s, one board covers the gap and laps each frame
   // 1/4", so its width is the gap + 1/2": 3" between stacked J's -> 1x4; 4 1/2" beside them -> 5 1/2" (1x6); 3.9"
   // slider-to-window -> 4 7/8" (1x6 rip); 6" upper J to N -> 7 1/4" (1x8); the 8 1/2" centre strip -> 9" (1x10 rip).
-  // Everything else is 1x4. Joinery: VERTICALS run through -- the centre board floor to peak, every shared vertical and
-  // outer leg from the bottom of its lowest sill casing to the top of its highest head band -- and the horizontal bands
-  // BUTT between them; a rake board sits on the band below with a level cut and dies into a vertical with a plumb cut.
-  // The centre board runs past the N rakes and is capped to both roof slopes (owner 2026-09-21), so the trim comes to
-  // one point under the ridge. No two boards share a face plane over any area.
+  // Everything else is 1x4. The wall is TWO UNITS (owner 2026-09-21: "the sliders and windows above should be separate"):
+  // the DOOR unit -- sliders 9 / 10 with the as-built windows beside them under ONE head casing that runs over every leg
+  // (door convention), the 9" mullion between the sliders stopping under it -- and the WINDOW WALL above, whose centre
+  // board starts at the lower J sill casing. Nothing crosses the 11" of drywall between them. Within the window wall,
+  // VERTICALS run through -- the centre board to the peak, every shared vertical and outer leg from the bottom of its
+  // lowest sill casing to the top of its highest head band -- and the horizontal bands BUTT between them; a rake board
+  // sits on the band below with a level cut and dies into a vertical with a plumb cut. The centre board runs past the N
+  // rakes and is capped to both roof slopes, so the trim comes to one point under the ridge. No two boards share a face.
   const tb = (y1, y2, z1, z2) => box(D.N_GYP - .75, D.N_GYP, y1, y2, z1, z2, M.trimCasing, 'wallN');
   const tp = pts => prismZY(pts, D.N_GYP - .75, D.N_GYP, M.trimCasing, 'wallN');
   // Rake board, c wide square to the slope, whose UNDERSIDE runs up and inward from (zA, yA) at the roof slope m: a level
@@ -2395,25 +2398,28 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
     }
     box(D.N_GYP - 1.6, D.N_GYP - .8, 34, 44, zm - 1.4 * s - .4, zm - 1.4 * s + .4, M.black, 'wallN', false);   // handle
   }
-  // ---- the trim itself: one board per gap ------------------------------------------------------------------------
+  // ---- the trim itself: one board per gap, two units ---------------------------------------------------------------
   {
-    const cb = 4.5;                                                                     // centre board z -cb .. cb (9")
+    const cb = 4.5;                                                                     // centre strip z -cb .. cb (9")
     const jR = 49.75, oL = 54.75, oR = 100.25, dR = 99.75, wL = 104.15, wR = 140.15;   // frame lines (RO +/- 1/4")
     const yA1 = 84.25, yB1 = 102.25, yB0 = yB1 - c, yC0 = 157.75, yC1 = 161.25, yD0 = 216.25, yD1 = 223.5;
     const zN = 50 - (yD1 - 223) / D.SLOPE, hN = c * Math.sqrt(1 + D.SLOPE ** 2);        // N rake: underside on the RO hypotenuse; top edge's plumb height over it
     const yPk0 = yD1 + D.SLOPE * (zN - cb) + hN, yPk = yPk0 + D.SLOPE * cb;              // the rakes' top edges at the centre board, and where they meet over it
-    tp([[-cb, 0], [cb, 0], [cb, yPk0], [0, yPk], [-cb, yPk0]]);                         // centre board, floor to the peak, capped to both slopes
+    // door unit
+    tb(yA1, yA1 + c, -(wR + c), wR + c);                                                // head casing: ONE board over both sliders, both as-built windows and every leg, 84 1/4" .. 87 3/4"
+    tb(0, yA1, -cb, cb);                                                                // mullion between the sliders, 9" (1x10 rip), floor to the head casing
+    // window wall
+    tp([[-cb, yB0], [cb, yB0], [cb, yPk0], [0, yPk], [-cb, yPk0]]);                     // centre board, lower J sill casing to the peak, capped to both slopes
     for (const s of [1, -1]) {
       const Z = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
-      // verticals, full height
-      tb(0, yA1 + c, ...Z(dR - .25, wL + .25));           // slider / as-built window shared board, 4 7/8": floor to the head band's top
-      tb(36.25 - c, yA1 + c, ...Z(wR, wR + c));           // as-built window outer leg: sill casing bottom to the head band's top
+      // door unit: legs butt under the head casing
+      tb(0, yA1, ...Z(dR - .25, wL + .25));               // slider / as-built window shared board, 4 7/8": floor to the head casing
+      tb(36.25 - c, yA1, ...Z(wR, wR + c));               // as-built window outer leg: sill casing bottom to the head casing
+      tb(36.25 - c, 36.25, ...Z(wL + .25, wR));           // as-built window sill casing
+      // window wall: verticals full height
       tb(yB0, yD1, ...Z(jR - .25, oL + .25));             // inner / outer J shared vertical, 5 1/2" (1x6): lower J sill bottom to band D's top; the K rake dies into it
       tb(yB0, yC1, ...Z(oR, oR + c));                     // outer J outer leg: sill bottom to band C's top; the K rake sits on it
-      // horizontal bands, butted between the verticals
-      tb(yA1, yA1 + c, ...Z(cb, dR - .25));               // band A: slider head, centre board to the shared board ...
-      tb(yA1, yA1 + c, ...Z(wL + .25, wR));               //   ... and as-built window head, shared board to the outer leg: one line at 84 1/4" .. 87 3/4"
-      tb(36.25 - c, 36.25, ...Z(wL + .25, wR));           // as-built window sill casing
+      // window wall: horizontal bands, butted between the verticals
       tb(yB0, yB1, ...Z(cb, jR - .25)); tb(yB0, yB1, ...Z(oL + .25, oR));   // band B: lower J sill casings
       tb(yC0, yC1, ...Z(cb, jR - .25)); tb(yC0, yC1, ...Z(oL + .25, oR));   // band C: lower J head / upper J sill / K base
       tb(yD0, yD1, ...Z(cb, jR - .25));                   // band D: upper J head / N base, 7 1/4" (1x8)
@@ -2627,10 +2633,11 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   tagAt(['FIELD VERIFY STAIR DIVIDER', 'top 3" over the flight-2 nosings', '0560 cable rail on top, 36"'], D.UT_X2 + 0.15, 78, -72, 'x', FTF);
   // gable trim, west half (the Gable trim view): each board's stock, per reading
   tagAt(['CASING', '1x4 = 3 1/2" x 3/4"', 'legs, head, sill casing'], NW, 93, -122, 'x-', TF);
-  tagAt(['HEAD CASING', '84 1/4" to 87 3/4", sliders and windows'], NW, 93, -52, 'x-', T2);
+  tagAt(['HEAD CASING', '84 1/4" to 87 3/4", one board', 'over the sliders, the as-built windows and every leg'], NW, 93, -52, 'x-', T2);
   tagAt(['SHARED BOARD 1x6', '5 1/2" over the 4 1/2" gap'], NW, 130, -52, 'x-', T2);
   tagAt(['BAND 1x8', '7 1/4" over the 6" gap'], NW, 220, -27, 'x-', T2);
-  tagAt(['CENTRE BOARD', '9" (1x10 rip) over the 8 1/2" strip', 'floor to the peak, top cut to both slopes'], NW, 45, 0, 'x-', T2);
+  tagAt(['DOOR MULLION', '9" (1x10 rip) over the 8 1/2" strip', 'floor to the head casing'], NW, 45, 0, 'x-', T2);
+  tagAt(['CENTRE BOARD', '9" (1x10 rip) over the 8 1/2" strip', 'J sill casing to the peak, top cut to both slopes'], NW, 130, 0, 'x-', T2);
   tagAt(['SHARED BOARD', '4 7/8" (1x6 rip) over the 3.9" gap'], NW, 45, -102, 'x-', T2);
   tagAt(['RAKE 1x4', 'level cut on the band, plumb cut at the vertical'], NW, 250, -30, 'x-', T2);
   tagAt(['FIELD VERIFY WINDOWS A1 / A2 count + position', '4\'-0" x 4\'-6" fixed, sill 3\'-0", RO + 1/2"'], 40.75, 99, WW, 'z', FTF);
