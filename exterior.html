@@ -161,6 +161,7 @@
       <button data-view="top">Plan</button>
       <button data-view="corner">Fascia corner</button>
       <button data-view="rake">Gable rake</button>
+      <button data-view="eave">Side eave</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
     </div>
   </div>
@@ -1649,11 +1650,20 @@ D.EAVE_FASCIA = 9;                                          // side-eave fascia:
 // wall parallel to the roof -- so the whole side-eave assembly is 9" plumb (about 5 1/2" square to the roof, i.e. shallow
 // lookout framing rather than the full 11 7/8" rafter). No taper. The gable extensions keep the full-depth plane because
 // the 12" two-board rake covers them, which is why the rake hangs below the eave board where they meet.
-// The tail gets a plumb cut 9" tall for the fascia and a level cut back off its bottom, so the soffit is level for the
-// last ~10" of the overhang and then picks up the sloped rafter underside inboard of that. Nothing tapers, and the
-// soffit still meets the wall at the rafter underside, so the wall and frieze tops do not move.
-D.sofSide = x => Math.max(D.sofEnd(x), D.topEnd(D.EAVE) + D.ROOF_T - D.EAVE_FASCIA);
-D.sofDorSide = x => Math.max(D.sofDor(x), D.topDor(D.EAVE) + D.ROOF_T - D.EAVE_FASCIA);
+// Side eaves as built (owner photographs + measurements 2026-09-21): the tails are NARROWED toward their ends -- full
+// rafter depth at the wall, about 8" plumb at the plumb cut -- the 9" plumb fascia is nailed to those ends and so hangs
+// about 1 1/4" below the tail's bottom edge, and the 1X6 cedar T&G is nailed to the tails' undersides and tucks just
+// inside the fascia, which hides its edge. So the soffit plane tapers with the tails (about 9:12 against the roof's
+// 14.7:12) and dies into the back of the fascia. ASSUMPTION: a straight taper from the wall to the tail cut, and the 8"
+// read from the roofing top.
+D.TAIL_END = 8;                                             // plumb height of the narrowed tail at its plumb cut
+const tailSof = (x, sofFn, topFn) => {
+  const x0 = D.HW + D.SHEATH, t = Math.min(1, Math.max(0, (Math.abs(x) - x0) / (D.EAVE - x0)));
+  const tip = topFn(D.EAVE) + D.ROOF_T - D.TAIL_END - D.SOF_T;     // T&G underside at the tail cut
+  return sofFn(x) * (1 - t) + tip * t;
+};
+D.sofSide = x => tailSof(x, D.sofEnd, D.topEnd);
+D.sofDorSide = x => tailSof(x, D.sofDor, D.topDor);
 D.UNDER_A = D.topEnd(D.HW) - D.PLUMB_END;                   // ~120: rafter underside at gridlines A/C, derived from RAFT (not a measured number)
 D.R_EAVE_BEAM = [D.UNDER_A - 9.5, D.UNDER_A];               // 6X10 rear eave beams, top tight under the rafters (owner 2026-09-21)
 D.R_POST_TOP = D.R_EAVE_BEAM[0];                            // rear corner posts run to the beam soffit
@@ -2403,7 +2413,8 @@ const VIEWS = {
   porch:  { pos: [-170, 41, 330], tgt: [0, 100, 40], fov: 58 },
   top:    { pos: [0, 1250, -275], tgt: [0, 0, -276], fov: 40 },
   corner: { pos: [268, 128, -22], tgt: [182, 200, -136], fov: 46 },   // review view: the dormer's SE rake-to-eave corner from below (run-past joint, owner 2026-09-18)
-  rake:   { pos: [250, 72, 196], tgt: [120, 162, 74], fov: 50 },      // review view: the front gable's east rake from below and outside, where the lapped board's step and its run-past tail both read (owner 2026-09-21)
+  rake:   { pos: [250, 72, 196], tgt: [120, 162, 74], fov: 50 },
+  eave:   { pos: [262, 46, -6], tgt: [174, 105, -92], fov: 52 },     // review view: the east side eave close up from below and outside -- 9" fascia, narrowed tail ends, cedar T&G tucked inside (owner 2026-09-21)      // review view: the front gable's east rake from below and outside, where the lapped board's step and its run-past tail both read (owner 2026-09-21)
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
