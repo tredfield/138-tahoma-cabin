@@ -1729,30 +1729,10 @@ function lapTextures() {
 }
 const LAP = lapTextures();
 LAP.map.colorSpace = THREE.SRGBColorSpace;
-// Board-and-batten alternative: vertical panels with a 2 1/2" batten every 12" (owner asked for the choice, 2026-09-11; spacing and
-// batten width are interpretations -- HardiePanel with HardieTrim battens). u = inches along the wall, so battens fall at 12" multiples
-// from gridline B on the gable walls and from the corners on the side walls.
+// Board-and-batten alternative (owner asked for the choice, 2026-09-11; spacing and batten width are interpretations -- smooth
+// HardiePanel with 2 1/2" HardieTrim battens at 12" o.c., owner 2026-09-22). Since 2026-09-22 the battens are GEOMETRY (section 4b),
+// so in this style the panel is a flat face and the battens throw real shadows; before that they were a painted stripe on the panel.
 const BB_SP = 12, BB_W = 2.5;
-function battenTextures() {
-  const W = 256, H = 32, bw = Math.round(W * BB_W / BB_SP);
-  const a = document.createElement('canvas'); a.width = W; a.height = H;
-  let g = a.getContext('2d');
-  g.fillStyle = '#f4f4f4'; g.fillRect(0, 0, W, H);                       // panel
-  g.fillStyle = '#ffffff'; g.fillRect(0, 0, bw, H);                       // batten face, a shade lighter
-  let sh = g.createLinearGradient(bw, 0, bw + 14, 0); sh.addColorStop(0, 'rgba(0,0,0,.45)'); sh.addColorStop(1, 'rgba(0,0,0,0)');
-  g.fillStyle = sh; g.fillRect(bw, 0, 14, H);                             // shadow on the panel beside the batten
-  sh = g.createLinearGradient(W - 8, 0, W, 0); sh.addColorStop(0, 'rgba(0,0,0,0)'); sh.addColorStop(1, 'rgba(0,0,0,.2)');
-  g.fillStyle = sh; g.fillRect(W - 8, 0, 8, H);
-  const n = document.createElement('canvas'); n.width = W; n.height = H;
-  g = n.getContext('2d');
-  g.fillStyle = 'rgb(128,128,255)'; g.fillRect(0, 0, W, H);               // flat panel and batten face
-  g.fillStyle = 'rgb(225,128,205)'; g.fillRect(bw - 2, 0, 3, H);           // batten's right edge faces +u
-  g.fillStyle = 'rgb(30,128,205)';  g.fillRect(W - 2, 0, 2, H);            // batten's left edge (wraps) faces -u
-  const mk = c => { const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(1 / BB_SP, 1 / 48); t.anisotropy = 8; return t; };
-  return { map: mk(a), normalMap: mk(n) };
-}
-const BB = battenTextures();
-BB.map.colorSpace = THREE.SRGBColorSpace;
 
 const SCHEMES = {   // hex values are stand-ins until Sherwin Williams colors are chosen (spec: Color schemes)
   black:   { siding: '#262626', trim: '#151515', fascia: '#151515', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', deck: '#a67c52', door: '#151515', rail: '#151515', conc: '#9d9b95' },
@@ -1968,6 +1948,7 @@ const WALLS = {
   W: { o: V(-(D.HW + D.SHEATH), 0, 0),      rot: -Math.PI / 2, uOf: z => z },     // west wall: u = z, outward -X
 };
 for (const w of Object.values(WALLS)) w.n = V(Math.sin(w.rot), 0, Math.cos(w.rot));   // outward normal
+const WALL_PARTS = new Map();   // part -> { wall, poly, holes } in wall-local (u, y): the batten layout (section 4b) clips against these
 function wallPrism(wall, pts, w1, w2, mat, layer, holes = []) {
   const sh = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], p[1])));
   for (const h of holes) sh.holes.push(new THREE.Path(h.map(p => new THREE.Vector2(p[0], p[1]))));
@@ -1976,6 +1957,7 @@ function wallPrism(wall, pts, w1, w2, mat, layer, holes = []) {
   m.rotation.y = wall.rot;
   m.position.copy(wall.o).addScaledVector(wall.n, Math.min(w1, w2));
   m.castShadow = m.receiveShadow = !mat.transparent;
+  WALL_PARTS.set(m, { wall, poly: pts, holes });
   return reg(m, layer);
 }
 const wallBox = (wall, u1, u2, y1, y2, w1, w2, mat, layer) => wallPrism(wall, [[u1, y1], [u2, y1], [u2, y2], [u1, y2]], w1, w2, mat, layer);
@@ -2304,6 +2286,66 @@ const OPEN = {                                     // rough openings in wall-loc
   for (const x of [-86, 86]) can(x, D.F_UJOIST[0] - 0.35, 25);
 }
 // ===========================================================================
+// 4b. BATTENS (layer 'walls'; board-and-batten style only). 2 1/2" x 3/4" HardieTrim boxes at 12" o.c. on every siding face,
+//     drawn as geometry so the sun throws a real shadow line down each one (owner 2026-09-22, photoreal phase 5 first correction
+//     round; until then the battens were a painted stripe with a normal-mapped edge and no shadow). Layout, an INTERPRETATION:
+//     stations symmetric about gridline B on both gable walls and their dormer cheeks, so the pair either side of the centre
+//     board match; on the side walls the first batten stands one standard panel space (12" - 2 1/2" = 9 1/2") inside the FRONT
+//     corner board and the run steps north at 12", the remainder landing at the rear corner. A batten is split around every
+//     casing, sill nose, sconce box, window frame and opening on its wall, stops against the corner boards and the frieze, and
+//     runs from the water table to the soffit: each run is the vertical-line span through the wall outline (at both batten edges
+//     and its centre) minus the union of the blockers' outlines, cut 1/16" clear of whatever it butts, and runs under 2" are
+//     dropped. The boxes sit 0.02" into the panel so no batten back is coincident with the siding face. Battens take M.siding --
+//     on board and batten the battens are the siding colour -- so the Colors panel's siding slot recolours both.
+// ===========================================================================
+{
+  const L = 'walls', wf = D.SIDING_T, EMBED = 0.02, GAP = 0.0625, MIN_RUN = 2, n0 = parts.length;
+  function vSpans(poly, u) {                                   // y-spans where the vertical line at u is inside a simple polygon
+    const ys = [];
+    for (let i = 0, n = poly.length; i < n; i++) {
+      const [ua, ya] = poly[i], [ub, yb] = poly[(i + 1) % n];
+      if ((ua <= u) !== (ub <= u)) ys.push(ya + (yb - ya) * (u - ua) / (ub - ua));   // half-open crossing test
+    }
+    ys.sort((a, b) => a - b);
+    const out = []; for (let i = 0; i + 1 < ys.length; i += 2) out.push([ys[i], ys[i + 1]]);
+    return out;
+  }
+  const union = spans => { const o = []; for (const p of spans.slice().sort((a, b) => a[0] - b[0])) { const t = o[o.length - 1]; if (t && p[0] <= t[1]) t[1] = Math.max(t[1], p[1]); else o.push([p[0], p[1]]); } return o; };
+  const intersect = (a, b) => { const o = []; for (const p of a) for (const q of b) { const lo = Math.max(p[0], q[0]), hi = Math.min(p[1], q[1]); if (hi > lo) o.push([lo, hi]); } return o; };
+  const subtract = (a, b) => { let cur = a; for (const q of b) { const nx = []; for (const p of cur) { if (q[1] <= p[0] || q[0] >= p[1]) { nx.push(p); continue; } if (q[0] > p[0]) nx.push([p[0], q[0]]); if (q[1] < p[1]) nx.push([q[1], p[1]]); } cur = nx; } return cur; };
+  function battens(outline, stations, blockers, mk) {         // one face: outline + blockers in (u, y); mk(u1, u2, y0, y1) draws a run
+    let n = 0;
+    for (const uc of stations) {
+      const us = [uc - BB_W / 2, uc, uc + BB_W / 2];
+      let runs = us.map(u => vSpans(outline, u)).reduce(intersect);
+      runs = subtract(runs, union(us.flatMap(u => blockers.flatMap(b => vSpans(b, u)))));
+      for (const [y0, y1] of runs) if (y1 - y0 - 2 * GAP >= MIN_RUN) { mk(us[0], us[2], y0 + GAP, y1 - GAP); n++; }
+    }
+    return n;
+  }
+  const onWall = (wall, layers) => parts.filter(p => WALL_PARTS.has(p) && WALL_PARTS.get(p).wall === wall && layers.includes(p.userData.layer)).map(p => WALL_PARTS.get(p));
+  const blockersOf = wall => [...onWall(wall, ['trim', 'win']).map(r => r.poly), ...onWall(wall, ['walls']).flatMap(r => r.holes)];
+  const outlineOf = wall => onWall(wall, ['walls']).find(r => r.holes.length).poly;   // the siding shell: the one walls-layer prism with openings
+  const range = (from, step, limit) => { const o = []; for (let u = from; Math.abs(u) < limit; u += step) o.push(u); return o; };
+  const mkWall = wall => (u1, u2, y0, y1) => wallBox(wall, u1, u2, y0, y1, wf - EMBED, wf + D.TRIM_T, M.siding, L);
+  let runs = 0;
+  for (const wall of [WALLS.S, WALLS.N])                       // gable walls: u = +/-x, stations at 12" multiples either side of B
+    runs += battens(outlineOf(wall), [...range(0, BB_SP, SHELL_U), ...range(-BB_SP, -BB_SP, SHELL_U)], blockersOf(wall), mkWall(wall));
+  const ext2 = EXT + D.TRIM_T, first = D.CORNER_W + (BB_SP - BB_W) + BB_W / 2;   // front corner board's outer edge -> first batten centre
+  runs += battens(outlineOf(WALLS.E), range(-ext2 + first, BB_SP, -D.G4), blockersOf(WALLS.E), mkWall(WALLS.E));   // east: u = -z, north is +u
+  runs += battens(outlineOf(WALLS.W), range(ext2 - first, -BB_SP, -D.G4), blockersOf(WALLS.W), mkWall(WALLS.W));   // west: u = z, north is -u
+  for (const s of [-1, 1]) {                                   // dormer cheeks: the siding triangles of section 1, stations as the gable walls
+    const xa = s * D.CHEEK_X0, xb = s * SHELL_U;
+    const tri = [[xa, D.topEnd(xa) + D.ROOF_T], [xb, D.topEnd(xb) + D.ROOF_T], [xb, D.sofDor(xb)]];
+    runs += battens(tri, range(s * BB_SP, s * BB_SP, SHELL_U), [], (x1, x2, y0, y1) => {
+      B(x1, x2, y0, y1, D.DORM_S + EXT - EMBED, D.DORM_S + EXT + D.TRIM_T, M.siding, L);      // south cheek faces +z
+      B(x1, x2, y0, y1, D.DORM_N - EXT - D.TRIM_T, D.DORM_N - EXT + EMBED, M.siding, L);      // north cheek faces -z
+    });
+  }
+  for (let i = n0; i < parts.length; i++) parts[i].userData.style = 'bb';
+  console.log(`battens: ${parts.length - n0} boxes in ${runs} runs (board-and-batten style only)`);
+}
+// ===========================================================================
 // 5. DECKS AND POSTS (layer 'deck'), STAIRS (layer 'stair'), CABLE RAILS: upper deck (layer 'deck', always on) and the
 //    GROUND-DECK GUARDS (layer 'rail', off by default). Every rail is built twice -- deck-mounted at the edge and
 //    fascia-mounted -- and the Rail mount radio shows one set (owner 2026-09-11).
@@ -2447,12 +2489,17 @@ function setSlot(slot, hex) {
   const inp = document.querySelector(`#colors input[data-slot="${slot}"]`); if (inp) inp.value = hex;
   const sw = document.querySelector(`#legend .sw[data-slot="${slot}"]`); if (sw) sw.style.background = hex;
 }
-// Siding style radio: swaps the shared siding material's textures (lap courses vs board-and-batten); ?style=lap / ?style=bb presets it.
+// Siding style radio: lap courses (textured shell) or board and batten (flat panel + the batten geometry of section 4b, tagged
+// userData.style 'bb' and shown only in that style); ?style=lap / ?style=bb presets it. applyLayers() re-applies the style filter.
+let STYLE = 'bb';
+function applyStyle() { for (const p of parts) if (p.userData.style && p.userData.style !== STYLE) p.visible = false; }
 function setSidingStyle(style) {
-  const t = style === 'bb' ? BB : LAP;
-  M.siding.map = t.map; M.siding.normalMap = t.normalMap; M.siding.needsUpdate = true;
-  document.getElementById('legend-siding').textContent = style === 'bb' ? 'Board-and-batten siding (12" o.c., interpretation)' : 'Lap siding (Hardie Plank, 7\u00bc" reveal)';
+  STYLE = style;
+  const lap = style !== 'bb';
+  M.siding.map = lap ? LAP.map : null; M.siding.normalMap = lap ? LAP.normalMap : null; M.siding.needsUpdate = true;
+  document.getElementById('legend-siding').textContent = lap ? 'Lap siding (Hardie Plank, 7\u00bc" reveal)' : 'Board-and-batten siding (2\u00bd" battens at 12" o.c., interpretation)';
   const r = document.querySelector(`#sidingstyle input[value="${style}"]`); if (r) r.checked = true;
+  for (const p of parts) if (p.userData.style) p.visible = p.userData.style === style;
 }
 document.querySelectorAll('#sidingstyle input').forEach(r => r.addEventListener('change', () => { if (r.checked) setSidingStyle(r.value); r.blur(); }));
 const schemeSel = document.getElementById('scheme');
@@ -2480,6 +2527,7 @@ function applyLayers() {
   for (const cb of layerBoxes) on[cb.dataset.layer] = cb.checked;
   hdr.style.display = on.caption === false ? 'none' : '';
   for (const p of parts) p.visible = on[p.userData.layer] !== false;
+  applyStyle();
 }
 layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
 
@@ -2563,7 +2611,8 @@ async function exportGLB() {
     for (const k in M) M[k].name = k;                        // Three.js material -> glTF material name -> finishes entry
     const skip = new Set((params.get('exclude') ?? EXPORT_EXCLUDE_DEFAULT).split(',').map(s => s.trim()).filter(Boolean));
     const mount = params.get('mount') === 'fascia' ? 'fascia' : 'deck';   // the other mount's parts stay out of the glTF
-    let skippedMount = 0;
+    const style = params.get('style') === 'lap' ? 'lap' : 'bb';           // the battens (section 4b) ship only in board and batten
+    let skippedMount = 0, skippedStyle = 0;
     scene.updateMatrixWorld(true);
     const root = new THREE.Group();
     root.name = 'export-root';
@@ -2573,6 +2622,7 @@ async function exportGLB() {
     for (const p of parts) {                                 // layer decides, not visibility: labels are hidden but so is anything the user toggled off
       if (p.isSprite || skip.has(p.userData.layer)) continue;
       if (p.userData.mount && p.userData.mount !== mount) { skippedMount++; continue; }
+      if (p.userData.style && p.userData.style !== style) { skippedStyle++; continue; }
       const c = p.clone(true);
       strip(c);                                              // drop the addEdges() outlines and any sprite children
       root.add(c);
@@ -2593,7 +2643,7 @@ async function exportGLB() {
     const glb = await new Promise((ok, no) => new GLTFExporter().parse(root, ok, no, { binary: true, onlyVisible: false }));
     const res = await fetch(`/export/${name}.glb`, { method: 'PUT', body: glb });
     if (!res.ok) throw new Error(`receiver returned HTTP ${res.status}`);
-    console.log(`EXPORTED ${meshes} meshes, ${lights.length} lights, ${glb.byteLength} bytes -> /export/${name}.glb (mount ${mount}; ${skippedMount} ${mount === 'deck' ? 'fascia' : 'deck'}-mounted parts left out)`);
+    console.log(`EXPORTED ${meshes} meshes, ${lights.length} lights, ${glb.byteLength} bytes -> /export/${name}.glb (mount ${mount}; ${skippedMount} ${mount === 'deck' ? 'fascia' : 'deck'}-mounted parts left out; style ${style}; ${skippedStyle} battens left out)`);
     document.title = 'EXPORTED';
   } catch (e) {
     console.error('EXPORT-ERROR', (e && e.message) || e);
