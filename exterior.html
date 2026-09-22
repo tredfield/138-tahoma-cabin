@@ -2551,6 +2551,9 @@ if (params.get('ui') === '0') document.querySelectorAll('.panel, #hint').forEach
 // runs on a normal page load. &exclude=a,b replaces the default excluded-layer list (&exclude= excludes nothing);
 // &name=<slug> sets the upload name, otherwise it is the HTML file's own slug. Material names travel as the M
 // keys, layer names as glTF extras.layer. Spec: .kiro/specs/photoreal-room-renders/design.md section 1.
+// &mount=deck|fascia (default deck, the drawing's default) picks ONE rail set: every rail is built twice
+// (buildRails runs for both mounts, section 5) and the Rail mount radio only hides one, so without this filter
+// both sets of posts and two upper-deck rails shipped to every render (render phase 5 step 4, 2026-09-22).
 const EXPORT_EXCLUDE_DEFAULT = 'label,dim,caption,context,framing,mech,site';   // site = the ground plane; the render pipeline has its own terrain
 function named(obj, n) { obj.name = n; return obj; }   // name a mesh so a finishes decal can target it; hoisted, so the geometry section above can call it
 if (params.get('export') === 'glb') exportGLB();
@@ -2559,6 +2562,8 @@ async function exportGLB() {
     const { GLTFExporter } = await import('three/addons/exporters/GLTFExporter.js');
     for (const k in M) M[k].name = k;                        // Three.js material -> glTF material name -> finishes entry
     const skip = new Set((params.get('exclude') ?? EXPORT_EXCLUDE_DEFAULT).split(',').map(s => s.trim()).filter(Boolean));
+    const mount = params.get('mount') === 'fascia' ? 'fascia' : 'deck';   // the other mount's parts stay out of the glTF
+    let skippedMount = 0;
     scene.updateMatrixWorld(true);
     const root = new THREE.Group();
     root.name = 'export-root';
@@ -2567,6 +2572,7 @@ async function exportGLB() {
     let meshes = 0;
     for (const p of parts) {                                 // layer decides, not visibility: labels are hidden but so is anything the user toggled off
       if (p.isSprite || skip.has(p.userData.layer)) continue;
+      if (p.userData.mount && p.userData.mount !== mount) { skippedMount++; continue; }
       const c = p.clone(true);
       strip(c);                                              // drop the addEdges() outlines and any sprite children
       root.add(c);
@@ -2587,7 +2593,7 @@ async function exportGLB() {
     const glb = await new Promise((ok, no) => new GLTFExporter().parse(root, ok, no, { binary: true, onlyVisible: false }));
     const res = await fetch(`/export/${name}.glb`, { method: 'PUT', body: glb });
     if (!res.ok) throw new Error(`receiver returned HTTP ${res.status}`);
-    console.log(`EXPORTED ${meshes} meshes, ${lights.length} lights, ${glb.byteLength} bytes -> /export/${name}.glb`);
+    console.log(`EXPORTED ${meshes} meshes, ${lights.length} lights, ${glb.byteLength} bytes -> /export/${name}.glb (mount ${mount}; ${skippedMount} ${mount === 'deck' ? 'fascia' : 'deck'}-mounted parts left out)`);
     document.title = 'EXPORTED';
   } catch (e) {
     console.error('EXPORT-ERROR', (e && e.message) || e);
