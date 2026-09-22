@@ -2238,22 +2238,20 @@ const OPEN = {                                     // rough openings in wall-loc
       rake(W, s, 50, 223, 54.5, cbw, m);                                           // N: level on band D and the vertical's top, dies into the centre board
     }
   }
-  {  // SOUTH: door 12 and the O triangles under one head casing; the P pair on its own sill casing with 3 1/2" of siding between
-     // (A03 dimensions the P bases 11 3/16" over the door head and draws siding through the gap; owner 2026-09-21, after a
-     // single 10 1/2" band there was published and read as a slab)
+  {  // SOUTH: door 12 trimmed on its own; each O triangle's leg runs past its apex to the P pair's sill casing and its rake dies
+     // into the leg, so nothing runs from the slider to the triangles (owner 2026-09-21, third pass: a 10 1/2" band across the gap,
+     // then a 1x4 head casing across it, both read wrong; A03 puts the P bases 11 3/16" over the door head with siding through the gap)
     const W = WALLS.S, m = 58 / 42.5, hm = c * Math.sqrt(1 + m * m);   // O and P hypotenuses as drawn: A04's 42 1/2 x 58, steeper than the roof (spec open item)
-    const yH = 204.5, yP = 215, uH = 48.25 + hm / m, uP = 44.625 + hm / m;   // door 12 / O head line and the P base line; where the O rakes' top edges meet the head casing, where the P rakes' level cuts end
-    tb(W, -uH, uH, yH, yH + c);                                        // head casing over door 12 and both O apexes, plumb ends
+    const yH = 204.5, yP = 215, uP = 44.625 + hm / m;                  // door 12 head / O apex line; P base line; where the P rakes' level cuts end
+    tb(W, -39.75, 39.75, yH, yH + c);                                  // door 12 head casing over its legs (door convention)
     capped(W, 2.125, yP - c, 273 + hm, m);                             // centre board between the P pair, 4 1/4", from the sill casing's bottom to the peak
     for (const s of [1, -1]) {
       const U = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
-      tb(W, ...U(36.25, 39.75), 120, yH);                              // door 12 leg, threshold to the head casing
-      tb(W, ...U(44.75, 48.25), 143, yH);                              // O vertical leg, base casing bottom to the head casing
+      tb(W, ...U(36.25, 39.75), 120, yH);                              // door 12 leg, threshold to its head casing
+      tb(W, ...U(44.75, 48.25), 143, yP - c);                          // O vertical leg: base casing bottom past the apex to the P sill casing; 5" of siding from the door leg
       tb(W, ...U(48.25, 90.75 + hm / m), 143, 146.5);                  // O base casing, the leg to the rake's outer corner
-      const q = [[90.75, 146.5], [90.75 + hm / m, 146.5], [uH, yH], [48.25, yH]].map(g => [s * g[0], g[1]]);   // O rake: its apex is ON the head casing's underside, so both ends are level cuts
-      if (s < 0) q.reverse();
-      tp(W, q);
-      tb(W, ...U(2.125, uP), yP - c, yP);                              // P sill casing, centre board to the rake's outer corner
+      rake(W, s, 90.75, 146.5, Infinity, 48.25, m);                    // O rake: level on the base casing, plumb into the leg (y 204.5 .. 210.4 at the apex)
+      tb(W, ...U(2.125, uP), yP - c, yP);                              // P sill casing, centre board to the P rake's outer corner, over the O leg's top
       rake(W, s, 44.625, yP, Infinity, 2.125, m);                      // P rake: level on the sill casing, dies into the centre board
     }
   }
