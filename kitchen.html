@@ -61,7 +61,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Kitchen + great room (lower floor) &mdash; interior 3D</h1>
-    <div class="sub">Lower-floor <b>KITCHEN</b> on the east wall north of the guest bath, open to the double-height <b>LIVING ROOM</b>: 12'-10 3/4" counter run under window D and a 6'-8" x 3'-6" island with 3'-6" min aisles. <b>Gable trim</b> compares two trim readings on the window wall. Orange = field-verify or TBD. Design record: <code>wiki/construction/kitchen-and-great-room.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; <b>arrow keys (or WASD) walk</b>, PageUp/PageDown change eye height, Shift runs.</div>
+    <div class="sub">Lower-floor <b>KITCHEN</b> on the east wall north of the guest bath, open to the double-height <b>LIVING ROOM</b>: 12'-10 3/4" counter run under window D and a 6'-8" x 3'-6" island with 3'-6" min aisles. <b>Gable trim</b> squares up on the window wall: one board per gap, rakes plumb-cut into the verticals, the centre board capped at the ridge. Orange = field-verify or TBD. Design record: <code>wiki/construction/kitchen-and-great-room.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; <b>arrow keys (or WASD) walk</b>, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -102,11 +102,6 @@
       <label><input type="checkbox" data-layer="label"> Labels</label>
       <label><input type="checkbox" data-layer="dim"> Dimensions</label>
       <label><input type="checkbox" data-layer="caption"> Caption</label>
-    </div>
-    <div class="row fold" id="variants">
-      <span class="lbl">Gable trim</span>
-      <label><input type="radio" name="gabletrim" data-layer="trimN1" checked> Per window, as drawn</label>
-      <label><input type="radio" name="gabletrim" data-layer="trimN2"> One board per gap</label>
     </div>
     <div class="row" id="views">
       <span class="lbl">View</span>
@@ -2348,47 +2343,39 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
   prismZY(outline, D.N_GYP, D.N_OUT, M.gyp, 'wallN', holes);
   prismZY(outline, D.N_OUT, D.N_SIDE, M.siding, 'wallN', holes);
   const xf1 = 232.25, xf2 = 233.75, xg = 233, f = 1.75, c = D.CAS_W;
-  // Two readings of the gable-wall trim, chosen by the "Gable trim" radio (variant 'trimN1' / 'trimN2'; owner review
-  // round 2026-09-17). 'trimN1' is the per-window picture frame: every opening gets its own four 1x4 boards, which
-  // pile on top of each other where openings sit closer than 7" (3" between stacked J's, 4 1/2" beside them). 'trimN2'
-  // puts ONE board in each such gap, sized gap + 1/2" -- see the block after the doors. Only the selected reading exports.
-  const tb = (v, y1, y2, z1, z2) => { const m = box(D.N_GYP - .75, D.N_GYP, y1, y2, z1, z2, M.trimCasing, 'wallN'); m.userData.variant = v; return m; };
-  function casingN(z1, z2, y1, y2) {                           // square-cut butted picture frame (owner 2026-09-14), per window
-    tb('trimN1', y1 - c, y2 + c, z1 - c, z1); tb('trimN1', y1 - c, y2 + c, z2, z2 + c);   // legs, full height
-    tb('trimN1', y2, y2 + c, z1, z2); tb('trimN1', y1 - c, y1, z1, z2);                   // head and sill casing, butted between the legs
+  // Gable-wall trim: ONE BOARD PER GAP (owner 2026-09-21, chosen over the per-window picture frame this drawing carried
+  // and over a capped mitre). Where two openings sit closer than two 1x4s, one board covers the gap and laps each frame
+  // 1/4", so its width is the gap + 1/2": 3" between stacked J's -> 1x4; 4 1/2" beside them -> 5 1/2" (1x6); 3.9"
+  // slider-to-window -> 4 7/8" (1x6 rip); 6" upper J to N -> 7 1/4" (1x8); the 8 1/2" centre strip -> 9" (1x10 rip).
+  // Everything else is 1x4. Joinery: VERTICALS run through -- the centre board floor to peak, every shared vertical and
+  // outer leg from the bottom of its lowest sill casing to the top of its highest head band -- and the horizontal bands
+  // BUTT between them; a rake board sits on the band below with a level cut and dies into a vertical with a plumb cut.
+  // The centre board runs past the N rakes and is capped to both roof slopes (owner 2026-09-21), so the trim comes to
+  // one point under the ridge. No two boards share a face plane over any area.
+  const tb = (y1, y2, z1, z2) => box(D.N_GYP - .75, D.N_GYP, y1, y2, z1, z2, M.trimCasing, 'wallN');
+  const tp = pts => prismZY(pts, D.N_GYP - .75, D.N_GYP, M.trimCasing, 'wallN');
+  // Rake board, c wide square to the slope, whose UNDERSIDE runs up and inward from (zA, yA) at the roof slope m: a level
+  // cut sitting on the board below, cut plumb at zOut if the top edge would otherwise run past the outer leg line, and a
+  // plumb cut at zEnd where it dies into a vertical. s mirrors it east / west.
+  function rake(s, zA, yA, zOut, zEnd, m = D.SLOPE) {
+    const h = c * Math.sqrt(1 + m * m), zc = zA + h / m;            // top edge's plumb height over the underside; where it meets the base line
+    const yU = z => yA + m * (zA - z), yT = z => yU(z) + h;
+    const p = zOut < zc - .1 ? [[zA, yA], [zOut, yA], [zOut, yT(zOut)], [zEnd, yT(zEnd)], [zEnd, yU(zEnd)]]
+                             : [[zA, yA], [zc, yA], [zEnd, yT(zEnd)], [zEnd, yU(zEnd)]];
+    const q = p.map(g => [s * g[0], g[1]]);
+    if (s < 0) q.reverse();
+    return tp(q);
   }
-  function glazeZY(z1, z2, y1, y2, mullion = false) {          // black frame + glass + alder casing on the room side
+  function glazeZY(z1, z2, y1, y2, mullion = false) {          // black frame + glass; the alder casing is the shared-board trim below
     box(xf1, xf2, y1, y1 + f, z1, z2, M.black, 'wallN'); box(xf1, xf2, y2 - f, y2, z1, z2, M.black, 'wallN');
     box(xf1, xf2, y1, y2, z1, z1 + f, M.black, 'wallN'); box(xf1, xf2, y1, y2, z2 - f, z2, M.black, 'wallN');
     if (mullion) box(xf1, xf2, y1, y2, (z1 + z2) / 2 - 1, (z1 + z2) / 2 + 1, M.black, 'wallN');
     box(xg - .125, xg + .125, y1 + f, y2 - f, z1 + f, z2 - f, M.glass, 'wallN', false);
-    casingN(z1, z2, y1, y2);
   }
   for (const r of J.map(norm)) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);
   for (const r of XW) glazeZY(r[0] + .25, r[1] - .25, r[2] + .25, r[3] - .25, false);           // unit type not on record
-  // Triangular fixed glass: glass prism + black frame bars + flat alder casing whose outer corners
-  // are CUT SQUARE rather than mitred. The old build offset the whole triangle as a mitre, and a
-  // mitre at a closing angle grows without limit -- the spikes the owner circled on 2026-09-16.
-  //
-  // Note the house-wide square-cut butted detail (owner 2026-09-14) cannot be taken literally on a
-  // triangle: butting flat stock at an acute corner forces one piece to run past the other, 5.1" at
-  // the 36-degree apex here, which is a tab rather than a joint. Cutting the outer corner square
-  // instead keeps flat square-cut stock and a 3 1/2" reveal all the way round with nothing overhanging.
-  // Which of the two the triangles should use is the owner's call; this is the no-spike reading.
-  function triRing(q, w) {                                   // outward offset, corners cut square
-    const m = q.length;
-    const ar = q.reduce((t, g, i) => { const r = q[(i + 1) % m]; return t + g[0] * r[1] - r[0] * g[1]; }, 0), sq = ar > 0 ? 1 : -1;
-    const ring = [];
-    for (let i = 0; i < m; i++) {
-      const a = q[i], b = q[(i + 1) % m];
-      const dz = b[0] - a[0], dy = b[1] - a[1], h = Math.hypot(dz, dy), nz = sq * dy / h, ny = -sq * dz / h;
-      ring.push([a[0] + nz * w, a[1] + ny * w], [b[0] + nz * w, b[1] + ny * w]);
-    }
-    return ring;
-  }
-  function glazeTri(p) {
+  function glazeTri(p) {                                     // triangular fixed glass: glass prism + black frame bars; the rake and band below are its casing
     prismZY(p, xg - .125, xg + .125, M.glass, 'wallN', [], false);
-    prismZY(triRing(p, c), D.N_GYP - .8, D.N_GYP, M.trimCasing, 'wallN', [p]).userData.variant = 'trimN1';
     for (let i = 0; i < 3; i++) { const a = p[i], b = p[(i + 1) % 3]; bar(V(xg, a[1], a[0]), V(xg, b[1], b[0]), .9, M.black, 'wallN'); }
   }
   K.forEach(glazeTri); N.forEach(glazeTri);
@@ -2407,39 +2394,38 @@ slopedBoxZ(D.HALL_X1, 0, -150, -D.GLB_W / 2, yd, D.DORM_SLOPE, .75, M.gypC, 'lou
       box(xg + xo - .125, xg + xo + .125, .5 + pf, yT - f - pf, pa + pf, pb - pf, M.glass, 'wallN', false);
     }
     box(D.N_GYP - 1.6, D.N_GYP - .8, 34, 44, zm - 1.4 * s - .4, zm - 1.4 * s + .4, M.black, 'wallN', false);   // handle
-    tb('trimN1', yT, yT + c, z1 - c, z2 + c);                                                                 // head casing over the legs
-    tb('trimN1', 0, yT, z1 - c, z1); tb('trimN1', 0, yT, z2, z2 + c);                                        // legs
   }
-  // ---- Gable trim, variant 'trimN2': ONE BOARD PER GAP (the alternative reading for the owner's review) --------
-  // Where two openings sit closer than two 1x4s, one board covers the gap and laps each frame 1/4", so its width is
-  // the gap + 1/2": 3" between stacked J's -> 1x4; 4 1/2" beside them -> 5 1/2" (1x6); 3.9" slider-to-window -> 4 7/8"
-  // (1x6 rip); 6" upper J to N -> 7 1/4" (1x8); the 8 1/2" centre strip -> 9" (1x10 rip). Everything else is 1x4.
+  // ---- the trim itself: one board per gap ------------------------------------------------------------------------
   {
-    const v = 'trimN2', c4 = c, cb = 4.5;                                    // 3 1/2" stock; centre board z -4.5..4.5
+    const cb = 4.5;                                                                     // centre board z -cb .. cb (9")
     const jR = 49.75, oL = 54.75, oR = 100.25, dR = 99.75, wL = 104.15, wR = 140.15;   // frame lines (RO +/- 1/4")
-    const yA1 = 84.25, yB1 = 102.25, yB0 = yB1 - c4, yC0 = 157.75, yC1 = 161.25, yD0 = 216.25, yD1 = 223.5;
-    tb(v, 0, 284.3, -cb, cb);                                                // centre board, floor to the top of the N boards
+    const yA1 = 84.25, yB1 = 102.25, yB0 = yB1 - c, yC0 = 157.75, yC1 = 161.25, yD0 = 216.25, yD1 = 223.5;
+    const zN = 50 - (yD1 - 223) / D.SLOPE, hN = c * Math.sqrt(1 + D.SLOPE ** 2);        // N rake: underside on the RO hypotenuse; top edge's plumb height over it
+    const yPk0 = yD1 + D.SLOPE * (zN - cb) + hN, yPk = yPk0 + D.SLOPE * cb;              // the rakes' top edges at the centre board, and where they meet over it
+    tp([[-cb, 0], [cb, 0], [cb, yPk0], [0, yPk], [-cb, yPk0]]);                         // centre board, floor to the peak, capped to both slopes
     for (const s of [1, -1]) {
       const Z = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
-      tb(v, yA1, yA1 + c4, ...Z(cb, wR + c4));                               // band A: slider head + window head, 84 1/4" .. 87 3/4"
-      tb(v, 0, yA1, ...Z(dR - .25, wL + .25));                               // slider / as-built window shared board, 4 7/8"
-      tb(v, 36.25 - c4, yA1, ...Z(wR, wR + c4));                             // as-built window outer leg
-      tb(v, 36.25 - c4, 36.25, ...Z(wL + .25, wR));                          // as-built window sill casing
-      tb(v, yB0, yB1, ...Z(cb, oR + c4));                                    // band B: lower J sill casing
-      tb(v, yB0, yD0, ...Z(jR - .25, oL + .25));                             // inner / outer J shared vertical, 5 1/2" (1x6)
-      tb(v, yB0, yC1, ...Z(oR, oR + c4));                                    // outer J outer leg
-      tb(v, yC0, yC1, ...Z(cb, oR + c4));                                    // band C: lower J head / upper J sill / K base
-      tb(v, yD0, yD1, ...Z(cb, oL + .25));                                   // band D: upper J head / N base, 7 1/4" (1x8)
-      const kb = [[100.3, yC1], [103.75, yC1], [103.75, 162.5], [55, 222.3], [55, 216.7]].map(q => [s * q[0], q[1]]);   // K hypotenuse board
-      const nb = [[49.6, yD1], [54.1, yD1], [cb, 284.3], [cb, 278.7]].map(q => [s * q[0], q[1]]);                       // N hypotenuse board
-      if (s < 0) { kb.reverse(); nb.reverse(); }
-      prismZY(kb, D.N_GYP - .75, D.N_GYP, M.trimCasing, 'wallN').userData.variant = v;
-      prismZY(nb, D.N_GYP - .75, D.N_GYP, M.trimCasing, 'wallN').userData.variant = v;
+      // verticals, full height
+      tb(0, yA1 + c, ...Z(dR - .25, wL + .25));           // slider / as-built window shared board, 4 7/8": floor to the head band's top
+      tb(36.25 - c, yA1 + c, ...Z(wR, wR + c));           // as-built window outer leg: sill casing bottom to the head band's top
+      tb(yB0, yD1, ...Z(jR - .25, oL + .25));             // inner / outer J shared vertical, 5 1/2" (1x6): lower J sill bottom to band D's top; the K rake dies into it
+      tb(yB0, yC1, ...Z(oR, oR + c));                     // outer J outer leg: sill bottom to band C's top; the K rake sits on it
+      // horizontal bands, butted between the verticals
+      tb(yA1, yA1 + c, ...Z(cb, dR - .25));               // band A: slider head, centre board to the shared board ...
+      tb(yA1, yA1 + c, ...Z(wL + .25, wR));               //   ... and as-built window head, shared board to the outer leg: one line at 84 1/4" .. 87 3/4"
+      tb(36.25 - c, 36.25, ...Z(wL + .25, wR));           // as-built window sill casing
+      tb(yB0, yB1, ...Z(cb, jR - .25)); tb(yB0, yB1, ...Z(oL + .25, oR));   // band B: lower J sill casings
+      tb(yC0, yC1, ...Z(cb, jR - .25)); tb(yC0, yC1, ...Z(oL + .25, oR));   // band C: lower J head / upper J sill / K base
+      tb(yD0, yD1, ...Z(cb, jR - .25));                   // band D: upper J head / N base, 7 1/4" (1x8)
+      // rakes: underside on the RO hypotenuse, sitting on the band and leg tops
+      rake(s, 100.5 - (yC1 - 161) / D.SLOPE, yC1, oR + c, oL + .25);   // K: level on band C / the outer leg, plumb at the leg's outer edge, dies into the shared vertical
+      rake(s, zN, yD1, oL + .25, cb);                                    // N: level on band D / the vertical's top, dies into the centre board
     }
   }
-  // Base: 4" x 1/2" (owner 2026-09-16 -- he has 4" at home and read 3 1/2" as too narrow), broken
-  // around both slider openings instead of running straight across them as it used to.
-  for (const [b1, b2] of [[-150, -D.DR_Z2], [-D.DR_Z, D.DR_Z], [D.DR_Z2, 150]])
+  // Base: 4" x 1/2" (owner 2026-09-16 -- he has 4" at home and read 3 1/2" as too narrow), broken around both slider
+  // openings. Each run dies into the slider / as-built window shared board (z +/-99.5 .. 104.4), and there is no base
+  // between the doors: the centre board covers that strip to the floor.
+  for (const [b1, b2] of [[-150, -104.4], [104.4, 150]])
     box(D.N_GYP - D.BASE_T, D.N_GYP, 0, D.BASE_H, b1, b2, M.trimCasing, 'wallN', false);
 }
 
@@ -2642,11 +2628,11 @@ for (const cx of D.CAN_X) for (const cz of D.CAN_Z) { const pl = new THREE.Point
   // gable trim, west half (the Gable trim view): each board's stock, per reading
   tagAt(['CASING', '1x4 = 3 1/2" x 3/4"', 'legs, head, sill casing'], NW, 93, -122, 'x-', TF);
   tagAt(['HEAD CASING', '84 1/4" to 87 3/4", sliders and windows'], NW, 93, -52, 'x-', T2);
-  tagAt(['TRIM AS DRAWN', 'two 1x4 in each 3" and 4 1/2" gap'], NW, 130, -52, 'x-', FTF).userData.variant = 'trimN1';
-  tagAt(['SHARED BOARD 1x6', '5 1/2" over the 4 1/2" gap'], NW, 130, -52, 'x-', T2).userData.variant = 'trimN2';
-  tagAt(['BAND 1x8', '7 1/4" over the 6" gap'], NW, 220, -27, 'x-', T2).userData.variant = 'trimN2';
-  tagAt(['CENTRE BOARD', '9" (1x10 rip) over the 8 1/2" strip'], NW, 45, 0, 'x-', T2).userData.variant = 'trimN2';
-  tagAt(['SHARED BOARD', '4 7/8" (1x6 rip) over the 3.9" gap'], NW, 45, -102, 'x-', T2).userData.variant = 'trimN2';
+  tagAt(['SHARED BOARD 1x6', '5 1/2" over the 4 1/2" gap'], NW, 130, -52, 'x-', T2);
+  tagAt(['BAND 1x8', '7 1/4" over the 6" gap'], NW, 220, -27, 'x-', T2);
+  tagAt(['CENTRE BOARD', '9" (1x10 rip) over the 8 1/2" strip', 'floor to the peak, top cut to both slopes'], NW, 45, 0, 'x-', T2);
+  tagAt(['SHARED BOARD', '4 7/8" (1x6 rip) over the 3.9" gap'], NW, 45, -102, 'x-', T2);
+  tagAt(['RAKE 1x4', 'level cut on the band, plumb cut at the vertical'], NW, 250, -30, 'x-', T2);
   tagAt(['FIELD VERIFY WINDOWS A1 / A2 count + position', '4\'-0" x 4\'-6" fixed, sill 3\'-0", RO + 1/2"'], 40.75, 99, WW, 'z', FTF);
   tagAt(['WOOD STOVE Drolet Columbia II', '25 5/8" w x 25 1/8" d x 29" h, 6" flue', 'corner pad 4\' x 4\' x 8" stone, 24" chamfer'], 204, 66, WW, 'z', T);
   tagAt(['VERIFY CLEARANCES ON THE STOVE LABEL', 'pad 16" past the door, flue between rafters'], 204, 52, WW, 'z', FT);
