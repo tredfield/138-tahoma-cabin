@@ -1650,10 +1650,12 @@ D.RISE = (D.DECK - D.GRADE) / D.RISERS;                     // 6 1/4" risers
 // The vertical jog between the two planes lands on the bearing line, where the eave beam and the blocking between the
 // rafters above it close it (the owner's photograph shows that blocking); along the side walls the siding closes it,
 // which is why SIDE_TOP / DORM_TOP are taken from the OUTBOARD plane.
-D.TAIL_END = 8;                                             // plumb depth of the cut-down tails (a 2X6 on edge reads ~8" plumb at 14.7:12)
-D.FASCIA_H = 9;                                             // side-eave fascia: one 9" plumb board on the tail ends
-D.sofOutEnd = x => D.topEnd(x) + D.ROOF_T - D.TAIL_END - D.SOF_T;
-D.sofOutDor = x => D.topDor(x) + D.ROOF_T - D.TAIL_END - D.SOF_T;
+D.FASCIA_H = 9;                                             // side-eave fascia: one 9" plumb board, level top, on the tail ends
+D.REVEAL = 0.5;                                             // cedar underside sits 1/2" above the fascia's bottom edge, so the tail bottom (cedar top) is 1 1/4" above it
+// Outboard plane: hangs off the fascia, parallel to the roof. The tail depth this implies is about 6" square to the roof
+// = a 2X6 outlooker plus the 19/32" sheathing, and a 2X6 cut plumb reads the owner's "about 8 inches at plumb end".
+D.sofOutEnd = x => D.topEnd(x) - D.FASCIA_H + D.REVEAL;
+D.sofOutDor = x => D.topDor(x) - D.FASCIA_H + D.REVEAL;
 D.SIDE_TOP = D.sofOutEnd(D.HW + D.SHEATH);                  // end-bay side walls run up to the OUTBOARD soffit plane (blocking between the tails above the plate)
 D.DORM_TOP = D.sofOutDor(D.HW + D.SHEATH);                  // dormer walls, same
 D.CHEEK_X0 = (D.PLUMB_DOR + D.SOF_T + D.ROOF_T) / (D.PITCH_END - D.PITCH_DOR);   // ~30: cheek walls start where the dormer soffit clears the end roof
@@ -2097,11 +2099,14 @@ const OPEN = {                                     // rough openings in wall-loc
     slab(0, s * D.EAVE, sg.top, D.ROOF_T, sg.za, sg.zb, M.roof, L);                                  // roofing over the rafters
     for (let z = sg.za + D.RIB_SP / 2; z < sg.zb; z += D.RIB_SP)                                       // standing-seam ribs down the slope
       slab(s * 3.5, s * D.EAVE, x => sg.top(x) + D.ROOF_T, D.RIB_H, z - D.RIB_W / 2, z + D.RIB_W / 2, M.roofRib, L);
-    // eave fascia: ONE 9" board measured square to the roof, roofing top down to the tapered tail underside (owner 2026-09-21).
+    // eave fascia: ONE 9" board, plumb, level (square) top tucked under the sheathing -- the top edge sits on the
+    // sheathing's underside plane, so the whole 9" shows in elevation with the roofing's edge above it, and its outer top
+    // corner clears the roof plane by only 5/16" instead of the 1 13/16" the owner caught standing over the rake boards
+    // (owner 2026-09-21: "there is full 9\" visible" and "it is sitting up too high and corners are above the rake fascia").
     // Run-past corners (owner 2026-09-18): the board stops at each rake fascia's back face -- the gable and dormer rakes at the roof edges, the
     // short cheek-end rakes 1 1/2" inside the cheek planes -- so every rake laps in front of its end.
     // Top beveled to the roof plane (owner review 2026-09-18): a level top stood 1" (dormer) / 1 3/4" (gables) above the rake board's top edge at the corner
-    PZ([[s * D.EAVE, sg.top(D.EAVE) + D.ROOF_T - D.FASCIA_H], [s * (D.EAVE + FW), sg.top(D.EAVE) + D.ROOF_T - D.FASCIA_H], [s * (D.EAVE + FW), sg.top(D.EAVE + FW) + D.ROOF_T], [s * D.EAVE, sg.top(D.EAVE) + D.ROOF_T]], sg.fza, sg.fzb, M.fascia, 'trim');
+    PZ([[s * D.EAVE, sg.top(D.EAVE) - D.FASCIA_H], [s * (D.EAVE + FW), sg.top(D.EAVE) - D.FASCIA_H], [s * (D.EAVE + FW), sg.top(D.EAVE)], [s * D.EAVE, sg.top(D.EAVE)]], sg.fza, sg.fzb, M.fascia, 'trim');
   }
   // rake fascia along the four roof edges (gable ends and the dormer's overhanging cheeks), same full depth: one board, plumb cut,
   // running RAKE_PAST past the rafter tails so its tail laps in front of the eave fascia's end (run-past joint, owner 2026-09-18)
