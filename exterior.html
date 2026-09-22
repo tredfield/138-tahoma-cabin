@@ -162,6 +162,8 @@
       <button data-view="corner">Fascia corner</button>
       <button data-view="rake">Gable rake</button>
       <button data-view="eave">Side eave</button>
+      <button data-view="gableN">North windows</button>
+      <button data-view="gableS">South windows</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
     </div>
   </div>
@@ -1987,22 +1989,6 @@ function triOffset(t, d) {
   const k = (r + d) / r;
   return [a, b, c].map(p => [I.x + (p.x - I.x) * k, I.y + (p.y - I.y) * k]);
 }
-// Outward offset of a polygon with the corners CUT SQUARE instead of mitred. triOffset's incenter
-// homothety is a true mitred offset -- every side lands exactly d out -- which is what the inner glass
-// line wants, but at a closing angle a mitre grows without limit, so the gable triangles' casing grew a
-// spike at each acute corner (owner 2026-09-16, same fault as the kitchen drawing's gable wall). Only
-// the outer casing boundary needs the corners taken off.
-function polyOffsetSquare(p, d) {
-  const n = p.length;
-  const ar = p.reduce((t, q, i) => { const r = p[(i + 1) % n]; return t + q[0] * r[1] - r[0] * q[1]; }, 0), sg = ar > 0 ? 1 : -1;
-  const ring = [];
-  for (let i = 0; i < n; i++) {
-    const a = p[i], b = p[(i + 1) % n];
-    const dx = b[0] - a[0], dy = b[1] - a[1], h = Math.hypot(dx, dy), nx = sg * dy / h, ny = -sg * dx / h;
-    ring.push([a[0] + nx * d, a[1] + ny * d], [b[0] + nx * d, b[1] + ny * d]);
-  }
-  return ring;
-}
 // Sloped slab in the X-Y plane (vertical thickness t) extruded along z between za and zb; yFn gives the underside at x.
 function slab(xa, xb, yFn, t, za, zb, mat, layer) {
   return PZ([[xa, yFn(xa)], [xb, yFn(xb)], [xb, yFn(xb) + t], [xa, yFn(xa) + t]], za, zb, mat, layer);
@@ -2166,33 +2152,35 @@ const OPEN = {                                     // rough openings in wall-loc
 // 4. WINDOWS, DOORS, SCONCES (layer 'win'; casings on layer 'trim')
 // ===========================================================================
 {
-  const L = 'win', FW = D.FRAME_W, wi = -D.FRAME_IN, wo = D.FRAME_OUT, wt0 = D.SIDING_T, wt1 = D.SIDING_T + D.TRIM_T;
+  const L = 'win', FW = D.FRAME_W, wi = -D.FRAME_IN, wo = D.FRAME_OUT, wt0 = D.SIDING_T, wt1 = D.SIDING_T + D.TRIM_T, c = D.TRIM_W;
   const frameRing = (wall, outer, inner) => wallPrism(wall, outer, wi, wo, M.win, L, [inner]);
   const pane = (wall, poly) => wallPrism(wall, poly, -1.6, -1.35, M.glass, L);
   const casing = (wall, outer, inner) => wallPrism(wall, outer, wt0, wt1, M.trim, 'trim', inner ? [inner] : []);
-  function winRect(wall, r, opts = {}) {                       // fixed or slider window with 1x4 casing and a sill nose
+  const nose = (wall, u1, u2, ySill) => wallBox(wall, u1, u2, ySill - c - 1.5, ySill - c, wt0, wt1 + 0.75, M.trim, 'trim');   // 1 1/2" drip nose under a sill casing, 3/4" proud
+  // opts.casing === false leaves the trim to the gable window-wall block below, where openings share boards.
+  function winRect(wall, r, opts = {}) {                       // fixed or slider window; its own 1x4 casing and sill nose unless told otherwise
     const inner = rectOffset(r, -FW);
-    frameRing(wall, r, inner); pane(wall, inner); casing(wall, rectOffset(r, D.TRIM_W), r);
-    wallBox(wall, r[0][0] - D.TRIM_W, r[1][0] + D.TRIM_W, r[0][1] - D.TRIM_W - 1.5, r[0][1] - D.TRIM_W, wt0, wt1 + 0.75, M.trim, 'trim');
+    frameRing(wall, r, inner); pane(wall, inner);
+    if (opts.casing !== false) { casing(wall, rectOffset(r, c), r); nose(wall, r[0][0] - c, r[1][0] + c, r[0][1]); }
     if (opts.slider) { const um = (r[0][0] + r[1][0]) / 2; wallBox(wall, um - 1, um + 1, inner[0][1], inner[2][1], -2.5, -0.5, M.win, L); }
   }
-  function winTri(wall, t) {                                   // triangle window: mitred frame, casing with the outer corners cut square
+  function winTri(wall, t) {                                   // triangle window: mitred frame and glass; every triangle sits in a gable window wall, which trims it
     const inner = triOffset(t, -FW);
-    frameRing(wall, t, inner); pane(wall, inner); casing(wall, polyOffsetSquare(t, D.TRIM_W), t);
+    frameRing(wall, t, inner); pane(wall, inner);
   }
-  function slider(wall, r) {                                   // glass slider door: frame, two panels, center stile, bottom rail, casing open at the sill
+  function slider(wall, r, opts = {}) {                        // glass slider door: frame, two panels, center stile, bottom rail; casing open at the sill unless told otherwise
     const inner = rectOffset(r, -FW), um = (r[0][0] + r[1][0]) / 2;
     frameRing(wall, r, inner); pane(wall, inner);
     wallBox(wall, um - 1.5, um + 1.5, inner[0][1], inner[2][1], -3, -0.5, M.win, L);
     wallBox(wall, inner[0][0], inner[1][0], inner[0][1], inner[0][1] + 4, -3, -0.5, M.win, L);
-    casing(wall, uPoly(r[0][0], r[1][0], r[0][1], r[2][1], D.TRIM_W), null);
+    if (opts.casing !== false) casing(wall, uPoly(r[0][0], r[1][0], r[0][1], r[2][1], c), null);
   }
   function entryDoor(wall, r) {                                // door 1: metal slab in a U frame, casing open at the threshold
     const [u1, u2, y1, y2] = [r[0][0], r[1][0], r[0][1], r[2][1]];
     wallPrism(wall, uPoly(u1 + FW, u2 - FW, y1, y2 - FW, FW), wi, wo, M.win, L);
     wallBox(wall, u1 + FW, u2 - FW, y1, y2 - FW, -4, -2.25, M.door, L);
     wallBox(wall, u2 - FW - 8, u2 - FW - 6.5, 38, 46, -2.25, -1.25, M.rail, L);   // lever, schematic
-    casing(wall, uPoly(u1, u2, y1, y2, D.TRIM_W), null);
+    casing(wall, uPoly(u1, u2, y1, y2, c), null);
   }
   function sconce(wall, u, y) {                                // A03 1653: fixture not chosen; a box and an unlit warm point light for the render pipeline
     wallBox(wall, u - 2.5, u + 2.5, y - 4, y + 4, wt0, wt0 + 4, M.rail, L);
@@ -2201,10 +2189,71 @@ const OPEN = {                                     // rough openings in wall-loc
     const pl = new THREE.PointLight(0xffd9a0, 0, 220); pl.position.copy(p); pl.name = 'sconce'; pl.visible = false; scene.add(pl);   // invisible: no shader cost in daylight; the export traversal still finds it
   }
   const S = OPEN.S, N = OPEN.N, E = OPEN.E, Wo = OPEN.W;
-  entryDoor(WALLS.S, S.door1); S.A.forEach(r => winRect(WALLS.S, r, { slider: true })); slider(WALLS.S, S.door12);   // guest-bedroom A windows slide (owner 2026-09-11)
+  const NC = { casing: false };
+  entryDoor(WALLS.S, S.door1); S.A.forEach(r => winRect(WALLS.S, r, { slider: true })); slider(WALLS.S, S.door12, NC);   // guest-bedroom A windows slide (owner 2026-09-11)
   S.O.forEach(t => winTri(WALLS.S, t)); S.P.forEach(t => winTri(WALLS.S, t));
-  slider(WALLS.N, N.door9); slider(WALLS.N, N.door10); N.J.forEach(r => winRect(WALLS.N, r));
-  N.K.forEach(t => winTri(WALLS.N, t)); N.Nw.forEach(t => winTri(WALLS.N, t)); N.asb.forEach(r => winRect(WALLS.N, r));   // picture windows (owner 2026-09-11)
+  slider(WALLS.N, N.door9, NC); slider(WALLS.N, N.door10, NC); N.J.forEach(r => winRect(WALLS.N, r, NC));
+  N.K.forEach(t => winTri(WALLS.N, t)); N.Nw.forEach(t => winTri(WALLS.N, t)); N.asb.forEach(r => winRect(WALLS.N, r, NC));   // picture windows (owner 2026-09-11)
+  // ---- Gable window walls: ONE BOARD PER GAP (owner 2026-09-21, chosen over a picture frame per opening and over a
+  // capped mitre). Casing edges sit on the RO lines like every casing on this drawing (the frame fills its RO here and
+  // sits 1/4" inside it on the interior drawings, so each shared board reads 1/2" narrower than the kitchen drawing's
+  // stock call-out). Joinery: VERTICALS run through -- the centre board to the peak, every shared vertical and outer
+  // leg from the bottom of its lowest sill casing to the top of its highest head band -- and the horizontal bands BUTT
+  // between them; a rake board sits on the board below with a level cut and dies into a vertical with a plumb cut;
+  // the centre board runs past the rakes and is capped to both slopes so the trim comes to one point under the ridge.
+  // The drip nose stays only under the bottom window of a stack and under isolated windows (owner 2026-09-21).
+  const tb = (wall, u1, u2, y1, y2) => wallBox(wall, u1, u2, y1, y2, wt0, wt1, M.trim, 'trim');
+  const tp = (wall, pts) => wallPrism(wall, pts, wt0, wt1, M.trim, 'trim');
+  // Rake board, c wide square to the slope, whose UNDERSIDE runs up and inward from (uA, yA) at slope m: a level cut on
+  // the board below, cut plumb at uOut if the top edge would otherwise run past the outer leg line, and a plumb cut at
+  // uEnd where it dies into a vertical. s mirrors it about the ridge.
+  function rake(wall, s, uA, yA, uOut, uEnd, m) {
+    const h = c * Math.sqrt(1 + m * m), uc = uA + h / m;          // top edge's plumb height over the underside; where it meets the base line
+    const yU = u => yA + m * (uA - u), yT = u => yU(u) + h;
+    const p = uOut < uc - .1 ? [[uA, yA], [uOut, yA], [uOut, yT(uOut)], [uEnd, yT(uEnd)], [uEnd, yU(uEnd)]]
+                             : [[uA, yA], [uc, yA], [uEnd, yT(uEnd)], [uEnd, yU(uEnd)]];
+    const q = p.map(g => [s * g[0], g[1]]); if (s < 0) q.reverse();
+    return tp(wall, q);
+  }
+  const capped = (wall, hw, y0, yTop, m) => tp(wall, [[-hw, y0], [hw, y0], [hw, yTop], [0, yTop + m * hw], [-hw, yTop]]);   // centre board, top cut to both slopes
+  {  // NORTH: doors 9 / 10, four lower J, two upper J, K and N triangles, the two as-built windows
+    const W = WALLS.N, m = D.PITCH_END, cbw = 4, hm = c * Math.sqrt(1 + m * m);   // centre board u -4 .. 4: the 8" strip between the doors, the inner J's and the N's
+    capped(W, cbw, 0, 279.35 + hm, m);                                             // threshold to the peak; the N rakes' top edges meet its corners
+    for (const s of [1, -1]) {
+      const U = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
+      // verticals, full height
+      tb(W, ...U(100, 103.9), 0, 88);                                              // slider / as-built window shared board, 3.9": threshold to the head band's top
+      tb(W, ...U(140.4, 143.9), 32.5, 88);                                         // as-built window outer leg: sill casing bottom to the head band's top
+      tb(W, ...U(50, 54.5), 98.5, 223);                                            // inner / outer J shared vertical, 4 1/2": lower J sill casing bottom to band D's top; the K rake dies into it
+      tb(W, ...U(100.5, 104), 98.5, 161);                                          // outer J outer leg: sill casing bottom to band C's top; the K rake sits on it
+      // bands, butted between the verticals
+      tb(W, ...U(4, 100), 84.5, 88); tb(W, ...U(103.9, 140.4), 84.5, 88);         // band A: slider head and as-built window head, one line on the shared header (owner 2026-09-17)
+      tb(W, ...U(103.9, 140.4), 32.5, 36); nose(W, ...U(103.9, 143.9), 36);       // as-built window sill casing and its drip nose, under the outer leg, butting the shared board
+      tb(W, ...U(4, 50), 98.5, 102); tb(W, ...U(54.5, 100.5), 98.5, 102);         // band B: lower J sill casings ...
+      nose(W, ...U(4, 104), 102);                                                  //   ... and one drip nose under both, the legs and the shared vertical
+      tb(W, ...U(4, 50), 158, 161); tb(W, ...U(54.5, 100.5), 158, 161);           // band C: lower J head / upper J sill / K base, 3"
+      tb(W, ...U(4, 50), 217, 223);                                                // band D: upper J head / N base, 6"
+      // rakes, underside on the RO hypotenuse
+      rake(W, s, 100.5, 161, 104, 54.5, m);                                        // K: level on band C and the outer leg, plumb at the leg's outer edge, dies into the shared vertical
+      rake(W, s, 50, 223, 54.5, cbw, m);                                           // N: level on band D and the vertical's top, dies into the centre board
+    }
+  }
+  {  // SOUTH: door 12 and the O triangles under one band, the P pair on it
+    const W = WALLS.S, m = 58 / 42.5, hm = c * Math.sqrt(1 + m * m);   // O and P hypotenuses as drawn: A04's 42 1/2 x 58, steeper than the roof (spec open item)
+    const yB0 = 204.5, yB1 = 215, uB = 48.25 + hm / m;                 // the band: door 12 / O heads to the P bases, 10 1/2" RO to RO; plumb ends where the O rakes' top edges meet it
+    tb(W, -uB, uB, yB0, yB1);
+    capped(W, 2.125, yB1, 273 + hm, m);                                // centre board between the P pair, 4 1/4", standing on the band
+    for (const s of [1, -1]) {
+      const U = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
+      tb(W, ...U(36.25, 39.75), 120, yB0);                             // door 12 leg, threshold to the band
+      tb(W, ...U(44.75, 48.25), 143, yB0);                             // O vertical leg, base casing bottom to the band
+      tb(W, ...U(48.25, 90.75 + hm / m), 143, 146.5);                  // O base casing, the leg to the rake's outer corner
+      const q = [[90.75, 146.5], [90.75 + hm / m, 146.5], [uB, yB0], [48.25, yB0]].map(g => [s * g[0], g[1]]);   // O rake: its apex is ON the band's underside, so both ends are level cuts
+      if (s < 0) q.reverse();
+      tp(W, q);
+      rake(W, s, 44.625, yB1, Infinity, 2.125, m);                     // P rake: level on the band, dies into the centre board
+    }
+  }
   winRect(WALLS.E, E.C); winRect(WALLS.E, E.Dw, { slider: true }); winRect(WALLS.E, E.E);   // D (kitchen) slides; E (loft) is a picture window (owner 2026-09-11)
   winRect(WALLS.W, Wo.F); winRect(WALLS.W, Wo.A1); winRect(WALLS.W, Wo.A2);   // living-room picture windows (owner 2026-09-11)
   // sconces: 78" to center (owner 2026-09-11: A03's ~5'-10" read low); flanking door 1 (A03 / E01) plus one outside each front
@@ -2420,7 +2469,9 @@ const VIEWS = {
   top:    { pos: [0, 1250, -275], tgt: [0, 0, -276], fov: 40 },
   corner: { pos: [268, 128, -22], tgt: [182, 200, -136], fov: 46 },   // review view: the dormer's SE rake-to-eave corner from below (run-past joint, owner 2026-09-18)
   rake:   { pos: [250, 72, 196], tgt: [120, 162, 74], fov: 50 },
-  eave:   { pos: [262, 46, -6], tgt: [174, 105, -92], fov: 52 },     // review view: the east side eave close up from below and outside -- 9" fascia, narrowed tail ends, cedar T&G tucked inside (owner 2026-09-21)      // review view: the front gable's east rake from below and outside, where the lapped board's step and its run-past tail both read (owner 2026-09-21)
+  eave:   { pos: [262, 46, -6], tgt: [174, 105, -92], fov: 52 },
+  gableN: { pos: [0, 150, -1060], tgt: [0, 140, -552], fov: 36 },   // review view: the north window wall square on -- one board per gap, rakes, capped centre board (owner 2026-09-21)
+  gableS: { pos: [0, 200, 430], tgt: [0, 200, 0], fov: 30 },        // review view: door 12, the O triangles, the band and the P pair     // review view: the east side eave close up from below and outside -- 9" fascia, narrowed tail ends, cedar T&G tucked inside (owner 2026-09-21)      // review view: the front gable's east rake from below and outside, where the lapped board's step and its run-past tail both read (owner 2026-09-21)
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
