@@ -95,6 +95,7 @@
       <span class="lbl">View</span>
       <button data-view="front" class="on">Front</button>
       <button data-view="porch">Porch corner</button>
+      <button data-view="beam">Post top</button>
       <button data-view="under">Under the roof</button>
       <button data-view="side">From the east</button>
       <button data-view="top">Plan</button>
@@ -1563,7 +1564,7 @@ D.RAFTER_PLUMB = D.RAFTER_D / Math.cos(Math.atan(D.PITCH));      // 20.6" plumb 
 D.UPPER_EDGE = D.UPPER_EDGE_AS_BUILT;                             // A02 drew 4'-3 1/2"; as built the glulam face
 D.roofTop = x => D.RIDGE_TOP - D.PITCH * Math.abs(x);            // top of rafter at plan offset x
 D.roofBot = x => D.roofTop(x) - D.RAFTER_PLUMB;                  // underside of rafter
-D.EAVE_BEAM_TOP = D.roofBot(156);                                // eave line at gridlines A / C = top of the upper-deck glulam (~118.5)
+D.EAVE_BEAM_TOP = D.roofBot(156);                                // eave line at gridlines A / C (~117.9), about level with the upper-deck glulam top (118.5)
 
 // --- renderer / scene ------------------------------------------------------
 const scene = new THREE.Scene();
@@ -1854,15 +1855,18 @@ for (const s of [-1, 1]) {
 const LED_Z0 = D.SHEATH_T, LED_Z1 = LED_Z0 + 1.5;          // ledgers sit against the 7/16" sheathing
 const PJ_TOP = -1.5, PJ_BOT = PJ_TOP - 5.5;                  // PT2X6 joists: surface -1/2", 1" decking
 // Deck ends (owner 2026-09-22): a PT end rim, joist depth, on the OUTSIDE face of each corner post, house to front
-// edge; the front rim runs out to it; a 1x cedar skirt wraps the three open sides, top at the decking underside,
-// bottom at the joist underside; the floor boards overhang the skirt 3/4" on all three open sides (owner 2026-09-22
-// evening). The skirt face is 2 1/4" past each post face, the board ends 3" past it.
+// edge; the front rim runs out to it; a 1x10 cedar skirt (9 1/4" tall, owner 2026-09-22 late) wraps the three open
+// sides, top tucked under the decking, hanging 3 3/4" below the 2X6 joists like the skirt on the owner's current
+// deck; the floor boards overhang the skirt 3/4" on all three open sides (owner 2026-09-22 evening). The skirt face
+// is 2 1/4" past each post face, the board ends 3" past it.
 const END_RIM_T = 1.5, SKIRT_T = 0.75, OVERHANG = 0.75;
+const SKIRT_H = 9.25, SKIRT_BOT = PJ_TOP - SKIRT_H;          // 1x10 skirt: -1.5 .. -10.75
 const END_RIM_X0 = D.HALF_W + 2.75 + 0.02, END_RIM_X1 = D.HALF_W + 2.75 + END_RIM_T;   // 158.77 .. 160.25 (0.02 clear of the post face: no coincident faces)
 const DECK_END = END_RIM_X1 + SKIRT_T;                                                 // 161: outer face of the end skirt
 const PGLB_W = 5.125, PGLB_D = 12;                           // porch drop beam, solid PT — PLACEHOLDER size, not on record
 const UGLB_W = 5.5, UGLB_D = 15;                             // upper-deck glulam — PLACEHOLDER size, not on record
 const UB_TOP = D.UPPER_FLR - 1.5, UB_BOT = UB_TOP - UGLB_D;   // 118.5 .. 103.5: TOP FLUSH with the joist tops (photos)
+const EB_BOT = D.EAVE_BEAM_TOP - 7.5;                        // 6X8 eave beam underside (~110.4) = corner post top (owner's field photo 2026-09-22)
 const PB_TOP = PJ_BOT, PB_BOT = PB_TOP - PGLB_D;              // -7 .. -19, under the joists
 const BZ0 = D.POST_LINE - PGLB_W / 2, BZ1 = D.POST_LINE + PGLB_W / 2;   // centered on the 4'-0" line
 const JOIST_X = [-156 + 0.75];
@@ -1871,11 +1875,12 @@ JOIST_X.push(156 - 0.75);
 
 // schematic hardware -------------------------------------------------------------
 // HUC-type face-mount hanger: back plate on the post face, seat + two sides around the beam end.
-function hucHanger(xFace, dir, y0, y1, z0, z1) {
+// plateTop caps the back plate where the member above (the eave beam over the corner post) would otherwise be pierced.
+function hucHanger(xFace, dir, y0, y1, z0, z1, plateTop = y1 + 1.5) {
   const t = 0.12, L = 2.5;
   const xa = xFace, xb = xFace + dir * L;
   const X0 = Math.min(xa, xb), X1 = Math.max(xa, xb);
-  box(xFace - dir * t, xFace, y0 - t, y1 + 1.5, z0 - 2, z1 + 2, M.steel, 'hardware', false);   // back plate
+  box(xFace - dir * t, xFace, y0 - t, plateTop, z0 - 2, z1 + 2, M.steel, 'hardware', false);   // back plate
   box(X0, X1, y0 - t, y0, z0 - t, z1 + t, M.steel, 'hardware', false);                          // seat
   box(X0, X1, y0, y1 - 1, z0 - t, z0, M.steel, 'hardware', false);                              // side
   box(X0, X1, y0, y1 - 1, z1, z1 + t, M.steel, 'hardware', false);                              // side
@@ -1886,14 +1891,6 @@ function joistHanger(xc, y0, y1, zFace, dir = +1) {          // dir +1: hanger e
   box(xc - 0.75 - t, xc + 0.75 + t, y0 - t, y0, za, zb, M.steel, 'hardware', false);
   box(xc - 0.75 - t, xc - 0.75, y0, y1 - 1.5, za, zb, M.steel, 'hardware', false);
   box(xc + 0.75, xc + 0.75 + t, y0, y1 - 1.5, za, zb, M.steel, 'hardware', false);
-}
-// Face-mount beam hanger on a face perpendicular to z (used where the eave beams meet the glulam).
-function hucHangerZ(zFace, dir, y0, y1, x0, x1) {
-  const t = 0.12, L = 2.5;
-  box(x0 - 2, x1 + 2, y0 - t, y1 + 1.5, zFace, zFace - dir * t, M.steel, 'hardware', false);   // back plate
-  box(x0 - t, x1 + t, y0 - t, y0, zFace, zFace + dir * L, M.steel, 'hardware', false);          // seat
-  box(x0 - t, x0, y0, y1 - 1, zFace, zFace + dir * L, M.steel, 'hardware', false);              // sides
-  box(x1, x1 + t, y0, y1 - 1, zFace, zFace + dir * L, M.steel, 'hardware', false);
 }
 // Joist from the ledger to the rim; the end joists are interrupted by the corner post on the 4'-0" line.
 function joistRun(xc, y0, y1, zEnd, layer, hangEnd = false) {
@@ -1927,18 +1924,21 @@ for (const s of [-1, 1])                                                        
   }
 }
 
-// posts: PT6X6 HF#2 — the corner posts run from the plinth to the UNDERSIDE of the upper-deck glulam and
-// stop there with a post cap (site photos 2026-09-01); the two center posts stop under the porch beam.
+// posts: PT6X6 HF#2 — the corner posts run in ONE piece from the plinth to the UNDERSIDE of the 6X8 eave beams,
+// which bear on their tops (owner's field photo 2026-09-22; supersedes the 2026-09-01 reading that they stopped
+// under the upper-deck glulam with a post cap); the two center posts stop under the porch beam.
 for (const xs of D.STATIONS) {
   const corner = Math.abs(xs) === 156;
-  const top = corner ? UB_BOT : PB_BOT;
+  const top = corner ? EB_BOT : PB_BOT;
   box(xs - 2.75, xs + 2.75, D.POST_BOT, top, D.POST_LINE - 2.75, D.POST_LINE + 2.75, M.pt, 'porch');
-  if (corner) {                                        // post cap under the glulam (schematic, black in the photos)
-    box(xs - 3, xs + 3, top - 0.15, top + 0.15, D.POST_LINE - 3, D.POST_LINE + 3, M.steel, 'hardware', false);
-    for (const q of [-1, 1]) {
-      box(xs - 2.5, xs + 2.5, top, top + 5, D.POST_LINE + q * (UGLB_W / 2), D.POST_LINE + q * (UGLB_W / 2 + 0.15), M.steel, 'hardware', false);
+  if (corner) {                                        // post cap at the eave-beam bearing (schematic, black in the photos)
+    const o = Math.sign(xs), xi = xs - o * 2.75, xo = xs + o * 2.75;   // inner face (the glulam is hung on it) / outer face
+    // cap plate between the post top and the beam underside; its inner edge stops at the post face, clear of the glulam
+    box(Math.min(xi + o * 0.5, xo + o * 0.25), Math.max(xi + o * 0.5, xo + o * 0.25), top - 0.15, top + 0.15, D.POST_LINE - 3, D.POST_LINE + 3, M.steel, 'hardware', false);
+    // one strap across the joint on the OUTER face (post and beam share that plane); two straps down the post's side faces
+    box(Math.min(xo, xo + o * 0.15), Math.max(xo, xo + o * 0.15), top - 6, top + 5, D.POST_LINE - 2.5, D.POST_LINE + 2.5, M.steel, 'hardware', false);
+    for (const q of [-1, 1])
       box(xs - 2.5, xs + 2.5, top - 6, top, D.POST_LINE + q * 2.75, D.POST_LINE + q * 2.9, M.steel, 'hardware', false);
-    }
   }
   // ABU66Z base (schematic): base plate on the plinth, ~1" standoff, 5/8" Titen anchor
   box(xs - 3.6, xs + 3.6, D.PLINTH_TOP, D.PLINTH_TOP + 0.15, D.POST_LINE - 3.6, D.POST_LINE + 3.6, M.steel, 'hardware', false);
@@ -1949,11 +1949,11 @@ for (const xs of D.STATIONS) {
 }
 
 // finishes toggle: 1" decking placeholder overhanging the skirt 3/4" on the three open sides (x +/-161 3/4, front edge
-// z 61 1/2), and the 1x cedar skirt tucked under it (front board full width, end boards butt its back face; tops at the
-// decking underside like the joists and end rims, bottoms at the joist underside)
+// z 61 1/2), and the 1x10 cedar skirt tucked under it (front board full width, end boards butt its back face; tops at the
+// decking underside like the joists and end rims, bottoms 9 1/4" down at -10.75, 3 3/4" below the joists)
 box(-(DECK_END + OVERHANG), DECK_END + OVERHANG, PJ_TOP, -0.5, LED_Z0, D.PORCH_EDGE + SKIRT_T + OVERHANG, M.deck, 'finish', false);
-box(-DECK_END, DECK_END, PJ_BOT, PJ_TOP, D.PORCH_EDGE, D.PORCH_EDGE + SKIRT_T, M.deck, 'finish');          // front skirt
-for (const s of [-1, 1]) box(s * END_RIM_X1, s * DECK_END, PJ_BOT, PJ_TOP, LED_Z0, D.PORCH_EDGE, M.deck, 'finish');   // end skirts
+box(-DECK_END, DECK_END, SKIRT_BOT, PJ_TOP, D.PORCH_EDGE, D.PORCH_EDGE + SKIRT_T, M.deck, 'finish');          // front skirt
+for (const s of [-1, 1]) box(s * END_RIM_X1, s * DECK_END, SKIRT_BOT, PJ_TOP, LED_Z0, D.PORCH_EDGE, M.deck, 'finish');   // end skirts
 
 // ===========================================================================
 // 3. UPPER DECK at UPPER FLR 10'-0" — unchanged, 4'-3 1/2" deep (layer 'upper')
@@ -1965,8 +1965,13 @@ const UX = 152.25, UJOIST_X = JOIST_X.map(x => Math.abs(x) > 153 ? Math.sign(x) 
 const UGLB_Z0 = D.POST_LINE - UGLB_W / 2, UGLB_Z1 = D.POST_LINE + UGLB_W / 2;
 box(-UX, UX, UJ_TOP - 7.25, UJ_TOP, LED_Z0, LED_Z1, M.pt, 'upper');                      // PT2X8 HF#2 LEDGER (Dtl 10/S4.1)
 for (const xc of UJOIST_X) joistRun(xc, UJ_BOT, UJ_TOP, UGLB_Z0, 'upper', true);          // PT2X6 HF#2 @ 16" o.c.
-// GLULAM flush beam spanning 26'-0", bearing on top of the two corner posts (post caps) — replaces S3.2's PT4X8
-box(-158.75, 158.75, UB_BOT, UB_TOP, UGLB_Z0, UGLB_Z1, M.glb, 'upper');
+// GLULAM flush beam spanning between the corner posts' INNER faces (x +/-153.25, 0.02 clear), hung on each post with a
+// face-mount bracket -- type not on record, field verify (owner's field photo 2026-09-22; supersedes the 2026-09-01
+// reading that it ran over the post tops on post caps) — replaces S3.2's PT4X8. The back plates stop 2" under the
+// glulam top so they stay inside the post and the eave beam bearing on it.
+box(-(153.25 - 0.02), 153.25 - 0.02, UB_BOT, UB_TOP, UGLB_Z0, UGLB_Z1, M.glb, 'upper');
+hucHanger(-153.25, +1, UB_BOT, UB_TOP, UGLB_Z0, UGLB_Z1, UB_TOP - 2);
+hucHanger(153.25, -1, UB_BOT, UB_TOP, UGLB_Z0, UGLB_Z1, UB_TOP - 2);
 // DTT2Z tension ties (Dtl 11/S4.1): two per deck, within 24" of each deck edge — schematic straps on a joist
 for (const xc of [-140, 140]) box(xc + 0.75, xc + 0.85, UJ_BOT + 1, UJ_TOP - 1, LED_Z1 + 0.5, LED_Z1 + 14, M.steel, 'hardware', false);
 
@@ -2030,18 +2035,13 @@ for (const s of [-1, 1]) {
 }
 box(-RIDGE_HW, RIDGE_HW, D.RIDGE_TOP - D.RAFTER_D, D.RIDGE_TOP, D.RIDGE_END, D.ROOF_EDGE, M.concept, 'roof');       // false-ridge block
 for (const z0 of [-24.75, -48.75, -72.75]) for (const s of [-1, 1]) rafter(s, z0, M.ghost, 'context');
-// 6X8 DF#2 eave drop beams on gridlines A / C: from the 4-stud pack in the wall to the 6'-0" roof edge
-const EB_BOT = D.EAVE_BEAM_TOP - 7.5;
-M.flagHalo = new THREE.MeshStandardMaterial({ color: 0xe07b20, transparent: true, opacity: .28, depthWrite: false });
+// 6X8 DF#2 eave drop beams on gridlines A / C: ONE continuous member each from the 4-stud pack in the wall to the
+// 6'-0" roof edge, bearing on the corner post's top (EB_BOT, cap schematic above) and cantilevering ~1'-9 1/4" past the
+// post face to the roof edge (owner's field photo 2026-09-22; the 2026-09-01 drawing broke them around the glulam and
+// flagged the stub past it). The top sits ~1/2" under the placeholder glulam's top (117.9 vs 118.5).
 for (const s of [-1, 1]) {
   const x0 = s * 156 - 2.75, x1 = s * 156 + 2.75;
-  // 6X8 eave beam, top flush with the glulam top: wall pocket to the glulam's inner face, hung on it ...
-  box(x0, x1, EB_BOT, D.EAVE_BEAM_TOP, W0, UGLB_Z0, M.roof, 'roof');
-  hucHangerZ(UGLB_Z0, -1, EB_BOT, D.EAVE_BEAM_TOP, Math.min(x0, x1), Math.max(x0, x1));
-  // ... and a stub from the glulam's outer face to the 6'-0" roof edge — how this is carried is NOT on record
-  box(x0, x1, EB_BOT, D.EAVE_BEAM_TOP, UGLB_Z1, D.ROOF_EDGE, M.roof, 'roof');
-  hucHangerZ(UGLB_Z1, +1, EB_BOT, D.EAVE_BEAM_TOP, Math.min(x0, x1), Math.max(x0, x1));
-  box(x0 - 0.6, x1 + 0.6, EB_BOT - 0.6, D.EAVE_BEAM_TOP + 0.6, UGLB_Z1, D.ROOF_EDGE + 0.6, M.flagHalo, 'roof', false);
+  box(x0, x1, EB_BOT, D.EAVE_BEAM_TOP, W0, D.ROOF_EDGE, M.roof, 'roof');
 }
 // (No tie under the peak: the horizontal member in the construction photo is absent in the finished-soffit photos.)
 // finishes toggle: 19/32" roof sheathing (S3.3 note 3), two sloped slabs over ridge to eave tips
@@ -2147,15 +2147,16 @@ const FLAGT = { flag: true };
   const RZ = 45 + RW * 2 + 0.15;                                   // south face of the carrier rafter pair (z 45 .. 48)
   const EZ = D.ROOF_EDGE + 0.15;                                   // roof edge: barge pair and eave-beam ends
   // porch and footings
-  tagAt(['CORNER POST (2)', 'PT6X6 HF#2, cap under glulam', 'ABU66Z on 5/8" x 5" Titen'], 156, 40, PZ, 'z', TF);
+  tagAt(['CORNER POST (2)', 'PT6X6 HF#2 to the 6X8 eave beam', 'glulam hung on brackets, FIELD VERIFY', 'ABU66Z on 5/8" x 5" Titen'], 156, 40, PZ, 'z', TF);
   tagAt(['CENTER POST (2)', 'PT6X6 HF#2, ABU66Z base', 'stops under the porch beam'], -48, -23, PZ, 'z', TF);
   tagAt(['PORCH BEAM PT 26\'-0"', 'FIELD VERIFY size'], -135, -13, GZ, 'z', TFLAG);
   tagAt(['PORCH JOISTS', 'PT2X6 HF#2 @ 16" o.c.', 'cantilever 12" to PT2X6 rim'], 40, -4, D.PORCH_EDGE + 0.15, 'z', TF);
-  tagAt(['END RIM PT 2X, 1x CEDAR SKIRT', 'deck ends 2 1/4" past the post', 'decking overhangs 3/4"'], 118, -4, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
+  tagAt(['END RIM PT 2X, 1x CEDAR SKIRT', 'deck ends 2 1/4" past the post', 'decking overhangs 3/4"', 'skirt 1x10, 9 1/4" under the decking'], 118, -6, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
   tagAt(['PORCH LEDGER', 'PT2X8 HF#2, LedgerLok', 'per 10/S4.1'], -40, -5, LED_Z1 + 0.15, 'z', TF);
   tagAt(['FOOTING (4)', '24" sq x 8" pad', '18"Ø plinth, top 8" above grade'], 66, -50, D.POST_LINE + 9 + 0.15, 'z', TF);
   // upper deck
-  tagAt(['DECK GLULAM 26\'-0"', 'FIELD VERIFY size'], 50, 111, UGZ, 'z', TFLAG);
+  tagAt(['DECK GLULAM 25\'-6 1/2"', 'between the corner posts', 'FIELD VERIFY size'], 50, 111, UGZ, 'z', TFLAG);
+  tagAt(['GLULAM BRACKETS (2)', 'FIELD VERIFY type'], -135, 95, PZ, 'z', TFLAG);
   tagAt(['DECK JOISTS', 'PT2X6 HF#2 @ 16" o.c.', 'face-hung on glulam, tops flush'], -70, 111, UGZ, 'z', TF);
   tagAt(['DECK LEDGER', 'PT2X8 HF#2, LedgerLok', '(2) DTT2Z ties per 11/S4.1'], -110, 131, WZ, 'z', TF);
   // gable wall
@@ -2171,8 +2172,7 @@ const FLAGT = { flag: true };
   tagAt(['RIDGE GLB', '5 1/2" x 24"', 'ends 4\'-0" past the wall'], 0, 318, D.RIDGE_END + 0.15, 'z', TF);
   tagAt(['RAFTERS', '2X14 DF#2 @ 24" o.c.', 'LRU210 hangers at the ridge'], -90, 210, RZ, 'z', TF);
   tagAt(['PITCH ~15:12', 'FIELD VERIFY'], -60, 246, RZ, 'z', TFLAG);
-  tagAt(['EAVE BEAM, A and C', '6X8 DF#2', 'top flush with the deck glulam'], 156, 115, EZ, 'z', TF);
-  tagAt(['EAVE PAST THE GLULAM', 'support TBD'], -156, 104, EZ, 'z', TFLAG);
+  tagAt(['EAVE BEAM, A and C', '6X8 DF#2 on the corner post', 'continuous to the roof edge'], 156, 115, EZ, 'z', TF);
   tagAt(['RAKE EXTENSION 2\'-0"', 'framing TBD'], 100, 197, EZ, 'z', TFLAG);
 }
 // context sprites: levels and gridlines
@@ -2197,7 +2197,7 @@ dim(V(48, -36, 68), V(156, -36, 68), '9\'-0"', V(0, 0, 0), V(0, 1, 0));
 dim(V(156, 148, 74), V(180, 148, 74), '2\'-0" eave', V(0, 0, 0), V(0, 1, 0));
 dim(V(-190, 0, 40), V(-190, D.UPPER_FLR, 40), '10\'-0"', V(0, 0, 0), V(1, 0, 0));
 dim(V(-190, D.UPPER_FLR, 40), V(-190, D.RIDGE_TOP, 40), '17\'-6" to T.O. RAFTER', V(0, 0, 0), V(1, 0, 0));
-dim(V(164, 125, D.POST_LINE + 2.75), V(164, 125, D.ROOF_EDGE), '1\'-9 1/4" past the glulam', V(0, 0, 0), V(1, 0, 0));
+dim(V(164, 125, D.POST_LINE + 2.75), V(164, 125, D.ROOF_EDGE), '1\'-9 1/4" past the post', V(0, 0, 0), V(1, 0, 0));
 dim(V(0, D.GRADE, 100), V(0, D.PLINTH_TOP, 100), '8" plinth above grade', V(0, 0, 0), V(1, 0, 0));
 
 
@@ -2218,6 +2218,7 @@ layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
 const VIEWS = {
   front:   { pos: [330, 215, 560], tgt: [0, 135, 25] },
   porch:   { pos: [270, 45, 190], tgt: [125, -2, 42] },      // the east deck corner: end rim, skirt and post
+  beam:    { pos: [250, 88, 250], tgt: [152, 110, 46] },     // the east corner post meeting the eave beam, glulam hung beside it (from under the rafters)
   under:   { pos: [150, 130, 320], tgt: [0, 215, 20] },
   side:    { pos: [640, 150, 120], tgt: [0, 130, 20] },
   top:     { pos: [0, 900, 60], tgt: [0, 0, 55] },

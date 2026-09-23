@@ -99,7 +99,7 @@
     <div class="lg"><span class="sw" data-slot="pt"></span>Treated framing: posts below the deck, beams under the floors, joists</div>
     <div class="lg"><span class="sw" data-slot="deck"></span>Cedar decking: floor boards, skirt, stair boards</div>
     <div class="lg"><span class="sw" data-slot="door"></span>Door 1: JELD-WEN Full View steel 3/0 x 7/0</div>
-    <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, sconces, soffit cans, chimney</div>
+    <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, glulam brackets, sconces, soffit cans, chimney</div>
     <div class="lg"><span class="sw" data-slot="conc"></span>Exposed stem wall (concrete)</div>
     <div class="lg"><span class="sw" style="background:#141414"></span>Windows and sliders (Milgard black)</div>
     <div class="lg"><span class="sw" style="background:#e07b20"></span>Field-verify / TBD</div>
@@ -1637,9 +1637,11 @@ const D = {
   DECK: -0.5,                              // both ground-level deck surfaces, 1/2" below LOWER FLR
   END_RIM_T: 1.5, SKIRT_T: 0.75,           // closed deck ends (owner 2026-09-22): a PT 2x end rim on each corner post's outer face, a 1x cedar skirt around the three open sides
   OVERHANG: 0.75,                          // the floor boards overhang the skirt on the three open sides (owner 2026-09-22 late evening): the skirt tucks under them, decking wood
+  SKIRT_H: 9.25,                           // 1x10 skirt (owner 2026-09-22 late night, like his current house's deck): from the floor-board underside down 9 1/4", below the joists
+  HANGER_T: 0.25, HANGER_L: 3,             // schematic black face-mount brackets for the upper-deck glulam (owner 2026-09-22 late night: "held up using brackets"; hardware not on record)
   // front (south) end -- outputs/front-porch-deck-3d-spec.md
   F_POSTS: [-156, -48, 48, 156], F_POST_Z: 48, F_PORCH_EDGE: 60, F_ROOF_EDGE: 72, F_DECK_EDGE: 50.75,
-  F_GLB_LO: [-19, -7], F_GLB_UP: [103.5, 118.5], F_POST_TOP: 103.5, F_EAVE_BEAM: [110.8, 118.3], F_JOIST: [-7, -1.5], F_UJOIST: [113, 118.5],
+  F_GLB_LO: [-19, -7], F_GLB_UP: [103.5, 118.5], F_EAVE_BEAM: [110.8, 118.3], F_JOIST: [-7, -1.5], F_UJOIST: [113, 118.5],   // F_POST_TOP derives from F_EAVE_BEAM below
   // rear (north) end -- outputs/rear-deck-roof-3d-spec.md, z translated by -552
   R_POSTS: [-156, -75, 0, 75, 156], R_POST_Z: -648, R_DECK_EDGE: -657, R_ROOF_EDGE: -661.75,
   R_BEAM: [-16, -8.75], R_JOIST: [-8.75, -1.5],   // R_EAVE_BEAM / R_POST_TOP derive from the rafter underside below
@@ -1675,6 +1677,8 @@ D.CHEEK_X0 = (D.PLUMB_DOR + D.SOF_T + D.ROOF_T) / (D.PITCH_END - D.PITCH_DOR);  
 D.UNDER_A = D.topEnd(D.HW) - D.PLUMB_END;                   // ~120: rafter underside at gridlines A/C, derived from RAFT (not a measured number)
 D.R_EAVE_BEAM = [D.UNDER_A - 9.5, D.UNDER_A];               // 6X10 rear eave beams, top tight under the rafters (owner 2026-09-21)
 D.R_POST_TOP = D.R_EAVE_BEAM[0];                            // rear corner posts run to the beam soffit
+D.F_POST_TOP = D.F_EAVE_BEAM[0];                            // front corner posts run in ONE piece to the 6x8 eave beam's underside (owner's field photo 2026-09-22); the
+                                                            // upper-deck glulam is hung between the posts on brackets, not borne on them (supersedes the 2026-09-01 post-cap reading)
 // FRONT eave beams (F_EAVE_BEAM) stay at 118.3: raising them to UNDER_A would drive the 6X8 up through the upper
 // deck boards, which the drawing lays over them. The front beam sits inside the upper-deck framing zone and is
 // hidden by the decking, so no gap shows there -- the relation is a field-verify item, not a drawn one.
@@ -2162,7 +2166,7 @@ const OPEN = {                                     // rough openings in wall-loc
     if (opts.casing !== false) { casing(wall, rectOffset(r, c), r); nose(wall, r[0][0] - c, r[1][0] + c, r[0][1]); }
     if (opts.slider) { const um = (r[0][0] + r[1][0]) / 2; wallBox(wall, um - 1, um + 1, inner[0][1], inner[2][1], -2.5, -0.5, M.win, L); }
   }
-  function winTri(wall, t) {                                   // triangle window: mitred frame and glass; every triangle sits in a gable window wall, which trims it
+  function winTri(wall, t) {                                   // triangle window: mitred frame (one ring, 2" wide, sharp apexes) and glass; every triangle sits in a gable window wall, which trims it
     const inner = triOffset(t, -FW);
     frameRing(wall, t, inner); pane(wall, inner);
   }
@@ -2218,30 +2222,26 @@ const OPEN = {                                     // rough openings in wall-loc
   // board starts at its lowest sill casing, and nothing crosses the siding between the two (owner 2026-09-21: "the
   // sliders and windows above should be separate"). Within a unit, VERTICALS run through -- the centre board to the
   // peak, every shared vertical and outer leg from the bottom of its lowest sill casing to the top of its highest head
-  // band -- and the horizontal bands BUTT between them; a rake board sits on the board below with a level cut and dies
-  // into a vertical with a plumb cut; the centre board runs past the rakes and is capped to both slopes so the trim
-  // comes to one point under the ridge.
+  // band -- and the horizontal bands BUTT between them.
+  // TRIANGLE CORNERS ARE MITRED TO POINTS (owner 2026-09-22 late night, "point the trim at every corner", from the
+  // photoreal picture where the 2026-09-21 level and plumb cuts read as snubbed-off corners): at each outer bottom
+  // corner the rake board mitres into the base / sill casing below it, the outer point where the rake's top edge meets
+  // the casing's bottom edge; at the peak the two rake boards meet in a plumb mitre and the centre board stops where
+  // their undersides cross instead of running past and being capped; a rake meeting a vertical mitres to a point with
+  // it (the shared vertical's top is cut on the mitre). Shared boards stay shared and no board is narrower than its
+  // stock width. Where geometry leaves no room for a point it is cut off and said so below (the O apex).
   // The drip nose stays only under the bottom window of a stack and under isolated windows (owner 2026-09-21).
   const tb = (wall, u1, u2, y1, y2) => wallBox(wall, u1, u2, y1, y2, wt0, wt1, M.trim, 'trim');
   const tp = (wall, pts) => wallPrism(wall, pts, wt0, wt1, M.trim, 'trim');
-  // Rake board, c wide square to the slope, whose UNDERSIDE runs up and inward from (uA, yA) at slope m: a level cut on
-  // the board below, cut plumb at uOut if the top edge would otherwise run past the outer leg line, and a plumb cut at
-  // uEnd where it dies into a vertical. s mirrors it about the ridge.
-  function rake(wall, s, uA, yA, uOut, uEnd, m) {
-    const h = c * Math.sqrt(1 + m * m), uc = uA + h / m;          // top edge's plumb height over the underside; where it meets the base line
-    const yU = u => yA + m * (uA - u), yT = u => yU(u) + h;
-    const p = uOut < uc - .1 ? [[uA, yA], [uOut, yA], [uOut, yT(uOut)], [uEnd, yT(uEnd)], [uEnd, yU(uEnd)]]
-                             : [[uA, yA], [uc, yA], [uEnd, yT(uEnd)], [uEnd, yU(uEnd)]];
-    const q = p.map(g => [s * g[0], g[1]]); if (s < 0) q.reverse();
-    return tp(wall, q);
-  }
-  const capped = (wall, hw, y0, yTop, m) => tp(wall, [[-hw, y0], [hw, y0], [hw, yTop], [0, yTop + m * hw], [-hw, yTop]]);   // centre board, top cut to both slopes
+  const tps = (wall, s, pts) => tp(wall, s < 0 ? pts.map(g => [-g[0], g[1]]).reverse() : pts);   // a polygon and its mirror about the ridge
   {  // NORTH: the DOOR unit (doors 9 / 10 with the as-built windows beside them) and the WINDOW WALL (four lower J, two upper J,
      // K and N triangles) above it, 10 1/2" of siding between
     const W = WALLS.N, m = D.PITCH_END, cbw = 4, hm = c * Math.sqrt(1 + m * m);   // centre strip u -4 .. 4: the 8" between the doors, the inner J's and the N's
+    const yUK = u => 161 + m * (100.5 - u), yTK = u => yUK(u) + hm;              // K hypotenuse (the rake's underside) and the rake's top edge, hm plumb above it
+    const yUN = u => 223 + m * (50 - u), yTN = u => yUN(u) + hm;                 // N, the same
     tb(W, -143.9, 143.9, 84.5, 88);                                                // head casing: ONE board over both sliders, both as-built windows and every leg (heads on one header, owner 2026-09-17)
     tb(W, -cbw, cbw, 0, 84.5);                                                     // mullion between the doors, 8", threshold to the head casing
-    capped(W, cbw, 98.5, 279.35 + hm, m);                                          // window-wall centre board, lower J sill casing to the peak; the N rakes' top edges meet its corners
+    tp(W, [[-cbw, 98.5], [cbw, 98.5], [cbw, 279.35], [0, yUN(0)], [-cbw, 279.35]]);   // window-wall centre board, lower J sill casing to where the two N rakes' undersides cross (284.25); the rakes run over it to the peak
     nose(W, -104, 104, 102);                                                       // one drip nose under the lower J sill casings, the centre board, the verticals and the legs (bottom of the stack only)
     for (const s of [1, -1]) {
       const U = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
@@ -2249,33 +2249,40 @@ const OPEN = {                                     // rough openings in wall-loc
       tb(W, ...U(100, 103.9), 0, 84.5);                                            // slider / as-built window shared board, 3.9": threshold to the head casing
       tb(W, ...U(140.4, 143.9), 32.5, 84.5);                                       // as-built window outer leg: sill casing bottom to the head casing
       tb(W, ...U(103.9, 140.4), 32.5, 36); nose(W, ...U(103.9, 143.9), 36);       // as-built window sill casing and its drip nose, under the outer leg, butting the shared board
-      // window wall: verticals full height
-      tb(W, ...U(50, 54.5), 98.5, 223);                                            // inner / outer J shared vertical, 4 1/2": lower J sill casing bottom to band D's top; the K rake dies into it
-      tb(W, ...U(100.5, 104), 98.5, 161);                                          // outer J outer leg: sill casing bottom to band C's top; the K rake sits on it
+      // window wall: verticals full height, tops mitred to the K rake
+      tps(W, s, [[50, 98.5], [54.5, 98.5], [54.5, 217.35], [50, yTK(50)]]);        // inner / outer J shared vertical, 4 1/2": lower J sill casing bottom to the K apex point (u 50, y 228.4), cut on the mitre
+      tps(W, s, [[100.5, 98.5], [104, 98.5], [104, yTK(104)], [100.5, 161]]);      // outer J outer leg: sill casing bottom to the K rake's bottom mitre (u 104, y 162.25)
       // window wall: bands, butted between the verticals
       tb(W, ...U(4, 50), 98.5, 102); tb(W, ...U(54.5, 100.5), 98.5, 102);         // band B: lower J sill casings
       tb(W, ...U(4, 50), 158, 161); tb(W, ...U(54.5, 100.5), 158, 161);           // band C: lower J head / upper J sill / K base, 3"
       tb(W, ...U(4, 50), 217, 223);                                                // band D: upper J head / N base, 6"
       // rakes, underside on the RO hypotenuse
-      rake(W, s, 100.5, 161, 104, 54.5, m);                                        // K: level on band C and the outer leg, plumb at the leg's outer edge, dies into the shared vertical
-      rake(W, s, 50, 223, 54.5, cbw, m);                                           // N: level on band D and the vertical's top, dies into the centre board
+      tps(W, s, [[100.5, 161], [54.5, 217.35], [50, yTK(50)], [104, yTK(104)]]);   // K: mitred to the outer leg at the bottom, to the shared vertical at the apex
+      tps(W, s, [[50, 223], [4, 279.35], [0, yUN(0)], [0, yTN(0)], [50, yTN(50)]]);   // N: plumb against the shared vertical's outer edge (its top edge continues the K rake's line, 0.14" apart), plumb mitre to its twin at the peak (y 289.8)
     }
   }
-  {  // SOUTH: door 12 trimmed on its own; each O triangle's leg runs past its apex to the P pair's sill casing and its rake dies
-     // into the leg, so nothing runs from the slider to the triangles (owner 2026-09-21, third pass: a 10 1/2" band across the gap,
-     // then a 1x4 head casing across it, both read wrong; A03 puts the P bases 11 3/16" over the door head with siding through the gap)
+  {  // SOUTH: door 12 trimmed on its own; each O leg runs from its base casing to the O apex, where it is mitred to the O rake; the
+     // point they would make (10.7" above the apex, at y 215.2) is cut off level under the P sill casing (bottom 211.5, 7" above the
+     // apex), so the two boards taper into the sill casing. Nothing runs from the slider to the triangles (owner 2026-09-21: A03 puts
+     // the P bases 11 3/16" over the door head with siding through the gap).
     const W = WALLS.S, m = 58 / 42.5, hm = c * Math.sqrt(1 + m * m);   // O and P hypotenuses as drawn: A04's 42 1/2 x 58, steeper than the roof (spec open item)
-    const yH = 204.5, yP = 215, uP = 44.625 + hm / m;                  // door 12 head / O apex line; P base line; where the P rakes' level cuts end
+    const yH = 204.5, yP = 215, yS = yP - c;                            // door 12 head / O apex line; P base line; P sill casing bottom
+    const yUO = u => 146.5 + m * (90.75 - u), yTO = u => yUO(u) + hm;   // O hypotenuse / rake top edge
+    const yUP = u => yP + m * (44.625 - u), yTP = u => yUP(u) + hm;     // P
+    const uOm = 90.75 + (yTO(90.75) - 143) / m;                         // 97.65: the O rake's top edge meets the base casing's bottom edge -- the bottom-outer point
+    const uPm = 44.625 + (yTP(44.625) - yS) / m;                        // 51.53: the P rake's top edge meets the sill casing's bottom edge
+    const uA = 48.25 - c * (yS - yH) / (yTO(44.75) - yH);               // 45.96: the O apex mitre line (RO apex to the leg's outer edge at 215.2) where the sill casing cuts it
+    const uR = 90.75 - (yS - yTO(90.75)) / m;                           // 47.45: the O rake's top edge at the sill casing's bottom
     tb(W, -39.75, 39.75, yH, yH + c);                                  // door 12 head casing over its legs (door convention)
-    capped(W, 2.125, yP - c, 273 + hm, m);                             // centre board between the P pair, 4 1/4", from the sill casing's bottom to the peak
+    tp(W, [[-2.125, yS], [2.125, yS], [2.125, 273], [0, yUP(0)], [-2.125, 273]]);   // centre board between the P pair, 4 1/4", from the sill casing's bottom to where the P rakes' undersides cross (275.9)
     for (const s of [1, -1]) {
       const U = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
       tb(W, ...U(36.25, 39.75), 120, yH);                              // door 12 leg, threshold to its head casing
-      tb(W, ...U(44.75, 48.25), 143, yP - c);                          // O vertical leg: base casing bottom past the apex to the P sill casing; 5" of siding from the door leg
-      tb(W, ...U(48.25, 90.75 + hm / m), 143, 146.5);                  // O base casing, the leg to the rake's outer corner
-      rake(W, s, 90.75, 146.5, Infinity, 48.25, m);                    // O rake: level on the base casing, plumb into the leg (y 204.5 .. 210.4 at the apex)
-      tb(W, ...U(2.125, uP), yP - c, yP);                              // P sill casing, centre board to the P rake's outer corner, over the O leg's top
-      rake(W, s, 44.625, yP, Infinity, 2.125, m);                      // P rake: level on the sill casing, dies into the centre board
+      tps(W, s, [[44.75, 143], [48.25, 143], [48.25, yH], [uA, yS], [44.75, yS]]);       // O vertical leg: base casing bottom to the apex, mitred to the rake, cut level under the P sill casing; 5" of siding from the door leg
+      tps(W, s, [[48.25, 143], [uOm, 143], [90.75, 146.5], [48.25, 146.5]]);             // O base casing, the leg to the bottom-outer point, mitred to the rake
+      tps(W, s, [[90.75, 146.5], [48.25, yH], [uA, yS], [uR, yS], [uOm, 143]]);          // O rake: mitred to the base casing below, to the leg at the apex, cut level under the P sill casing
+      tps(W, s, [[2.125, yS], [uPm, yS], [44.625, yP], [2.125, yP]]);                    // P sill casing, centre board to the P rake's bottom-outer point, over the O leg's and rake's tops
+      tps(W, s, [[44.625, yP], [2.125, 273], [0, yUP(0)], [0, yTP(0)], [uPm, yS]]);      // P rake: mitred onto the sill casing, plumb mitre to its twin at the peak (y 281.8)
     }
   }
   winRect(WALLS.E, E.C); winRect(WALLS.E, E.Dw, { slider: true }); winRect(WALLS.E, E.E);   // D (kitchen) slides; E (loft) is a picture window (owner 2026-09-11)
@@ -2307,12 +2314,13 @@ const OPEN = {                                     // rough openings in wall-loc
 //     corner board and the run steps north at 12", the remainder landing at the rear corner. A batten is split around every
 //     casing, sill nose, sconce box, window frame and opening on its wall, stops against the corner boards and the frieze, and
 //     runs from the water table to the soffit: each run is the vertical-line span through the wall outline (at both batten edges
-//     and its centre) minus the union of the blockers' outlines, cut 1/16" clear of whatever it butts, and runs under 2" are
+//     and its centre) minus the union of the blockers' outlines, cut 1/16" clear of a level edge or PARALLEL to a sloped one (rake
+//     casings, the gable soffit line, the cheek roof lines) with 0.02" clearance square to it (owner 2026-09-22 late night), and runs under 2" are
 //     dropped. The boxes sit 0.02" into the panel so no batten back is coincident with the siding face. Battens take M.siding --
 //     on board and batten the battens are the siding colour -- so the Colors panel's siding slot recolours both.
 // ===========================================================================
 {
-  const L = 'walls', wf = D.SIDING_T, EMBED = 0.02, GAP = 0.0625, MIN_RUN = 2, n0 = parts.length;
+  const L = 'walls', wf = D.SIDING_T, EMBED = 0.02, GAP = 0.0625, SLOPE_GAP = 0.02, MIN_RUN = 2, n0 = parts.length;   // GAP: square cuts at level edges; SLOPE_GAP: cuts parallel to a sloped edge, measured square to it (owner 2026-09-22 late night: battens tight to the rakes, not squared off)
   function vSpans(poly, u) {                                   // y-spans where the vertical line at u is inside a simple polygon
     const ys = [];
     for (let i = 0, n = poly.length; i < n; i++) {
@@ -2326,13 +2334,24 @@ const OPEN = {                                     // rough openings in wall-loc
   const union = spans => { const o = []; for (const p of spans.slice().sort((a, b) => a[0] - b[0])) { const t = o[o.length - 1]; if (t && p[0] <= t[1]) t[1] = Math.max(t[1], p[1]); else o.push([p[0], p[1]]); } return o; };
   const intersect = (a, b) => { const o = []; for (const p of a) for (const q of b) { const lo = Math.max(p[0], q[0]), hi = Math.min(p[1], q[1]); if (hi > lo) o.push([lo, hi]); } return o; };
   const subtract = (a, b) => { let cur = a; for (const q of b) { const nx = []; for (const p of cur) { if (q[1] <= p[0] || q[0] >= p[1]) { nx.push(p); continue; } if (q[0] > p[0]) nx.push([p[0], q[0]]); if (q[1] < p[1]) nx.push([q[1], p[1]]); } cur = nx; } return cur; };
-  function battens(outline, stations, blockers, mk) {         // one face: outline + blockers in (u, y); mk(u1, u2, y0, y1) draws a run
+  function battens(outline, stations, blockers, mk) {         // one face: outline + blockers in (u, y); mk(pts) draws a run from its four corners [[u1, y0L], [u2, y0R], [u2, y1R], [u1, y1L]]
     let n = 0;
     for (const uc of stations) {
       const us = [uc - BB_W / 2, uc, uc + BB_W / 2];
-      let runs = us.map(u => vSpans(outline, u)).reduce(intersect);
-      runs = subtract(runs, union(us.flatMap(u => blockers.flatMap(b => vSpans(b, u)))));
-      for (const [y0, y1] of runs) if (y1 - y0 - 2 * GAP >= MIN_RUN) { mk(us[0], us[2], y0 + GAP, y1 - GAP); n++; }
+      const at = us.map(u => subtract(vSpans(outline, u), union(blockers.flatMap(b => vSpans(b, u)))));   // free spans at the left edge, the centre and the right edge
+      for (const [y0, y1] of at.reduce(intersect)) {                                                       // the conservative run: free at all three
+        if (y1 - y0 - 2 * GAP < MIN_RUN) continue;
+        const ym = (y0 + y1) / 2, sp = at.map(a => a.find(s => s[0] <= ym && ym <= s[1]));                 // the free span holding this run at each of the three u's
+        const end = i => {                                                                                  // i = 0 bottom end, 1 top end: [y at the left edge, y at the right edge]
+          const y = sp.map(s => s[i]), level = y.every(v => Math.abs(v - y[1]) < 1e-3), collinear = Math.abs(y[1] - (y[0] + y[2]) / 2) < 0.05;
+          if (level || !collinear) { const v = i ? y1 - GAP : y0 + GAP; return [v, v]; }                    // a level edge (1/16" clear, as before) or a jog inside the batten's width (a rake's plumb end): square cut
+          const m = (y[2] - y[0]) / BB_W, c = SLOPE_GAP * Math.sqrt(1 + m * m) * (i ? -1 : 1);             // a sloped edge (rake casing, gable soffit, cheek roof line): cut parallel to it, 0.02" clear square to it
+          return [y[0] + c, y[2] + c];
+        };
+        const [b0, b1] = end(0), [t0, t1] = end(1);
+        if (b0 !== b1) slopedCuts++; if (t0 !== t1) slopedCuts++;
+        mk([[us[0], b0], [us[2], b1], [us[2], t1], [us[0], t0]]); n++;
+      }
     }
     return n;
   }
@@ -2340,8 +2359,8 @@ const OPEN = {                                     // rough openings in wall-loc
   const blockersOf = wall => [...onWall(wall, ['trim', 'win']).map(r => r.poly), ...onWall(wall, ['walls']).flatMap(r => r.holes)];
   const outlineOf = wall => onWall(wall, ['walls']).find(r => r.holes.length).poly;   // the siding shell: the one walls-layer prism with openings
   const range = (from, step, limit) => { const o = []; for (let u = from; Math.abs(u) < limit; u += step) o.push(u); return o; };
-  const mkWall = wall => (u1, u2, y0, y1) => wallBox(wall, u1, u2, y0, y1, wf - EMBED, wf + D.TRIM_T, M.siding, L);
-  let runs = 0;
+  const mkWall = wall => pts => wallPrism(wall, pts, wf - EMBED, wf + D.TRIM_T, M.siding, L);          // a box when both ends are level, a prism with sloped end cuts otherwise
+  let runs = 0, slopedCuts = 0;
   for (const wall of [WALLS.S, WALLS.N])                       // gable walls: u = +/-x, stations at 12" multiples either side of B
     runs += battens(outlineOf(wall), [...range(0, BB_SP, SHELL_U), ...range(-BB_SP, -BB_SP, SHELL_U)], blockersOf(wall), mkWall(wall));
   const ext2 = EXT + D.TRIM_T, first = D.CORNER_W + (BB_SP - BB_W) + BB_W / 2;   // front corner board's outer edge -> first batten centre
@@ -2350,13 +2369,13 @@ const OPEN = {                                     // rough openings in wall-loc
   for (const s of [-1, 1]) {                                   // dormer cheeks: the siding triangles of section 1, stations as the gable walls
     const xa = s * D.CHEEK_X0, xb = s * SHELL_U;
     const tri = [[xa, D.topEnd(xa) + D.ROOF_T], [xb, D.topEnd(xb) + D.ROOF_T], [xb, D.sofDor(xb)]];
-    runs += battens(tri, range(s * BB_SP, s * BB_SP, SHELL_U), [], (x1, x2, y0, y1) => {
-      B(x1, x2, y0, y1, D.DORM_S + EXT - EMBED, D.DORM_S + EXT + D.TRIM_T, M.siding, L);      // south cheek faces +z
-      B(x1, x2, y0, y1, D.DORM_N - EXT - D.TRIM_T, D.DORM_N - EXT + EMBED, M.siding, L);      // north cheek faces -z
+    runs += battens(tri, range(s * BB_SP, s * BB_SP, SHELL_U), [], pts => {                    // both cheek outline edges are sloped, so these runs get parallel cuts top and bottom
+      PZ(pts, D.DORM_S + EXT - EMBED, D.DORM_S + EXT + D.TRIM_T, M.siding, L);                 // south cheek faces +z
+      PZ(pts, D.DORM_N - EXT - D.TRIM_T, D.DORM_N - EXT + EMBED, M.siding, L);                 // north cheek faces -z
     });
   }
   for (let i = n0; i < parts.length; i++) parts[i].userData.style = 'bb';
-  console.log(`battens: ${parts.length - n0} boxes in ${runs} runs (board-and-batten style only)`);
+  console.log(`battens: ${parts.length - n0} pieces in ${runs} runs, ${slopedCuts} sloped end cuts (board-and-batten style only)`);
 }
 // ===========================================================================
 // 5. DECKS AND POSTS (layer 'deck'), STAIRS (layer 'stair'), CABLE RAILS: upper deck (layer 'deck', always on) and the
@@ -2379,24 +2398,38 @@ function railRun(x0, z0, x1, z1, y0, layer, o = {}) {
   for (let y = y0 + 3.5; y < top - 2; y += 3) run(y - 0.12, y + 0.12, 0.12);
   for (let i = n0; i < parts.length; i++) parts[i].userData.mount = MOUNT_TAG;
 }
-function stair(zEdge, dir, layer) {                   // closed steps built from boards (owner 2026-09-22 late evening); dir +1 descends toward +z (front), -1 toward -z (rear)
-  // Per step: a tread of two 1" boards on top (a 6 1/4" rip against the riser above, a 1/4" gap, a 5 1/2" board to the nose --
-  // 12" = TREAD + NOSE; two stock 5 1/2" boards and the gap only make 11 1/4", so the back board is ripped as a deck builder
-  // would), a 3/4" riser board on the step face from the tread below's underside to the tread above's underside (the bottom
-  // one from grade), 3/4" side boards closing both stringer sides from grade to the tread underside, and one treated core box
-  // per step inset 3/4" behind the riser and sides (1" under the tread) plus 0.02" so no core face touches a board.
-  // The riser boards butt between the side boards (x +/-(hw - 3/4)): a full-width riser would put its end faces on the side
-  // boards' outer plane. The top riser is the deck skirt; the footprint is unchanged (bottom nose at zEdge + 3 x 11 + 1).
-  const hw = D.STAIR_W / 2, T = D.SKIRT_T, C = 0.02, zr = (a, b) => [Math.min(a, b), Math.max(a, b)];
+// Prism whose outline is drawn in the Z-Y plane (array of [z, y]) and extruded along X from x1 to x2 (the stair side boards).
+const PYZ = (pts, x1, x2, mat, layer) => {
+  const sh = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], p[1])));
+  const g = new THREE.ExtrudeGeometry(sh, { depth: Math.abs(x2 - x1), bevelEnabled: false });
+  const m = new THREE.Mesh(g, mat);
+  m.rotation.y = -Math.PI / 2;                                   // local x -> world +z, local z -> world -x
+  m.position.x = Math.max(x1, x2);
+  m.castShadow = m.receiveShadow = true;
+  return reg(m, layer);
+};
+function stair(zEdge, dir, layer) {                   // closed steps built from boards, like the stairs on the owner's current house (owner 2026-09-22 late night); dir +1 descends toward +z (front), -1 toward -z (rear)
+  // Per step: a tread of two 1" boards spanning the full 8' (a ripped back board against the riser above, a 1/4" gap, a 5 1/2" board to
+  // the nose: 12" from the skirt at the top step, 12 1/4" from the set-back riser face below it), a 3/4" riser board on the step face
+  // SET BACK 1/4" so the nose above overhangs it 1 1/4", and one treated core box hidden inside. The SIDES are one continuous 3/4"
+  // cedar board each (a closed stringer): its top follows the steps under the treads, its step faces flush with the riser boards, it
+  // drops plumb at the bottom riser to grade, runs along grade and closes against the deck skirt; its outer face is 1" inside the
+  // tread ends, so the treads overhang the sides 1" and the risers 1 1/4". The riser boards butt between the side boards; the core is
+  // inset 3/4" plus 0.02" from every board face. The top riser is the deck skirt; footprint unchanged (bottom nose at zEdge + 3 x 11 + 1).
+  const hw = D.STAIR_W / 2, T = D.SKIRT_T, C = 0.02, SB = 0.25, xs = hw - 1, zr = (a, b) => [Math.min(a, b), Math.max(a, b)];
+  const prof = [[zEdge, D.DECK - D.RISE - 1]];                                                            // side-board outline in (z, y): along the tread undersides and down the riser faces, then grade
   for (let k = 1; k < D.RISERS; k++) {
     const top = D.DECK - k * D.RISE, below = k + 1 < D.RISERS ? top - D.RISE : D.GRADE + 1;   // this tread's top; the tread below's top (grade + 1 at the bottom step so its riser starts at grade)
-    const z0 = zEdge + dir * D.TREAD * (k - 1), z1 = zEdge + dir * D.TREAD * k, zn = z1 + dir * D.NOSE;
-    B(-hw, hw, top - 1, top, ...zr(z0, z0 + dir * (D.BOARD + T)), k % 2 ? M.deck : M.deck2, layer);   // back tread board, 6 1/4" rip against the riser above
-    B(-hw, hw, top - 1, top, ...zr(zn - dir * D.BOARD, zn), k % 2 ? M.deck2 : M.deck, layer);          // front tread board, 5 1/2", 1" nosing past the riser below
-    B(-(hw - T), hw - T, below - 1, top - 1, ...zr(z1 - dir * T, z1), M.deck, layer);                  // riser board on the step face, between the side boards
-    for (const sd of [-1, 1]) B(...[sd * (hw - T), sd * hw].sort((a, b) => a - b), D.GRADE, top - 1, ...zr(z0, z1), M.deck, layer);   // side boards, grade to the tread underside
-    B(-(hw - T - C), hw - T - C, D.GRADE, top - 1 - C, ...zr(z0 + (k === 1 ? dir * C : 0), z1 - dir * (T + C)), M.pt, layer);   // treated core, hidden behind the boards (0.02" clear of the skirt at the top step)
+    const z0 = zEdge + dir * D.TREAD * (k - 1), z1 = zEdge + dir * D.TREAD * k, zn = z1 + dir * D.NOSE;   // step lines: the riser above's line, this step's line, the nose
+    const zf = z1 - dir * SB, zb = k === 1 ? z0 : z0 - dir * SB;                                        // this step's riser face; the tread's back edge (the skirt face at the top step, else the set-back riser above)
+    B(-hw, hw, top - 1, top, ...zr(zb, z0 + dir * (D.BOARD + T)), k % 2 ? M.deck : M.deck2, layer);   // back tread board: a 6 1/4" rip at the top step, 6 1/2" on the steps below
+    B(-hw, hw, top - 1, top, ...zr(zn - dir * D.BOARD, zn), k % 2 ? M.deck2 : M.deck, layer);          // front tread board, 5 1/2", nose 1 1/4" past the riser face below
+    B(-(xs - T), xs - T, below - 1, top - 1, ...zr(zf - dir * T, zf), M.deck, layer);                  // riser board between the side boards, from the tread below's underside (grade at the bottom) to this tread's underside
+    B(-(xs - T - C), xs - T - C, D.GRADE, top - 1 - C, ...zr(z0 + (k === 1 ? dir * C : 0), zf - dir * (T + C)), M.pt, layer);   // treated core, 0.02" clear of every board (and of the skirt at the top step)
+    prof.push([zf, top - 1], [zf, k + 1 < D.RISERS ? top - D.RISE - 1 : D.GRADE]);
   }
+  prof.push([zEdge, D.GRADE]);
+  for (const sd of [-1, 1]) PYZ(prof, sd * xs, sd * (xs - T), M.deck, layer);                            // the two side boards, x +/-(46 1/4 .. 47)
 }
 {
   const L = 'deck', HW = D.HW, sh = EXT, RIM_X = HW + 2.75 + D.END_RIM_T, DE = D.DECK_END;
@@ -2414,17 +2447,32 @@ function stair(zEdge, dir, layer) {                   // closed steps built from
     if (top <= D.DECK) { B(x - 2.75, x + 2.75, D.GRADE - 8, top, z0, z1, M.pt, L); return; }
     B(x - 2.75, x + 2.75, D.GRADE - 8, D.DECK, z0, z1, M.pt, L); B(x - 2.75, x + 2.75, D.DECK, top, z0, z1, M.wrap, L);
   };
-  const skirt = (zEdge, dir, zWall, yBot, yTop) => {               // 3/4" skirt of decking wood around the three open sides, top at the boards' underside: the front board full width, the end boards butt its back face
+  const skirt = (zEdge, dir, zWall, yBot, yTop) => {               // 3/4" x 9 1/4" (1x10) skirt of decking wood around the three open sides, top at the boards' underside, hanging SKIRT_H below it -- past the joists (owner 2026-09-22 late night): the front board full width, the end boards butt its back face
     const zOut = zEdge + dir * D.SKIRT_T;
     B(-DE, DE, yBot, yTop, Math.min(zEdge, zOut), Math.max(zEdge, zOut), M.deck, L);
     for (const s of [-1, 1]) B(s * RIM_X, s * DE, yBot, yTop, Math.min(zWall, zEdge), Math.max(zWall, zEdge), M.deck, L);
   };
   // --- front (south): 4 PT6X6, PT drop beam under the floor, upper-deck glulam (flush rim), 6X8 eave beams, joists, rim, end rims, boards, skirt
   const fz0 = D.F_POST_Z - 2.75, fz1 = D.F_POST_Z + 2.75;
-  for (const x of D.F_POSTS) post(x, fz0, fz1, Math.abs(x) === HW ? D.F_POST_TOP : D.F_GLB_LO[0]);
+  for (const x of D.F_POSTS) post(x, fz0, fz1, Math.abs(x) === HW ? D.F_POST_TOP : D.F_GLB_LO[0]);     // corner posts ONE piece from the plinth to the 6x8 eave beam's underside (owner's field photo 2026-09-22)
   B(-(HW - 2.75), HW - 2.75, ...D.F_GLB_LO, D.F_POST_Z - 2.5625, D.F_POST_Z + 2.5625, M.pt, L);         // porch drop beam, solid PT (owner 2026-09-22), 5 1/8 x 12 placeholder size, on the center posts
-  B(-(HW + 2.75), HW + 2.75, ...D.F_GLB_UP, fz0, fz1, M.wood, L);                                       // upper-deck glulam 5 1/2 x 15 (placeholder size), on the corner posts; bare, sealed
-  for (const s of [-1, 1]) { B(s * (HW - 2.75), s * (HW + 2.75), ...D.F_EAVE_BEAM, D.SHEATH, fz0, M.wrap, L); B(s * (HW - 2.75), s * (HW + 2.75), ...D.F_EAVE_BEAM, fz1, D.F_ROOF_EDGE, M.wrap, L); }
+  // Upper-deck glulam 5 1/2 x 15 (placeholder size), bare, sealed: hung BETWEEN the corner posts on face-mount brackets (owner's field
+  // photo 2026-09-22: the posts run up to the roof beam, "the glu-lam ... held up using brackets"). Each end stops 0.02" short of the
+  // bracket's back plate, which stands 0.02" off the post's inner face: x = +/-(HW - 2.75 - HANGER_T - 0.04) = +/-152.96.
+  const HT = D.HANGER_T, HL = D.HANGER_L, C = 0.02, PIF = HW - 2.75, GX = PIF - HT - 2 * C, [G0, G1] = D.F_GLB_UP;
+  B(-GX, GX, G0, G1, fz0, fz1, M.wood, L);
+  for (const s of [-1, 1]) {
+    B(s * (HW - 2.75), s * (HW + 2.75), ...D.F_EAVE_BEAM, D.SHEATH, D.F_ROOF_EDGE, M.wrap, L);          // 6x8 eave beam, ONE piece from the wall to the roof edge, bearing on the post top
+    // Schematic black steel bracket (M.rail; hardware not on record -- tag GLULAM HANGERS: field verify): a 1/4" back plate on the post's
+    // inner face, 2" taller than the glulam with the extra BELOW it (the upper decking sits on the glulam's top, so nothing may rise past
+    // 118.5); a 1/4" seat plate under the beam, 3" long, between two 1/4" side plates 3" long up 2/3 of the beam's height. Every plate
+    // 0.02" clear of the wood; plates butt each other with opposite-facing faces only.
+    const xs = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
+    B(...xs(PIF - C - HT, PIF - C), G0 - 2, G1 - C, fz0 - C - HT, fz1 + C + HT, M.rail, L);                 // back plate
+    B(...xs(PIF - C - HT - HL, PIF - C - HT), G0 - C - HT, G0 - C, fz0 - C, fz1 + C, M.rail, L);              // seat plate
+    for (const d of [-1, 1]) { const za = d < 0 ? fz0 - C - HT : fz1 + C; B(...xs(PIF - C - HT - HL, PIF - C - HT), G0 - C - HT, G0 + (G1 - G0) * 2 / 3, za, za + HT, M.rail, L); }   // side plates
+  }
+  const NOTCH_X = PIF - C - HT - HL - C, NOTCH_Z = fz0 - C - HT - C;                                       // the porch ceiling's last board is notched 0.02" clear round each bracket (x beyond 149.96, z past 44.96)
   for (let x = -HW + 0.75; x <= HW; x += 16) { B(x - 0.75, x + 0.75, ...D.F_JOIST, 1.94, D.F_PORCH_EDGE - 1.5, M.pt, L); B(x - 0.75, x + 0.75, ...D.F_UJOIST, 1.94, fz0, M.pt, L); }
   B(-RIM_X, RIM_X, ...D.F_JOIST, D.F_PORCH_EDGE - 1.5, D.F_PORCH_EDGE, M.pt, L);                        // porch rim, out to the end rims' outer faces
   for (const s of [-1, 1]) B(s * (HW + 2.75 + 0.02), s * RIM_X, ...D.F_JOIST, sh, D.F_PORCH_EDGE - 1.5, M.pt, L);   // end rims on the corner posts' outer faces
@@ -2432,11 +2480,15 @@ function stair(zEdge, dir, layer) {                   // closed steps built from
   const BX = DE + D.OVERHANG;                                                                           // 161 3/4: the boards' ends, 3/4" past the skirt
   boards(D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG, sh, D.F_JOIST[1], D.DECK, BX);                        // porch decking, laid from the overhang edge (61 1/2) back to the house so the full board is at the edge and the rip is against the siding; through the corner posts, over the end rims and the skirt
   boards(sh, D.F_DECK_EDGE, D.F_UJOIST[1], D.UPPER_FLR - 0.5);                                          // upper decking (unchanged: the balcony has no end rims or skirt)
-  skirt(D.F_PORCH_EDGE, +1, sh, D.F_JOIST[0], D.F_JOIST[1]);
+  skirt(D.F_PORCH_EDGE, +1, sh, D.F_JOIST[1] - D.SKIRT_H, D.F_JOIST[1]);                                 // 1x10 skirt: -1 1/2 down to -10 3/4, 3 3/4" below the porch joists
   // porch ceiling (layer 'soffit'): 1x6 cedar T&G on the upper-deck joists' undersides, boards running east-west along the house
   // (owner 2026-09-22), wall face to the glulam's inner face, butting the 6x8 beams' inner faces; the last board takes the 1/16" remainder
   { const y1 = D.F_UJOIST[0], y0 = y1 - D.SOF_T, xc = HW - 2.75; let i = 0;
-    for (let z = sh; z < fz0 - 1; z += D.BOARD, i++) { const ze = fz0 - (z + D.BOARD) < 1 ? fz0 : z + D.BOARD; B(-xc, xc, y0, y1, z, ze, i % 2 ? M.ceil2 : M.ceil, 'soffit'); if (ze === fz0) break; } }
+    for (let z = sh; z < fz0 - 1; z += D.BOARD, i++) {
+      const ze = fz0 - (z + D.BOARD) < 1 ? fz0 : z + D.BOARD, m = i % 2 ? M.ceil2 : M.ceil;
+      if (ze !== fz0) { B(-xc, xc, y0, y1, z, ze, m, 'soffit'); continue; }
+      B(-xc, xc, y0, y1, z, NOTCH_Z, m, 'soffit'); B(-NOTCH_X, NOTCH_X, y0, y1, NOTCH_Z, fz0, m, 'soffit'); break;   // last board, notched round the two glulam brackets (a scribe, as the T&G would be cut in the field)
+    } }
   // --- rear (north): 5 PT6X6, PT4X8 drop beam, 6X10 eave beams over the corner posts, PT2X8 joists, rim, end rims, boards, skirt
   const rz0 = D.R_POST_Z - 2.75, rz1 = D.R_POST_Z + 2.75;
   for (const x of D.R_POSTS) post(x, rz0, rz1, Math.abs(x) === HW ? D.R_POST_TOP : D.R_BEAM[0]);
@@ -2446,7 +2498,7 @@ function stair(zEdge, dir, layer) {                   // closed steps built from
   B(-RIM_X, RIM_X, ...D.R_JOIST, D.R_DECK_EDGE, D.R_DECK_EDGE + 1.5, M.pt, L);                          // rim at the 8'-9" edge, out to the end rims' outer faces
   for (const s of [-1, 1]) B(s * (HW + 2.75 + 0.02), s * RIM_X, ...D.R_JOIST, D.R_DECK_EDGE + 1.5, D.G4 - sh, M.pt, L);   // end rims
   boards(D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG, D.G4 - sh, D.R_JOIST[1], D.DECK, BX);                 // rear decking, laid from the overhang edge (-658 1/2) back to the house
-  skirt(D.R_DECK_EDGE, -1, D.G4 - sh, D.R_JOIST[0], D.R_JOIST[1]);
+  skirt(D.R_DECK_EDGE, -1, D.G4 - sh, D.R_JOIST[1] - D.SKIRT_H, D.R_JOIST[1]);                           // 1x10 skirt: -1 1/2 down to -10 3/4, 2" below the rear joists
   // --- stairs, centered, 8'-0" wide (owner 2026-09-11), stepping down from the skirt's outer face
   stair(D.F_PORCH_EDGE + D.SKIRT_T, +1, 'stair'); stair(D.R_DECK_EDGE - D.SKIRT_T, -1, 'stair');
 
@@ -2516,6 +2568,7 @@ requestAnimationFrame(() => {
   tagAt(['FASCIA', 'gable rake 9" base + 7 1/4" lap', 'rake runs 3 1/2" past the eave'], WF, 232, -55, 'x-', T);   // west face above the dormer roof line, by its south corner; clear of the Fascia corner view (east)
   tagAt(['GRADE ILLUSTRATIVE', '14" of stem wall showing', 'FIELD VERIFY post-to-earth clearance'], 0, GY, 150, 'y', TF);
   tagAt(['REAR STAIR', '8\'-0" wide, centered, 36" rail'], 0, GY, -735, 'y', T);
+  tagAt(['GLULAM HANGERS: field verify'], 60, 111, D.F_DECK_EDGE + 0.55, 'z', TF);   // on the upper-deck glulam's outer face, east of centre, clear of the bracket's side plate (z 51.02)
 }
 dim(V(D.HW, D.GRADE + 2, 0), V(D.HW, D.GRADE + 2, D.G4), '46\'-0" gridline 1 to 4 (A02)', V(60, 0, 0), V(0, 1, 0));
 dim(V(-D.HW, D.GRADE + 2, 20), V(D.HW, D.GRADE + 2, 20), '26\'-0" C to A (A02)', V(0, 0, 100), V(0, 1, 0));
