@@ -169,6 +169,7 @@
       <button data-view="gableN">North windows</button>
       <button data-view="gableS">South windows</button>
       <button data-view="deckEnd">Porch corner</button>
+      <button data-view="stairs">Porch stairs</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
     </div>
   </div>
@@ -1645,7 +1646,7 @@ const D = {
   // rear (north) end -- outputs/rear-deck-roof-3d-spec.md, z translated by -552
   R_POSTS: [-156, -75, 0, 75, 156], R_POST_Z: -648, R_DECK_EDGE: -657, R_ROOF_EDGE: -661.75,
   R_BEAM: [-16, -8.75], R_JOIST: [-8.75, -1.5],   // R_EAVE_BEAM / R_POST_TOP derive from the rafter underside below
-  STAIR_W: 96, RISERS: 4, TREAD: 11, NOSE: 1, RAIL_H: 36,   // owner 2026-09-11: centered 8' stairs; 36" as-built rail height
+  STAIR_W: 96, RISERS: 4, TREAD: 12, NOSE: 1.25, RAIL_H: 36,   // owner 2026-09-11: centered 8' stairs; 36" as-built rail height; owner 2026-09-23: 12" treads + 1 1/4" nose (were 11 + 1)
   CHIM: { x: -136, z: -528, r: 4, top: 354 },   // A03 north / east: 11.3' west of the ridge, 2' from the north wall; painted black
 };
 D.PLUMB_END = D.RAFT / Math.cos(Math.atan(D.PITCH_END));   // 20.6" plumb depth of a 2X14 at 14.7:12
@@ -2408,28 +2409,45 @@ const PYZ = (pts, x1, x2, mat, layer) => {
   m.castShadow = m.receiveShadow = true;
   return reg(m, layer);
 };
-function stair(zEdge, dir, layer) {                   // closed steps built from boards, like the stairs on the owner's current house (owner 2026-09-22 late night); dir +1 descends toward +z (front), -1 toward -z (rear)
-  // Per step: a tread of two 1" boards spanning the full 8' (a ripped back board against the riser above, a 1/4" gap, a 5 1/2" board to
-  // the nose: 12" from the skirt at the top step, 12 1/4" from the set-back riser face below it), a 3/4" riser board on the step face
-  // SET BACK 1/4" so the nose above overhangs it 1 1/4", and one treated core box hidden inside. The SIDES are one continuous 3/4"
-  // cedar board each (a closed stringer): its top follows the steps under the treads, its step faces flush with the riser boards, it
-  // drops plumb at the bottom riser to grade, runs along grade and closes against the deck skirt; its outer face is 1" inside the
-  // tread ends, so the treads overhang the sides 1" and the risers 1 1/4". The riser boards butt between the side boards; the core is
-  // inset 3/4" plus 0.02" from every board face. The top riser is the deck skirt; footprint unchanged (bottom nose at zEdge + 3 x 11 + 1).
-  const hw = D.STAIR_W / 2, T = D.SKIRT_T, C = 0.02, SB = 0.25, xs = hw - 1, zr = (a, b) => [Math.min(a, b), Math.max(a, b)];
-  const prof = [[zEdge, D.DECK - D.RISE - 1]];                                                            // side-board outline in (z, y): along the tread undersides and down the riser faces, then grade
-  for (let k = 1; k < D.RISERS; k++) {
-    const top = D.DECK - k * D.RISE, below = k + 1 < D.RISERS ? top - D.RISE : D.GRADE + 1;   // this tread's top; the tread below's top (grade + 1 at the bottom step so its riser starts at grade)
-    const z0 = zEdge + dir * D.TREAD * (k - 1), z1 = zEdge + dir * D.TREAD * k, zn = z1 + dir * D.NOSE;   // step lines: the riser above's line, this step's line, the nose
-    const zf = z1 - dir * SB, zb = k === 1 ? z0 : z0 - dir * SB;                                        // this step's riser face; the tread's back edge (the skirt face at the top step, else the set-back riser above)
-    B(-hw, hw, top - 1, top, ...zr(zb, z0 + dir * (D.BOARD + T)), k % 2 ? M.deck : M.deck2, layer);   // back tread board: a 6 1/4" rip at the top step, 6 1/2" on the steps below
-    B(-hw, hw, top - 1, top, ...zr(zn - dir * D.BOARD, zn), k % 2 ? M.deck2 : M.deck, layer);          // front tread board, 5 1/2", nose 1 1/4" past the riser face below
-    B(-(xs - T), xs - T, below - 1, top - 1, ...zr(zf - dir * T, zf), M.deck, layer);                  // riser board between the side boards, from the tread below's underside (grade at the bottom) to this tread's underside
-    B(-(xs - T - C), xs - T - C, D.GRADE, top - 1 - C, ...zr(z0 + (k === 1 ? dir * C : 0), zf - dir * (T + C)), M.pt, layer);   // treated core, 0.02" clear of every board (and of the skirt at the top step)
-    prof.push([zf, top - 1], [zf, k + 1 < D.RISERS ? top - D.RISE - 1 : D.GRADE]);
+function stair(zEdge, dir, layer) {               // closed steps built from boards, like the stairs on the owner's current house (owner 2026-09-22 late night, 2026-09-23); dir +1 descends toward +z (front), -1 toward -z (rear)
+  // Per step: a 12" tread + 1 1/4" nose (owner 2026-09-23) of three 1" boards spanning the full 8' -- a 1 3/4" rip at the back
+  // against the skirt (top step) or the riser board above, a 1/4" gap, a 5 1/2" board, a 1/4" gap, a 5 1/2" board ending at the
+  // nose (1 3/4 + 1/4 + 5 1/2 + 1/4 + 5 1/2 = 13 1/4) -- a 3/4" riser board ON the step line so the nose above overhangs it 1 1/4",
+  // and one treated core prism hidden inside. The SIDES are ONE straight diagonal 3/4" cedar board each, like the stringers on his
+  // current house: a band of constant depth parallel to the nose line -- its top edge a sawtooth 1" under the tread tops following
+  // the steps (step faces flush with the riser boards), its bottom edge the line through the tread noses dropped SKIRT_H (9 1/4",
+  // the deck skirt's depth), cut off level where that line goes below grade, plumb at the bottom riser's face, and its back edge
+  // against the skirt 0.02" clear (its bottom lands 1 5/8" above the skirt's bottom edge there). Its outer face is 1" inside the
+  // tread ends, so the treads overhang the sides 1" and the risers 1 1/4". The riser boards butt between the side boards; the core
+  // is inset 3/4" + 0.02" behind the risers and sides, 0.02" under the treads, and its bottom parallels the band's bottom edge 0.02"
+  // above it so no face shows through the open wedge under the band. The top riser is the deck skirt.
+  // Footprint: skirt face to the bottom nose = 3 x 12 + 1 1/4 = 37 1/4 (z 60 3/4 .. 98 front, -657 3/4 .. -695 rear).
+  const hw = D.STAIR_W / 2, T = D.SKIRT_T, C = 0.02, G = 0.25, N = D.RISERS - 1, xs = hw - 1, xi = xs - T;
+  const RIP = D.TREAD + D.NOSE - 2 * (D.BOARD + G);                                                       // 1 3/4" back rip
+  const Z = u => zEdge + dir * u, zr = (a, b) => [Math.min(a, b), Math.max(a, b)];                       // u = run from the skirt face
+  const yTop = k => D.DECK - k * D.RISE, uStep = k => k * D.TREAD, uToe = uStep(N);                      // tread k's top; its step line (riser face); the bottom riser's face
+  const m = D.RISE / D.TREAD, yNose = u => yTop(1) - m * (u - (D.TREAD + D.NOSE));                        // the line through the tread noses
+  const yBot = u => Math.max(yNose(u) - D.SKIRT_H, D.GRADE);                                             // the band's bottom edge: the nose line dropped 9 1/4", never below grade
+  const uClip = D.TREAD + D.NOSE + (yTop(1) - D.SKIRT_H - D.GRADE) / m;                                  // where that line reaches grade (31.49 from the skirt face)
+  const side = [[C, yBot(C)], [C, yTop(1) - 1]];                                                          // side-board outline in (u, y), clockwise from the back-bottom corner
+  for (let k = 1; k <= N; k++) {
+    const top = yTop(k), below = k < N ? yTop(k + 1) : D.GRADE + 1, u0 = uStep(k - 1), u1 = uStep(k), un = u1 + D.NOSE;
+    const A = k % 2 ? M.deck : M.deck2, Bm = k % 2 ? M.deck2 : M.deck;
+    B(-hw, hw, top - 1, top, ...zr(Z(u0), Z(u0 + RIP)), A, layer);                                       // back rip, 1 3/4"
+    B(-hw, hw, top - 1, top, ...zr(Z(u0 + RIP + G), Z(u0 + RIP + G + D.BOARD)), Bm, layer);              // middle board, 5 1/2"
+    B(-hw, hw, top - 1, top, ...zr(Z(un - D.BOARD), Z(un)), A, layer);                                   // front board, 5 1/2", to the nose 1 1/4" past the riser face below
+    B(-xi, xi, below - 1, top - 1, ...zr(Z(u1 - T), Z(u1)), M.deck, layer);                              // riser board between the side boards, from the tread below's underside (grade at the bottom) to this tread's underside
+    // core: a prism per step between the side boards' inner faces, 0.02" under the tread, 0.02" past the skirt (top step) or 3/4" +
+    // 0.02" past the riser face above, 3/4" + 0.02" behind this step's riser, its bottom edge parallel to the band's bottom 0.02" above
+    // it (and 0.02" above grade where the band has been cut off level)
+    const ct = top - 1 - C, a = u0 + (k === 1 ? 2 * C : T + C), b = u1 - T - C;
+    const core = [[a, yBot(a) + C], [a, ct], [b, ct], [b, yBot(b) + C]];
+    if (a < uClip && uClip < b) core.push([uClip, D.GRADE + C]);                                        // the bottom edge kinks where the band meets the ground
+    PYZ(core.map(p => [Z(p[0]), p[1]]), -(xi - C), xi - C, M.pt, layer);
+    side.push([u1, top - 1], [u1, k < N ? yTop(k + 1) - 1 : yBot(u1)]);                                 // this step's tread underside, then down its riser face (to grade at the bottom step)
   }
-  prof.push([zEdge, D.GRADE]);
-  for (const sd of [-1, 1]) PYZ(prof, sd * xs, sd * (xs - T), M.deck, layer);                            // the two side boards, x +/-(46 1/4 .. 47)
+  if (uClip < uToe) side.push([uClip, D.GRADE]);                                                         // level along the ground back to where the sloped bottom edge meets it
+  for (const sd of [-1, 1]) PYZ(side.map(p => [Z(p[0]), p[1]]), sd * xs, sd * (xs - T), M.deck, layer);  // the two side boards, x +/-(46 1/4 .. 47)
 }
 {
   const L = 'deck', HW = D.HW, sh = EXT, RIM_X = HW + 2.75 + D.END_RIM_T, DE = D.DECK_END;
@@ -2657,6 +2675,7 @@ const VIEWS = {
   gableN: { pos: [0, 150, -1060], tgt: [0, 140, -552], fov: 36 },   // review view: the north window wall square on -- one board per gap, rakes, capped centre board (owner 2026-09-21)
   door:   { pos: [24, 50, 160], tgt: [0, 44, 0], fov: 36 },
   deckEnd: { pos: [232, 26, 152], tgt: [150, 50, 40], fov: 60 },   // review view: the SE porch corner -- end rim, cedar skirt, the post's treated / cedar split at the floor, the T&G ceiling and its cans (owner 2026-09-22)         // review view: door 1 from the front stairs -- the JELD-WEN Full View slab, lite frame, glass, knob and deadbolt (owner 2026-09-22)
+  stairs: { pos: [150, 24, 130], tgt: [40, -12, 82], fov: 30 },   // review view: the front stair from the east -- the straight side band, tread overhangs and noses, the deck corner (owner 2026-09-23)
   gableS: { pos: [0, 200, 430], tgt: [0, 200, 0], fov: 30 },        // review view: door 12, the O triangles, the band and the P pair     // review view: the east side eave close up from below and outside -- 9" fascia, narrowed tail ends, cedar T&G tucked inside (owner 2026-09-21)      // review view: the front gable's east rake from below and outside, where the lapped board's step and its run-past tail both read (owner 2026-09-21)
 };
 // ===== END EDIT: VIEWS =====
