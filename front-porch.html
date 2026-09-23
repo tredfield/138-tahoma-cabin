@@ -64,11 +64,11 @@
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
-    <div class="lg"><span class="sw" style="background:#8f9a5a"></span>Pressure-treated (posts, joists, rims, ledgers, guard)</div>
+    <div class="lg"><span class="sw" style="background:#8f9a5a"></span>Pressure-treated (posts, porch beam, joists, rims, ledgers, guard)</div>
     <div class="lg"><span class="sw" style="background:#d8c39a"></span>Wall framing 2X6 DF</div>
     <div class="lg"><span class="sw" style="background:#d2a86a"></span>Headers, rim, floor framing</div>
     <div class="lg"><span class="sw" style="background:#c48a4e"></span>Roof: 2X14 rafters, 6X8 eave beams</div>
-    <div class="lg"><span class="sw" style="background:#b07a3a"></span>Glulam (ridge, header, deck beams)</div>
+    <div class="lg"><span class="sw" style="background:#b07a3a"></span>Glulam (ridge, header, upper-deck beam)</div>
     <div class="lg"><span class="sw" style="background:#8a94a0"></span>Steel hardware (schematic)</div>
     <div class="lg"><span class="sw" style="background:#9aa0a6"></span>Concrete (pads, plinths, stem wall)</div>
     <div class="lg"><span class="sw" style="background:#d9a441"></span>Rake extension framing (TBD)</div>
@@ -1854,12 +1854,13 @@ for (const s of [-1, 1]) {
 const LED_Z0 = D.SHEATH_T, LED_Z1 = LED_Z0 + 1.5;          // ledgers sit against the 7/16" sheathing
 const PJ_TOP = -1.5, PJ_BOT = PJ_TOP - 5.5;                  // PT2X6 joists: surface -1/2", 1" decking
 // Deck ends (owner 2026-09-22): a PT end rim, joist depth, on the OUTSIDE face of each corner post, house to front
-// edge; the front rim and the floor run out to it; a 1x cedar skirt wraps the three open sides, top flush with the
-// deck surface, bottom at the joist underside. The deck therefore ends 1 1/2 + 3/4 = 2 1/4" past each post face.
-const END_RIM_T = 1.5, SKIRT_T = 0.75;
+// edge; the front rim runs out to it; a 1x cedar skirt wraps the three open sides, top at the decking underside,
+// bottom at the joist underside; the floor boards overhang the skirt 3/4" on all three open sides (owner 2026-09-22
+// evening). The skirt face is 2 1/4" past each post face, the board ends 3" past it.
+const END_RIM_T = 1.5, SKIRT_T = 0.75, OVERHANG = 0.75;
 const END_RIM_X0 = D.HALF_W + 2.75 + 0.02, END_RIM_X1 = D.HALF_W + 2.75 + END_RIM_T;   // 158.77 .. 160.25 (0.02 clear of the post face: no coincident faces)
 const DECK_END = END_RIM_X1 + SKIRT_T;                                                 // 161: outer face of the end skirt
-const PGLB_W = 5.125, PGLB_D = 12;                           // porch glulam — PLACEHOLDER size, not on record
+const PGLB_W = 5.125, PGLB_D = 12;                           // porch drop beam, solid PT — PLACEHOLDER size, not on record
 const UGLB_W = 5.5, UGLB_D = 15;                             // upper-deck glulam — PLACEHOLDER size, not on record
 const UB_TOP = D.UPPER_FLR - 1.5, UB_BOT = UB_TOP - UGLB_D;   // 118.5 .. 103.5: TOP FLUSH with the joist tops (photos)
 const PB_TOP = PJ_BOT, PB_BOT = PB_TOP - PGLB_D;              // -7 .. -19, under the joists
@@ -1910,14 +1911,14 @@ for (const xc of JOIST_X) joistRun(xc, PJ_BOT, PJ_TOP, D.PORCH_EDGE - 1.5, 'porc
 box(-END_RIM_X1, END_RIM_X1, PJ_BOT, PJ_TOP, D.PORCH_EDGE - 1.5, D.PORCH_EDGE, M.pt, 'porch');   // PT2X6 rim at 5'-0", out to the end rims
 for (const s of [-1, 1])                                                                  // PT2X6 END RIMS on the corner posts' outer faces, sheathing face to the front rim's back face
   box(s * END_RIM_X0, s * END_RIM_X1, PJ_BOT, PJ_TOP, LED_Z0, D.PORCH_EDGE - 1.5, M.pt, 'porch');
-// PORCH GLULAM (field change, replaces S3.1's PT4X6): one 26'-0" member hung on the corner posts,
-// still bearing on the two center posts, which stop under it
+// PORCH DROP BEAM: solid pressure-treated (owner 2026-09-22; S3.1 drew a PT4X6), 5 1/8 x 12 placeholder size;
+// one 26'-0" member hung on the corner posts, still bearing on the two center posts, which stop under it
 {
   const xa = -153.25, xb = 153.25;
-  box(xa, xb, PB_BOT, PB_TOP, BZ0, BZ1, M.glb, 'porch');
+  box(xa, xb, PB_BOT, PB_TOP, BZ0, BZ1, M.pt, 'porch');
   hucHanger(xa, +1, PB_BOT, PB_TOP, BZ0, BZ1);
   hucHanger(xb, -1, PB_BOT, PB_TOP, BZ0, BZ1);
-  for (const xs of [-48, 48]) {                       // post cap under the glulam (schematic)
+  for (const xs of [-48, 48]) {                       // post cap under the porch beam (schematic)
     box(xs - 3, xs + 3, PB_BOT - 0.15, PB_BOT + 0.15, D.POST_LINE - 3, D.POST_LINE + 3, M.steel, 'hardware', false);
     for (const q of [-1, 1]) {
       box(xs - 2.5, xs + 2.5, PB_BOT, PB_BOT + 4, D.POST_LINE + q * (PGLB_W / 2), D.POST_LINE + q * (PGLB_W / 2 + 0.15), M.steel, 'hardware', false);
@@ -1927,7 +1928,7 @@ for (const s of [-1, 1])                                                        
 }
 
 // posts: PT6X6 HF#2 — the corner posts run from the plinth to the UNDERSIDE of the upper-deck glulam and
-// stop there with a post cap (site photos 2026-09-01); the two center posts stop under the porch glulam.
+// stop there with a post cap (site photos 2026-09-01); the two center posts stop under the porch beam.
 for (const xs of D.STATIONS) {
   const corner = Math.abs(xs) === 156;
   const top = corner ? UB_BOT : PB_BOT;
@@ -1947,11 +1948,12 @@ for (const xs of D.STATIONS) {
   bar(V(xs, D.PLINTH_TOP - 5, D.POST_LINE), V(xs, D.PLINTH_TOP + 0.15, D.POST_LINE), 0.31, M.steel, 'hardware');
 }
 
-// finishes toggle: 1" decking placeholder out to the end skirts, and the 1x cedar skirt on the three open sides
-// (front board full width, end boards butt its back face; tops flush with the deck surface, bottoms at the joist underside)
-box(-END_RIM_X1, END_RIM_X1, PJ_TOP, -0.5, LED_Z0, D.PORCH_EDGE, M.deck, 'finish', false);
-box(-DECK_END, DECK_END, PJ_BOT, -0.5, D.PORCH_EDGE, D.PORCH_EDGE + SKIRT_T, M.deck, 'finish');          // front skirt
-for (const s of [-1, 1]) box(s * END_RIM_X1, s * DECK_END, PJ_BOT, -0.5, LED_Z0, D.PORCH_EDGE, M.deck, 'finish');   // end skirts
+// finishes toggle: 1" decking placeholder overhanging the skirt 3/4" on the three open sides (x +/-161 3/4, front edge
+// z 61 1/2), and the 1x cedar skirt tucked under it (front board full width, end boards butt its back face; tops at the
+// decking underside like the joists and end rims, bottoms at the joist underside)
+box(-(DECK_END + OVERHANG), DECK_END + OVERHANG, PJ_TOP, -0.5, LED_Z0, D.PORCH_EDGE + SKIRT_T + OVERHANG, M.deck, 'finish', false);
+box(-DECK_END, DECK_END, PJ_BOT, PJ_TOP, D.PORCH_EDGE, D.PORCH_EDGE + SKIRT_T, M.deck, 'finish');          // front skirt
+for (const s of [-1, 1]) box(s * END_RIM_X1, s * DECK_END, PJ_BOT, PJ_TOP, LED_Z0, D.PORCH_EDGE, M.deck, 'finish');   // end skirts
 
 // ===========================================================================
 // 3. UPPER DECK at UPPER FLR 10'-0" — unchanged, 4'-3 1/2" deep (layer 'upper')
@@ -2139,17 +2141,17 @@ const FLAGT = { flag: true };
 {
   const TF = { fs: 88 }, TFLAG = { fs: 88, flag: true };           // sized for the Front view (~10 px per line at 1600x1000)
   const PZ = D.POST_LINE + 2.75 + 0.15;                            // south face of the 6X6 posts
-  const GZ = BZ1 + 0.15;                                           // south face of the porch glulam
+  const GZ = BZ1 + 0.15;                                           // south face of the porch beam
   const UGZ = UGLB_Z1 + 0.15;                                      // south face of the upper-deck glulam
   const WZ = D.SHEATH_T + 0.15;                                    // wall sheathing face
   const RZ = 45 + RW * 2 + 0.15;                                   // south face of the carrier rafter pair (z 45 .. 48)
   const EZ = D.ROOF_EDGE + 0.15;                                   // roof edge: barge pair and eave-beam ends
   // porch and footings
   tagAt(['CORNER POST (2)', 'PT6X6 HF#2, cap under glulam', 'ABU66Z on 5/8" x 5" Titen'], 156, 40, PZ, 'z', TF);
-  tagAt(['CENTER POST (2)', 'PT6X6 HF#2, ABU66Z base', 'stops under the porch glulam'], -48, -23, PZ, 'z', TF);
-  tagAt(['PORCH GLULAM 26\'-0"', 'FIELD VERIFY size'], -135, -13, GZ, 'z', TFLAG);
+  tagAt(['CENTER POST (2)', 'PT6X6 HF#2, ABU66Z base', 'stops under the porch beam'], -48, -23, PZ, 'z', TF);
+  tagAt(['PORCH BEAM PT 26\'-0"', 'FIELD VERIFY size'], -135, -13, GZ, 'z', TFLAG);
   tagAt(['PORCH JOISTS', 'PT2X6 HF#2 @ 16" o.c.', 'cantilever 12" to PT2X6 rim'], 40, -4, D.PORCH_EDGE + 0.15, 'z', TF);
-  tagAt(['END RIM PT 2X, 1x CEDAR SKIRT', 'deck ends 2 1/4" past the post'], 118, -4, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
+  tagAt(['END RIM PT 2X, 1x CEDAR SKIRT', 'deck ends 2 1/4" past the post', 'decking overhangs 3/4"'], 118, -4, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
   tagAt(['PORCH LEDGER', 'PT2X8 HF#2, LedgerLok', 'per 10/S4.1'], -40, -5, LED_Z1 + 0.15, 'z', TF);
   tagAt(['FOOTING (4)', '24" sq x 8" pad', '18"Ø plinth, top 8" above grade'], 66, -50, D.POST_LINE + 9 + 0.15, 'z', TF);
   // upper deck

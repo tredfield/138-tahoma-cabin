@@ -1931,9 +1931,10 @@ for (const s of [-1, 1]) {
 const LED_Z1 = -D.SHEATH_T, LED_Z0 = LED_Z1 - 1.5;          // ledger against the 7/16" sheathing: z -0.44 .. -1.94
 const J_TOP = -1.5, J_BOT = J_TOP - 7.25;                    // PT2X8 joists: surface -1/2", 1" decking placeholder
 // Deck ends (owner 2026-09-22): a PT end rim, joist depth, on the OUTSIDE face of each corner post, house to deck
-// edge; the rim and the floor run out to it; a 1x cedar skirt wraps the three open sides, top flush with the deck
-// surface, bottom at the joist underside. The deck therefore ends 1 1/2 + 3/4 = 2 1/4" past each post face.
-const END_RIM_T = 1.5, SKIRT_T = 0.75;
+// edge; the rim runs out to it; a 1x cedar skirt wraps the three open sides, top at the decking underside, bottom at
+// the joist underside; the floor boards overhang the skirt 3/4" on all three open sides (owner 2026-09-22 evening).
+// The skirt face is 2 1/4" past each post face, the board ends 3" past it.
+const END_RIM_T = 1.5, SKIRT_T = 0.75, OVERHANG = 0.75;
 const END_RIM_X0 = D.HALF_W + 2.75 + 0.02, END_RIM_X1 = D.HALF_W + 2.75 + END_RIM_T;   // 158.77 .. 160.25 (0.02 clear of the post face: no coincident faces)
 const DECK_END = END_RIM_X1 + SKIRT_T;                                                 // 161: outer face of the end skirt
 const B_TOP = J_BOT, B_BOT = B_TOP - D.BEAM_D;               // PT4X8 drop beam under the joists: -8.75 .. -16
@@ -2104,11 +2105,12 @@ for (const s of [-1, 1]) {
     // 2X10 eave fascia on the rafter tails at the eave tip
     box(s * D.EAVE_TIP, s * (D.EAVE_TIP + 1.5), D.roofTop(D.EAVE_TIP) - 8.65, D.roofTop(D.EAVE_TIP) + 0.6, D.ROOF_EDGE - 1.5, 0, M.fram, 'finish');
   }
-  box(-END_RIM_X1, END_RIM_X1, J_TOP, -0.5, LED_Z1, D.DECK_EDGE, M.deck, 'finish', false);  // 1" decking placeholder (0615), out to the end skirts
-  // 1x cedar skirt on the three open sides: north board full width, end boards butt its back face (no shared faces);
-  // tops flush with the deck surface, bottoms at the joist underside
-  box(-DECK_END, DECK_END, J_BOT, -0.5, D.DECK_EDGE - SKIRT_T, D.DECK_EDGE, M.deck, 'finish');            // north skirt
-  for (const s of [-1, 1]) box(s * END_RIM_X1, s * DECK_END, J_BOT, -0.5, LED_Z1, D.DECK_EDGE, M.deck, 'finish');   // end skirts
+  // 1" decking placeholder (0615) overhanging the skirt 3/4" on the three open sides: x +/-161 3/4, north edge z -106 1/2
+  box(-(DECK_END + OVERHANG), DECK_END + OVERHANG, J_TOP, -0.5, LED_Z1, D.DECK_EDGE - SKIRT_T - OVERHANG, M.deck, 'finish', false);
+  // 1x cedar skirt tucked under the decking on the three open sides: north board full width, end boards butt its back
+  // face (no shared faces); tops at the decking underside like the joists and end rims, bottoms at the joist underside
+  box(-DECK_END, DECK_END, J_BOT, J_TOP, D.DECK_EDGE - SKIRT_T, D.DECK_EDGE, M.deck, 'finish');            // north skirt
+  for (const s of [-1, 1]) box(s * END_RIM_X1, s * DECK_END, J_BOT, J_TOP, LED_Z1, D.DECK_EDGE, M.deck, 'finish');   // end skirts
   // guard (its own layer 'guard', off by default) — 36" as built on the front deck; continuous on three sides, no stair opening
   const GL = 'guard', DK = -0.5, RT = DK + 36, zr = D.DECK_EDGE + 2.25, RP = [-150, -105, -57, -9, 9, 57, 105, 150];
   for (const xp of RP) box(xp - 1.75, xp + 1.75, DK, RT, zr - 1.75, zr + 1.75, M.pt, GL, false);
@@ -2161,7 +2163,7 @@ box(-150.5, 150.5, -0.75, 0, W1, 72, M.ghostFl, 'context');                     
   tagAt(['DROP BEAM PT4X8 HF#2', '4 segments, HUC46Z at corners'], -130, (B_BOT + B_TOP) / 2, D.BEAM_Z0 - 0.15, 'z-', TF);
   tagAt(['JOISTS PT2X8 HF#2 @ 16" o.c.', 'over the beam, 9" cantilever', 'rim face 8\'-9" from gridline 4'], -30, (J_BOT + J_TOP) / 2, RIM, 'z-', TF);
   tagAt(['LEDGER PT2X8 HF#2', 'per 10/S4.1'], 100, (J_BOT + J_TOP) / 2, LED_Z0 - 0.15, 'z-', TF);
-  tagAt(['END RIM PT 2X, 1x CEDAR SKIRT', 'deck ends 2 1/4" past the post'], 125, (J_BOT + J_TOP) / 2, D.DECK_EDGE - SKIRT_T - 0.15, 'z-', TF);
+  tagAt(['END RIM PT 2X, 1x CEDAR SKIRT', 'deck ends 2 1/4" past the post', 'decking overhangs 3/4"'], 125, (J_BOT + J_TOP) / 2, D.DECK_EDGE - SKIRT_T - 0.15, 'z-', TF);
   tagAt(['FOOTING (5)', '24" sq x 8" pad, 18"Ø plinth', 'top 8" above grade, Dtl 4/S4.1'], -75, -50, PLN, 'z-', TF);
   tagAt(['FIELD VERIFY: grade', 'drawn at -3\'-0"'], 75, -46, PLN, 'z-', TFLAG);
   tagAt(['FIELD VERIFY: post centering', 'plinths drawn centered'], 156, -50, PLN, 'z-', TFLAG);

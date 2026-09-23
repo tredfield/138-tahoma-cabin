@@ -94,10 +94,10 @@
     <div class="lg"><span class="sw" data-slot="fascia"></span>Fascia and rake boards</div>
     <div class="lg"><span class="sw" data-slot="roof"></span>Standing-seam metal roof</div>
     <div class="lg"><span class="sw" data-slot="soffit"></span>Cedar T&amp;G soffit and porch ceiling</div>
-    <div class="lg"><span class="sw" data-slot="wrap"></span>Cedar covering: posts above the deck, roof beams, deck skirt</div>
+    <div class="lg"><span class="sw" data-slot="wrap"></span>Cedar covering: posts above the deck, roof beams</div>
     <div class="lg"><span class="sw" data-slot="wood"></span>Upper-deck glulam (bare fir)</div>
     <div class="lg"><span class="sw" data-slot="pt"></span>Treated framing: posts below the deck, beams under the floors, joists</div>
-    <div class="lg"><span class="sw" data-slot="deck"></span>Decking and stair treads</div>
+    <div class="lg"><span class="sw" data-slot="deck"></span>Cedar decking: floor boards, skirt, stair boards</div>
     <div class="lg"><span class="sw" data-slot="door"></span>Door 1: JELD-WEN Full View steel 3/0 x 7/0</div>
     <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, sconces, soffit cans, chimney</div>
     <div class="lg"><span class="sw" data-slot="conc"></span>Exposed stem wall (concrete)</div>
@@ -1636,6 +1636,7 @@ const D = {
   GRADE: -25.5,                            // ILLUSTRATIVE: 14" of stem wall showing after backfill (owner 2026-09-11)
   DECK: -0.5,                              // both ground-level deck surfaces, 1/2" below LOWER FLR
   END_RIM_T: 1.5, SKIRT_T: 0.75,           // closed deck ends (owner 2026-09-22): a PT 2x end rim on each corner post's outer face, a 1x cedar skirt around the three open sides
+  OVERHANG: 0.75,                          // the floor boards overhang the skirt on the three open sides (owner 2026-09-22 late evening): the skirt tucks under them, decking wood
   // front (south) end -- outputs/front-porch-deck-3d-spec.md
   F_POSTS: [-156, -48, 48, 156], F_POST_Z: 48, F_PORCH_EDGE: 60, F_ROOF_EDGE: 72, F_DECK_EDGE: 50.75,
   F_GLB_LO: [-19, -7], F_GLB_UP: [103.5, 118.5], F_POST_TOP: 103.5, F_EAVE_BEAM: [110.8, 118.3], F_JOIST: [-7, -1.5], F_UJOIST: [113, 118.5],
@@ -1742,9 +1743,9 @@ LAP.map.colorSpace = THREE.SRGBColorSpace;
 const BB_SP = 12, BB_W = 2.5;
 
 const SCHEMES = {   // hex values are stand-ins until Sherwin Williams colors are chosen (spec: Color schemes)
-  black:   { siding: '#262626', trim: '#151515', fascia: '#151515', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', wrap: '#c0905f', pt: '#855946', deck: '#a67c52', door: '#151515', rail: '#151515', conc: '#9d9b95' },
-  green:   { siding: '#3b413c', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', wrap: '#c0905f', pt: '#855946', deck: '#a67c52', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
-  ironore: { siding: '#434341', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#c99d66', wood: '#b98a5c', wrap: '#c0905f', pt: '#855946', deck: '#a67c52', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
+  black:   { siding: '#262626', trim: '#151515', fascia: '#151515', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', wrap: '#af9470', pt: '#855946', deck: '#af9470', door: '#151515', rail: '#151515', conc: '#9d9b95' },
+  green:   { siding: '#3b413c', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', wrap: '#af9470', pt: '#855946', deck: '#af9470', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
+  ironore: { siding: '#434341', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', wrap: '#af9470', pt: '#855946', deck: '#af9470', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
 };
 const std = o => new THREE.MeshStandardMaterial(o);
 const M = {
@@ -1753,12 +1754,15 @@ const M = {
   fascia:  std({ color: 0x151515, roughness: .7 }),
   roof:    std({ color: 0x1c1c1e, roughness: .45, metalness: .55 }),
   roofRib: std({ color: 0x24242a, roughness: .4, metalness: .6 }),
-  soffit:  std({ color: 0xc99d66, roughness: .8 }),
-  soffit2: std({ color: 0xb58d5c, roughness: .8 }),
+  soffit:  std({ color: 0xaf9470, roughness: .8 }),                                    // cedar T&G soffits -- one cedar tone T3 for decking, T&G and covering (owner 2026-09-22 late, from four tone pictures)
+  soffit2: std({ color: 0x9e8565, roughness: .8 }),                                    // alternate soffit board, 0.9 x soffit
+  ceil:    std({ color: 0xaf9470, roughness: .8 }),                                    // porch ceiling T&G, its own key so the render's grain can run east-west along the boards (soffit tone, soffit slot)
+  ceil2:   std({ color: 0x9e8565, roughness: .8 }),                                    // alternate ceiling board, 0.9 x ceil
   wood:    std({ color: 0xb98a5c, roughness: .8 }),                                    // bare glulam, sealed: the upper-deck beam and the ridge-beam ends
-  wrap:    std({ color: 0xc0905f, roughness: .8 }),                                    // cedar covering: posts above the deck floor, the 6x8 / 6x10 roof beams, the deck skirt (owner 2026-09-22)
+  wrap:    std({ color: 0xaf9470, roughness: .8 }),                                    // cedar covering: posts above the deck floor, the 6x8 / 6x10 roof beams, the deck skirt (owner 2026-09-22)
   pt:      std({ color: 0x855946, roughness: .9 }),                                    // treated framing, brown-tone incised (site photo 2026-09-01): posts below the floor, the beam under each floor, joists, rims
-  deck:    std({ color: 0xa67c52, roughness: .85 }),
+  deck:    std({ color: 0xaf9470, roughness: .85 }),                                   // cedar decking: floor boards, skirt, stair treads, risers and sides -- knotty western red cedar, clear sealer, soft satin, the one cedar tone T3 (owner 2026-09-22 late)
+  deck2:   std({ color: 0xa18867, roughness: .85 }),                                   // alternate board tone, 0.92 x deck: every other floor board and tread board (deck slot)
   door:    std({ color: 0x151515, roughness: .35, metalness: .15 }),                 // factory-painted steel (JELD-WEN Black), satin
   rail:    std({ color: 0x151515, roughness: .45, metalness: .5 }),
   conc:    std({ color: 0x9d9b95, roughness: .95 }),
@@ -2375,32 +2379,45 @@ function railRun(x0, z0, x1, z1, y0, layer, o = {}) {
   for (let y = y0 + 3.5; y < top - 2; y += 3) run(y - 0.12, y + 0.12, 0.12);
   for (let i = n0; i < parts.length; i++) parts[i].userData.mount = MOUNT_TAG;
 }
-function stair(zEdge, dir, layer) {                   // solid closed steps; dir +1 descends toward +z (front), -1 toward -z (rear)
-  const hw = D.STAIR_W / 2;
+function stair(zEdge, dir, layer) {                   // closed steps built from boards (owner 2026-09-22 late evening); dir +1 descends toward +z (front), -1 toward -z (rear)
+  // Per step: a tread of two 1" boards on top (a 6 1/4" rip against the riser above, a 1/4" gap, a 5 1/2" board to the nose --
+  // 12" = TREAD + NOSE; two stock 5 1/2" boards and the gap only make 11 1/4", so the back board is ripped as a deck builder
+  // would), a 3/4" riser board on the step face from the tread below's underside to the tread above's underside (the bottom
+  // one from grade), 3/4" side boards closing both stringer sides from grade to the tread underside, and one treated core box
+  // per step inset 3/4" behind the riser and sides (1" under the tread) plus 0.02" so no core face touches a board.
+  // The riser boards butt between the side boards (x +/-(hw - 3/4)): a full-width riser would put its end faces on the side
+  // boards' outer plane. The top riser is the deck skirt; the footprint is unchanged (bottom nose at zEdge + 3 x 11 + 1).
+  const hw = D.STAIR_W / 2, T = D.SKIRT_T, C = 0.02, zr = (a, b) => [Math.min(a, b), Math.max(a, b)];
   for (let k = 1; k < D.RISERS; k++) {
-    const top = D.DECK - k * D.RISE, z0 = zEdge + dir * D.TREAD * (k - 1), z1 = zEdge + dir * D.TREAD * k;
-    B(-hw, hw, D.GRADE, top - 1, Math.min(z0, z1), Math.max(z0, z1), M.deck, layer);
-    B(-hw, hw, top - 1, top, Math.min(z0, z1 + dir * D.NOSE), Math.max(z0, z1 + dir * D.NOSE), M.deck, layer);
+    const top = D.DECK - k * D.RISE, below = k + 1 < D.RISERS ? top - D.RISE : D.GRADE + 1;   // this tread's top; the tread below's top (grade + 1 at the bottom step so its riser starts at grade)
+    const z0 = zEdge + dir * D.TREAD * (k - 1), z1 = zEdge + dir * D.TREAD * k, zn = z1 + dir * D.NOSE;
+    B(-hw, hw, top - 1, top, ...zr(z0, z0 + dir * (D.BOARD + T)), k % 2 ? M.deck : M.deck2, layer);   // back tread board, 6 1/4" rip against the riser above
+    B(-hw, hw, top - 1, top, ...zr(zn - dir * D.BOARD, zn), k % 2 ? M.deck2 : M.deck, layer);          // front tread board, 5 1/2", 1" nosing past the riser below
+    B(-(hw - T), hw - T, below - 1, top - 1, ...zr(z1 - dir * T, z1), M.deck, layer);                  // riser board on the step face, between the side boards
+    for (const sd of [-1, 1]) B(...[sd * (hw - T), sd * hw].sort((a, b) => a - b), D.GRADE, top - 1, ...zr(z0, z1), M.deck, layer);   // side boards, grade to the tread underside
+    B(-(hw - T - C), hw - T - C, D.GRADE, top - 1 - C, ...zr(z0 + (k === 1 ? dir * C : 0), z1 - dir * (T + C)), M.pt, layer);   // treated core, hidden behind the boards (0.02" clear of the skirt at the top step)
   }
 }
 {
   const L = 'deck', HW = D.HW, sh = EXT, RIM_X = HW + 2.75 + D.END_RIM_T, DE = D.DECK_END;
   // Closed deck ends (owner 2026-09-22): a PT end rim, joist depth, on the outer face of each corner post from the house to the
   // front rim's back face, set 0.02" clear of the post so no faces coincide; the front rim runs out to the end rims' outer faces
-  // (x = +/-160 1/4); the floor boards end flush with the end rims and a 3/4" cedar skirt on the three open sides hides the
-  // board ends, top flush with the deck floor, bottom at the joist underside -- so the deck finishes 2 1/4" past each post face
-  // (DECK_END = 161) and the beam under the floor shows below the skirt.
-  // Wood kinds (five): pt = treated framing below the floor (posts below DECK, the middle posts, the beam under each floor,
-  // joists, rims, end rims, the upper-deck joists); wrap = cedar covering (posts above DECK, the 6x8 / 6x10 roof beams, the
-  // skirt); wood = the bare upper-deck glulam only; deck = cedar floor boards and treads; soffit = T&G soffits and the porch ceiling.
+  // (x = +/-160 1/4); a 3/4" skirt of decking wood on the three open sides hides the board ends and the framing, its top at the
+  // boards' underside and its bottom at the joist underside, and the floor boards OVERHANG it by OVERHANG (3/4", owner 2026-09-22
+  // late evening) -- so the skirt face is 2 1/4" past each post face (DECK_END = 161), the boards end at 161 3/4, and the beam
+  // under the floor shows below the skirt.
+  // Wood kinds: pt = treated framing below the floor (posts below DECK, the middle posts, the beam under each floor, joists, rims,
+  // end rims, the upper-deck joists, the stair cores); wrap = cedar covering (posts above DECK, the 6x8 / 6x10 roof beams); wood =
+  // the bare upper-deck glulam only; deck / deck2 = cedar floor boards, skirt, stair boards, alternating tones; soffit / soffit2 =
+  // T&G roof soffits; ceil / ceil2 = the porch ceiling T&G (same tone, own key so its grain can run along the boards).
   const post = (x, z0, z1, top) => {                               // 6x6: treated below the deck floor, cedar-covered above; the middle posts stop under the drop beam, all treated
     if (top <= D.DECK) { B(x - 2.75, x + 2.75, D.GRADE - 8, top, z0, z1, M.pt, L); return; }
     B(x - 2.75, x + 2.75, D.GRADE - 8, D.DECK, z0, z1, M.pt, L); B(x - 2.75, x + 2.75, D.DECK, top, z0, z1, M.wrap, L);
   };
-  const skirt = (zEdge, dir, zWall, yBot) => {                     // 1x cedar around the three open sides: the front board full width, the end boards butt its back face
+  const skirt = (zEdge, dir, zWall, yBot, yTop) => {               // 3/4" skirt of decking wood around the three open sides, top at the boards' underside: the front board full width, the end boards butt its back face
     const zOut = zEdge + dir * D.SKIRT_T;
-    B(-DE, DE, yBot, D.DECK, Math.min(zEdge, zOut), Math.max(zEdge, zOut), M.wrap, L);
-    for (const s of [-1, 1]) B(s * RIM_X, s * DE, yBot, D.DECK, Math.min(zWall, zEdge), Math.max(zWall, zEdge), M.wrap, L);
+    B(-DE, DE, yBot, yTop, Math.min(zEdge, zOut), Math.max(zEdge, zOut), M.deck, L);
+    for (const s of [-1, 1]) B(s * RIM_X, s * DE, yBot, yTop, Math.min(zWall, zEdge), Math.max(zWall, zEdge), M.deck, L);
   };
   // --- front (south): 4 PT6X6, PT drop beam under the floor, upper-deck glulam (flush rim), 6X8 eave beams, joists, rim, end rims, boards, skirt
   const fz0 = D.F_POST_Z - 2.75, fz1 = D.F_POST_Z + 2.75;
@@ -2411,14 +2428,15 @@ function stair(zEdge, dir, layer) {                   // solid closed steps; dir
   for (let x = -HW + 0.75; x <= HW; x += 16) { B(x - 0.75, x + 0.75, ...D.F_JOIST, 1.94, D.F_PORCH_EDGE - 1.5, M.pt, L); B(x - 0.75, x + 0.75, ...D.F_UJOIST, 1.94, fz0, M.pt, L); }
   B(-RIM_X, RIM_X, ...D.F_JOIST, D.F_PORCH_EDGE - 1.5, D.F_PORCH_EDGE, M.pt, L);                        // porch rim, out to the end rims' outer faces
   for (const s of [-1, 1]) B(s * (HW + 2.75 + 0.02), s * RIM_X, ...D.F_JOIST, sh, D.F_PORCH_EDGE - 1.5, M.pt, L);   // end rims on the corner posts' outer faces
-  const boards = (z0, z1, y0, y1, xh = HW) => { const d = Math.sign(z1 - z0); for (let z = z0; d * (z1 - z) > 0.5; z += d * (D.BOARD + 0.25)) { const ze = z + d * Math.min(D.BOARD, Math.abs(z1 - z)); B(-xh, xh, y0, y1, Math.min(z, ze), Math.max(z, ze), M.deck, L); } };
-  boards(sh, D.F_PORCH_EDGE, D.F_JOIST[1], D.DECK, RIM_X);                                              // porch decking: 5 1/2" boards, 1/4" gaps, parallel to the house, through the corner posts to the end rims
+  const boards = (z0, z1, y0, y1, xh = HW) => { const d = Math.sign(z1 - z0); let i = 0; for (let z = z0; d * (z1 - z) > 0.5; z += d * (D.BOARD + 0.25), i++) { const ze = z + d * Math.min(D.BOARD, Math.abs(z1 - z)); B(-xh, xh, y0, y1, Math.min(z, ze), Math.max(z, ze), i % 2 ? M.deck2 : M.deck, L); } };   // 5 1/2" boards, 1/4" gaps, two tones alternating; the last board takes the remainder
+  const BX = DE + D.OVERHANG;                                                                           // 161 3/4: the boards' ends, 3/4" past the skirt
+  boards(D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG, sh, D.F_JOIST[1], D.DECK, BX);                        // porch decking, laid from the overhang edge (61 1/2) back to the house so the full board is at the edge and the rip is against the siding; through the corner posts, over the end rims and the skirt
   boards(sh, D.F_DECK_EDGE, D.F_UJOIST[1], D.UPPER_FLR - 0.5);                                          // upper decking (unchanged: the balcony has no end rims or skirt)
-  skirt(D.F_PORCH_EDGE, +1, sh, D.F_JOIST[0]);
+  skirt(D.F_PORCH_EDGE, +1, sh, D.F_JOIST[0], D.F_JOIST[1]);
   // porch ceiling (layer 'soffit'): 1x6 cedar T&G on the upper-deck joists' undersides, boards running east-west along the house
   // (owner 2026-09-22), wall face to the glulam's inner face, butting the 6x8 beams' inner faces; the last board takes the 1/16" remainder
   { const y1 = D.F_UJOIST[0], y0 = y1 - D.SOF_T, xc = HW - 2.75; let i = 0;
-    for (let z = sh; z < fz0 - 1; z += D.BOARD, i++) { const ze = fz0 - (z + D.BOARD) < 1 ? fz0 : z + D.BOARD; B(-xc, xc, y0, y1, z, ze, i % 2 ? M.soffit2 : M.soffit, 'soffit'); if (ze === fz0) break; } }
+    for (let z = sh; z < fz0 - 1; z += D.BOARD, i++) { const ze = fz0 - (z + D.BOARD) < 1 ? fz0 : z + D.BOARD; B(-xc, xc, y0, y1, z, ze, i % 2 ? M.ceil2 : M.ceil, 'soffit'); if (ze === fz0) break; } }
   // --- rear (north): 5 PT6X6, PT4X8 drop beam, 6X10 eave beams over the corner posts, PT2X8 joists, rim, end rims, boards, skirt
   const rz0 = D.R_POST_Z - 2.75, rz1 = D.R_POST_Z + 2.75;
   for (const x of D.R_POSTS) post(x, rz0, rz1, Math.abs(x) === HW ? D.R_POST_TOP : D.R_BEAM[0]);
@@ -2427,8 +2445,8 @@ function stair(zEdge, dir, layer) {                   // solid closed steps; dir
   for (let x = -HW + 0.75; x <= HW; x += 16) B(x - 0.75, x + 0.75, ...D.R_JOIST, D.R_DECK_EDGE + 1.5, D.G4 - 1.94, M.pt, L);
   B(-RIM_X, RIM_X, ...D.R_JOIST, D.R_DECK_EDGE, D.R_DECK_EDGE + 1.5, M.pt, L);                          // rim at the 8'-9" edge, out to the end rims' outer faces
   for (const s of [-1, 1]) B(s * (HW + 2.75 + 0.02), s * RIM_X, ...D.R_JOIST, D.R_DECK_EDGE + 1.5, D.G4 - sh, M.pt, L);   // end rims
-  boards(D.G4 - sh, D.R_DECK_EDGE, D.R_JOIST[1], D.DECK, RIM_X);
-  skirt(D.R_DECK_EDGE, -1, D.G4 - sh, D.R_JOIST[0]);
+  boards(D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG, D.G4 - sh, D.R_JOIST[1], D.DECK, BX);                 // rear decking, laid from the overhang edge (-658 1/2) back to the house
+  skirt(D.R_DECK_EDGE, -1, D.G4 - sh, D.R_JOIST[0], D.R_JOIST[1]);
   // --- stairs, centered, 8'-0" wide (owner 2026-09-11), stepping down from the skirt's outer face
   stair(D.F_PORCH_EDGE + D.SKIRT_T, +1, 'stair'); stair(D.R_DECK_EDGE - D.SKIRT_T, -1, 'stair');
 
@@ -2507,18 +2525,19 @@ dim(V(-D.HW - 30, D.DECK, 0), V(-D.HW - 30, D.DECK, D.F_ROOF_EDGE), '6\'-0" roof
 dim(V(-D.HW - 30, D.DECK, D.G4), V(-D.HW - 30, D.DECK, D.R_ROOF_EDGE), '9\'-1 3/4" roof edge', V(0, 130, 0), V(1, 0, 0));
 dim(V(-D.HW - 40, D.GRADE, D.F_PORCH_EDGE), V(-D.HW - 40, D.DECK, D.F_PORCH_EDGE), '25" deck to grade (illustrative)', V(0, 0, 20), V(1, 0, 0));
 dim(V(-D.HW - 40, D.STEM_TOP, 30), V(-D.HW - 40, D.GRADE, 30), '14" stem wall showing (illustrative)', V(0, 0, 0), V(1, 0, 0));
-dim(V(-D.HW - 24, D.DECK + 1, D.G4), V(-D.HW - 24, D.DECK + 1, D.R_DECK_EDGE), '8\'-9" rear deck, gridline 4 to the framing edge; 3/4" cedar skirt outside (9" past the 8\'-0" post line)', V(0, 0, 0), V(1, 0, 0));
-dim(V(-D.HW - 24, D.DECK + 1, 0), V(-D.HW - 24, D.DECK + 1, D.F_PORCH_EDGE), '5\'-0" porch, gridline 1 to the framing edge; 3/4" cedar skirt outside (S3.1 drew 4\'-0")', V(0, 0, 0), V(1, 0, 0));
+dim(V(-D.HW - 24, D.DECK + 1, D.G4), V(-D.HW - 24, D.DECK + 1, D.R_DECK_EDGE), '8\'-9" rear deck, gridline 4 to the framing edge; 3/4" skirt outside, decking 3/4" past it (9" past the 8\'-0" post line)', V(0, 0, 0), V(1, 0, 0));
+dim(V(-D.HW - 24, D.DECK + 1, 0), V(-D.HW - 24, D.DECK + 1, D.F_PORCH_EDGE), '5\'-0" porch, gridline 1 to the framing edge; 3/4" skirt outside, decking 3/4" past it (S3.1 drew 4\'-0")', V(0, 0, 0), V(1, 0, 0));
 dim(V(-D.HW - 24, D.UPPER_FLR + 1, 0), V(-D.HW - 24, D.UPPER_FLR + 1, D.F_DECK_EDGE), '4\'-2 3/4" upper deck, gridline 1 to the glulam face (as built; A02 drew 4\'-3 1/2")', V(0, 0, 0), V(1, 0, 0));
 
 // ===========================================================================
 // 7. COLORS PANEL: schemes and per-slot pickers drive the materials live; ?scheme=green&siding=5e6259 presets them
 // ===========================================================================
-const SLOT_MATS = { siding: [M.siding], trim: [M.trim], fascia: [M.fascia], roof: [M.roof, M.roofRib], soffit: [M.soffit, M.soffit2], wood: [M.wood], wrap: [M.wrap], pt: [M.pt], deck: [M.deck], door: [M.door], rail: [M.rail], conc: [M.conc] };
+const SLOT_MATS = { siding: [M.siding], trim: [M.trim], fascia: [M.fascia], roof: [M.roof, M.roofRib], soffit: [M.soffit, M.soffit2, M.ceil, M.ceil2], wood: [M.wood], wrap: [M.wrap], pt: [M.pt], deck: [M.deck, M.deck2], door: [M.door], rail: [M.rail], conc: [M.conc] };
 function setSlot(slot, hex) {
   if (!SLOT_MATS[slot]) return;
   for (const m of SLOT_MATS[slot]) m.color.set(hex);
-  if (slot === 'soffit') M.soffit2.color.multiplyScalar(0.9);       // alternate board tone
+  if (slot === 'soffit') { M.soffit2.color.multiplyScalar(0.9); M.ceil2.color.multiplyScalar(0.9); }   // alternate board tones (soffit and porch ceiling)
+  if (slot === 'deck') M.deck2.color.multiplyScalar(0.92);          // alternate deck board tone
   if (slot === 'roof') M.roofRib.color.multiplyScalar(1.25);        // ribs catch a little more light
   const inp = document.querySelector(`#colors input[data-slot="${slot}"]`); if (inp) inp.value = hex;
   const sw = document.querySelector(`#legend .sw[data-slot="${slot}"]`); if (sw) sw.style.background = hex;
