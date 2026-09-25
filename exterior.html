@@ -85,7 +85,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Finished exterior &mdash; whole house, 138 Tahoma St E</h1>
-    <div class="sub"><b>HOUSE EXTERIOR</b>, 138 Tahoma St E: Hardie lap siding, 7 1/4" reveal; black standing-seam roof, 15:12 gables, ridge 27'-6". Colors recolors every finish live; Siding swaps lap for board-and-batten; Rail mount: deck or fascia posts. Orange = field-verify or TBD. Design record: <code>wiki/construction/exterior-finishes.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
+    <div class="sub"><b>HOUSE EXTERIOR</b>, 138 Tahoma St E: Hardie board and batten, <span id="bbsub">3&frac12;" battens at 16" o.c.</span>; black standing-seam roof, 15:12 gables, ridge 27'-6". Colors recolors every finish live; Siding swaps board and batten for horizontal lap, 7&frac14;" reveal; Rail mount: deck or fascia posts. Orange = field-verify or TBD. Design record: <code>wiki/construction/exterior-finishes.md</code>. Not engineered &mdash; do not build from this. Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
     <h2>Legend</h2>
@@ -123,7 +123,7 @@
     <div class="row fold" id="sidingstyle">
       <span class="lbl">Siding</span>
       <label><input type="radio" name="sidingstyle" value="lap"> Horizontal lap, 7&frac14;" reveal</label>
-      <label><input type="radio" name="sidingstyle" value="bb" checked> Board and batten, <span id="bblabel">12" o.c.</span></label>
+      <label><input type="radio" name="sidingstyle" value="bb" checked> Board and batten, <span id="bblabel">3&frac12;" at 16" o.c.</span></label>
     </div>
     <div class="row fold" id="railmount">
       <span class="lbl">Rail mount</span>
@@ -1744,14 +1744,14 @@ function lapTextures() {
 }
 const LAP = lapTextures();
 LAP.map.colorSpace = THREE.SRGBColorSpace;
-// Board-and-batten alternative (owner asked for the choice, 2026-09-11; spacing and batten width are interpretations -- smooth
-// HardiePanel with 2 1/2" HardieTrim battens at 12" o.c., owner 2026-09-22). Since 2026-09-22 the battens are GEOMETRY (section 4b),
-// so in this style the panel is a flat face and the battens throw real shadows; before that they were a painted stripe on the panel.
-// Width and spacing are URL-driven so a wider board can be looked at side by side (?batten=3.5&battensp=16 is the 1x4 at 16" o.c.
-// his GC proposed, 2026-09-25); the defaults below are unchanged, so every existing link and screenshot opens as before.
+// Board-and-batten alternative (owner asked for the choice, 2026-09-11): smooth HardiePanel with 3 1/2" x 3/4" HardieTrim
+// battens at 16" o.c., the owner's decision of 2026-09-25 for the whole house in whatever colour. Since 2026-09-22 the battens
+// are GEOMETRY (section 4b), so in this style the panel is a flat face and the battens throw real shadows; before that they were
+// a painted stripe on the panel. Width and spacing stay URL-driven so two boards can be looked at side by side
+// (?batten=2.5&battensp=12 is the 2 1/2"-at-12" interpretation the drawing carried from 2026-09-22 to 2026-09-25).
 const BB_Q = new URLSearchParams(location.search);
 const bbNum = (key, dflt) => { const v = parseFloat(BB_Q.get(key)); return v > 0 && v < 48 ? v : dflt; };
-const BB_W = bbNum('batten', 2.5), BB_SP = Math.max(bbNum('battensp', 12), BB_W + 0.5);   // spacing is centre to centre, so it must clear the board
+const BB_W = bbNum('batten', 3.5), BB_SP = Math.max(bbNum('battensp', 16), BB_W + 0.5);   // spacing is centre to centre, so it must clear the board
 const bbIn = v => {                                             // 3.5 -> 3½, 12 -> 12, 2.25 -> 2¼ (for the panel label and the legend)
   const whole = Math.floor(v), f = +(v - whole).toFixed(3);
   const frac = { 0.25: '¼', 0.5: '½', 0.75: '¾' }[f];
@@ -2318,12 +2318,12 @@ const OPEN = {                                     // rough openings in wall-loc
   for (const x of [-86, 86]) can(x, D.F_UJOIST[0] - D.SOF_T - 0.1, 25);   // two flush in the cedar porch ceiling (section 5), like the soffit cans
 }
 // ===========================================================================
-// 4b. BATTENS (layer 'walls'; board-and-batten style only). BB_W x 3/4" HardieTrim boxes at BB_SP o.c. (2 1/2" at 12" by default,
-//     ?batten= and ?battensp= override both) on every siding face,
+// 4b. BATTENS (layer 'walls'; board-and-batten style only). BB_W x 3/4" HardieTrim boxes at BB_SP o.c. (3 1/2" at 16" by
+//     default, the decided board; ?batten= and ?battensp= override both) on every siding face,
 //     drawn as geometry so the sun throws a real shadow line down each one (owner 2026-09-22, photoreal phase 5 first correction
 //     round; until then the battens were a painted stripe with a normal-mapped edge and no shadow). Layout, an INTERPRETATION:
 //     stations symmetric about gridline B on both gable walls and their dormer cheeks, so the pair either side of the centre
-//     board match; on the side walls the first batten stands one standard panel space (BB_SP - BB_W, 9 1/2" at the defaults) inside
+//     board match; on the side walls the first batten stands one standard panel space (BB_SP - BB_W, 12 1/2" at the defaults) inside
 //     the FRONT corner board and the run steps north at BB_SP, the remainder landing at the rear corner. A batten is split around every
 //     casing, sill nose, sconce box, window frame and opening on its wall, stops against the corner boards and the frieze, and
 //     runs from the water table to the soffit: each run is the vertical-line span through the wall outline (at both batten edges
@@ -2682,11 +2682,12 @@ function setSidingStyle(style) {
   STYLE = style;
   const lap = style !== 'bb';
   M.siding.map = lap ? LAP.map : null; M.siding.normalMap = lap ? LAP.normalMap : null; M.siding.needsUpdate = true;
-  document.getElementById('legend-siding').textContent = lap ? 'Lap siding (Hardie Plank, 7\u00bc" reveal)' : `Board-and-batten siding (${bbIn(BB_W)}" battens at ${bbIn(BB_SP)}" o.c., interpretation)`;
+  document.getElementById('legend-siding').textContent = lap ? 'Lap siding (Hardie Plank, 7\u00bc" reveal)' : `Board-and-batten siding (${bbIn(BB_W)}" battens at ${bbIn(BB_SP)}" o.c.)`;
   const r = document.querySelector(`#sidingstyle input[value="${style}"]`); if (r) r.checked = true;
   for (const p of parts) if (p.userData.style) p.visible = p.userData.style === style;
 }
 document.getElementById('bblabel').textContent = `${bbIn(BB_W)}" at ${bbIn(BB_SP)}" o.c.`;   // the radio label prints whatever ?batten= / ?battensp= asked for
+document.getElementById('bbsub').textContent = `${bbIn(BB_W)}" battens at ${bbIn(BB_SP)}" o.c.`;   // and so does the header line
 document.querySelectorAll('#sidingstyle input').forEach(r => r.addEventListener('change', () => { if (r.checked) setSidingStyle(r.value); r.blur(); }));
 const schemeSel = document.getElementById('scheme');
 function applyScheme(name) { const s = SCHEMES[name]; if (!s) return; for (const k in s) setSlot(k, s[k]); schemeSel.value = name; }
