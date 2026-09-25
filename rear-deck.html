@@ -72,6 +72,7 @@
     <div class="lg"><span class="sw" style="background:#c48a4e"></span>Roof: 2X14 rafters, 6X10 eave beams</div>
     <div class="lg"><span class="sw" style="background:#b07a3a"></span>Glulam / LVL / PSL (ridge GLB, header, column)</div>
     <div class="lg"><span class="sw" style="background:linear-gradient(90deg,#dcb47c 50%,#c4975c 50%)"></span>1X6 cedar T&amp;G soffit</div>
+    <div class="lg"><span class="sw" style="background:#7a5236"></span>Timber boxes, 3/4" cedar: corner posts above the decking, 6X10 eave beams</div>
     <div class="lg"><span class="sw" style="background:#8a94a0"></span>Steel hardware (schematic)</div>
     <div class="lg"><span class="sw" style="background:#9aa0a6"></span>Concrete (pads, plinths, stem wall)</div>
     <div class="lg"><span class="sw" style="background:#d9a441"></span>Rake extension past the GLB end (TBD, pending engineer)</div>
@@ -1636,6 +1637,7 @@ const M = {
   sheath:  new THREE.MeshStandardMaterial({ color: 0xe6dcc4, roughness: .9, transparent: true, opacity: .32, side: THREE.DoubleSide }),
   metal:   new THREE.MeshStandardMaterial({ color: 0x3a3f47, roughness: .35, metalness: .7, transparent: true, opacity: .55, side: THREE.DoubleSide }),
   deck:    new THREE.MeshStandardMaterial({ color: 0xa88a5c, roughness: .9, transparent: true, opacity: .5 }),
+  timber:  new THREE.MeshStandardMaterial({ color: 0x7a5236, roughness: .9 }),    // timber boxes: cedar round the corner posts and eave beams (finish layer)
   glass:   new THREE.MeshStandardMaterial({ color: 0x7fb0d0, roughness: .2, transparent: true, opacity: .22, side: THREE.DoubleSide }),
   soil:    new THREE.MeshStandardMaterial({ color: 0x7a5c3e, roughness: 1, transparent: true, opacity: .55 }),
 };
@@ -2062,6 +2064,31 @@ for (const s of [-1, 1]) {
   box(x0, x1, D.EAVE_BEAM_BOT, D.EAVE_BEAM_TOP, D.ROOF_EDGE, W1, M.roof, 'roof');
   box(x0 - 0.6, x1 + 0.6, D.EAVE_BEAM_BOT - 0.6, D.EAVE_BEAM_TOP + 0.6, D.ROOF_EDGE - 0.6, D.POST_LINE - 2.75, M.flagHalo, 'roof', false);
 }
+// finishes toggle: TIMBER BOXES (owner 2026-09-24) -- 3/4" rough-sawn cedar, mitred corners, 0.02" off the wood they
+// cover (outer faces 3.52 from the member centre, 7 1/16" square), round the corner posts from the decking to the beam
+// box and round the 6X10 eave beams' sides and bottom only: the rafters sit on the beams, so the sides stop at the beam
+// top and there is no top board (7 1/16" x 10 1/4"). The beam box's bottom board runs over the post top; a square end
+// board closes it at the roof edge; at the wall it starts at the sheathing face (no siding or corner board in this
+// drawing). Framing layers unchanged.
+{
+  const TB = 0.75, C = 0.02, a = 2.75 + C + TB, b = 2.75 + C;      // outer / inner half-widths round a 5 1/2" member: 3.52 / 2.77
+  const yI = D.EAVE_BEAM_BOT - C, yb = yI - TB, yt = D.EAVE_BEAM_TOP;   // beam box: bottom board top / underside, side tops
+  const zW = -D.SHEATH_T - C, zE = D.ROOF_EDGE;                     // wall sheathing face / roof edge (beam end)
+  for (const s of [-1, 1]) {
+    const xc = s * 156, zc = D.POST_LINE;
+    // post: one mitred ring of four boards from the decking to the beam box
+    const sh = new THREE.Shape([[-a, -a], [a, -a], [a, a], [-a, a]].map(p => new THREE.Vector2(xc + p[0], -(zc + p[1]))));
+    sh.holes.push(new THREE.Path([[-b, -b], [b, -b], [b, b], [-b, b]].map(p => new THREE.Vector2(xc + p[0], -(zc + p[1])))));
+    const g = new THREE.ExtrudeGeometry(sh, { depth: yb - C - (-0.5 + C), bevelEnabled: false });
+    const m = new THREE.Mesh(g, M.timber);
+    m.rotation.x = -Math.PI / 2; m.position.y = -0.5 + C;
+    m.castShadow = m.receiveShadow = true; addEdges(m, g, false); reg(m, 'finish');
+    // beam: two side boards and the bottom board full length (over the post top), an end board at the roof edge
+    for (const q of [-1, 1]) box(xc + q * b, xc + q * a, yb, yt, zE, zW, M.timber, 'finish');
+    box(xc - b, xc + b, yb, yI, zE, zW, M.timber, 'finish');
+    box(xc - a, xc + a, yb, yt, zE - C - TB, zE - C, M.timber, 'finish');
+  }
+}
 
 // ===========================================================================
 // 4. 1X6 CEDAR T&G SOFFIT (layer 'soffit') — on the rafter undersides, following the pitch, continuous from the
@@ -2160,7 +2187,7 @@ box(-150.5, 150.5, -0.75, 0, W1, 72, M.ghostFl, 'context');                     
   const TF = { fs: 88 }, TFLAG = { fs: 88, flag: true };
   const PN = D.POST_LINE - 2.75 - 0.15, RIM = D.DECK_EDGE - 0.15, PLN = D.POST_LINE - 9 - 0.15, WF = P0 - 0.15, RE = D.ROOF_EDGE - 0.15;
   // deck
-  tagAt(['CORNER POST (2)', 'PT6X6 HF#2, ACH6Z cap', 'ABU66Z on 5/8" x 5" Titen'], -156, 30, PN, 'z-', TF);
+  tagAt(['CORNER POST (2)', 'PT6X6 HF#2, ACH6Z cap', 'ABU66Z on 5/8" x 5" Titen', 'cedar box 7" sq above the decking'], -156, 30, PN, 'z-', TF);
   tagAt(['CENTER POST (3)', 'PT6X6 HF#2, ABU66Z base', 'stops under the drop beam'], 75, -24, PN, 'z-', TF);
   tagAt(['DROP BEAM PT4X8 HF#2', '4 segments, HUC46Z at corners'], -130, (B_BOT + B_TOP) / 2, D.BEAM_Z0 - 0.15, 'z-', TF);
   tagAt(['JOISTS PT2X8 HF#2 @ 16" o.c.', 'over the beam, 9" cantilever', 'rim face 8\'-9" from gridline 4'], -30, (J_BOT + J_TOP) / 2, RIM, 'z-', TF);
@@ -2180,7 +2207,7 @@ box(-150.5, 150.5, -0.75, 0, W1, 72, M.ghostFl, 'context');                     
   tagAt(['RIDGE GLB 5 1/2" x 24"', 'ends 7\'-4" from sheathing'], 0, 309, D.RIDGE_END - 0.15, 'z-', TF);
   tagAt(['RAKE EXTENSION 1\'-9": TBD', 'pending engineer, do not build'], 0, 328, RE, 'z-', TFLAG);
   tagAt(['RAFTERS 2X14 DF#2 @ 24" o.c.', '15:12, LRU210 hangers at GLB', 'bear on the 6X10 eave beams'], -80, (D.roofTop(80) + D.roofBot(80)) / 2, CARRIER_Z - 0.15, 'z-', TF);
-  tagAt(['EAVE BEAM 6X10 DF#2 (2)', 'from 4-stud pack, ACH6Z cap'], -156, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TF);
+  tagAt(['EAVE BEAM 6X10 DF#2 (2)', 'from 4-stud pack, ACH6Z cap', 'cedar box 7" x 10 1/4", sides + bottom, end board'], -156, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TF);
   tagAt(['EAVE BEAM CANTILEVER 11"', 'PENDING ENGINEER'], 156, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TFLAG);
   tagAt(['SOFFIT 1X6 CEDAR T&G', 'under rafters, wall to gable end'], -100, D.roofBot(100) - 0.4, RE, 'z-', TF);
 }

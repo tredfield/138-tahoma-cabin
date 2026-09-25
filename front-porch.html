@@ -69,6 +69,7 @@
     <div class="lg"><span class="sw" style="background:#d2a86a"></span>Headers, rim, floor framing</div>
     <div class="lg"><span class="sw" style="background:#c48a4e"></span>Roof: 2X14 rafters, 6X8 eave beams</div>
     <div class="lg"><span class="sw" style="background:#b07a3a"></span>Glulam (ridge, header, upper-deck beam)</div>
+    <div class="lg"><span class="sw" style="background:#7a5236"></span>Timber boxes, 3/4" cedar: corner posts above the decking, 6X8 eave beams</div>
     <div class="lg"><span class="sw" style="background:#8a94a0"></span>Steel hardware (schematic)</div>
     <div class="lg"><span class="sw" style="background:#9aa0a6"></span>Concrete (pads, plinths, stem wall)</div>
     <div class="lg"><span class="sw" style="background:#d9a441"></span>Rake extension framing (TBD)</div>
@@ -1614,6 +1615,7 @@ const M = {
   ghostFl: new THREE.MeshStandardMaterial({ color: 0x4d535b, roughness: .95, transparent: true, opacity: .35 }),
   sheath:  new THREE.MeshStandardMaterial({ color: 0xe6dcc4, roughness: .9, transparent: true, opacity: .32, side: THREE.DoubleSide }),
   deck:    new THREE.MeshStandardMaterial({ color: 0xa88a5c, roughness: .9, transparent: true, opacity: .5 }),
+  timber:  new THREE.MeshStandardMaterial({ color: 0x7a5236, roughness: .9 }),    // timber boxes: cedar round the corner posts and eave beams (finish layer)
   glass:   new THREE.MeshStandardMaterial({ color: 0x7fb0d0, roughness: .2, transparent: true, opacity: .22, side: THREE.DoubleSide }),
   soil:    new THREE.MeshStandardMaterial({ color: 0x7a5c3e, roughness: 1, transparent: true, opacity: .55 }),
   gravel:  new THREE.MeshStandardMaterial({ color: 0x8c8478, roughness: 1 }),
@@ -2043,6 +2045,44 @@ for (const s of [-1, 1]) {
   const x0 = s * 156 - 2.75, x1 = s * 156 + 2.75;
   box(x0, x1, EB_BOT, D.EAVE_BEAM_TOP, W0, D.ROOF_EDGE, M.roof, 'roof');
 }
+// finishes toggle: TIMBER BOXES (owner 2026-09-24) -- 3/4" rough-sawn cedar, mitred corners, 0.02" off the wood they
+// cover (outer faces 3.52 from the member centre, 7 1/16" square), round the corner posts from the decking to the beam
+// box and round the 6X8 eave beams' sides and bottom only: the rafters and the upper deck sit on the beams, so the
+// sides stop at the beam top and there is no top board (7 1/16" x 8 1/4"). The beam box's bottom board runs over the
+// post top; a square end board closes it at the roof edge; at the wall it starts at the sheathing face (no siding or
+// corner board in this drawing). Framing layers unchanged. Scribed round the glulam bracket (as the exterior drawing):
+// the post box's inner board stops under the bracket's back plate and its side boards are cut square just clear of
+// the plate above that; over the bracket's width the beam box is its outer side plus the bottom board from the post face out.
+{
+  const TB = 0.75, C = 0.02, a = 2.75 + C + TB, b = 2.75 + C;      // outer / inner half-widths round a 5 1/2" member: 3.52 / 2.77
+  const yI = EB_BOT - C, yb = yI - TB, yt = D.EAVE_BEAM_TOP;        // beam box: bottom board top / underside, side tops
+  const yCut = UB_BOT - 0.12 - C;                                   // under the bracket's back plate and seat
+  const xCut = 2.75 - 0.12 - C;                                     // side boards above yCut stop clear of the back plate (drawn in the post's inner face)
+  const gz0 = UGLB_Z0 - 2 - C, gz1 = UGLB_Z1 + 2 + C;               // the back plate's width, 0.02" clear
+  const vprism = (pts, y0, y1, hole) => {                           // (x, z) outline, optional hole, extruded up from y0 to y1
+    const sh = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], -p[1])));
+    if (hole) sh.holes.push(new THREE.Path(hole.map(p => new THREE.Vector2(p[0], -p[1]))));
+    const g = new THREE.ExtrudeGeometry(sh, { depth: y1 - y0, bevelEnabled: false });
+    const m = new THREE.Mesh(g, M.timber);
+    m.rotation.x = -Math.PI / 2; m.position.y = y0;
+    m.castShadow = m.receiveShadow = true; addEdges(m, g, false);
+    return reg(m, 'finish');
+  };
+  for (const o of [-1, 1]) {
+    const xc = o * 156, zc = D.POST_LINE, P = (dx, dz) => [xc + o * dx, zc + dz];
+    const X = (dx0, dx1) => [Math.min(xc + o * dx0, xc + o * dx1), Math.max(xc + o * dx0, xc + o * dx1)];
+    // post: a full ring from the decking to the bracket; above it the outer board and the two side boards, cut square at xCut
+    vprism([P(-a, -a), P(a, -a), P(a, a), P(-a, a)], -0.5 + C, yCut, [P(-b, -b), P(b, -b), P(b, b), P(-b, b)]);
+    vprism([P(-xCut, -a), P(a, -a), P(a, a), P(-xCut, a), P(-xCut, b), P(b, b), P(b, -b), P(-xCut, -b)], yCut, yb - C);
+    // beam: outer side board full length; bottom + inner side (an L) either side of the bracket; over it the bottom from the post face out
+    box(...X(b, a), yb, yt, D.SHEATH_T + C, D.ROOF_EDGE, M.timber, 'finish');
+    const L = [[xc - o * a, yt], [xc - o * a, yb], [xc + o * b, yb], [xc + o * b, yI], [xc - o * b, yI], [xc - o * b, yt]];
+    prism(L, D.SHEATH_T + C, gz0, M.timber, 'finish');                                 // wall to the bracket
+    box(...X(-(2.75 - C), b), yb, yI, gz0, gz1, M.timber, 'finish');                   // bottom over the post top, post face out
+    prism(L, gz1, D.ROOF_EDGE, M.timber, 'finish');                                     // bracket to the roof edge
+    box(xc - a, xc + a, yb, yt, D.ROOF_EDGE + C, D.ROOF_EDGE + C + TB, M.timber, 'finish');   // end board
+  }
+}
 // (No tie under the peak: the horizontal member in the construction photo is absent in the finished-soffit photos.)
 // finishes toggle: 19/32" roof sheathing (S3.3 note 3), two sloped slabs over ridge to eave tips
 for (const s of [-1, 1]) {
@@ -2147,7 +2187,7 @@ const FLAGT = { flag: true };
   const RZ = 45 + RW * 2 + 0.15;                                   // south face of the carrier rafter pair (z 45 .. 48)
   const EZ = D.ROOF_EDGE + 0.15;                                   // roof edge: barge pair and eave-beam ends
   // porch and footings
-  tagAt(['CORNER POST (2)', 'PT6X6 HF#2 to the 6X8 eave beam', 'glulam hung on brackets, FIELD VERIFY', 'ABU66Z on 5/8" x 5" Titen'], 156, 40, PZ, 'z', TF);
+  tagAt(['CORNER POST (2)', 'PT6X6 HF#2 to the 6X8 eave beam', 'glulam hung on brackets, FIELD VERIFY', 'ABU66Z on 5/8" x 5" Titen', 'cedar box 7" sq above the decking'], 156, 40, PZ, 'z', TF);
   tagAt(['CENTER POST (2)', 'PT6X6 HF#2, ABU66Z base', 'stops under the porch beam'], -48, -23, PZ, 'z', TF);
   tagAt(['PORCH BEAM PT 26\'-0"', 'FIELD VERIFY size'], -135, -13, GZ, 'z', TFLAG);
   tagAt(['PORCH JOISTS', 'PT2X6 HF#2 @ 16" o.c.', 'cantilever 12" to PT2X6 rim'], 40, -4, D.PORCH_EDGE + 0.15, 'z', TF);
@@ -2172,7 +2212,7 @@ const FLAGT = { flag: true };
   tagAt(['RIDGE GLB', '5 1/2" x 24"', 'ends 4\'-0" past the wall'], 0, 318, D.RIDGE_END + 0.15, 'z', TF);
   tagAt(['RAFTERS', '2X14 DF#2 @ 24" o.c.', 'LRU210 hangers at the ridge'], -90, 210, RZ, 'z', TF);
   tagAt(['PITCH ~15:12', 'FIELD VERIFY'], -60, 246, RZ, 'z', TFLAG);
-  tagAt(['EAVE BEAM, A and C', '6X8 DF#2 on the corner post', 'continuous to the roof edge'], 156, 115, EZ, 'z', TF);
+  tagAt(['EAVE BEAM, A and C', '6X8 DF#2 on the corner post', 'continuous to the roof edge', 'cedar box 7" x 8 1/4", sides + bottom, end board'], 156, 115, EZ, 'z', TF);
   tagAt(['RAKE EXTENSION 2\'-0"', 'framing TBD'], 100, 197, EZ, 'z', TFLAG);
 }
 // context sprites: levels and gridlines
