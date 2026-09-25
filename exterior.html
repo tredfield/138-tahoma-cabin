@@ -133,9 +133,9 @@
     <div class="row fold" id="colors">
       <span class="lbl">Colors</span>
       <select id="scheme" title="Starting color schemes">
-        <option value="black">Black on black (reference build)</option>
-        <option value="green" selected>Dark green siding (SW 6994 Greenblack), black trim</option>
-        <option value="ironore">Charcoal siding, black trim</option>
+        <option value="black">Black on black (Tricorn Black SW 6258, reference build)</option>
+        <option value="green" selected>Dark green siding (SW 6994 Greenblack), Tricorn Black trim</option>
+        <option value="ironore">Charcoal siding (SW 7069 Iron Ore), Tricorn Black trim</option>
         <option value="custom">Custom</option>
       </select>
       <label>Siding <input type="color" data-slot="siding"></label>
@@ -1758,16 +1758,16 @@ const bbIn = v => {                                             // 3.5 -> 3½, 1
   return f === 0 ? `${whole}` : frac ? `${whole || ''}${frac}` : `${+v.toFixed(2)}`;
 };
 
-const SCHEMES = {   // hex values are stand-ins until Sherwin Williams colors are chosen (spec: Color schemes)
-  black:   { siding: '#262626', trim: '#151515', fascia: '#151515', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#151515', rail: '#151515', conc: '#9d9b95' },
-  green:   { siding: '#373a3a', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
-  ironore: { siding: '#434341', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
+const SCHEMES = {   // named Sherwin Williams colours: trim, fascia, door and rails are Tricorn Black SW 6258 in all three schemes (owner 2026-09-25); siding is SW 6994 Greenblack, Tricorn Black, or SW 7069 Iron Ore -- which scheme the house is painted is still open (spec: Color schemes)
+  black:   { siding: '#2f2f30', trim: '#2f2f30', fascia: '#2f2f30', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#2f2f30', rail: '#2f2f30', conc: '#9d9b95' },
+  green:   { siding: '#373a3a', trim: '#2f2f30', fascia: '#2f2f30', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#2f2f30', rail: '#2f2f30', conc: '#9d9b95' },
+  ironore: { siding: '#434341', trim: '#2f2f30', fascia: '#2f2f30', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#2f2f30', rail: '#2f2f30', conc: '#9d9b95' },
 };
 const std = o => new THREE.MeshStandardMaterial(o);
 const M = {
-  siding:  std({ color: 0x262626, roughness: .85, map: LAP.map, normalMap: LAP.normalMap, normalScale: new THREE.Vector2(1, 1) }),
-  trim:    std({ color: 0x151515, roughness: .7 }),
-  fascia:  std({ color: 0x151515, roughness: .7 }),
+  siding:  std({ color: 0x2f2f30, roughness: .85, map: LAP.map, normalMap: LAP.normalMap, normalScale: new THREE.Vector2(1, 1) }),
+  trim:    std({ color: 0x2f2f30, roughness: .7 }),
+  fascia:  std({ color: 0x2f2f30, roughness: .7 }),
   roof:    std({ color: 0x1c1c1e, roughness: .45, metalness: .55 }),
   roofRib: std({ color: 0x24242a, roughness: .4, metalness: .6 }),
   soffit:  std({ color: 0xaf9470, roughness: .8 }),                                    // cedar T&G soffits -- one cedar tone T3 for decking, T&G and covering (owner 2026-09-22 late, from four tone pictures)
@@ -1779,8 +1779,8 @@ const M = {
   pt:      std({ color: 0x855946, roughness: .9 }),                                    // treated framing, brown-tone incised (site photo 2026-09-01): posts below the floor, the beam under each floor, joists, rims
   deck:    std({ color: 0xaf9470, roughness: .85 }),                                   // cedar decking: floor boards, skirt, stair treads, risers and sides -- knotty western red cedar, clear sealer, soft satin, the one cedar tone T3 (owner 2026-09-22 late)
   deck2:   std({ color: 0xa18867, roughness: .85 }),                                   // alternate board tone, 0.92 x deck: every other floor board and tread board (deck slot)
-  door:    std({ color: 0x151515, roughness: .35, metalness: .15 }),                 // factory-painted steel (JELD-WEN Black), satin
-  rail:    std({ color: 0x151515, roughness: .45, metalness: .5 }),
+  door:    std({ color: 0x2f2f30, roughness: .35, metalness: .15 }),                 // factory-painted steel (JELD-WEN Black), satin
+  rail:    std({ color: 0x2f2f30, roughness: .45, metalness: .5 }),
   conc:    std({ color: 0x9d9b95, roughness: .95 }),
   win:     std({ color: 0x141414, roughness: .5 }),                       // Milgard black frames (contract, not a slot)
   glass:   std({ color: 0x7d95a6, roughness: .05, metalness: .35, transparent: true, opacity: .5, side: THREE.DoubleSide }),
