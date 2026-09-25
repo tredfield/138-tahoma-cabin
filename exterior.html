@@ -1750,9 +1750,9 @@ LAP.map.colorSpace = THREE.SRGBColorSpace;
 const BB_SP = 12, BB_W = 2.5;
 
 const SCHEMES = {   // hex values are stand-ins until Sherwin Williams colors are chosen (spec: Color schemes)
-  black:   { siding: '#262626', trim: '#151515', fascia: '#151515', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#7a5236', pt: '#855946', deck: '#af9470', door: '#151515', rail: '#151515', conc: '#9d9b95' },
-  green:   { siding: '#373a3a', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#7a5236', pt: '#855946', deck: '#af9470', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
-  ironore: { siding: '#434341', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#7a5236', pt: '#855946', deck: '#af9470', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
+  black:   { siding: '#262626', trim: '#151515', fascia: '#151515', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#151515', rail: '#151515', conc: '#9d9b95' },
+  green:   { siding: '#373a3a', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
+  ironore: { siding: '#434341', trim: '#1b1b1b', fascia: '#1b1b1b', roof: '#1c1c1e', soffit: '#af9470', wood: '#b98a5c', timber: '#5e3f2a', pt: '#855946', deck: '#af9470', door: '#1b1b1b', rail: '#1b1b1b', conc: '#9d9b95' },
 };
 const std = o => new THREE.MeshStandardMaterial(o);
 const M = {
@@ -1766,7 +1766,7 @@ const M = {
   ceil:    std({ color: 0xaf9470, roughness: .8 }),                                    // porch ceiling T&G, its own key so the render's grain can run east-west along the boards (soffit tone, soffit slot)
   ceil2:   std({ color: 0x9e8565, roughness: .8 }),                                    // alternate ceiling board, 0.9 x ceil
   wood:    std({ color: 0xb98a5c, roughness: .8 }),                                    // bare glulam, sealed: the upper-deck beam and the ridge-beam ends
-  timber:  std({ color: 0x7a5236, roughness: .9 }),                                    // timber-look boxes, rough-sawn cedar, darker stain (shade to be picked): the corner posts above the deck floor, the 6x8 / 6x10 roof beams (owner 2026-09-24)
+  timber:  std({ color: 0x5e3f2a, roughness: .9 }),                                    // timber-look boxes, rough-sawn cedar, darker brown stain (owner pick b, 2026-09-24): the corner posts above the deck floor, the 6x8 / 6x10 roof beams (owner 2026-09-24)
   pt:      std({ color: 0x855946, roughness: .9 }),                                    // treated framing, brown-tone incised (site photo 2026-09-01): posts below the floor, the beam under each floor, joists, rims
   deck:    std({ color: 0xaf9470, roughness: .85 }),                                   // cedar decking: floor boards, skirt, stair treads, risers and sides -- knotty western red cedar, clear sealer, soft satin, the one cedar tone T3 (owner 2026-09-22 late)
   deck2:   std({ color: 0xa18867, roughness: .85 }),                                   // alternate board tone, 0.92 x deck: every other floor board and tread board (deck slot)
