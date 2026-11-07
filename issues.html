@@ -70,14 +70,12 @@
   .filters .chip .n{font-weight:500;opacity:.85;}
   .filters .chip.all{color:#dfe3e8;border-color:var(--line);background:#2c313a;}
   .filters .chip.open{color:#ff9d8f;border-color:rgba(255,120,100,.55);background:rgba(255,100,80,.12);}
-  .filters .chip.built-unreviewed{color:#f0c674;border-color:rgba(240,198,116,.55);background:rgba(240,198,116,.11);}
   .filters .chip.closed-as-built{color:#c3cbd5;border-color:rgba(190,200,212,.5);background:rgba(190,200,212,.10);}
   .filters .chip.fixed{color:#9be39f;border-color:rgba(110,200,115,.55);background:rgba(110,200,115,.12);}
   .filters .chip:hover{filter:brightness(1.2);}
   .filters .chip.active{color:#16181c;box-shadow:0 0 0 2px var(--bg),0 0 0 4px currentColor;}
   .filters .chip.all.active{background:#dfe3e8;border-color:#dfe3e8;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #dfe3e8;}
   .filters .chip.open.active{background:#ff9d8f;border-color:#ff9d8f;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #ff9d8f;}
-  .filters .chip.built-unreviewed.active{background:#f0c674;border-color:#f0c674;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #f0c674;}
   .filters .chip.closed-as-built.active{background:#c3cbd5;border-color:#c3cbd5;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #c3cbd5;}
   .filters .chip.fixed.active{background:#9be39f;border-color:#9be39f;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #9be39f;}
   .showing{margin:12px 0 0;font-size:13.5px;color:var(--muted);}
@@ -87,7 +85,6 @@
        padding:4px 8px;border-radius:999px;border:1px solid;white-space:nowrap;vertical-align:2px;}
   .tag.open{color:#ff9d8f;border-color:rgba(255,120,100,.55);background:rgba(255,100,80,.12);}
   .tag.fixed{color:#9be39f;border-color:rgba(110,200,115,.55);background:rgba(110,200,115,.12);}
-  .tag.built-unreviewed{color:#f0c674;border-color:rgba(240,198,116,.55);background:rgba(240,198,116,.11);}
   .tag.closed-as-built{color:#c3cbd5;border-color:rgba(190,200,212,.5);background:rgba(190,200,212,.10);}
   /* summary table */
   .tablewrap{overflow-x:auto;}
@@ -199,7 +196,6 @@
     .tag{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .tag.open{color:#a3271a;border-color:#a3271a;background:#fde8e5;}
     .tag.fixed{color:#1f6b24;border-color:#1f6b24;background:#e7f5e8;}
-    .tag.built-unreviewed{color:#7a5200;border-color:#a36d00;background:#fff4dc;}
     .tag.closed-as-built{color:#444;border-color:#777;background:#eee;}
     .pics figure.more{display:block;}
     .pics .grid{grid-template-columns:repeat(4,1fr);gap:6px;}
@@ -219,7 +215,7 @@
 </style>
 </head>
 <body>
-<div class="draftbar"><b>Draft</b> — pictures and captions are still being added. Last built 2026-11-07 09:13.</div>
+<div class="draftbar"><b>Draft</b> — pictures and captions are still being added. Last built 2026-11-07 09:15.</div>
 <header class="hero issues">
   <div class="hero-inner">
     <p class="kicker">138 Tahoma St E · Packwood, WA · permit B26-00013</p>
@@ -232,8 +228,7 @@
     seen on site. Where the two disagree, the field number is what was built.</p>
     <nav class="filters" aria-label="Show issues by status"><a class="chip all" href="issues.html" data-status="">All <span class="n">19</span></a>
 <a class="chip open" href="issues.html?status=open" data-status="open">Open <span class="n">8</span></a>
-<a class="chip built-unreviewed" href="issues.html?status=built-unreviewed" data-status="built-unreviewed">Built, not reviewed <span class="n">5</span></a>
-<a class="chip closed-as-built" href="issues.html?status=left-as-built" data-status="left-as-built">Left as built <span class="n">3</span></a>
+<a class="chip closed-as-built" href="issues.html?status=left-as-built" data-status="left-as-built">Left as built <span class="n">8</span></a>
 <a class="chip fixed" href="issues.html?status=fixed" data-status="fixed">Fixed <span class="n">3</span></a></nav>
     <p class="showing" id="showing" hidden></p>
     <p class="lede" style="margin-top:14px"><a class="navlink" href="https://tredfield.github.io/138-tahoma-cabin/">← Back to the drawings</a></p>
@@ -251,14 +246,14 @@
 <tr data-status="open"><td class="cid"><a href="#ci-20">CI-20</a></td><td><a href="#ci-20">Subfloor hole at the north-wall column left open, running under the slider frame</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Not named ("they", per the owner)</td><td class="found">2026-11-06</td></tr>
 <tr data-status="open"><td class="cid"><a href="#ci-21">CI-21</a></td><td><a href="#ci-21">North-wall column base bolts left without nuts</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Elevate</td><td class="found">2026-11-06</td></tr>
 <tr data-status="open"><td class="cid"><a href="#ci-22">CI-22</a></td><td><a href="#ci-22">Shear-wall hold-down anchors: rods without nuts, holes without rods (north-east, north-west, kitchen wall)</a></td><td><span class="tag open">Open</span><span class="st">Open; may be pending rather than omitted</span></td><td class="who">Elevate</td><td class="found">2026-11-05</td></tr>
-<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-02">CI-02</a></td><td><a href="#ci-02">North-wall plinth (thickened concrete block under the 7x7 post) not poured</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Repair built (owner photos). No written engineer detail on file; inspection not on file.</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-08-13</td></tr>
-<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-04">CI-04</a></td><td><a href="#ci-04">Crawl space too deep for FEMA rules; interior footings poured too low before fill</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Fill and pad extensions built (owner). Crawl floor and outside ground heights not measured; no elevation certificate yet.</span></td><td class="who">Elevate (owner's view)</td><td class="found">2026-05-11</td></tr>
-<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-05">CI-05</a></td><td><a href="#ci-05">Ridge beam too short at both deck ends</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Extended (scheme A) at both decks. No engineer review on file.</span></td><td class="who">Elevate (ordering)</td><td class="found">2026-08-13</td></tr>
-<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-12">CI-12</a></td><td><a href="#ci-12">Deck footings: poured at grade, then the old footing reused, then re-poured</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Re-poured to depth. Piers do not line up with the posts; no engineer review on file.</span></td><td class="who">Elevate / concrete sub</td><td class="found">2026-08-10</td></tr>
-<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-15">CI-15</a></td><td><a href="#ci-15">Deck framing changed in the field; engineer approval claimed by Alex, unverified</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Built. The engineer's approval rests on Alex's unconfirmed account; nothing in writing.</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
+<tr data-status="left-as-built"><td class="cid"><a href="#ci-02">CI-02</a></td><td><a href="#ci-02">North-wall plinth (thickened concrete block under the 7x7 post) not poured</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07). Repair built (owner photos). No written engineer detail on file; inspection not on file.</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-08-13</td></tr>
 <tr data-status="left-as-built"><td class="cid"><a href="#ci-03">CI-03</a></td><td><a href="#ci-03">Crawl space access in the wrong place (under the kitchen sink); one of two built</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07)</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">not dated</td></tr>
+<tr data-status="left-as-built"><td class="cid"><a href="#ci-04">CI-04</a></td><td><a href="#ci-04">Crawl space too deep for FEMA rules; interior footings poured too low before fill</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07). Fill and pad extensions built (owner). Crawl floor and outside ground heights not measured; no elevation certificate yet.</span></td><td class="who">Elevate (owner's view)</td><td class="found">2026-05-11</td></tr>
+<tr data-status="left-as-built"><td class="cid"><a href="#ci-05">CI-05</a></td><td><a href="#ci-05">Ridge beam too short at both deck ends</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07). Extended (scheme A) at both decks. No engineer review on file.</span></td><td class="who">Elevate (ordering)</td><td class="found">2026-08-13</td></tr>
 <tr data-status="left-as-built"><td class="cid"><a href="#ci-09">CI-09</a></td><td><a href="#ci-09">Window and door flashing badly installed</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07)</span></td><td class="who">Elevate</td><td class="found">2026-11-03</td></tr>
+<tr data-status="left-as-built"><td class="cid"><a href="#ci-12">CI-12</a></td><td><a href="#ci-12">Deck footings: poured at grade, then the old footing reused, then re-poured</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07). Re-poured to depth. Piers do not line up with the posts; no engineer review on file.</span></td><td class="who">Elevate / concrete sub</td><td class="found">2026-08-10</td></tr>
 <tr data-status="left-as-built"><td class="cid"><a href="#ci-13">CI-13</a></td><td><a href="#ci-13">Deck posts at the very edge of their piers (front corners measured; rear corners visible); different post base</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (verbal warranty)</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
+<tr data-status="left-as-built"><td class="cid"><a href="#ci-15">CI-15</a></td><td><a href="#ci-15">Deck framing changed in the field; engineer approval claimed by Alex, unverified</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07). Built. The engineer's approval rests on Alex's unconfirmed account; nothing in writing.</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
 <tr data-status="fixed"><td class="cid"><a href="#ci-01">CI-01</a></td><td><a href="#ci-01">Stem wall forms set about 2 ft too high, cut down and rebar redone before the pour</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed before pour</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-05-08</td></tr>
 <tr data-status="fixed"><td class="cid"><a href="#ci-06">CI-06</a></td><td><a href="#ci-06">Framing corrections, incl. a load-bearing beam installed turned the wrong way</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed (owner-reported)</span></td><td class="who">Framers (under Elevate)</td><td class="found">not dated</td></tr>
 <tr data-status="fixed"><td class="cid"><a href="#ci-07">CI-07</a></td><td><a href="#ci-07">Eave corners cut wrong (rafter tails and gable fascia corner), recut shorter</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed (owner-reported, photo-supported)</span></td><td class="who">Elevate / framers</td><td class="found">2026-09-18</td></tr>
@@ -464,10 +459,10 @@
 <button class="showall" type="button" data-more="Show all 16 pictures" data-less="Show fewer pictures">Show all 16 pictures</button>
 </div>
 </section>
-<h2 class="group" data-status="built-unreviewed">Built, not reviewed (5)</h2>
-<section class="issue built-unreviewed" id="ci-02" data-status="built-unreviewed">
-<h3><span class="cid">CI-02</span> North-wall plinth not poured (grid 4B) <span class="tag built-unreviewed">Built, not reviewed</span></h3>
-<dl class="facts"><dt>Status</dt><dd>Repair built (owner photos). No written engineer detail on file; inspection not on file.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>2026-08-13</dd></dl>
+<h2 class="group" data-status="left-as-built">Left as built (8)</h2>
+<section class="issue closed-as-built" id="ci-02" data-status="left-as-built">
+<h3><span class="cid">CI-02</span> North-wall plinth not poured (grid 4B) <span class="tag closed-as-built">Left as built</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07). Repair built (owner photos). No written engineer detail on file; inspection not on file.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>2026-08-13</dd></dl>
 <div class="text">
 <p><span class="lbl">Plans:</span> Detail 5 on sheet S4.1 calls for a <code>14" SQ. PLINTH</code>, a thickened concrete block, in the north stem wall where the 7x7 roof post lands.</p>
 <p><span class="lbl">Built:</span> the north wall was poured as a plain 8" wall the full 26'-0", with no plinth. The crew also filled a crawl space vent at that spot with concrete on their own.</p>
@@ -489,9 +484,26 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=1">3D drawing: the north wall as found, with the vent filled and no plinth</a> <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=7">3D drawing: the repair as designed (Option 9), finished</a></p>
 </section>
-<section class="issue built-unreviewed" id="ci-04" data-status="built-unreviewed">
-<h3><span class="cid">CI-04</span> Crawl space depth and the FEMA flood rules <span class="tag built-unreviewed">Built, not reviewed</span></h3>
-<dl class="facts"><dt>Status</dt><dd>Fill and pad extensions built (owner). Crawl floor and outside ground heights not measured; no elevation certificate yet.</dd><dt>Responsible (as reported)</dt><dd>Elevate (owner's view)</dd><dt>Found</dt><dd>2026-05-11</dd></dl>
+<section class="issue closed-as-built" id="ci-03" data-status="left-as-built">
+<h3><span class="cid">CI-03</span> Crawl space access in the wrong place, one of two built <span class="tag closed-as-built">Left as built</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07).</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>not dated</dd></dl>
+<div class="text">
+<p><span class="lbl">Plans:</span> S3.1 draws <b>two</b> <code>16" X 24" MIN. CRAWLSPACE ACCESS</code> openings, the doors into the crawl space. Both are in the east (gridline A) stem wall, one near each end. Scaled off the drawing, they sit about 4 ft in from the south end wall (gridline 1) and about 4 1/2 ft in from the north end wall (gridline 4). The plan also requires a doubled rim joist and joist hangers above each opening.</p>
+<p><span class="lbl">Built:</span> only one access was built, directly under the kitchen sink (owner, confirmed 2026-11-06). The second opening was not built. The owner says the position made the plumber's work harder.</p>
+<p><span class="lbl">Plan comparison:</span> the kitchen sink is on the east wall under window D. A02's east-wall dimension string puts window D at about 27'-7 1/2" to 31'-7 1/2" from the south end, with 14'-4 1/2" from its north edge to the north end (plan). So the sink is roughly 29 to 30 ft from the south end wall and 16 ft from the north end wall. Neither planned opening (about 4 ft from gridline 1 and about 4 1/2 ft from gridline 4) is at the sink. The built opening has not been taped; this is a comparison with the plans only.</p>
+<p><span class="lbl">Fix:</span> none.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>None. The owner states no photos are needed.</p></div>
+<div class="pics">
+<div class="grid">
+<figure class="plan"><a href="img/issues/ci-03-01.jpg" data-viewer="ci-03-01" data-issue="ci-03" data-title="CI-03 · S3.1 (foundation plan): two crawl space doors (&quot;16&quot; x 24&quot; min. crawlspace access&quot;), both in the east wall along the bottom edge, one near each end"><img src="img/issues/ci-03-01-sm.jpg" alt="S3.1 (foundation plan): two crawl space doors (&quot;16&quot; x 24&quot; min. crawlspace access&quot;), both in the east wall along the bottom edge, one near each end" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): two crawl space doors ("16" x 24" min. crawlspace access"), both in the east wall along the bottom edge, one near each end</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-03-02.jpg" data-viewer="ci-03-02" data-issue="ci-03" data-title="CI-03 · A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14&#x27;-4 1/2&quot; from the window to the north end"><img src="img/issues/ci-03-02-sm.jpg" alt="A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14&#x27;-4 1/2&quot; from the window to the north end" loading="lazy"><span class="badge">Plan</span></a><figcaption>A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14'-4 1/2" from the window to the north end</figcaption></figure>
+</div>
+</div>
+</section>
+<section class="issue closed-as-built" id="ci-04" data-status="left-as-built">
+<h3><span class="cid">CI-04</span> Crawl space depth and the FEMA flood rules <span class="tag closed-as-built">Left as built</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07). Fill and pad extensions built (owner). Crawl floor and outside ground heights not measured; no elevation certificate yet.</dd><dt>Responsible (as reported)</dt><dd>Elevate (owner's view)</dd><dt>Found</dt><dd>2026-05-11</dd></dl>
 <div class="text">
 <p><span class="lbl">Plans and rules:</span> the house is in a flood zone. FEMA's crawl space rules (Technical Bulletin 11) limit how far the crawl space floor may sit below the outside ground, and the flood permit sets the lowest floor at 1047.5 ft. The plan sheets give no crawl floor elevation and no flood elevation. The S4.1 wall sections give only limits: at least 1'-6" from the floor joists down to the crawl space dirt, the wall at least 6" above the outside ground, and the bottom of the footing 18" to 4'-0" below the outside ground. A02's building section draws the foundation with no dimension below the lower floor.</p>
 <p><span class="lbl">Built:</span> on 2026-05-11 the crawl space dirt was about 1043.0 ft (field), about 6" past the FEMA limits. The interior footing pads had already been poured on that dirt, about 8-12" above it. The owner says 1 ft of backfill was then added, leaving the pads too low, and he built forms around them to extend them up. The interior and exterior backfill was site work, which the owner arranged directly, outside Elevate's contract.</p>
@@ -510,9 +522,9 @@
 </div>
 </div>
 </section>
-<section class="issue built-unreviewed" id="ci-05" data-status="built-unreviewed">
-<h3><span class="cid">CI-05</span> Ridge beam too short at both deck ends <span class="tag built-unreviewed">Built, not reviewed</span></h3>
-<dl class="facts"><dt>Status</dt><dd>Extended (scheme A) at both decks. No engineer review on file.</dd><dt>Responsible (as reported)</dt><dd>Elevate (ordering)</dd><dt>Found</dt><dd>2026-08-13</dd></dl>
+<section class="issue closed-as-built" id="ci-05" data-status="left-as-built">
+<h3><span class="cid">CI-05</span> Ridge beam too short at both deck ends <span class="tag closed-as-built">Left as built</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07). Extended (scheme A) at both decks. No engineer review on file.</dd><dt>Responsible (as reported)</dt><dd>Elevate (ordering)</dd><dt>Found</dt><dd>2026-08-13</dd></dl>
 <div class="text">
 <p>The ridge beam is the <code>5 1/2"X24" RAISED GLB RIDGE BEAM</code> on S3.3, the big glued-laminated beam along the peak. It runs out past both gable walls over the decks, with no post at its end.</p>
 <p><span class="lbl">What the plans called for (plan):</span></p>
@@ -545,62 +557,6 @@
 <button class="showall" type="button" data-more="Show all 5 pictures" data-less="Show fewer pictures">Show all 5 pictures</button>
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=under">3D drawing: the rear deck roof from below</a> <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=under">3D drawing: the front deck roof from below</a></p>
-</section>
-<section class="issue built-unreviewed" id="ci-12" data-status="built-unreviewed">
-<h3><span class="cid">CI-12</span> Deck footings poured three times <span class="tag built-unreviewed">Built, not reviewed</span></h3>
-<dl class="facts"><dt>Status</dt><dd>Re-poured to depth. Piers do not line up with the posts; no engineer review on file. See <a class="ref" href="#ci-13">CI-13</a>.</dd><dt>Responsible (as reported)</dt><dd>Elevate / concrete sub</dd><dt>Found</dt><dd>2026-08-10</dd></dl>
-<div class="text">
-<p><span class="lbl">Plans:</span> deck footings at least 18" below finished grade, with a plinth, four on the front deck.</p>
-<p><span class="lbl">Attempt 1, poured at ground level (2026-08-10):</span> hand-dug pads about 8" deep, flush with the ground, no plinths, and only two of the four front pads. They were poured after the only footing inspection.</p>
-<p><span class="lbl">Attempt 2, old footing reused (2026-08-12):</span> the holes were dug down, but the crew set the same footing they had poured originally back in the bottom instead of pouring new (owner, 2026-11-06). The owner's photo shows a broken-edged slab of old concrete lying in the bottom of a dug hole. The earlier record had only the re-dig of nine holes to about 3'-0".</p>
-<p><span class="lbl">Attempt 3, re-poured (from 2026-08-13):</span> the owner got them to re-pour. The photo of 2026-08-13 shows SONOTUBE forms in the holes with a rebar cage and a string line. The re-dig went to about 3'-0" at nine locations, re-poured with 18" round plinths.</p>
-</div>
-<div class="needed"><h4>Evidence still needed</h4><p>Whether the county inspected the re-pour; which piers are misaligned and by how much. Only the two front-deck outer corners are measured, and the other seven piers were never checked.</p></div>
-<div class="pics">
-<div class="grid">
-<figure><a href="img/issues/ci-12-01.jpg" data-viewer="ci-12-01" data-issue="ci-12" data-title="CI-12 · First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops"><img src="img/issues/ci-12-01-sm.jpg" alt="First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops" loading="lazy"></a><figcaption>First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops</figcaption></figure>
-<figure><a href="img/issues/ci-12-02.jpg" data-viewer="ci-12-02" data-issue="ci-12" data-title="CI-12 · Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom"><img src="img/issues/ci-12-02-sm.jpg" alt="Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom" loading="lazy"></a><figcaption>Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom</figcaption></figure>
-<figure><a href="img/issues/ci-12-03.jpg" data-viewer="ci-12-03" data-issue="ci-12" data-title="CI-12 · Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line"><img src="img/issues/ci-12-03-sm.jpg" alt="Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line" loading="lazy"></a><figcaption>Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line</figcaption></figure>
-<figure class="plan"><a href="img/issues/ci-12-04.jpg" data-viewer="ci-12-04" data-issue="ci-12" data-title="CI-12 · S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12&quot; square or 18&quot; round raised top (plinth), the post base anchored to it"><img src="img/issues/ci-12-04-sm.jpg" alt="S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12&quot; square or 18&quot; round raised top (plinth), the post base anchored to it" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12" square or 18" round raised top (plinth), the post base anchored to it</figcaption></figure>
-<figure class="more plan"><a href="img/issues/ci-12-05.jpg" data-viewer="ci-12-05" data-issue="ci-12" data-title="CI-12 · S3.1 note 2: &quot;Exterior footings to be a minimum of 18&quot; below finished grade&quot;"><img src="img/issues/ci-12-05-sm.jpg" alt="S3.1 note 2: &quot;Exterior footings to be a minimum of 18&quot; below finished grade&quot;" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 note 2: "Exterior footings to be a minimum of 18" below finished grade"</figcaption></figure>
-<figure class="more plan"><a href="img/issues/ci-12-06.jpg" data-viewer="ci-12-06" data-issue="ci-12" data-title="CI-12 · S3.1 (foundation plan): the front deck on four posts, each on a 24&quot; footing (the boxes marked 24)"><img src="img/issues/ci-12-06-sm.jpg" alt="S3.1 (foundation plan): the front deck on four posts, each on a 24&quot; footing (the boxes marked 24)" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): the front deck on four posts, each on a 24" footing (the boxes marked 24)</figcaption></figure>
-</div>
-<button class="showall" type="button" data-more="Show all 6 pictures" data-less="Show fewer pictures">Show all 6 pictures</button>
-</div>
-<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=footing">3D drawing: a front deck footing as planned</a> <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=footing">3D drawing: a rear deck footing as planned</a></p>
-</section>
-<section class="issue built-unreviewed" id="ci-15" data-status="built-unreviewed">
-<h3><span class="cid">CI-15</span> Deck framing changed in the field <span class="tag built-unreviewed">Built, not reviewed</span></h3>
-<dl class="facts"><dt>Status</dt><dd>Built. The engineer's approval rests on Alex's unconfirmed account; nothing in writing.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-09-01</dd></dl>
-<div class="text">
-<p><span class="lbl">Built:</span> the front deck was changed from four posts to two with a larger glulam beam (a glued-laminated beam). The upper-deck glulam hangs between the corner posts on brackets of unknown type. The engineer's approval rests only on Alex's statement that he spoke to Pieruccioni and got his OK. The owner has no confirmation from Pieruccioni, and nothing is in writing. No beam size is on record.</p>
-</div>
-<div class="needed"><h4>Evidence still needed</h4><ol><li>A short written confirmation from Pieruccioni himself (an email is enough) that he approved the front-deck framing change, with the beam size.</li><li>The beam sizes and the bracket make and model, which the owner can read in the field.</li></ol></div>
-<div class="pics">
-<div class="grid">
-<figure><a href="img/issues/ci-15-01.jpg" data-viewer="ci-15-01" data-issue="ci-15" data-title="CI-15 · A front deck corner post meeting the beam under the roof edge (2026-09-21)"><img src="img/issues/ci-15-01-sm.jpg" alt="A front deck corner post meeting the beam under the roof edge (2026-09-21)" loading="lazy"></a><figcaption>A front deck corner post meeting the beam under the roof edge (2026-09-21)</figcaption></figure>
-<figure class="plan"><a href="img/issues/ci-15-02.jpg" data-viewer="ci-15-02" data-issue="ci-15" data-title="CI-15 · S3.1 (foundation plan): the front deck drawn on four posts, each on a 24&quot; footing (the boxes marked 24)"><img src="img/issues/ci-15-02-sm.jpg" alt="S3.1 (foundation plan): the front deck drawn on four posts, each on a 24&quot; footing (the boxes marked 24)" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): the front deck drawn on four posts, each on a 24" footing (the boxes marked 24)</figcaption></figure>
-</div>
-</div>
-<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=beam">3D drawing: the front corner post and the beam under the roof edge</a></p>
-</section>
-<h2 class="group" data-status="left-as-built">Left as built (3)</h2>
-<section class="issue closed-as-built" id="ci-03" data-status="left-as-built">
-<h3><span class="cid">CI-03</span> Crawl space access in the wrong place, one of two built <span class="tag closed-as-built">Left as built</span></h3>
-<dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07).</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>not dated</dd></dl>
-<div class="text">
-<p><span class="lbl">Plans:</span> S3.1 draws <b>two</b> <code>16" X 24" MIN. CRAWLSPACE ACCESS</code> openings, the doors into the crawl space. Both are in the east (gridline A) stem wall, one near each end. Scaled off the drawing, they sit about 4 ft in from the south end wall (gridline 1) and about 4 1/2 ft in from the north end wall (gridline 4). The plan also requires a doubled rim joist and joist hangers above each opening.</p>
-<p><span class="lbl">Built:</span> only one access was built, directly under the kitchen sink (owner, confirmed 2026-11-06). The second opening was not built. The owner says the position made the plumber's work harder.</p>
-<p><span class="lbl">Plan comparison:</span> the kitchen sink is on the east wall under window D. A02's east-wall dimension string puts window D at about 27'-7 1/2" to 31'-7 1/2" from the south end, with 14'-4 1/2" from its north edge to the north end (plan). So the sink is roughly 29 to 30 ft from the south end wall and 16 ft from the north end wall. Neither planned opening (about 4 ft from gridline 1 and about 4 1/2 ft from gridline 4) is at the sink. The built opening has not been taped; this is a comparison with the plans only.</p>
-<p><span class="lbl">Fix:</span> none.</p>
-</div>
-<div class="needed"><h4>Evidence still needed</h4><p>None. The owner states no photos are needed.</p></div>
-<div class="pics">
-<div class="grid">
-<figure class="plan"><a href="img/issues/ci-03-01.jpg" data-viewer="ci-03-01" data-issue="ci-03" data-title="CI-03 · S3.1 (foundation plan): two crawl space doors (&quot;16&quot; x 24&quot; min. crawlspace access&quot;), both in the east wall along the bottom edge, one near each end"><img src="img/issues/ci-03-01-sm.jpg" alt="S3.1 (foundation plan): two crawl space doors (&quot;16&quot; x 24&quot; min. crawlspace access&quot;), both in the east wall along the bottom edge, one near each end" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): two crawl space doors ("16" x 24" min. crawlspace access"), both in the east wall along the bottom edge, one near each end</figcaption></figure>
-<figure class="plan"><a href="img/issues/ci-03-02.jpg" data-viewer="ci-03-02" data-issue="ci-03" data-title="CI-03 · A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14&#x27;-4 1/2&quot; from the window to the north end"><img src="img/issues/ci-03-02-sm.jpg" alt="A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14&#x27;-4 1/2&quot; from the window to the north end" loading="lazy"><span class="badge">Plan</span></a><figcaption>A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14'-4 1/2" from the window to the north end</figcaption></figure>
-</div>
-</div>
 </section>
 <section class="issue closed-as-built" id="ci-09" data-status="left-as-built">
 <h3><span class="cid">CI-09</span> Window and door flashing <span class="tag closed-as-built">Left as built</span></h3>
@@ -659,6 +615,29 @@
 <button class="showall" type="button" data-more="Show all 41 pictures" data-less="Show fewer pictures">Show all 41 pictures</button>
 </div>
 </section>
+<section class="issue closed-as-built" id="ci-12" data-status="left-as-built">
+<h3><span class="cid">CI-12</span> Deck footings poured three times <span class="tag closed-as-built">Left as built</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07). Re-poured to depth. Piers do not line up with the posts; no engineer review on file. See <a class="ref" href="#ci-13">CI-13</a>.</dd><dt>Responsible (as reported)</dt><dd>Elevate / concrete sub</dd><dt>Found</dt><dd>2026-08-10</dd></dl>
+<div class="text">
+<p><span class="lbl">Plans:</span> deck footings at least 18" below finished grade, with a plinth, four on the front deck.</p>
+<p><span class="lbl">Attempt 1, poured at ground level (2026-08-10):</span> hand-dug pads about 8" deep, flush with the ground, no plinths, and only two of the four front pads. They were poured after the only footing inspection.</p>
+<p><span class="lbl">Attempt 2, old footing reused (2026-08-12):</span> the holes were dug down, but the crew set the same footing they had poured originally back in the bottom instead of pouring new (owner, 2026-11-06). The owner's photo shows a broken-edged slab of old concrete lying in the bottom of a dug hole. The earlier record had only the re-dig of nine holes to about 3'-0".</p>
+<p><span class="lbl">Attempt 3, re-poured (from 2026-08-13):</span> the owner got them to re-pour. The photo of 2026-08-13 shows SONOTUBE forms in the holes with a rebar cage and a string line. The re-dig went to about 3'-0" at nine locations, re-poured with 18" round plinths.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Whether the county inspected the re-pour; which piers are misaligned and by how much. Only the two front-deck outer corners are measured, and the other seven piers were never checked.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-12-01.jpg" data-viewer="ci-12-01" data-issue="ci-12" data-title="CI-12 · First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops"><img src="img/issues/ci-12-01-sm.jpg" alt="First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops" loading="lazy"></a><figcaption>First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops</figcaption></figure>
+<figure><a href="img/issues/ci-12-02.jpg" data-viewer="ci-12-02" data-issue="ci-12" data-title="CI-12 · Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom"><img src="img/issues/ci-12-02-sm.jpg" alt="Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom" loading="lazy"></a><figcaption>Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom</figcaption></figure>
+<figure><a href="img/issues/ci-12-03.jpg" data-viewer="ci-12-03" data-issue="ci-12" data-title="CI-12 · Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line"><img src="img/issues/ci-12-03-sm.jpg" alt="Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line" loading="lazy"></a><figcaption>Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-12-04.jpg" data-viewer="ci-12-04" data-issue="ci-12" data-title="CI-12 · S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12&quot; square or 18&quot; round raised top (plinth), the post base anchored to it"><img src="img/issues/ci-12-04-sm.jpg" alt="S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12&quot; square or 18&quot; round raised top (plinth), the post base anchored to it" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12" square or 18" round raised top (plinth), the post base anchored to it</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-12-05.jpg" data-viewer="ci-12-05" data-issue="ci-12" data-title="CI-12 · S3.1 note 2: &quot;Exterior footings to be a minimum of 18&quot; below finished grade&quot;"><img src="img/issues/ci-12-05-sm.jpg" alt="S3.1 note 2: &quot;Exterior footings to be a minimum of 18&quot; below finished grade&quot;" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 note 2: "Exterior footings to be a minimum of 18" below finished grade"</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-12-06.jpg" data-viewer="ci-12-06" data-issue="ci-12" data-title="CI-12 · S3.1 (foundation plan): the front deck on four posts, each on a 24&quot; footing (the boxes marked 24)"><img src="img/issues/ci-12-06-sm.jpg" alt="S3.1 (foundation plan): the front deck on four posts, each on a 24&quot; footing (the boxes marked 24)" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): the front deck on four posts, each on a 24" footing (the boxes marked 24)</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 6 pictures" data-less="Show fewer pictures">Show all 6 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=footing">3D drawing: a front deck footing as planned</a> <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=footing">3D drawing: a rear deck footing as planned</a></p>
+</section>
 <section class="issue closed-as-built" id="ci-13" data-status="left-as-built">
 <h3><span class="cid">CI-13</span> Deck posts at the edge of their piers <span class="tag closed-as-built">Left as built</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Left as built.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-09-01</dd></dl>
@@ -687,6 +666,21 @@
 <button class="showall" type="button" data-more="Show all 12 pictures" data-less="Show fewer pictures">Show all 12 pictures</button>
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=footing">3D drawing: a front deck post on its footing as planned</a> <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=footing">3D drawing: a rear deck post on its footing as planned</a></p>
+</section>
+<section class="issue closed-as-built" id="ci-15" data-status="left-as-built">
+<h3><span class="cid">CI-15</span> Deck framing changed in the field <span class="tag closed-as-built">Left as built</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07). Built. The engineer's approval rests on Alex's unconfirmed account; nothing in writing.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-09-01</dd></dl>
+<div class="text">
+<p><span class="lbl">Built:</span> the front deck was changed from four posts to two with a larger glulam beam (a glued-laminated beam). The upper-deck glulam hangs between the corner posts on brackets of unknown type. The engineer's approval rests only on Alex's statement that he spoke to Pieruccioni and got his OK. The owner has no confirmation from Pieruccioni, and nothing is in writing. No beam size is on record.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><ol><li>A short written confirmation from Pieruccioni himself (an email is enough) that he approved the front-deck framing change, with the beam size.</li><li>The beam sizes and the bracket make and model, which the owner can read in the field.</li></ol></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-15-01.jpg" data-viewer="ci-15-01" data-issue="ci-15" data-title="CI-15 · A front deck corner post meeting the beam under the roof edge (2026-09-21)"><img src="img/issues/ci-15-01-sm.jpg" alt="A front deck corner post meeting the beam under the roof edge (2026-09-21)" loading="lazy"></a><figcaption>A front deck corner post meeting the beam under the roof edge (2026-09-21)</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-15-02.jpg" data-viewer="ci-15-02" data-issue="ci-15" data-title="CI-15 · S3.1 (foundation plan): the front deck drawn on four posts, each on a 24&quot; footing (the boxes marked 24)"><img src="img/issues/ci-15-02-sm.jpg" alt="S3.1 (foundation plan): the front deck drawn on four posts, each on a 24&quot; footing (the boxes marked 24)" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): the front deck drawn on four posts, each on a 24" footing (the boxes marked 24)</figcaption></figure>
+</div>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=beam">3D drawing: the front corner post and the beam under the roof edge</a></p>
 </section>
 <h2 class="group" data-status="fixed">Fixed (3)</h2>
 <section class="issue fixed" id="ci-01" data-status="fixed">
@@ -747,7 +741,7 @@
 </main>
 
 <footer>
-  Last updated 2026-11-07. Page built 2026-11-07 from commit 187ad76.<br>
+  Last updated 2026-11-07. Page built 2026-11-07 from commit c199c02.<br>
   Click a picture to open it here, click it again to zoom; the arrow keys step through that issue's pictures; Esc,
   the close button or Back return you to the page. Printing (or Print to PDF) gives every picture at thumbnail size.
 </footer>
@@ -770,7 +764,7 @@
   // Status filter (owner, 2026-11-07). The chips are links to ?status=<name>; here a click filters in place and
   // records the filter in the query with replaceState, so a filtered link can be shared and survives a reload. The
   // query, not the hash, because the viewer owns #view=. Without JavaScript nothing is hidden.
-  const STATUSES = {open: 'Open', 'built-unreviewed': 'Built, not reviewed', 'left-as-built': 'Left as built', fixed: 'Fixed'};
+  const STATUSES = {open: 'Open', 'left-as-built': 'Left as built', fixed: 'Fixed'};
   const chips = [...document.querySelectorAll('.filters .chip')];
   const filtered = [...document.querySelectorAll('table.summary tbody tr[data-status], .issue[data-status], h2.group[data-status]')];
   const sections = [...document.querySelectorAll('.issue[data-status]')];
