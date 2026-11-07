@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Construction issues — 138 Tahoma St E</title>
+<style>
+  :root{--bg:#1b1e23;--panel:#22262d;--line:rgba(255,255,255,.12);--fg:#e8eaed;--muted:#aab0b8;--accent:#e07b20;--cedar:#dcb47c;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.5;}
+  a{color:inherit;text-decoration:none;}
+  .hero{position:relative;min-height:62vh;display:flex;align-items:flex-end;
+        background:#111 center/cover no-repeat;
+        background-image:linear-gradient(to bottom,rgba(27,30,35,.15) 0%,rgba(27,30,35,.55) 55%,rgba(27,30,35,1) 100%),url(img/hero.jpg),url(img/rear-deck.jpg);}
+  .hero-inner{width:min(1100px,92vw);margin:0 auto;padding:48px 0 36px;}
+  .kicker{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cedar);}
+  h1{margin:0 0 12px;font-size:clamp(30px,5vw,52px);line-height:1.08;font-weight:700;}
+  .lede{margin:0;max-width:62ch;font-size:clamp(15px,1.8vw,18px);color:#d2d6db;}
+  main{width:min(1100px,92vw);margin:0 auto;padding:28px 0 40px;}
+  h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:34px 0 14px;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;
+        transition:transform .15s ease,border-color .15s ease;}
+  .card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.28);}
+  .card .thumb{display:block;aspect-ratio:16/10;background:#14161a center/cover no-repeat;}
+  .card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .card .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .card h3{margin:0;font-size:19px;line-height:1.25;}
+  .card p{margin:0;color:var(--muted);font-size:14px;}
+  .card .meta{font-size:12px;color:#8b929b;}
+  .card .cardlink{display:flex;flex-direction:column;flex:1;color:inherit;text-decoration:none;}
+  .card .cardlink:hover h3{color:var(--accent);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px;}
+  .chips a{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:#2c313a;color:#dfe3e8;}
+  .chips a:hover{background:#3a404b;}
+  .chips a.open{background:var(--accent);border-color:var(--accent);color:#1b1e23;font-weight:600;}
+  .lede a.navlink{color:var(--cedar);text-decoration:underline;text-underline-offset:3px;}
+  .lede a.navlink:hover{color:#fff;}
+  .gallery.large .grid{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;}
+  .gallery figure{margin:0;}
+  .gallery figure.wide{grid-column:1 / -1;}
+  .gallery figure.wide a{aspect-ratio:auto;}
+  .gallery.large figcaption{font-size:13px;color:var(--muted);line-height:1.45;margin-top:8px;}
+  .gallery .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .gallery a{display:block;border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:#14161a;}
+  .gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s ease;}
+  .gallery a:hover img{transform:scale(1.03);}
+  .gallery figcaption{font-size:12px;color:var(--muted);margin-top:6px;}
+  .howto{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);font-size:14px;}
+  .howto ul{margin:8px 0 0;padding-left:18px;}
+  .howto li{margin:3px 0;}
+  .howto b{color:var(--fg);font-weight:600;}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:4px;border:1px solid rgba(255,255,255,.25);}
+  footer{width:min(1100px,92vw);margin:0 auto;padding:18px 0 40px;border-top:1px solid var(--line);color:#8b929b;font-size:12.5px;}
+  footer b{color:#c9ced4;}
+  @media (max-width:640px){.hero{min-height:52vh;}.hero-inner{padding:36px 0 26px;}main{padding-top:18px;}}
+</style>
+<style>
+  /* this page has no hero picture; the drawings site's .hero would ask for img/hero.jpg */
+  .hero.issues{min-height:0;background-image:none;background:linear-gradient(to bottom,#262b33 0%,var(--bg) 100%);}
+  .hero.issues .hero-inner{padding:40px 0 26px;}
+  .lede + .lede{margin-top:10px;}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;font-size:13px;color:var(--muted);}
+  /* status tags */
+  .tag{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1;
+       padding:4px 8px;border-radius:999px;border:1px solid;white-space:nowrap;vertical-align:2px;}
+  .tag.open{color:#ff9d8f;border-color:rgba(255,120,100,.55);background:rgba(255,100,80,.12);}
+  .tag.fixed{color:#9be39f;border-color:rgba(110,200,115,.55);background:rgba(110,200,115,.12);}
+  .tag.closed-as-built{color:#c3cbd5;border-color:rgba(190,200,212,.5);background:rgba(190,200,212,.10);}
+  /* summary table */
+  .tablewrap{overflow-x:auto;}
+  table.summary{width:100%;border-collapse:collapse;font-size:14px;}
+  table.summary th{text-align:left;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;
+                   padding:8px 10px;border-bottom:1px solid var(--line);}
+  table.summary td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.summary td.cid{white-space:nowrap;font-weight:600;}
+  table.summary td a{color:var(--fg);}
+  table.summary td a:hover{color:var(--accent);}
+  table.summary .st{display:block;color:var(--muted);font-size:12.5px;margin-top:4px;}
+  table.summary tr:hover td{background:rgba(255,255,255,.03);}
+  /* one issue */
+  .group{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:44px 0 6px;}
+  .issue{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px 22px;margin:16px 0 22px;scroll-margin-top:12px;}
+  .issue h3{margin:0 0 12px;font-size:21px;line-height:1.3;}
+  .issue h3 .cid{color:var(--cedar);margin-right:6px;}
+  .issue h3 .tag{margin-left:6px;}
+  .facts{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;font-size:14px;margin:0 0 16px;padding:12px 14px;
+         background:rgba(0,0,0,.18);border-radius:10px;}
+  .facts dt{color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding-top:2px;}
+  .facts dd{margin:0;}
+  .text{font-size:15px;max-width:78ch;}
+  .text p{margin:0 0 10px;}
+  .text .lbl{color:var(--cedar);font-weight:600;}
+  .text ul,.text ol{margin:0 0 12px;padding-left:22px;}
+  .text li{margin:4px 0;}
+  .text b{color:#fff;}
+  .text table{border-collapse:collapse;font-size:13.5px;margin:4px 0 12px;display:block;overflow-x:auto;max-width:100%;}
+  .text th,.text td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top;}
+  .text th{background:rgba(255,255,255,.04);font-weight:600;}
+  code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86em;background:#2c313a;border:1px solid var(--line);
+       border-radius:4px;padding:0 4px;white-space:normal;}
+  .text a.ref{color:var(--cedar);text-decoration:underline;text-underline-offset:2px;}
+  .needed{margin:14px 0 0;padding:12px 14px;border-left:3px solid var(--accent);background:rgba(224,123,32,.07);border-radius:0 10px 10px 0;font-size:14.5px;max-width:78ch;}
+  .needed h4,.pics h4{margin:0 0 6px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .needed p{margin:0 0 6px;}
+  .needed ol,.needed ul{margin:0;padding-left:22px;}
+  /* pictures */
+  .pics{margin-top:18px;}
+  .pics .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .pics figure{margin:0;}
+  .pics figure.more{display:none;}
+  .pics.all figure.more{display:block;}
+  .pics a{position:relative;display:block;border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:#14161a;}
+  .pics img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s ease;}
+  .pics a:hover img{transform:scale(1.03);}
+  .pics figure.plan a{background:#fff;}
+  .pics figure.plan img{object-fit:contain;}
+  .pics .badge{position:absolute;top:8px;left:8px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+               padding:3px 7px;border-radius:6px;background:rgba(27,30,35,.85);color:var(--cedar);}
+  .pics figcaption{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.4;}
+  .pics figcaption .auto{font-size:11px;font-style:italic;opacity:.7;white-space:nowrap;}
+  .draftbar{background:#3a2a12;color:#f3d9b0;border-bottom:1px solid rgba(224,123,32,.45);font-size:13px;padding:7px 4vw;text-align:center;}
+  .draftbar b{color:#ffb35c;letter-spacing:.06em;text-transform:uppercase;font-size:12px;}
+  .pics .none{color:var(--muted);font-size:14px;font-style:italic;margin:0;}
+  .showall{margin-top:12px;font:inherit;font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#2c313a;color:#dfe3e8;cursor:pointer;}
+  .showall:hover{background:#3a404b;}
+  .links{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--muted);}
+  .links a{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:#2c313a;color:#dfe3e8;}
+  .links a:hover{background:#3a404b;}
+  @media (max-width:640px){
+    .issue{padding:16px 14px 18px;border-radius:12px;}
+    .issue h3{font-size:18px;}
+    .facts{grid-template-columns:1fr;gap:2px;}
+    .facts dd{margin-bottom:6px;}
+    .pics .grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+    table.summary thead{display:none;}
+    table.summary,table.summary tbody,table.summary tr,table.summary td{display:block;width:100%;}
+    table.summary tr{border-bottom:1px solid var(--line);padding:8px 0;}
+    table.summary td{border:0;padding:2px 0;}
+    table.summary td.who,table.summary td.found{font-size:12.5px;color:var(--muted);}
+    table.summary td.who::before{content:"Responsible: ";}
+    table.summary td.found::before{content:"Found: ";}
+  }
+  /* picture viewer: an overlay on this page; Back, Esc or the close button return you to where you were */
+  #viewer{position:fixed;inset:0;z-index:50;background:rgba(14,16,19,.97);display:flex;flex-direction:column;}
+  #viewer[hidden]{display:none;}
+  #viewer .vbar{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--line);flex:none;}
+  #viewer .vbar .vtitle{font-weight:600;font-size:15px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  #viewer .vbar .vhint{font-size:12px;color:var(--muted);}
+  #viewer .vbar button{font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:#2c313a;color:#dfe3e8;cursor:pointer;}
+  #viewer .vbar button:hover{background:#3a404b;}
+  #viewer .vstage{flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  #viewer .vstage img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;user-select:none;-webkit-user-drag:none;}
+  #viewer.zoomed .vstage{overflow:auto;display:block;cursor:grab;}
+  #viewer.zoomed .vstage img{max-width:none;max-height:none;cursor:zoom-out;}
+  #viewer.zoomed .vstage.dragging{cursor:grabbing;}
+  body.viewing{overflow:hidden;}
+  @media (max-width:640px){#viewer .vbar .vhint{display:none;}#viewer .vbar .vtitle{white-space:normal;font-size:13px;}}
+  /* print: a plain light document; every picture at thumbnail size, nothing interactive */
+  @media print{
+    :root{--bg:#fff;--panel:#fff;--fg:#111;--muted:#444;--line:#bbb;--cedar:#7a4b12;--accent:#b85c00;}
+    html,body{background:#fff;color:#111;font-size:11pt;}
+    .hero.issues{background:none;}
+    .hero.issues .hero-inner{padding:0 0 8px;}
+    .lede{color:#222;}
+    .navlink,#viewer,.showall,.links{display:none !important;}
+    main,footer,.hero-inner{width:auto;}
+    .issue{border:1px solid #bbb;border-radius:6px;padding:10px 12px;break-inside:auto;}
+    .issue h3{break-after:avoid;}
+    .group{break-after:avoid;}
+    .facts{background:#f3f3f3;break-inside:avoid;}
+    .text b{color:#000;}
+    code{background:#f1f1f1;border-color:#ccc;}
+    .needed{background:#fdf3e8;break-inside:avoid;}
+    .tag{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .tag.open{color:#a3271a;border-color:#a3271a;background:#fde8e5;}
+    .tag.fixed{color:#1f6b24;border-color:#1f6b24;background:#e7f5e8;}
+    .tag.closed-as-built{color:#444;border-color:#777;background:#eee;}
+    .pics figure.more{display:block;}
+    .pics .grid{grid-template-columns:repeat(4,1fr);gap:6px;}
+    .pics figure{break-inside:avoid;}
+    .pics a{border-color:#bbb;background:#fff;}
+    .pics img{transform:none !important;}
+    .pics .badge{background:#fff;color:#7a4b12;border:1px solid #7a4b12;}
+    .pics figcaption{font-size:8pt;color:#333;}
+    .draftbar{background:#fff;color:#000;border:1px solid #b85c00;}
+    .draftbar b{color:#b85c00;}
+    table.summary{font-size:9.5pt;}
+    table.summary td a{color:#111;}
+    table.summary tr{break-inside:avoid;}
+    footer{color:#444;}
+    a{color:inherit;}
+  }
+</style>
+</head>
+<body>
+<div class="draftbar"><b>Draft</b> — pictures and captions are still being added. Last built 2026-11-07 08:57.</div>
+<header class="hero issues">
+  <div class="hero-inner">
+    <p class="kicker">138 Tahoma St E · Packwood, WA · permit B26-00013</p>
+    <h1>Construction issues</h1>
+    <p class="lede">A running record of the construction defects, contractor errors and rework on the house at
+    138 Tahoma St E. For each issue: what the plans called for, what was built, the fix and where it stands,
+    who is responsible as reported, what evidence is still needed, and the photos. The general contractor is
+    Elevate PNW (Alex). Open issues come first.</p>
+    <p class="lede">Numbers marked <b>plan</b> come from the permit drawings; numbers marked <b>field</b> were taped or
+    seen on site. Where the two disagree, the field number is what was built.</p>
+    <div class="legend"><span><span class="tag open">Open</span> 15</span> <span><span class="tag fixed">Fixed</span> 3</span> <span><span class="tag closed-as-built">Left as built</span> 1</span></div>
+    <p class="lede" style="margin-top:14px"><a class="navlink" href="https://tredfield.github.io/138-tahoma-cabin/">← Back to the drawings</a></p>
+  </div>
+</header>
+
+<main>
+  <h2>Summary</h2>
+<div class="tablewrap"><table class="summary"><thead><tr><th>ID</th><th>Issue</th><th>Status</th><th>Responsible (as reported)</th><th>Found</th></tr></thead><tbody>
+<tr><td class="cid"><a href="#ci-02">CI-02</a></td><td><a href="#ci-02">North-wall plinth (thickened concrete block under the 7x7 post) not poured</a></td><td><span class="tag open">Open</span><span class="st">Repair built (owner photos); no written engineer detail; inspection unknown</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-08-13</td></tr>
+<tr><td class="cid"><a href="#ci-03">CI-03</a></td><td><a href="#ci-03">Crawl space access in the wrong place (under the kitchen sink); one of two built</a></td><td><span class="tag open">Open</span><span class="st">Unfixed</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">not dated</td></tr>
+<tr><td class="cid"><a href="#ci-04">CI-04</a></td><td><a href="#ci-04">Crawl space too deep for FEMA rules; interior footings poured too low before fill</a></td><td><span class="tag open">Open</span><span class="st">Owner work-around built; as-built unverified</span></td><td class="who">Elevate (owner's view)</td><td class="found">2026-05-11</td></tr>
+<tr><td class="cid"><a href="#ci-05">CI-05</a></td><td><a href="#ci-05">Ridge beam too short at both deck ends</a></td><td><span class="tag open">Open</span><span class="st">Extended (scheme A), no engineer review</span></td><td class="who">Elevate (ordering)</td><td class="found">2026-08-13</td></tr>
+<tr><td class="cid"><a href="#ci-09">CI-09</a></td><td><a href="#ci-09">Window and door flashing badly installed</a></td><td><span class="tag open">Open</span><span class="st">Repair in progress</span></td><td class="who">Elevate</td><td class="found">2026-11-03</td></tr>
+<tr><td class="cid"><a href="#ci-10">CI-10</a></td><td><a href="#ci-10">HVAC holes cut in the wrong places, incl. a vent where the wood stove goes</a></td><td><span class="tag open">Open</span><span class="st">Unfixed</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner-reported; not briefed by Elevate)</td><td class="found">before 2026-11-03; filmed 2026-11-05</td></tr>
+<tr><td class="cid"><a href="#ci-11">CI-11</a></td><td><a href="#ci-11">HVAC crew cut through the plates of both lower hall walls, drawn as bearing walls</a></td><td><span class="tag open">Open</span><span class="st">Unfixed; no engineer review on file</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner-reported)</td><td class="found">before 2026-11-03; filmed 2026-11-05</td></tr>
+<tr><td class="cid"><a href="#ci-12">CI-12</a></td><td><a href="#ci-12">Deck footings: poured at grade, then the old footing reused, then re-poured</a></td><td><span class="tag open">Open</span><span class="st">Re-poured to depth; piers do not line up with the posts (<a class="ref" href="#ci-13">CI-13</a>)</span></td><td class="who">Elevate / concrete sub</td><td class="found">2026-08-10</td></tr>
+<tr><td class="cid"><a href="#ci-15">CI-15</a></td><td><a href="#ci-15">Deck framing changed in the field; engineer approval claimed by Alex, unverified</a></td><td><span class="tag open">Open</span><span class="st">Open, approval unverified</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
+<tr><td class="cid"><a href="#ci-17">CI-17</a></td><td><a href="#ci-17">Crack through the stem wall at a crawl vent</a></td><td><span class="tag open">Open</span><span class="st">Open, unassessed; reported to Alex</span></td><td class="who">Concrete sub (under Elevate); cause not established</td><td class="found">2026-08-30 (photo)</td></tr>
+<tr><td class="cid"><a href="#ci-18">CI-18</a></td><td><a href="#ci-18">Torn insulation jacket on an HVAC trunk duct</a></td><td><span class="tag open">Open</span><span class="st">Open, unrepaired; not yet reported</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner: the only trade in the crawl space)</td><td class="found">2026-11-06</td></tr>
+<tr><td class="cid"><a href="#ci-19">CI-19</a></td><td><a href="#ci-19">House wrap tucked behind the roof-to-wall flashing at the bump-out</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Elevate</td><td class="found">2026-11-05</td></tr>
+<tr><td class="cid"><a href="#ci-20">CI-20</a></td><td><a href="#ci-20">Subfloor hole at the north-wall column left open, running under the slider frame</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Not named ("they", per the owner)</td><td class="found">2026-11-06</td></tr>
+<tr><td class="cid"><a href="#ci-21">CI-21</a></td><td><a href="#ci-21">North-wall column base bolts left without nuts</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Elevate</td><td class="found">2026-11-06</td></tr>
+<tr><td class="cid"><a href="#ci-22">CI-22</a></td><td><a href="#ci-22">Shear-wall hold-down anchors: rods without nuts, holes without rods (north-east, north-west, kitchen wall)</a></td><td><span class="tag open">Open</span><span class="st">Open; may be pending rather than omitted</span></td><td class="who">Elevate</td><td class="found">2026-11-05</td></tr>
+<tr><td class="cid"><a href="#ci-01">CI-01</a></td><td><a href="#ci-01">Stem wall forms set about 2 ft too high, cut down and rebar redone before the pour</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed before pour</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-05-08</td></tr>
+<tr><td class="cid"><a href="#ci-06">CI-06</a></td><td><a href="#ci-06">Framing corrections, incl. a load-bearing beam installed turned the wrong way</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed (owner-reported)</span></td><td class="who">Framers (under Elevate)</td><td class="found">not dated</td></tr>
+<tr><td class="cid"><a href="#ci-07">CI-07</a></td><td><a href="#ci-07">Eave corners cut wrong (rafter tails and gable fascia corner), recut shorter</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed (owner-reported, photo-supported)</span></td><td class="who">Elevate / framers</td><td class="found">2026-09-18</td></tr>
+<tr><td class="cid"><a href="#ci-13">CI-13</a></td><td><a href="#ci-13">Deck posts at the very edge of their piers (front corners measured; rear corners visible); different post base</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (verbal warranty)</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
+</tbody></table></div>
+<h2 class="group">Open (15)</h2>
+<section class="issue open" id="ci-02">
+<h3><span class="cid">CI-02</span> North-wall plinth not poured (grid 4B) <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Repair built (owner photos), with no written engineer detail; inspection unknown.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>2026-08-13</dd></dl>
+<div class="text">
+<p><span class="lbl">Plans:</span> Detail 5 on sheet S4.1 calls for a <code>14" SQ. PLINTH</code>, a thickened concrete block, in the north stem wall where the 7x7 roof post lands.</p>
+<p><span class="lbl">Built:</span> the north wall was poured as a plain 8" wall the full 26'-0", with no plinth. The crew also filled a crawl space vent at that spot with concrete on their own.</p>
+<p><span class="lbl">Fix:</span> the owner chose a remedy on 2026-08-31: two bonded concrete piers with the top 16" of the wall cut out. No written repair detail was ever provided by Pieruccioni (owner, 2026-11-06); the remedy rests on verbal direction only.</p>
+<p><span class="lbl">Repair as built (owner photos, 2026-09-01 and 2026-09-03):</span> the block was formed and poured against the outside face of the stem wall on 2026-09-01. By 2026-09-03 the forms were off: a rectangular concrete block stands on the outside face, its top about level with the wall top, with the galvanized column base in a notch cut through the rim and sill above it. <b>Compared with Option 9</b> (two piers, one against each face of the wall, 8" x 28" x 48", poured with the filled cut so the post bears on the combined top): the outside pier and the base on the combined top look consistent with it as far as the photos go. The crawl-space pier, the depth of the outside pier and any dowels are not visible, and no size can be measured. No column is in the base in either photo; a temporary post stands on the floor above on 2026-09-01. Inspection of the repair: unknown.</p>
+<p><span class="lbl">Column (visible 2026-11-06):</span> the column now stands in place between the sliders and passes down through a cut in the subfloor, with a steel plate on one face below the floor. Its bottom, and whether it is seated in the base on the concrete, are not visible. See <a class="ref" href="#ci-20">CI-20</a> and <a class="ref" href="#ci-21">CI-21</a>.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Whether the repair was inspected; whether the column is seated in the base; whether a replacement crawl vent was provided for the one filled at this station.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-02-01.jpg" data-viewer="ci-02-01" data-issue="ci-02" data-title="CI-02 · Outside the north wall (2026-08-13): a plain wall with no thickened block, and a square patch near the top where a vent was filled with concrete"><img src="img/issues/ci-02-01-sm.jpg" alt="Outside the north wall (2026-08-13): a plain wall with no thickened block, and a square patch near the top where a vent was filled with concrete" loading="lazy"></a><figcaption>Outside the north wall (2026-08-13): a plain wall with no thickened block, and a square patch near the top where a vent was filled with concrete</figcaption></figure>
+<figure><a href="img/issues/ci-02-02.jpg" data-viewer="ci-02-02" data-issue="ci-02" data-title="CI-02 · The repair on 2026-09-01: a concrete block formed against the outside of the wall, the post&#x27;s steel base in a notch cut through the wood above"><img src="img/issues/ci-02-02-sm.jpg" alt="The repair on 2026-09-01: a concrete block formed against the outside of the wall, the post&#x27;s steel base in a notch cut through the wood above" loading="lazy"></a><figcaption>The repair on 2026-09-01: a concrete block formed against the outside of the wall, the post's steel base in a notch cut through the wood above</figcaption></figure>
+<figure><a href="img/issues/ci-02-03.jpg" data-viewer="ci-02-03" data-issue="ci-02" data-title="CI-02 · The repair with the forms off (2026-09-03): the concrete block on the outside face, its top level with the wall, the steel base above it"><img src="img/issues/ci-02-03-sm.jpg" alt="The repair with the forms off (2026-09-03): the concrete block on the outside face, its top level with the wall, the steel base above it" loading="lazy"></a><figcaption>The repair with the forms off (2026-09-03): the concrete block on the outside face, its top level with the wall, the steel base above it</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-02-04.jpg" data-viewer="ci-02-04" data-issue="ci-02" data-title="CI-02 · S4.1 detail 5 (plans): the post was to stand on a 14&quot; square plinth, a thickened concrete block, built into the stem wall"><img src="img/issues/ci-02-04-sm.jpg" alt="S4.1 detail 5 (plans): the post was to stand on a 14&quot; square plinth, a thickened concrete block, built into the stem wall" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 5 (plans): the post was to stand on a 14" square plinth, a thickened concrete block, built into the stem wall</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-02-05.jpg" data-viewer="ci-02-05" data-issue="ci-02" data-title="CI-02 · The column now in place between the two sliding doors (2026-11-06)"><img src="img/issues/ci-02-05-sm.jpg" alt="The column now in place between the two sliding doors (2026-11-06)" loading="lazy"></a><figcaption>The column now in place between the two sliding doors (2026-11-06)</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-02-06.jpg" data-viewer="ci-02-06" data-issue="ci-02" data-title="CI-02 · Under the floor (2026-11-06): the column passing down through the cut subfloor, with a steel plate on its face"><img src="img/issues/ci-02-06-sm.jpg" alt="Under the floor (2026-11-06): the column passing down through the cut subfloor, with a steel plate on its face" loading="lazy"></a><figcaption>Under the floor (2026-11-06): the column passing down through the cut subfloor, with a steel plate on its face</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 6 pictures" data-less="Show fewer pictures">Show all 6 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=1">3D drawing: the north wall as found, with the vent filled and no plinth</a> <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=7">3D drawing: the repair as designed (Option 9), finished</a></p>
+</section>
+<section class="issue open" id="ci-03">
+<h3><span class="cid">CI-03</span> Crawl space access in the wrong place, one of two built <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Unfixed.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>not dated</dd></dl>
+<div class="text">
+<p><span class="lbl">Plans:</span> S3.1 draws <b>two</b> <code>16" X 24" MIN. CRAWLSPACE ACCESS</code> openings, the doors into the crawl space. Both are in the east (gridline A) stem wall, one near each end. Scaled off the drawing, they sit about 4 ft in from the south end wall (gridline 1) and about 4 1/2 ft in from the north end wall (gridline 4). The plan also requires a doubled rim joist and joist hangers above each opening.</p>
+<p><span class="lbl">Built:</span> only one access was built, directly under the kitchen sink (owner, confirmed 2026-11-06). The second opening was not built. The owner says the position made the plumber's work harder.</p>
+<p><span class="lbl">Plan comparison:</span> the kitchen sink is on the east wall under window D. A02's east-wall dimension string puts window D at about 27'-7 1/2" to 31'-7 1/2" from the south end, with 14'-4 1/2" from its north edge to the north end (plan). So the sink is roughly 29 to 30 ft from the south end wall and 16 ft from the north end wall. Neither planned opening (about 4 ft from gridline 1 and about 4 1/2 ft from gridline 4) is at the sink. The built opening has not been taped; this is a comparison with the plans only.</p>
+<p><span class="lbl">Fix:</span> none.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>None. The owner states no photos are needed.</p></div>
+<div class="pics">
+<div class="grid">
+<figure class="plan"><a href="img/issues/ci-03-01.jpg" data-viewer="ci-03-01" data-issue="ci-03" data-title="CI-03 · S3.1 (foundation plan): two crawl space doors (&quot;16&quot; x 24&quot; min. crawlspace access&quot;), both in the east wall along the bottom edge, one near each end"><img src="img/issues/ci-03-01-sm.jpg" alt="S3.1 (foundation plan): two crawl space doors (&quot;16&quot; x 24&quot; min. crawlspace access&quot;), both in the east wall along the bottom edge, one near each end" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): two crawl space doors ("16" x 24" min. crawlspace access"), both in the east wall along the bottom edge, one near each end</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-03-02.jpg" data-viewer="ci-03-02" data-issue="ci-03" data-title="CI-03 · A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14&#x27;-4 1/2&quot; from the window to the north end"><img src="img/issues/ci-03-02-sm.jpg" alt="A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14&#x27;-4 1/2&quot; from the window to the north end" loading="lazy"><span class="badge">Plan</span></a><figcaption>A02 (floor plan): the kitchen sink (tag 1533) under window D on the east wall, 14'-4 1/2" from the window to the north end</figcaption></figure>
+</div>
+</div>
+</section>
+<section class="issue open" id="ci-04">
+<h3><span class="cid">CI-04</span> Crawl space depth and the FEMA flood rules <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Work-around built (owner-reported); the crawl floor after the fill and the pad tops are not measured.</dd><dt>Responsible (as reported)</dt><dd>Elevate (owner's view)</dd><dt>Found</dt><dd>2026-05-11</dd></dl>
+<div class="text">
+<p><span class="lbl">Plans and rules:</span> the house is in a flood zone. FEMA's crawl space rules (Technical Bulletin 11) limit how far the crawl space floor may sit below the outside ground, and the flood permit sets the lowest floor at 1047.5 ft. The plan sheets give no crawl floor elevation and no flood elevation. The S4.1 wall sections give only limits: at least 1'-6" from the floor joists down to the crawl space dirt, the wall at least 6" above the outside ground, and the bottom of the footing 18" to 4'-0" below the outside ground. A02's building section draws the foundation with no dimension below the lower floor.</p>
+<p><span class="lbl">Built:</span> on 2026-05-11 the crawl space dirt was about 1043.0 ft (field), about 6" past the FEMA limits. The interior footing pads had already been poured on that dirt, about 8-12" above it. The owner says 1 ft of backfill was then added, leaving the pads too low, and he built forms around them to extend them up. The interior and exterior backfill was site work, which the owner arranged directly, outside Elevate's contract.</p>
+<p><span class="lbl">Who is responsible:</span> the owner's view is that Alex "didn't consider some of the FEMA flood regulations when they poured the concrete". No document on file assigns the dig depth, the crawl floor elevation or flood compliance to anyone:</p>
+<ul><li>the plan sheets give the depth limits above, but no crawl floor elevation and no flood elevation;</li><li>Elevate's contract is to build "according to approved plans", with the permits and workmanlike work. Attachment A lists the foundation as "Per permit drawings" and site work as "Not included". Neither names the dig depth, the crawl floor or the flood rules;</li><li>the 1047.5 ft lowest floor appears only in the county flood permit.</li></ul>
+<p>Who dug the crawl space to its depth is not on record.</p>
+<p><span class="lbl">History:</span></p>
+<ul><li>2026-05-08: the owner's line-level check of the form tops from the surveyor's benchmark read the top of the board he measured at 1047.5 ft, the design top of wall (see <a class="ref" href="#ci-01">CI-01</a>).</li><li>2026-05-11: Lewis County inspector Neal Bahrt told the owner verbally that the county has no requirement to backfill the crawl space, but warned that flood insurance can be affected if the crawl floor sits too far below the outside ground. The same day, the owner's measurements put the crawl dirt about 6" past both TB-11 limits, with the pads already poured, and the rules were worked through in a research session.</li><li>2026-05-12: The county flood code, LCC 15.35, was read in full: it has no rule that piers stand 8" above grade. The owner reported that Neal had already passed the forms and the poured pads.</li><li>2026-05-13: the flood-insurance inspection analysis weighed how likely a later check of the crawl floor is.</li><li>2026-06-02: Anderson Dirtworks was paid $5,280.00 for the general interior and exterior backfill. The owner says this was not a repair cost for this issue.</li><li>2026-08-13: the owner confirmed that the drafted emails to Neal Bahrt and to Pieruccioni about the pad extensions were never sent. The email asking Butler Surveying how the elevation certificate will measure the crawl floor is still open.</li><li>Field facts: 1 ft of fill was added, and the owner built forms around the pads to extend them.</li></ul>
+<p><span class="lbl">Fix:</span> the owner's pad extensions. On paper, a full 12" of fill would turn the 6" shortfall into about a 6" margin on both TB-11 limits (the Option 2 row on the crawl space study), if the measured crawl floor and outside ground bear that out.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><ol><li>The crawl floor height after the fill. Quick route: the owner tapes from the top of the stem wall down to the crawl floor at 3-4 spots, and down to the outside ground on each side. Official route: Butler Surveying measures the crawl floor (C2.a) and the lowest outside ground (LAG) for the post-construction elevation certificate.</li><li>Photos of the pad extensions, if any exist.</li><li>Any message with Alex or his crew about the dig depth or the flood rules.</li></ol></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-04-01.jpg" data-viewer="ci-04-01" data-issue="ci-04" data-title="CI-04 · The crawl space on 2026-05-11: the dirt floor well below the form tops, with the footing pads already poured on it"><img src="img/issues/ci-04-01-sm.jpg" alt="The crawl space on 2026-05-11: the dirt floor well below the form tops, with the footing pads already poured on it" loading="lazy"></a><figcaption>The crawl space on 2026-05-11: the dirt floor well below the form tops, with the footing pads already poured on it</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-04-02.jpg" data-viewer="ci-04-02" data-issue="ci-04" data-title="CI-04 · S4.1 detail 1 (plans): limits only, no heights: at least 1&#x27;-6&quot; from the floor framing to the crawl space dirt, the wall at least 6&quot; above the outside ground, the footing 18&quot; to 4&#x27;-0&quot; below it"><img src="img/issues/ci-04-02-sm.jpg" alt="S4.1 detail 1 (plans): limits only, no heights: at least 1&#x27;-6&quot; from the floor framing to the crawl space dirt, the wall at least 6&quot; above the outside ground, the footing 18&quot; to 4&#x27;-0&quot; below it" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 1 (plans): limits only, no heights: at least 1'-6" from the floor framing to the crawl space dirt, the wall at least 6" above the outside ground, the footing 18" to 4'-0" below it</figcaption></figure>
+</div>
+</div>
+</section>
+<section class="issue open" id="ci-05">
+<h3><span class="cid">CI-05</span> Ridge beam too short at both deck ends <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Extended (scheme A), no engineer review.</dd><dt>Responsible (as reported)</dt><dd>Elevate (ordering)</dd><dt>Found</dt><dd>2026-08-13</dd></dl>
+<div class="text">
+<p>The ridge beam is the <code>5 1/2"X24" RAISED GLB RIDGE BEAM</code> on S3.3, the big glued-laminated beam along the peak. It runs out past both gable walls over the decks, with no post at its end.</p>
+<p><span class="lbl">What the plans called for (plan):</span></p>
+<table><thead><tr><th></th><th>Front (south) deck</th><th>Rear (north) deck</th></tr></thead><tbody>
+<tr><td>Deck depth, S3.1</td><td>4'-0"</td><td>8'-0", dimensioned as 6'-0" + 2'-0" from gridline 4 to gridline 5, with nothing drawn at the 6'-0" tick</td></tr>
+<tr><td>Deck depth, A02</td><td>4'-2 3/4" (lower floor), 4'-3 1/2" (upper floor)</td><td>8'-0" (gridline 4 to gridline 5)</td></tr>
+<tr><td>Ridge beam past the gable wall</td><td>never dimensioned; scales about 4'-6" on S3.3</td><td>never dimensioned; scales about 8'-6" on S3.3</td></tr>
+<tr><td>Rake overhang</td><td>none dimensioned on any sheet; the roof edge is at about the post line, plus the barge rafter and fascia</td><td>same</td></tr></tbody></table>
+<p>The scaled figures carry +/- 2-3 in.</p>
+<p><span class="lbl">As built against the plan (field):</span></p>
+<table><thead><tr><th></th><th>Front (south)</th><th>Rear (north)</th></tr></thead><tbody>
+<tr><td>Ridge beam past the wall</td><td>4'-0" (owner, 2026-09-01)</td><td>about 7'-4" from the sheathing face (owner re-tape 2026-09-02; 7'-0" estimate 2026-08-13)</td></tr>
+<tr><td>Shortfall to the plan</td><td>about 6" short of the scaled roof edge</td><td>about 8" short of the 8'-0" deck edge and about 1'-2" short of the scaled roof edge</td></tr>
+<tr><td>Deck as built</td><td>--</td><td>reaches about 8'-9"</td></tr>
+<tr><td>Roof edge the owner wanted</td><td>6'-0"</td><td>about 9'-2"</td></tr>
+<tr><td>Beyond the plan</td><td>about 1'-6"</td><td>about 8"</td></tr></tbody></table>
+<p><span class="lbl">Shortfall and choice:</span> At the front, about 6" of the 2'-0" extension makes up the beam's shortfall to the plan (GC error), and about 1'-6" is overhang beyond the plan (owner choice). At the rear, about 1'-2" of the roughly 1'-10" extension makes up the shortfall (GC error), and about 8" is overhang beyond the plan (owner choice).</p>
+<p><span class="lbl">Why:</span> the owner believes Alex ordered from a different or earlier plan set that showed a 6 ft north deck. S3.1's 6'-0" + 2'-0" chain is the only 6 ft dimension on the rear deck in the set on file. That fits his theory but does not prove it; no earlier plan set has been ingested.</p>
+<p><span class="lbl">Fix:</span> both roof extensions were built to <b>scheme A</b> at both decks, per the owner on 2026-11-06. He pointed to the published rear-deck drawing, which draws scheme A. The front is taken as the same, because the question covered both decks and the front drawing is also scheme A. The extension was <b>never reviewed</b> by the engineer, Pieruccioni (owner, 2026-11-06). The rear extension is on file from below and in a wide view taken 2026-09-18. The underside photo shows a group of engineered members side by side along the roof edge, members running across under the sheathing, three short blocks and a strap at the wall. It does not show which part of scheme A each member is.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>The plan set Elevate ordered the beam from, and the beam order or supplier invoice with the length; photos of the front extension's framing from below, if any exist (the soffit may now hide it). If the owner chooses to get one, an after-the-fact engineer review of both extensions is an option.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-05-01.jpg" data-viewer="ci-05-01" data-issue="ci-05" data-title="CI-05 · The rear roof extension from below (2026-09-18): engineered boards side by side along the roof edge, more running back under the roof deck, and short blocks at the wall"><img src="img/issues/ci-05-01-sm.jpg" alt="The rear roof extension from below (2026-09-18): engineered boards side by side along the roof edge, more running back under the roof deck, and short blocks at the wall" loading="lazy"></a><figcaption>The rear roof extension from below (2026-09-18): engineered boards side by side along the roof edge, more running back under the roof deck, and short blocks at the wall</figcaption></figure>
+<figure><a href="img/issues/ci-05-02.jpg" data-viewer="ci-05-02" data-issue="ci-05" data-title="CI-05 · The rear (north) deck with the roof run out over it on two corner posts (2026-09-18)"><img src="img/issues/ci-05-02-sm.jpg" alt="The rear (north) deck with the roof run out over it on two corner posts (2026-09-18)" loading="lazy"></a><figcaption>The rear (north) deck with the roof run out over it on two corner posts (2026-09-18)</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-05-03.jpg" data-viewer="ci-05-03" data-issue="ci-05" data-title="CI-05 · S3.3 (roof framing), front end: the ridge beam (the big glued-laminated beam along the peak) runs past the end wall at gridline 1 to the roof edge, with no post under its end"><img src="img/issues/ci-05-03-sm.jpg" alt="S3.3 (roof framing), front end: the ridge beam (the big glued-laminated beam along the peak) runs past the end wall at gridline 1 to the roof edge, with no post under its end" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.3 (roof framing), front end: the ridge beam (the big glued-laminated beam along the peak) runs past the end wall at gridline 1 to the roof edge, with no post under its end</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-05-04.jpg" data-viewer="ci-05-04" data-issue="ci-05" data-title="CI-05 · S3.3 (roof framing), rear end: the ridge beam runs past the end wall at gridline 4, out over the deck to the roof edge, with no post under its end"><img src="img/issues/ci-05-04-sm.jpg" alt="S3.3 (roof framing), rear end: the ridge beam runs past the end wall at gridline 4, out over the deck to the roof edge, with no post under its end" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.3 (roof framing), rear end: the ridge beam runs past the end wall at gridline 4, out over the deck to the roof edge, with no post under its end</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-05-05.jpg" data-viewer="ci-05-05" data-issue="ci-05" data-title="CI-05 · S3.1 (foundation plan): the rear deck drawn 8&#x27;-0&quot; deep, its dimension split as 6&#x27;-0&quot; plus 2&#x27;-0&quot;"><img src="img/issues/ci-05-05-sm.jpg" alt="S3.1 (foundation plan): the rear deck drawn 8&#x27;-0&quot; deep, its dimension split as 6&#x27;-0&quot; plus 2&#x27;-0&quot;" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): the rear deck drawn 8'-0" deep, its dimension split as 6'-0" plus 2'-0"</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 5 pictures" data-less="Show fewer pictures">Show all 5 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=under">3D drawing: the rear deck roof from below</a> <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=under">3D drawing: the front deck roof from below</a></p>
+</section>
+<section class="issue open" id="ci-09">
+<h3><span class="cid">CI-09</span> Window and door flashing <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Repair in progress.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-11-03</dd></dl>
+<div class="text">
+<p>Flashing here is the sticky waterproof tape, and the pan at the bottom of an opening, that seal each window and door to the house wrap.</p>
+<p><span class="lbl">Plans and instructions:</span> Milgard's install instructions and Henry's details for the wrap and tape on this house. Without a drainage sill pan, Henry limits its detail to low wind and water exposure.</p>
+<p><span class="lbl">Built (2026-11-03):</span> tape not stuck down, not turned up the sides, bottom corners open, lapped the wrong way at the gable window heads and missing at one head, no sill pan visible under the sliding doors. An owner photo from the day before (2026-11-02) shows the tape over a Milgard window head with the wrap folded up and bare OSB above; the owner says the flashing there "was peeling off". A ninth video from outside, filmed a minute before the 2026-11-03 clips, shows tape under the bottom flanges only, side flanges and the OSB strip beside them untaped, and the bottom tape lifting under a fingertip: "They only put it on the bottom"; "It's terrible bonding."</p>
+<p><span class="lbl">Fix:</span> the owner emailed Alex the same day to pause before siding and directed Henry's sill pan method. All windows are coming out to be re-flashed. Alex's video of the first redone sill shows a DuPont tape and no sill pan.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Alex's written reply; photos of every redone opening before the siding covers it; the tape product and the sill pan actually used.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-09-01.jpg" data-viewer="ci-09-01" data-issue="ci-09" data-title="CI-09 · A sloped window top: the tape laid on the face of the house wrap; owner: &quot;they just put the flashing over top of the house wrap&quot;"><img src="img/issues/ci-09-01-sm.jpg" alt="A sloped window top: the tape laid on the face of the house wrap; owner: &quot;they just put the flashing over top of the house wrap&quot;" loading="lazy"></a><figcaption>A sloped window top: the tape laid on the face of the house wrap; owner: "they just put the flashing over top of the house wrap"</figcaption></figure>
+<figure><a href="img/issues/ci-09-02.jpg" data-viewer="ci-09-02" data-issue="ci-09" data-title="CI-09 · Outside, a window&#x27;s bottom corner: tape along the bottom only, bare wood up the side; owner: &quot;They only put it on the bottom.&quot;"><img src="img/issues/ci-09-02-sm.jpg" alt="Outside, a window&#x27;s bottom corner: tape along the bottom only, bare wood up the side; owner: &quot;They only put it on the bottom.&quot;" loading="lazy"></a><figcaption>Outside, a window's bottom corner: tape along the bottom only, bare wood up the side; owner: "They only put it on the bottom."</figcaption></figure>
+<figure><a href="img/issues/ci-09-03.jpg" data-viewer="ci-09-03" data-issue="ci-09" data-title="CI-09 · Inside a window opening: the bottom tape reaches only &quot;about a half inch maybe three quarters of an inch&quot; past the window, and lifts under a finger"><img src="img/issues/ci-09-03-sm.jpg" alt="Inside a window opening: the bottom tape reaches only &quot;about a half inch maybe three quarters of an inch&quot; past the window, and lifts under a finger" loading="lazy"></a><figcaption>Inside a window opening: the bottom tape reaches only "about a half inch maybe three quarters of an inch" past the window, and lifts under a finger</figcaption></figure>
+<figure><a href="img/issues/ci-09-04.jpg" data-viewer="ci-09-04" data-issue="ci-09" data-title="CI-09 · A window&#x27;s bottom corner from inside: tape along the bottom only and an open gap at the corner; owner: &quot;there&#x27;s no flashing in this corner&quot;"><img src="img/issues/ci-09-04-sm.jpg" alt="A window&#x27;s bottom corner from inside: tape along the bottom only and an open gap at the corner; owner: &quot;there&#x27;s no flashing in this corner&quot;" loading="lazy"></a><figcaption>A window's bottom corner from inside: tape along the bottom only and an open gap at the corner; owner: "there's no flashing in this corner"</figcaption></figure>
+<figure><a href="img/issues/ci-09-05.jpg" data-viewer="ci-09-05" data-issue="ci-09" data-title="CI-09 · A door&#x27;s bottom corner on bare subfloor, with no tape or pan under it; owner: &quot;No flashing at the bottom of this door.&quot;"><img src="img/issues/ci-09-05-sm.jpg" alt="A door&#x27;s bottom corner on bare subfloor, with no tape or pan under it; owner: &quot;No flashing at the bottom of this door.&quot;" loading="lazy"></a><figcaption>A door's bottom corner on bare subfloor, with no tape or pan under it; owner: "No flashing at the bottom of this door."</figcaption></figure>
+<figure><a href="img/issues/ci-09-06.jpg" data-viewer="ci-09-06" data-issue="ci-09" data-title="CI-09 · Top of a window from outside: the wrap flap folded up, no tape across the top, bare wood board showing"><img src="img/issues/ci-09-06-sm.jpg" alt="Top of a window from outside: the wrap flap folded up, no tape across the top, bare wood board showing" loading="lazy"></a><figcaption>Top of a window from outside: the wrap flap folded up, no tape across the top, bare wood board showing</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-07.jpg" data-viewer="ci-09-07" data-issue="ci-09" data-title="CI-09 · A Milgard window top (2026-11-02): the wrap folded up above the tape, bare wood showing; owner: the flashing &quot;was peeling off&quot;"><img src="img/issues/ci-09-07-sm.jpg" alt="A Milgard window top (2026-11-02): the wrap folded up above the tape, bare wood showing; owner: the flashing &quot;was peeling off&quot;" loading="lazy"></a><figcaption>A Milgard window top (2026-11-02): the wrap folded up above the tape, bare wood showing; owner: the flashing "was peeling off"</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-08.jpg" data-viewer="ci-09-08" data-issue="ci-09" data-title="CI-09 · The same window from outside: tape round the sides and bottom, the wrap flap above it folded up"><img src="img/issues/ci-09-08-sm.jpg" alt="The same window from outside: tape round the sides and bottom, the wrap flap above it folded up" loading="lazy"></a><figcaption>The same window from outside: tape round the sides and bottom, the wrap flap above it folded up</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-09.jpg" data-viewer="ci-09-09" data-issue="ci-09" data-title="CI-09 · The same sloped window top: tape over the wrap, the wrap loose at the top corner"><img src="img/issues/ci-09-09-sm.jpg" alt="The same sloped window top: tape over the wrap, the wrap loose at the top corner" loading="lazy"></a><figcaption>The same sloped window top: tape over the wrap, the wrap loose at the top corner</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-10.jpg" data-viewer="ci-09-10" data-issue="ci-09" data-title="CI-09 · The gable windows: the tape laid on top of the house wrap all round"><img src="img/issues/ci-09-10-sm.jpg" alt="The gable windows: the tape laid on top of the house wrap all round" loading="lazy"></a><figcaption>The gable windows: the tape laid on top of the house wrap all round</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-11.jpg" data-viewer="ci-09-11" data-issue="ci-09" data-title="CI-09 · Outside: the tape under a window&#x27;s bottom fin, on the wrap"><img src="img/issues/ci-09-11-sm.jpg" alt="Outside: the tape under a window&#x27;s bottom fin, on the wrap" loading="lazy"></a><figcaption>Outside: the tape under a window's bottom fin, on the wrap</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-12.jpg" data-viewer="ci-09-12" data-issue="ci-09" data-title="CI-09 · The window&#x27;s side fin with no tape and a strip of bare wood beside it; owner: &quot;It doesn&#x27;t look like to me that they put any flashing on the inside here.&quot;"><img src="img/issues/ci-09-12-sm.jpg" alt="The window&#x27;s side fin with no tape and a strip of bare wood beside it; owner: &quot;It doesn&#x27;t look like to me that they put any flashing on the inside here.&quot;" loading="lazy"></a><figcaption>The window's side fin with no tape and a strip of bare wood beside it; owner: "It doesn't look like to me that they put any flashing on the inside here."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-13.jpg" data-viewer="ci-09-13" data-issue="ci-09" data-title="CI-09 · The bottom tape&#x27;s lower edge lifting under a fingertip; owner: &quot;It&#x27;s terrible bonding.&quot;"><img src="img/issues/ci-09-13-sm.jpg" alt="The bottom tape&#x27;s lower edge lifting under a fingertip; owner: &quot;It&#x27;s terrible bonding.&quot;" loading="lazy"></a><figcaption>The bottom tape's lower edge lifting under a fingertip; owner: "It's terrible bonding."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-14.jpg" data-viewer="ci-09-14" data-issue="ci-09" data-title="CI-09 · Another window&#x27;s lower corner: tape at the bottom, a bare wood strip up the side"><img src="img/issues/ci-09-14-sm.jpg" alt="Another window&#x27;s lower corner: tape at the bottom, a bare wood strip up the side" loading="lazy"></a><figcaption>Another window's lower corner: tape at the bottom, a bare wood strip up the side</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-15.jpg" data-viewer="ci-09-15" data-issue="ci-09" data-title="CI-09 · A tall window: the bare wood strip runs up its side with no tape"><img src="img/issues/ci-09-15-sm.jpg" alt="A tall window: the bare wood strip runs up its side with no tape" loading="lazy"></a><figcaption>A tall window: the bare wood strip runs up its side with no tape</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-16.jpg" data-viewer="ci-09-16" data-issue="ci-09" data-title="CI-09 · A finger under the bottom tape&#x27;s loose edge; owner: &quot;it&#x27;s just sitting totally loose&quot;"><img src="img/issues/ci-09-16-sm.jpg" alt="A finger under the bottom tape&#x27;s loose edge; owner: &quot;it&#x27;s just sitting totally loose&quot;" loading="lazy"></a><figcaption>A finger under the bottom tape's loose edge; owner: "it's just sitting totally loose"</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-17.jpg" data-viewer="ci-09-17" data-issue="ci-09" data-title="CI-09 · The end of a window opening&#x27;s bottom: bare wood, no tape"><img src="img/issues/ci-09-17-sm.jpg" alt="The end of a window opening&#x27;s bottom: bare wood, no tape" loading="lazy"></a><figcaption>The end of a window opening's bottom: bare wood, no tape</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-18.jpg" data-viewer="ci-09-18" data-issue="ci-09" data-title="CI-09 · Inside another window opening: bare wood under the window; owner: &quot;If I look under here, I don&#x27;t see any.&quot;"><img src="img/issues/ci-09-18-sm.jpg" alt="Inside another window opening: bare wood under the window; owner: &quot;If I look under here, I don&#x27;t see any.&quot;" loading="lazy"></a><figcaption>Inside another window opening: bare wood under the window; owner: "If I look under here, I don't see any."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-19.jpg" data-viewer="ci-09-19" data-issue="ci-09" data-title="CI-09 · The same window&#x27;s side: bare wood beside the frame; owner: &quot;Nothing up on the sides.&quot;"><img src="img/issues/ci-09-19-sm.jpg" alt="The same window&#x27;s side: bare wood beside the frame; owner: &quot;Nothing up on the sides.&quot;" loading="lazy"></a><figcaption>The same window's side: bare wood beside the frame; owner: "Nothing up on the sides."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-20.jpg" data-viewer="ci-09-20" data-issue="ci-09" data-title="CI-09 · The same window&#x27;s bottom corner: bare wood at the bottom and up the side"><img src="img/issues/ci-09-20-sm.jpg" alt="The same window&#x27;s bottom corner: bare wood at the bottom and up the side" loading="lazy"></a><figcaption>The same window's bottom corner: bare wood at the bottom and up the side</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-21.jpg" data-viewer="ci-09-21" data-issue="ci-09" data-title="CI-09 · The door&#x27;s side: a bare, water-stained stud beside the frame; owner: &quot;Nothing going up the side that I can see.&quot;"><img src="img/issues/ci-09-21-sm.jpg" alt="The door&#x27;s side: a bare, water-stained stud beside the frame; owner: &quot;Nothing going up the side that I can see.&quot;" loading="lazy"></a><figcaption>The door's side: a bare, water-stained stud beside the frame; owner: "Nothing going up the side that I can see."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-22.jpg" data-viewer="ci-09-22" data-issue="ci-09" data-title="CI-09 · Bottom tape lifted and wrinkled; owner: &quot;All the flashing is just loose. It&#x27;s already lifted up.&quot;"><img src="img/issues/ci-09-22-sm.jpg" alt="Bottom tape lifted and wrinkled; owner: &quot;All the flashing is just loose. It&#x27;s already lifted up.&quot;" loading="lazy"></a><figcaption>Bottom tape lifted and wrinkled; owner: "All the flashing is just loose. It's already lifted up."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-23.jpg" data-viewer="ci-09-23" data-issue="ci-09" data-title="CI-09 · The same window&#x27;s side: bare wood, no tape running up it"><img src="img/issues/ci-09-23-sm.jpg" alt="The same window&#x27;s side: bare wood, no tape running up it" loading="lazy"></a><figcaption>The same window's side: bare wood, no tape running up it</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-24.jpg" data-viewer="ci-09-24" data-issue="ci-09" data-title="CI-09 · The bottom tape stops at the corner; the side above it is bare wood"><img src="img/issues/ci-09-24-sm.jpg" alt="The bottom tape stops at the corner; the side above it is bare wood" loading="lazy"></a><figcaption>The bottom tape stops at the corner; the side above it is bare wood</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-25.jpg" data-viewer="ci-09-25" data-issue="ci-09" data-title="CI-09 · Tape bunched up in a corner, not stuck down"><img src="img/issues/ci-09-25-sm.jpg" alt="Tape bunched up in a corner, not stuck down" loading="lazy"></a><figcaption>Tape bunched up in a corner, not stuck down</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-26.jpg" data-viewer="ci-09-26" data-issue="ci-09" data-title="CI-09 · The other bottom corner of the same window, the same gap; owner: &quot;both corners the same&quot;"><img src="img/issues/ci-09-26-sm.jpg" alt="The other bottom corner of the same window, the same gap; owner: &quot;both corners the same&quot;" loading="lazy"></a><figcaption>The other bottom corner of the same window, the same gap; owner: "both corners the same"</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-27.jpg" data-viewer="ci-09-27" data-issue="ci-09" data-title="CI-09 · A sliding door&#x27;s bottom tape lifting off the subfloor; owner: &quot;It&#x27;s just lifting right up.&quot;"><img src="img/issues/ci-09-27-sm.jpg" alt="A sliding door&#x27;s bottom tape lifting off the subfloor; owner: &quot;It&#x27;s just lifting right up.&quot;" loading="lazy"></a><figcaption>A sliding door's bottom tape lifting off the subfloor; owner: "It's just lifting right up."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-28.jpg" data-viewer="ci-09-28" data-issue="ci-09" data-title="CI-09 · The same door&#x27;s tape, with a nail through it and dirt and sawdust around it; owner: &quot;There&#x27;s just dirt, sawdust everywhere. There&#x27;s nails.&quot;"><img src="img/issues/ci-09-28-sm.jpg" alt="The same door&#x27;s tape, with a nail through it and dirt and sawdust around it; owner: &quot;There&#x27;s just dirt, sawdust everywhere. There&#x27;s nails.&quot;" loading="lazy"></a><figcaption>The same door's tape, with a nail through it and dirt and sawdust around it; owner: "There's just dirt, sawdust everywhere. There's nails."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-29.jpg" data-viewer="ci-09-29" data-issue="ci-09" data-title="CI-09 · Tape at the door&#x27;s side peeled away, sawdust on it; owner: &quot;They at least tried to put flashing up the side. You can tell that didn&#x27;t stick.&quot;"><img src="img/issues/ci-09-29-sm.jpg" alt="Tape at the door&#x27;s side peeled away, sawdust on it; owner: &quot;They at least tried to put flashing up the side. You can tell that didn&#x27;t stick.&quot;" loading="lazy"></a><figcaption>Tape at the door's side peeled away, sawdust on it; owner: "They at least tried to put flashing up the side. You can tell that didn't stick."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-30.jpg" data-viewer="ci-09-30" data-issue="ci-09" data-title="CI-09 · The same side tape curled back, sticky side out"><img src="img/issues/ci-09-30-sm.jpg" alt="The same side tape curled back, sticky side out" loading="lazy"></a><figcaption>The same side tape curled back, sticky side out</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-31.jpg" data-viewer="ci-09-31" data-issue="ci-09" data-title="CI-09 · A window whose bottom tape &quot;only goes finger width past the window&quot;"><img src="img/issues/ci-09-31-sm.jpg" alt="A window whose bottom tape &quot;only goes finger width past the window&quot;" loading="lazy"></a><figcaption>A window whose bottom tape "only goes finger width past the window"</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-32.jpg" data-viewer="ci-09-32" data-issue="ci-09" data-title="CI-09 · The same window: the bottom tape loose under a finger, bare wood up the side"><img src="img/issues/ci-09-32-sm.jpg" alt="The same window: the bottom tape loose under a finger, bare wood up the side" loading="lazy"></a><figcaption>The same window: the bottom tape loose under a finger, bare wood up the side</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-33.jpg" data-viewer="ci-09-33" data-issue="ci-09" data-title="CI-09 · The bottom corner, a gap with no tape up the side; owner: &quot;any water coming down here is going to go into that crack and into the wall&quot;"><img src="img/issues/ci-09-33-sm.jpg" alt="The bottom corner, a gap with no tape up the side; owner: &quot;any water coming down here is going to go into that crack and into the wall&quot;" loading="lazy"></a><figcaption>The bottom corner, a gap with no tape up the side; owner: "any water coming down here is going to go into that crack and into the wall"</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-34.jpg" data-viewer="ci-09-34" data-issue="ci-09" data-title="CI-09 · Outside, tape down a window&#x27;s side: wrinkled, with a torn piece at its lower end"><img src="img/issues/ci-09-34-sm.jpg" alt="Outside, tape down a window&#x27;s side: wrinkled, with a torn piece at its lower end" loading="lazy"></a><figcaption>Outside, tape down a window's side: wrinkled, with a torn piece at its lower end</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-35.jpg" data-viewer="ci-09-35" data-issue="ci-09" data-title="CI-09 · A window&#x27;s bottom corner from outside: the side tape&#x27;s end lifting where it overlaps the bottom tape"><img src="img/issues/ci-09-35-sm.jpg" alt="A window&#x27;s bottom corner from outside: the side tape&#x27;s end lifting where it overlaps the bottom tape" loading="lazy"></a><figcaption>A window's bottom corner from outside: the side tape's end lifting where it overlaps the bottom tape</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-36.jpg" data-viewer="ci-09-36" data-issue="ci-09" data-title="CI-09 · Close-up: the tape&#x27;s edge not stuck to the wrap below it"><img src="img/issues/ci-09-36-sm.jpg" alt="Close-up: the tape&#x27;s edge not stuck to the wrap below it" loading="lazy"></a><figcaption>Close-up: the tape's edge not stuck to the wrap below it</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-37.jpg" data-viewer="ci-09-37" data-issue="ci-09" data-title="CI-09 · From Alex&#x27;s video of the first redone sill: DuPont tape patches at the corner, over the Henry wrap"><img src="img/issues/ci-09-37-sm.jpg" alt="From Alex&#x27;s video of the first redone sill: DuPont tape patches at the corner, over the Henry wrap" loading="lazy"></a><figcaption>From Alex's video of the first redone sill: DuPont tape patches at the corner, over the Henry wrap</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-38.jpg" data-viewer="ci-09-38" data-issue="ci-09" data-title="CI-09 · Alex&#x27;s video: the new tape over the bottom of the opening, with a crease along its top"><img src="img/issues/ci-09-38-sm.jpg" alt="Alex&#x27;s video: the new tape over the bottom of the opening, with a crease along its top" loading="lazy"></a><figcaption>Alex's video: the new tape over the bottom of the opening, with a crease along its top</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-39.jpg" data-viewer="ci-09-39" data-issue="ci-09" data-title="CI-09 · Alex&#x27;s video: the tape pressed down with a heat gun and a hand roller"><img src="img/issues/ci-09-39-sm.jpg" alt="Alex&#x27;s video: the tape pressed down with a heat gun and a hand roller" loading="lazy"></a><figcaption>Alex's video: the tape pressed down with a heat gun and a hand roller</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-40.jpg" data-viewer="ci-09-40" data-issue="ci-09" data-title="CI-09 · Alex&#x27;s video: the left end, the tape running over the wrap&#x27;s face and turned up the side"><img src="img/issues/ci-09-40-sm.jpg" alt="Alex&#x27;s video: the left end, the tape running over the wrap&#x27;s face and turned up the side" loading="lazy"></a><figcaption>Alex's video: the left end, the tape running over the wrap's face and turned up the side</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-09-41.jpg" data-viewer="ci-09-41" data-issue="ci-09" data-title="CI-09 · The north sliders&#x27; bottom tape hanging over the open floor cut at the column (2026-11-06; see CI-20)"><img src="img/issues/ci-09-41-sm.jpg" alt="The north sliders&#x27; bottom tape hanging over the open floor cut at the column (2026-11-06; see CI-20)" loading="lazy"></a><figcaption>The north sliders' bottom tape hanging over the open floor cut at the column (2026-11-06; see <a class="ref" href="#ci-20">CI-20</a>)</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 41 pictures" data-less="Show fewer pictures">Show all 41 pictures</button>
+</div>
+</section>
+<section class="issue open" id="ci-10">
+<h3><span class="cid">CI-10</span> HVAC holes cut in the wrong places <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Unfixed. The empty cuts were still open on 2026-11-05.</dd><dt>Responsible (as reported)</dt><dd>HVAC sub, Chehalis Sheet Metal (owner-reported; not briefed by Elevate)</dd><dt>Found</dt><dd>before 2026-11-03; filmed 2026-11-05</dd></dl>
+<div class="text">
+<p><span class="lbl">Who:</span> the owner names the HVAC company as Chehalis Sheet Metal. HVAC is in Elevate's contract scope (Attachment A category 13, "Forced-air heat pump system"). The contract mentions Elevate's subcontractors only in general terms, and no document on file names Chehalis Sheet Metal or says who engaged it. The owner reports that Alex was not there, did not brief the crew and did not show them the plans. The structural notes put that on the general contractor: give the relevant plans to every subcontractor and coordinate the mechanical drawings.</p>
+<p><span class="lbl">Plans (M01):</span> supply ducts run in the crawl space (<code>CRAWL SPACE DUCT ROUTING</code>) to registers in the rooms. Each guest room's register is in its north wall. Two vertical chases carry ducts to the upper floor (<code>VERTICAL DUCT CHASE, BELOW FLOOR TRANSFER TO AIR VENTS</code>). One is in the corner of the utility room, against the hall wall north of the Guest Room 2 door. The other is in the guest bath's corner at the east wall, rising into the upper closet. M01 draws no duct running up inside the hall walls beside the two guest rooms. The wood stove is drawn on the diagonal in the north-west corner of the great room, on a 4' x 4' pad (A02). The stove is owner-purchased under the same HVAC line.</p>
+<p><span class="lbl">Built (filmed 2026-11-05):</span> in each hall wall beside the guest rooms, a duct runs up the wall through the cut bottom plate and the cut double top plate into the floor framing above. In the same wall there is a second set of cuts with no duct in it: the bottom plate cut out over a hole through the subfloor, and the top plates cut out between two studs. The owner says of these: "They must have had a miss here because they did it here". The east-wall duct stands within sight of the open front door. The owner's narration places the cuts in the west wall (Guest Room 2 side) and the east wall (Guest Room 1 side) of the hall. The vent hole at the wood stove is not in these two clips. It is in a third clip the same morning: a clean rectangular cut through the floor below the north-west window, near the inside corner, open to the crawl space with no duct fitting. The owner: "We also have this hole that was cut by the HVAC guys. This is where the stove's going, so that needs fixed." It is not measured. M01 draws the stove symbol in that corner, with no register beside it.</p>
+<p><span class="lbl">Fix:</span> none.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>A tape of the stove-corner hole (its size and distance from the two walls); a tape from the front-door wall to each duct and each empty cut in the hall walls; which register each duct feeds; the date Chehalis Sheet Metal worked; who hired them (Elevate or the owner); whether Alex has agreed to patch the empty cuts and the stove hole.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-10-01.jpg" data-viewer="ci-10-01" data-issue="ci-10" data-title="CI-10 · West hall wall (Guest Room 2 side): the wall&#x27;s bottom board cut out over a hole through the floor, with no duct in it"><img src="img/issues/ci-10-01-sm.jpg" alt="West hall wall (Guest Room 2 side): the wall&#x27;s bottom board cut out over a hole through the floor, with no duct in it" loading="lazy"></a><figcaption>West hall wall (Guest Room 2 side): the wall's bottom board cut out over a hole through the floor, with no duct in it</figcaption></figure>
+<figure><a href="img/issues/ci-10-02.jpg" data-viewer="ci-10-02" data-issue="ci-10" data-title="CI-10 · East hall wall (Guest Room 1 side): the same empty cut; owner: &quot;They must have had a miss here because they did it here.&quot;"><img src="img/issues/ci-10-02-sm.jpg" alt="East hall wall (Guest Room 1 side): the same empty cut; owner: &quot;They must have had a miss here because they did it here.&quot;" loading="lazy"></a><figcaption>East hall wall (Guest Room 1 side): the same empty cut; owner: "They must have had a miss here because they did it here."</figcaption></figure>
+<figure><a href="img/issues/ci-10-03.jpg" data-viewer="ci-10-03" data-issue="ci-10" data-title="CI-10 · The hole cut through the floor in the stove corner, open to the crawl space; owner: &quot;This is where the stove&#x27;s going, so that needs fixed.&quot;"><img src="img/issues/ci-10-03-sm.jpg" alt="The hole cut through the floor in the stove corner, open to the crawl space; owner: &quot;This is where the stove&#x27;s going, so that needs fixed.&quot;" loading="lazy"></a><figcaption>The hole cut through the floor in the stove corner, open to the crawl space; owner: "This is where the stove's going, so that needs fixed."</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-10-04.jpg" data-viewer="ci-10-04" data-issue="ci-10" data-title="CI-10 · M01 (heating plan, lower floor): ducts run under the floor (dashed lines); none is drawn going up the hall walls by the two guest rooms (left), and no vent is drawn by the wood stove (top right)"><img src="img/issues/ci-10-04-sm.jpg" alt="M01 (heating plan, lower floor): ducts run under the floor (dashed lines); none is drawn going up the hall walls by the two guest rooms (left), and no vent is drawn by the wood stove (top right)" loading="lazy"><span class="badge">Plan</span></a><figcaption>M01 (heating plan, lower floor): ducts run under the floor (dashed lines); none is drawn going up the hall walls by the two guest rooms (left), and no vent is drawn by the wood stove (top right)</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-10-05.jpg" data-viewer="ci-10-05" data-issue="ci-10" data-title="CI-10 · West hall wall, looking up: the double top board cut out between two studs, with no duct there"><img src="img/issues/ci-10-05-sm.jpg" alt="West hall wall, looking up: the double top board cut out between two studs, with no duct there" loading="lazy"></a><figcaption>West hall wall, looking up: the double top board cut out between two studs, with no duct there</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-10-06.jpg" data-viewer="ci-10-06" data-issue="ci-10" data-title="CI-10 · East hall wall, looking up: the top boards cut out between studs, the floor joists running over the gap"><img src="img/issues/ci-10-06-sm.jpg" alt="East hall wall, looking up: the top boards cut out between studs, the floor joists running over the gap" loading="lazy"></a><figcaption>East hall wall, looking up: the top boards cut out between studs, the floor joists running over the gap</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-10-07.jpg" data-viewer="ci-10-07" data-issue="ci-10" data-title="CI-10 · The duct that was put in the west wall, running down through its cut bottom board"><img src="img/issues/ci-10-07-sm.jpg" alt="The duct that was put in the west wall, running down through its cut bottom board" loading="lazy"></a><figcaption>The duct that was put in the west wall, running down through its cut bottom board</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-10-08.jpg" data-viewer="ci-10-08" data-issue="ci-10" data-title="CI-10 · The east wall&#x27;s duct at floor level, in sight of the open front door"><img src="img/issues/ci-10-08-sm.jpg" alt="The east wall&#x27;s duct at floor level, in sight of the open front door" loading="lazy"></a><figcaption>The east wall's duct at floor level, in sight of the open front door</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-10-09.jpg" data-viewer="ci-10-09" data-issue="ci-10" data-title="CI-10 · The stove-corner hole in the floor below the north-west window, near the inside corner"><img src="img/issues/ci-10-09-sm.jpg" alt="The stove-corner hole in the floor below the north-west window, near the inside corner" loading="lazy"></a><figcaption>The stove-corner hole in the floor below the north-west window, near the inside corner</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-10-10.jpg" data-viewer="ci-10-10" data-issue="ci-10" data-title="CI-10 · A02 (floor plan): the wood stove (tag 1137) drawn on the diagonal in the north-west corner, on a 4&#x27; x 4&#x27; stone-topped pad"><img src="img/issues/ci-10-10-sm.jpg" alt="A02 (floor plan): the wood stove (tag 1137) drawn on the diagonal in the north-west corner, on a 4&#x27; x 4&#x27; stone-topped pad" loading="lazy"><span class="badge">Plan</span></a><figcaption>A02 (floor plan): the wood stove (tag 1137) drawn on the diagonal in the north-west corner, on a 4' x 4' stone-topped pad</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 10 pictures" data-less="Show fewer pictures">Show all 10 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/kitchen.html?view=stove">3D drawing: the wood stove corner</a></p>
+</section>
+<section class="issue open" id="ci-11">
+<h3><span class="cid">CI-11</span> HVAC cut through the plates of both lower hall walls <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Unfixed; no engineer review on file. Whether any repair is needed is a question for the engineer, Pieruccioni.</dd><dt>Responsible (as reported)</dt><dd>HVAC sub, Chehalis Sheet Metal (owner-reported)</dd><dt>Found</dt><dd>before 2026-11-03; filmed 2026-11-05</dd></dl>
+<div class="text">
+<p><span class="lbl">Built (filmed 2026-11-05):</span> in both hall walls the crew cut through the bottom plate, and through both top plates (the double board along the top of the wall), for a duct. Each wall also has a second, empty set of plate cuts (see <a class="ref" href="#ci-10">CI-10</a>). At the two duct cuts a perforated metal strap is nailed along the top plate across the cut. No strap crosses the empty top-plate gaps in the frames that show them. On the west wall two members overhead meet end to end with a strap over a freshly cut plate end. The owner reads them as "two joists ... that meet tied together landing on the stud that's been cut now". On the east wall he says it is "one continuous stud or joist across there, so that might not be considered load-bearing". No cut is measured.</p>
+<p><span class="lbl">What the plans show (plan fact, no engineering judgement):</span></p>
+<ul><li>S3.2 (upper floor framing) draws both hall walls as shaded bands under the <code>2X12 DF#2 FLR. JST. @ 16" O.C.</code>. It carries a <code>4X8 DF#2 HEADER, TYP</code> at a door, <code>2 STUDS</code> at the gridline 1 ends and a <code>6X8 DF#2 POST</code> at the gridline 2 ends. The other interior walls in that bay are drawn unshaded. The joists are drawn as continuous lines from the west wall to the east wall, with no splice shown at either hall wall. S3.2's own notes do not explain the shading; S3.3, by the same engineer, says "BEARING WALLS ARE INDICATED AS SHADED WALLS".</li><li>S3.4 (main floor shear walls) tags neither hall wall as a shear wall and gives them no hold-downs. The shear walls on that floor are the exterior walls (W1 unless tagged, W2 at gridline 1) and the guest bath / kitchen partition.</li><li>S1.0 general requirement 10: "NO STRUCTURAL MEMBER SHALL BE CUT OR NOTCHED OR OTHERWISE REDUCED IN STRENGTH UNLESS APPROVED BY THE STRUCTURAL ENGINEER."</li><li>M01 detail 1 ("TYPICAL UTILITY NOTCH DETAILS") limits a cut in a bearing-wall stud to 25% of the stud width. Where a top plate is notched more than half its width, it calls for a "Minimum 1 1/2 inch wide 16 gauge metal tie fastened with 8 - 10d nails on each side". The straps in the videos cannot be checked against that from the frames: no gauge, width or nail count is readable.</li></ul>
+<p><span class="lbl">Fix:</span> none recorded.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>The engineer's review of both walls in writing; a tape of each cut (width, and distance from the front-door wall); who put the straps on and when; whether Alex has been told.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-11-01.jpg" data-viewer="ci-11-01" data-issue="ci-11" data-title="CI-11 · West hall wall: the duct runs up through the cut double top board, with a metal strap nailed across the cut"><img src="img/issues/ci-11-01-sm.jpg" alt="West hall wall: the duct runs up through the cut double top board, with a metal strap nailed across the cut" loading="lazy"></a><figcaption>West hall wall: the duct runs up through the cut double top board, with a metal strap nailed across the cut</figcaption></figure>
+<figure><a href="img/issues/ci-11-02.jpg" data-viewer="ci-11-02" data-issue="ci-11" data-title="CI-11 · Overhead in the west wall: &quot;two joists ... that meet tied together landing on the stud that&#x27;s been cut now&quot; (owner)"><img src="img/issues/ci-11-02-sm.jpg" alt="Overhead in the west wall: &quot;two joists ... that meet tied together landing on the stud that&#x27;s been cut now&quot; (owner)" loading="lazy"></a><figcaption>Overhead in the west wall: "two joists ... that meet tied together landing on the stud that's been cut now" (owner)</figcaption></figure>
+<figure><a href="img/issues/ci-11-03.jpg" data-viewer="ci-11-03" data-issue="ci-11" data-title="CI-11 · East hall wall: a metal strap nailed across the cut top boards, the duct fitting above"><img src="img/issues/ci-11-03-sm.jpg" alt="East hall wall: a metal strap nailed across the cut top boards, the duct fitting above" loading="lazy"></a><figcaption>East hall wall: a metal strap nailed across the cut top boards, the duct fitting above</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-11-04.jpg" data-viewer="ci-11-04" data-issue="ci-11" data-title="CI-11 · S3.2 (upper floor framing): both hall walls drawn shaded (hatched), with 2 studs at one end and a 6x8 post at the other, under floor joists that run straight across"><img src="img/issues/ci-11-04-sm.jpg" alt="S3.2 (upper floor framing): both hall walls drawn shaded (hatched), with 2 studs at one end and a 6x8 post at the other, under floor joists that run straight across" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.2 (upper floor framing): both hall walls drawn shaded (hatched), with 2 studs at one end and a 6x8 post at the other, under floor joists that run straight across</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-11-05.jpg" data-viewer="ci-11-05" data-issue="ci-11" data-title="CI-11 · S3.3 notes, by the same engineer; note 4: &quot;Bearing walls are indicated as shaded walls&quot;"><img src="img/issues/ci-11-05-sm.jpg" alt="S3.3 notes, by the same engineer; note 4: &quot;Bearing walls are indicated as shaded walls&quot;" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.3 notes, by the same engineer; note 4: "Bearing walls are indicated as shaded walls"</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-11-06.jpg" data-viewer="ci-11-06" data-issue="ci-11" data-title="CI-11 · M01 detail 1: a cut in a bearing-wall stud may be at most 25% of its width; a top board notched more than half its width gets a 1 1/2&quot; wide 16-gauge metal tie, 8 nails each side"><img src="img/issues/ci-11-06-sm.jpg" alt="M01 detail 1: a cut in a bearing-wall stud may be at most 25% of its width; a top board notched more than half its width gets a 1 1/2&quot; wide 16-gauge metal tie, 8 nails each side" loading="lazy"><span class="badge">Plan</span></a><figcaption>M01 detail 1: a cut in a bearing-wall stud may be at most 25% of its width; a top board notched more than half its width gets a 1 1/2" wide 16-gauge metal tie, 8 nails each side</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-11-07.jpg" data-viewer="ci-11-07" data-issue="ci-11" data-title="CI-11 · West hall wall: the duct runs down through the cut bottom board"><img src="img/issues/ci-11-07-sm.jpg" alt="West hall wall: the duct runs down through the cut bottom board" loading="lazy"></a><figcaption>West hall wall: the duct runs down through the cut bottom board</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-11-08.jpg" data-viewer="ci-11-08" data-issue="ci-11" data-title="CI-11 · East hall wall: the duct running up beside a window, through the top boards into the floor above"><img src="img/issues/ci-11-08-sm.jpg" alt="East hall wall: the duct running up beside a window, through the top boards into the floor above" loading="lazy"></a><figcaption>East hall wall: the duct running up beside a window, through the top boards into the floor above</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-11-09.jpg" data-viewer="ci-11-09" data-issue="ci-11" data-title="CI-11 · West hall wall, looking up: the second, empty cut through the top boards, between two studs"><img src="img/issues/ci-11-09-sm.jpg" alt="West hall wall, looking up: the second, empty cut through the top boards, between two studs" loading="lazy"></a><figcaption>West hall wall, looking up: the second, empty cut through the top boards, between two studs</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-11-10.jpg" data-viewer="ci-11-10" data-issue="ci-11" data-title="CI-11 · East hall wall, looking up: the second, empty top-board cut, the joists running over it"><img src="img/issues/ci-11-10-sm.jpg" alt="East hall wall, looking up: the second, empty top-board cut, the joists running over it" loading="lazy"></a><figcaption>East hall wall, looking up: the second, empty top-board cut, the joists running over it</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 10 pictures" data-less="Show fewer pictures">Show all 10 pictures</button>
+</div>
+</section>
+<section class="issue open" id="ci-12">
+<h3><span class="cid">CI-12</span> Deck footings poured three times <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Re-poured to depth, but the piers do not line up with the posts: "even then they still did not line up correctly" (owner). See <a class="ref" href="#ci-13">CI-13</a>.</dd><dt>Responsible (as reported)</dt><dd>Elevate / concrete sub</dd><dt>Found</dt><dd>2026-08-10</dd></dl>
+<div class="text">
+<p><span class="lbl">Plans:</span> deck footings at least 18" below finished grade, with a plinth, four on the front deck.</p>
+<p><span class="lbl">Attempt 1, poured at ground level (2026-08-10):</span> hand-dug pads about 8" deep, flush with the ground, no plinths, and only two of the four front pads. They were poured after the only footing inspection.</p>
+<p><span class="lbl">Attempt 2, old footing reused (2026-08-12):</span> the holes were dug down, but the crew set the same footing they had poured originally back in the bottom instead of pouring new (owner, 2026-11-06). The owner's photo shows a broken-edged slab of old concrete lying in the bottom of a dug hole. The earlier record had only the re-dig of nine holes to about 3'-0".</p>
+<p><span class="lbl">Attempt 3, re-poured (from 2026-08-13):</span> the owner got them to re-pour. The photo of 2026-08-13 shows SONOTUBE forms in the holes with a rebar cage and a string line. The re-dig went to about 3'-0" at nine locations, re-poured with 18" round plinths.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Whether the county inspected the re-pour; which piers are misaligned and by how much. Only the two front-deck outer corners are measured, and the other seven piers were never checked.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-12-01.jpg" data-viewer="ci-12-01" data-issue="ci-12" data-title="CI-12 · First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops"><img src="img/issues/ci-12-01-sm.jpg" alt="First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops" loading="lazy"></a><figcaption>First pour (2026-08-10): flat concrete pads poured at ground level, with no raised tops</figcaption></figure>
+<figure><a href="img/issues/ci-12-02.jpg" data-viewer="ci-12-02" data-issue="ci-12" data-title="CI-12 · Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom"><img src="img/issues/ci-12-02-sm.jpg" alt="Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom" loading="lazy"></a><figcaption>Second try (2026-08-12): the hole dug deeper, with a broken slab of old concrete set back in the bottom</figcaption></figure>
+<figure><a href="img/issues/ci-12-03.jpg" data-viewer="ci-12-03" data-issue="ci-12" data-title="CI-12 · Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line"><img src="img/issues/ci-12-03-sm.jpg" alt="Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line" loading="lazy"></a><figcaption>Third try (2026-08-13): cardboard tube forms in the deeper holes, with a rebar cage and a string line</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-12-04.jpg" data-viewer="ci-12-04" data-issue="ci-12" data-title="CI-12 · S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12&quot; square or 18&quot; round raised top (plinth), the post base anchored to it"><img src="img/issues/ci-12-04-sm.jpg" alt="S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12&quot; square or 18&quot; round raised top (plinth), the post base anchored to it" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 4 (plans): the deck footing, a concrete pad with a 12" square or 18" round raised top (plinth), the post base anchored to it</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-12-05.jpg" data-viewer="ci-12-05" data-issue="ci-12" data-title="CI-12 · S3.1 note 2: &quot;Exterior footings to be a minimum of 18&quot; below finished grade&quot;"><img src="img/issues/ci-12-05-sm.jpg" alt="S3.1 note 2: &quot;Exterior footings to be a minimum of 18&quot; below finished grade&quot;" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 note 2: "Exterior footings to be a minimum of 18" below finished grade"</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-12-06.jpg" data-viewer="ci-12-06" data-issue="ci-12" data-title="CI-12 · S3.1 (foundation plan): the front deck on four posts, each on a 24&quot; footing (the boxes marked 24)"><img src="img/issues/ci-12-06-sm.jpg" alt="S3.1 (foundation plan): the front deck on four posts, each on a 24&quot; footing (the boxes marked 24)" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): the front deck on four posts, each on a 24" footing (the boxes marked 24)</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 6 pictures" data-less="Show fewer pictures">Show all 6 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=footing">3D drawing: a front deck footing as planned</a> <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=footing">3D drawing: a rear deck footing as planned</a></p>
+</section>
+<section class="issue open" id="ci-15">
+<h3><span class="cid">CI-15</span> Deck framing changed in the field <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Open, approval unverified.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-09-01</dd></dl>
+<div class="text">
+<p><span class="lbl">Built:</span> the front deck was changed from four posts to two with a larger glulam beam (a glued-laminated beam). The upper-deck glulam hangs between the corner posts on brackets of unknown type. The engineer's approval rests only on Alex's statement that he spoke to Pieruccioni and got his OK. The owner has no confirmation from Pieruccioni, and nothing is in writing. No beam size is on record.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><ol><li>A short written confirmation from Pieruccioni himself (an email is enough) that he approved the front-deck framing change, with the beam size.</li><li>The beam sizes and the bracket make and model, which the owner can read in the field.</li></ol></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-15-01.jpg" data-viewer="ci-15-01" data-issue="ci-15" data-title="CI-15 · A front deck corner post meeting the beam under the roof edge (2026-09-21)"><img src="img/issues/ci-15-01-sm.jpg" alt="A front deck corner post meeting the beam under the roof edge (2026-09-21)" loading="lazy"></a><figcaption>A front deck corner post meeting the beam under the roof edge (2026-09-21)</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-15-02.jpg" data-viewer="ci-15-02" data-issue="ci-15" data-title="CI-15 · S3.1 (foundation plan): the front deck drawn on four posts, each on a 24&quot; footing (the boxes marked 24)"><img src="img/issues/ci-15-02-sm.jpg" alt="S3.1 (foundation plan): the front deck drawn on four posts, each on a 24&quot; footing (the boxes marked 24)" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.1 (foundation plan): the front deck drawn on four posts, each on a 24" footing (the boxes marked 24)</figcaption></figure>
+</div>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=beam">3D drawing: the front corner post and the beam under the roof edge</a></p>
+</section>
+<section class="issue open" id="ci-17">
+<h3><span class="cid">CI-17</span> Crack through the stem wall at a crawl vent <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Open, unassessed.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate); cause not established</dd><dt>Found</dt><dd>2026-08-30 (photo)</dd></dl>
+<div class="text">
+<p><span class="lbl">Found:</span> the owner's inside photo is dated 2026-08-30. He says the crack "shows both inside and out".</p>
+<p><span class="lbl">Built (inside photo, 2026-08-30):</span> a crack starts at the bottom right corner of a crawl vent's frame. It runs down the inside face of the stem wall, through a vertical form-panel seam, past a horizontal form-panel joint with form-tie ends sticking out, and on below that joint. No offset across the crack is visible. The photo has no scale, so the width cannot be estimated, and it does not show which wall or vent this is.</p>
+<p><span class="lbl">Plans (plan fact):</span> S4.1 detail 9, "TYPICAL FND VENT DETAIL", says "PLACE FND. VENT BETWEEN VERTICAL REINF AND NO CLOSURE THAN 6" FROM HOLD DOWNS OR 3" FROM ANCHOR BOLTS" and "MAINTAIN 1 1/2" CLEAR AROUND REINF.". The wall reinforcement is <code>#4 HORIZ. BARS @ 12" O.C.</code> with verticals <code>#4@16" O.C. MAX ALTERNATE SIDES</code> (details 1 and 2). S1.0 requires corner bars for all horizontal bars in walls. The sheets read (S1.0, S3.1, S4.1) show no extra bars around vent openings.</p>
+<p><span class="lbl">Responsible (as reported):</span> the stem wall is the concrete sub's work under Elevate. The cause of the crack is not established, and this page does not assign one; assessing it would be the engineer's job.</p>
+<p><span class="lbl">Reported:</span> the owner says they told Alex about it. When, and his response, are not recorded.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>The outside photo (the owner will send it); which wall and which vent (gridline, or distance from a corner); the crack width, with a coin or crack gauge in the frame; when Alex was told and what he said; whether the crack has changed since it was first seen.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-17-01.jpg" data-viewer="ci-17-01" data-issue="ci-17" data-title="CI-17 · Inside the crawl space (2026-08-30): a crack running down from the bottom corner of a vent frame, past a seam and a row of form-tie ends"><img src="img/issues/ci-17-01-sm.jpg" alt="Inside the crawl space (2026-08-30): a crack running down from the bottom corner of a vent frame, past a seam and a row of form-tie ends" loading="lazy"></a><figcaption>Inside the crawl space (2026-08-30): a crack running down from the bottom corner of a vent frame, past a seam and a row of form-tie ends</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-17-02.jpg" data-viewer="ci-17-02" data-issue="ci-17" data-title="CI-17 · S4.1 detail 9 (plans): the vent goes between the upright bars, no closer than 6&quot; to a hold-down or 3&quot; to an anchor bolt, with 1 1/2&quot; clear around the steel"><img src="img/issues/ci-17-02-sm.jpg" alt="S4.1 detail 9 (plans): the vent goes between the upright bars, no closer than 6&quot; to a hold-down or 3&quot; to an anchor bolt, with 1 1/2&quot; clear around the steel" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 9 (plans): the vent goes between the upright bars, no closer than 6" to a hold-down or 3" to an anchor bolt, with 1 1/2" clear around the steel</figcaption></figure>
+</div>
+</div>
+</section>
+<section class="issue open" id="ci-18">
+<h3><span class="cid">CI-18</span> Torn insulation jacket on an HVAC trunk duct <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Open, unrepaired.</dd><dt>Responsible (as reported)</dt><dd>HVAC sub, Chehalis Sheet Metal (owner: the only trade in the crawl space)</dd><dt>Found</dt><dd>2026-11-06</dd></dl>
+<div class="text">
+<p><span class="lbl">Found:</span> 2026-11-06, by the owner, in the crawl space.</p>
+<p><span class="lbl">Built (photo and video, 2026-11-06):</span> a foil-jacketed flex duct hangs from a perforated metal strap. Beside the strap, the foil jacket is torn open in a large ragged hole about as wide as the duct. The fiberglass is pulled apart, and the smooth inner core shows through the gap. No tear in the core is visible where it shows, but the photos cannot settle whether the core is breached. The video shows the gravel crawl-space floor below, with a wood post standing in a boxed square.</p>
+<p><span class="lbl">Plans (plan fact):</span> M01's insulation note 1 says "DUCTS, BOOTS AND CONNECTORS USED FOR HEATING OR COOLING INSULATED TO R-8 IN UNCONDITIONED SPACES. WSEC R403.3.1." The energy calculation requires a post-construction duct leakage test, with a maximum of 60 CFM25 total measured leakage.</p>
+<p><span class="lbl">Responsible (as reported):</span> the HVAC sub, Chehalis Sheet Metal, which installed the ducts under Elevate's HVAC scope. The owner attributes the tear to them because "the hvac contractor was the only in the crawlspace".</p>
+<p><span class="lbl">Reported:</span> not yet. As of 2026-11-06 neither Alex nor Chehalis Sheet Metal has been told.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Which trunk and where (the room above, or the distance from a wall); whether the inner duct core is torn or only the jacket and insulation; a wider shot of the duct run. Follow-up: the date it is reported, and the response.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-18-01.jpg" data-viewer="ci-18-01" data-issue="ci-18" data-title="CI-18 · The foil jacket torn open and the insulation pulled apart, the smooth inner duct showing; owner: &quot;we got this hole in the insulation&quot;"><img src="img/issues/ci-18-01-sm.jpg" alt="The foil jacket torn open and the insulation pulled apart, the smooth inner duct showing; owner: &quot;we got this hole in the insulation&quot;" loading="lazy"></a><figcaption>The foil jacket torn open and the insulation pulled apart, the smooth inner duct showing; owner: "we got this hole in the insulation"</figcaption></figure>
+<figure><a href="img/issues/ci-18-02.jpg" data-viewer="ci-18-02" data-issue="ci-18" data-title="CI-18 · The owner&#x27;s photo of the tear beside the hanging strap (2026-11-06)"><img src="img/issues/ci-18-02-sm.jpg" alt="The owner&#x27;s photo of the tear beside the hanging strap (2026-11-06)" loading="lazy"></a><figcaption>The owner's photo of the tear beside the hanging strap (2026-11-06)</figcaption></figure>
+<figure><a href="img/issues/ci-18-03.jpg" data-viewer="ci-18-03" data-issue="ci-18" data-title="CI-18 · The torn duct beside its strap, a wood post on the gravel below"><img src="img/issues/ci-18-03-sm.jpg" alt="The torn duct beside its strap, a wood post on the gravel below" loading="lazy"></a><figcaption>The torn duct beside its strap, a wood post on the gravel below</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-18-04.jpg" data-viewer="ci-18-04" data-issue="ci-18" data-title="CI-18 · M01 insulation note 1: ducts in unheated spaces are to be insulated to R-8"><img src="img/issues/ci-18-04-sm.jpg" alt="M01 insulation note 1: ducts in unheated spaces are to be insulated to R-8" loading="lazy"><span class="badge">Plan</span></a><figcaption>M01 insulation note 1: ducts in unheated spaces are to be insulated to R-8</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-18-05.jpg" data-viewer="ci-18-05" data-issue="ci-18" data-title="CI-18 · The crawl space under the duct: a wood post standing in a boxed square in the gravel floor"><img src="img/issues/ci-18-05-sm.jpg" alt="The crawl space under the duct: a wood post standing in a boxed square in the gravel floor" loading="lazy"></a><figcaption>The crawl space under the duct: a wood post standing in a boxed square in the gravel floor</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 5 pictures" data-less="Show fewer pictures">Show all 5 pictures</button>
+</div>
+</section>
+<section class="issue open" id="ci-19">
+<h3><span class="cid">CI-19</span> House wrap tucked behind the roof-to-wall flashing at the bump-out <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Open.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-11-05</dd></dl>
+<div class="text">
+<p><span class="lbl">Where:</span> the bump-out walls where they meet the lower metal roof, on the east side and the other side. The owner's "bump out" is the 8:12 section the sheets call the dormer.</p>
+<p><span class="lbl">Built (filmed 2026-11-05):</span> a continuous black metal angle flashing runs along each roof-to-wall line. In places the house wrap laps down over it. Elsewhere the flashing's wall leg sits in front of the wrap, so the wrap is tucked behind the metal: at the east corner, and "all of the house wrap is underneath the flashing" on the other side. Two wrap brands are on these walls: Henry PlyDry, and a Barricade Building Wrap sheet whose bottom edge is loose and wavy over the flashing. Each flashing run ends at the eave in a formed piece that may be a kick-out; that is not confirmed.</p>
+<p><span class="lbl">Owner&#x27;s concern:</span> "Isn't this going to create a leak point with having the house wrap behind the flashing? I would assume it does need to be over top of the flashing."</p>
+<p><span class="lbl">Plans and maker&#x27;s terms:</span> A03 calls for <code>FLASHING AT ALL WALL AND ROOF INTERSECTIONS, TYP</code>, with no detail of how the wrap laps it. Henry's system warranty says "Substitution of WRB, flashing products, insulation, or sealant with products manufactured by others ... voids this warranty". It does not say whether a partial patch of another maker's wrap counts.</p>
+<p><span class="lbl">Responsible (as reported):</span> Elevate. Roofing is Attachment A category 4, and the siding sits under category 5; house wrap is not named in Attachment A.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Which wall each clip shows (only the east side is named); whether Alex has been told; close-ups of the lap at each corner and at the eave end pieces.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-19-01.jpg" data-viewer="ci-19-01" data-issue="ci-19" data-title="CI-19 · The bump-out wall above the lower metal roof, with black metal flashing along the line where they meet"><img src="img/issues/ci-19-01-sm.jpg" alt="The bump-out wall above the lower metal roof, with black metal flashing along the line where they meet" loading="lazy"></a><figcaption>The bump-out wall above the lower metal roof, with black metal flashing along the line where they meet</figcaption></figure>
+<figure><a href="img/issues/ci-19-02.jpg" data-viewer="ci-19-02" data-issue="ci-19" data-title="CI-19 · Close-up: the flashing&#x27;s upright leg sits in front of the Henry PlyDry wrap, so the wrap is tucked behind the metal"><img src="img/issues/ci-19-02-sm.jpg" alt="Close-up: the flashing&#x27;s upright leg sits in front of the Henry PlyDry wrap, so the wrap is tucked behind the metal" loading="lazy"></a><figcaption>Close-up: the flashing's upright leg sits in front of the Henry PlyDry wrap, so the wrap is tucked behind the metal</figcaption></figure>
+<figure><a href="img/issues/ci-19-03.jpg" data-viewer="ci-19-03" data-issue="ci-19" data-title="CI-19 · East side corner: owner: &quot;we have this corner where the house wrap is behind the flashing&quot;"><img src="img/issues/ci-19-03-sm.jpg" alt="East side corner: owner: &quot;we have this corner where the house wrap is behind the flashing&quot;" loading="lazy"></a><figcaption>East side corner: owner: "we have this corner where the house wrap is behind the flashing"</figcaption></figure>
+<figure><a href="img/issues/ci-19-04.jpg" data-viewer="ci-19-04" data-issue="ci-19" data-title="CI-19 · The other side: the flashing along the roof line; owner: &quot;all of the house wrap is underneath the flashing&quot;"><img src="img/issues/ci-19-04-sm.jpg" alt="The other side: the flashing along the roof line; owner: &quot;all of the house wrap is underneath the flashing&quot;" loading="lazy"></a><figcaption>The other side: the flashing along the roof line; owner: "all of the house wrap is underneath the flashing"</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-19-05.jpg" data-viewer="ci-19-05" data-issue="ci-19" data-title="CI-19 · A03 (east side view): &quot;flashing at all wall and roof intersections, typ&quot;, with no detail of how the wrap laps it"><img src="img/issues/ci-19-05-sm.jpg" alt="A03 (east side view): &quot;flashing at all wall and roof intersections, typ&quot;, with no detail of how the wrap laps it" loading="lazy"><span class="badge">Plan</span></a><figcaption>A03 (east side view): "flashing at all wall and roof intersections, typ", with no detail of how the wrap laps it</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-19-06.jpg" data-viewer="ci-19-06" data-issue="ci-19" data-title="CI-19 · A sheet of Barricade wrap lapped over the flashing, its bottom edge loose and wavy, with Henry PlyDry beside it"><img src="img/issues/ci-19-06-sm.jpg" alt="A sheet of Barricade wrap lapped over the flashing, its bottom edge loose and wavy, with Henry PlyDry beside it" loading="lazy"></a><figcaption>A sheet of Barricade wrap lapped over the flashing, its bottom edge loose and wavy, with Henry PlyDry beside it</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-19-07.jpg" data-viewer="ci-19-07" data-issue="ci-19" data-title="CI-19 · East side: the newer wrap lapped down over the flashing; owner: &quot;mostly layering it over top of the flashing&quot;"><img src="img/issues/ci-19-07-sm.jpg" alt="East side: the newer wrap lapped down over the flashing; owner: &quot;mostly layering it over top of the flashing&quot;" loading="lazy"></a><figcaption>East side: the newer wrap lapped down over the flashing; owner: "mostly layering it over top of the flashing"</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-19-08.jpg" data-viewer="ci-19-08" data-issue="ci-19" data-title="CI-19 · The other side of the bump-out, wall and roof"><img src="img/issues/ci-19-08-sm.jpg" alt="The other side of the bump-out, wall and roof" loading="lazy"></a><figcaption>The other side of the bump-out, wall and roof</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 8 pictures" data-less="Show fewer pictures">Show all 8 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/exterior.html?view=east">3D drawing: the east side, the bump-out above the lower roof</a></p>
+</section>
+<section class="issue open" id="ci-20">
+<h3><span class="cid">CI-20</span> Subfloor hole at the north-wall column left open <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Open.</dd><dt>Responsible (as reported)</dt><dd>Not named ("they", per the owner)</dd><dt>Found</dt><dd>2026-11-06</dd></dl>
+<div class="text">
+<p><span class="lbl">Where:</span> the north (gridline 4) wall, around the engineered column between the two sliders, above the grid 4B plinth repair (<a class="ref" href="#ci-02">CI-02</a>).</p>
+<p><span class="lbl">Built (filmed 2026-11-06):</span> the subfloor is cut open on both sides of the column. At the inside corner the cut runs under the left slider frame, where the sill tape's bottom edge hangs over the opening with nothing under it. From below there is an open gap between the column and the OSB. The owner: "they had to cut this hole in the subfloor for the beam to go down to the [plinth] ... the hole goes ... underneath the door frame. It already flashed." With the siding back up, "the hole still is all the way underneath this corner. ... So how are they going to fix that?" From below: "the hole is going out to that outside joist."</p>
+<p><span class="lbl">Background:</span> for the Option 9 repair the owner decided (2026-08-31) to cut a subfloor access opening above the work zone. No record on file says who was to cut it or patch it.</p>
+<p><span class="lbl">Responsible (as reported):</span> not named. The owner says "they" cut it.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>The hole's size and how far it runs (a tape from the column face); who cut it and who is to patch it; whether Alex has been told.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-20-01.jpg" data-viewer="ci-20-01" data-issue="ci-20" data-title="CI-20 · The column passing down through the floor, the subfloor cut open on both sides of it"><img src="img/issues/ci-20-01-sm.jpg" alt="The column passing down through the floor, the subfloor cut open on both sides of it" loading="lazy"></a><figcaption>The column passing down through the floor, the subfloor cut open on both sides of it</figcaption></figure>
+<figure><a href="img/issues/ci-20-02.jpg" data-viewer="ci-20-02" data-issue="ci-20" data-title="CI-20 · The cut runs under the corner of the left sliding door&#x27;s frame"><img src="img/issues/ci-20-02-sm.jpg" alt="The cut runs under the corner of the left sliding door&#x27;s frame" loading="lazy"></a><figcaption>The cut runs under the corner of the left sliding door's frame</figcaption></figure>
+<figure><a href="img/issues/ci-20-03.jpg" data-viewer="ci-20-03" data-issue="ci-20" data-title="CI-20 · The door&#x27;s bottom tape at the column, hanging over the open hole with nothing under it"><img src="img/issues/ci-20-03-sm.jpg" alt="The door&#x27;s bottom tape at the column, hanging over the open hole with nothing under it" loading="lazy"></a><figcaption>The door's bottom tape at the column, hanging over the open hole with nothing under it</figcaption></figure>
+<figure><a href="img/issues/ci-20-04.jpg" data-viewer="ci-20-04" data-issue="ci-20" data-title="CI-20 · From the crawl space: the open gap in the subfloor beside the column; owner: &quot;the hole is going out to that outside joist&quot;"><img src="img/issues/ci-20-04-sm.jpg" alt="From the crawl space: the open gap in the subfloor beside the column; owner: &quot;the hole is going out to that outside joist&quot;" loading="lazy"></a><figcaption>From the crawl space: the open gap in the subfloor beside the column; owner: "the hole is going out to that outside joist"</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-20-05.jpg" data-viewer="ci-20-05" data-issue="ci-20" data-title="CI-20 · The owner&#x27;s hand on the tape over the hole: &quot;In fact, I can feel it.&quot;"><img src="img/issues/ci-20-05-sm.jpg" alt="The owner&#x27;s hand on the tape over the hole: &quot;In fact, I can feel it.&quot;" loading="lazy"></a><figcaption>The owner's hand on the tape over the hole: "In fact, I can feel it."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-20-06.jpg" data-viewer="ci-20-06" data-issue="ci-20" data-title="CI-20 · The hole shows past the edge of the sliding door panel"><img src="img/issues/ci-20-06-sm.jpg" alt="The hole shows past the edge of the sliding door panel" loading="lazy"></a><figcaption>The hole shows past the edge of the sliding door panel</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-20-07.jpg" data-viewer="ci-20-07" data-issue="ci-20" data-title="CI-20 · The bottom tape beside the column&#x27;s edge, where the floor is cut"><img src="img/issues/ci-20-07-sm.jpg" alt="The bottom tape beside the column&#x27;s edge, where the floor is cut" loading="lazy"></a><figcaption>The bottom tape beside the column's edge, where the floor is cut</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-20-08.jpg" data-viewer="ci-20-08" data-issue="ci-20" data-title="CI-20 · At the corner, a steel plate and bolt just visible under the edge of the bottom tape"><img src="img/issues/ci-20-08-sm.jpg" alt="At the corner, a steel plate and bolt just visible under the edge of the bottom tape" loading="lazy"></a><figcaption>At the corner, a steel plate and bolt just visible under the edge of the bottom tape</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-20-09.jpg" data-viewer="ci-20-09" data-issue="ci-20" data-title="CI-20 · The tape on the side of the door opening (Henry FortiFlash)"><img src="img/issues/ci-20-09-sm.jpg" alt="The tape on the side of the door opening (Henry FortiFlash)" loading="lazy"></a><figcaption>The tape on the side of the door opening (Henry FortiFlash)</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-20-10.jpg" data-viewer="ci-20-10" data-issue="ci-20" data-title="CI-20 · The column between the two sliding doors"><img src="img/issues/ci-20-10-sm.jpg" alt="The column between the two sliding doors" loading="lazy"></a><figcaption>The column between the two sliding doors</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 10 pictures" data-less="Show fewer pictures">Show all 10 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=2">3D drawing: the floor opening cut above the repair (step 2 of the design)</a></p>
+</section>
+<section class="issue open" id="ci-21">
+<h3><span class="cid">CI-21</span> North-wall column base bolts left without nuts <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Open.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-11-06</dd></dl>
+<div class="text">
+<p><span class="lbl">Built (filmed 2026-11-06):</span> from below the floor, a steel plate on the column face carries two threaded bolt shanks with no nut and no washer on either. A small gold hex head sits between them. Only one face of the plate is seen. The owner: "the bolts on the bracket have not been secured with nuts".</p>
+<p><span class="lbl">Plans (plan fact):</span> S3.3 names the column <code>7"X7" 1.8E PSL COLUMN</code> with <code>CCQ6-7.13SDS2.5 CAP</code> and <code>CCQ7.1-7.1SDS2.5 BASE (INVERTED)</code>. S4.1 detail 5 shows <code>POST (PER PLAN)</code> on <code>POST BASE (PER PLAN)</code> over the plinth. The sheets read do not show how the base is fastened, or which bolts and nuts it takes. The model numbers are not decoded here.</p>
+<p><span class="lbl">Responsible (as reported):</span> Elevate (framing and hardware). Cross-links: <a class="ref" href="#ci-02">CI-02</a> (the plinth repair) and <a class="ref" href="#ci-20">CI-20</a> (the subfloor hole).</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Whether Alex has been told; a photo once the nuts are on; the other face of the plate.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-21-01.jpg" data-viewer="ci-21-01" data-issue="ci-21" data-title="CI-21 · Under the floor: the steel plate on the column, two bolts with no nuts or washers, a small gold screw head between them"><img src="img/issues/ci-21-01-sm.jpg" alt="Under the floor: the steel plate on the column, two bolts with no nuts or washers, a small gold screw head between them" loading="lazy"></a><figcaption>Under the floor: the steel plate on the column, two bolts with no nuts or washers, a small gold screw head between them</figcaption></figure>
+<figure><a href="img/issues/ci-21-02.jpg" data-viewer="ci-21-02" data-issue="ci-21" data-title="CI-21 · The plate on the column&#x27;s face, just below the subfloor"><img src="img/issues/ci-21-02-sm.jpg" alt="The plate on the column&#x27;s face, just below the subfloor" loading="lazy"></a><figcaption>The plate on the column's face, just below the subfloor</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-21-03.jpg" data-viewer="ci-21-03" data-issue="ci-21" data-title="CI-21 · S3.3 (roof framing): the 7&quot; x 7&quot; engineered (PSL) column, with a CCQ cap at the top and an inverted CCQ base at the bottom"><img src="img/issues/ci-21-03-sm.jpg" alt="S3.3 (roof framing): the 7&quot; x 7&quot; engineered (PSL) column, with a CCQ cap at the top and an inverted CCQ base at the bottom" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.3 (roof framing): the 7" x 7" engineered (PSL) column, with a CCQ cap at the top and an inverted CCQ base at the bottom</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-21-04.jpg" data-viewer="ci-21-04" data-issue="ci-21" data-title="CI-21 · S4.1 detail 5 (plans): the post on a &quot;post base (per plan)&quot; over the plinth"><img src="img/issues/ci-21-04-sm.jpg" alt="S4.1 detail 5 (plans): the post on a &quot;post base (per plan)&quot; over the plinth" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 5 (plans): the post on a "post base (per plan)" over the plinth</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 4 pictures" data-less="Show fewer pictures">Show all 4 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=7">3D drawing: the column on its base, as designed</a></p>
+</section>
+<section class="issue open" id="ci-22">
+<h3><span class="cid">CI-22</span> Shear-wall hold-down anchors: rods without nuts, holes without rods <span class="tag open">Open</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Open. The videos show the anchors not tied down. The clips and sources cannot tell whether the hold-downs and nuts are still to come or were left out. No structural verdict is recorded. No county framing or hold-down inspection has happened yet (owner, 2026-11-06), so the hold-downs and nuts are still due before the county's Exterior and Interior Hold Down inspections.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-11-05</dd></dl>
+<div class="text">
+<p>Hold-downs are the steel brackets at the ends of shear walls, tied to the foundation by an anchor rod with a nut. The owner filmed three locations on the morning of 2026-11-05.</p>
+<p><span class="lbl">North-east wall:</span> beside the glass door, a smooth stub rises from an oversized hole in the bottom plate, with no nut, washer or bracket. At the inside corner there is an empty drilled hole and no rod. Owner: "We got an anchor point here. Nothing tied down yet. Looks like there's supposed to be one in this corner. Nothing there yet."</p>
+<p><span class="lbl">North-west corner:</span> beside the glass door jamb, a threaded rod with no nut, and loose nuts beside it. At the inside corner, an empty drilled hole and no rod. Owner: "We do get a bolt coming through, no nuts on it. They drill the hole for the bolt over here, nothing's there."</p>
+<p><span class="lbl">Kitchen shear wall, the guest bath / kitchen partition:</span> the left hold-down has a nut on its rod; the right hold-down has a bare threaded rod and no nut, with loose nuts nearby. Owner: "this anchor point. It's got nut on it. Seems to be tight. But then this anchor, no nut."</p>
+<p><span class="lbl">Plans (plan fact):</span> S3.4 puts four <code>HDUE9-SDS3.5</code>, <code>3 STUDS</code> hold-downs on the north (gridline 4) wall: one at each corner and one at the inner end of each short shear segment, scaled about 3'-4" from the corner. It puts <code>HDUE13-SDS3.5</code>, <code>4X8 DF#2 POST</code> at both ends of the guest bath / kitchen partition. The S3.4 hold-down schedule gives anchor bolts <code>SB 7/8X24 (18" EMBED)</code> for HDUE9-SDS3.5 and <code>SABR1X30 (24" EMBED)</code> for HDUE13-SDS3.5. S4.1 detail 6 shows the hold-down on its anchor bolt "(PER HOLD DOWN SCHEDULE)". The field-added window beside each north slider is recorded at 16.6" to 53.1" from the outside corner. That span takes in the scaled inner hold-down position. The inner anchor points in the videos are beside the slider jambs. This is a plan comparison only.</p>
+<p><span class="lbl">Responsible (as reported):</span> Elevate (framing and hardware; Attachment A, "Framing: Per permit drawings").</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Which wall ends exactly (gridline, or distance from a corner); whether Alex says the hold-downs and nuts are coming.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-22-01.jpg" data-viewer="ci-22-01" data-issue="ci-22" data-title="CI-22 · Kitchen shear wall, right end: a bare threaded rod in the hold-down bracket, no nut; owner: &quot;this anchor, no nut&quot;"><img src="img/issues/ci-22-01-sm.jpg" alt="Kitchen shear wall, right end: a bare threaded rod in the hold-down bracket, no nut; owner: &quot;this anchor, no nut&quot;" loading="lazy"></a><figcaption>Kitchen shear wall, right end: a bare threaded rod in the hold-down bracket, no nut; owner: "this anchor, no nut"</figcaption></figure>
+<figure><a href="img/issues/ci-22-02.jpg" data-viewer="ci-22-02" data-issue="ci-22" data-title="CI-22 · Kitchen shear wall, left end: the hold-down with its nut on; owner: &quot;It&#x27;s got nut on it. Seems to be tight.&quot;"><img src="img/issues/ci-22-02-sm.jpg" alt="Kitchen shear wall, left end: the hold-down with its nut on; owner: &quot;It&#x27;s got nut on it. Seems to be tight.&quot;" loading="lazy"></a><figcaption>Kitchen shear wall, left end: the hold-down with its nut on; owner: "It's got nut on it. Seems to be tight."</figcaption></figure>
+<figure><a href="img/issues/ci-22-03.jpg" data-viewer="ci-22-03" data-issue="ci-22" data-title="CI-22 · North-east wall: a smooth rod stub in an oversized hole in the bottom board, no nut, washer or bracket; owner: &quot;Nothing tied down yet.&quot;"><img src="img/issues/ci-22-03-sm.jpg" alt="North-east wall: a smooth rod stub in an oversized hole in the bottom board, no nut, washer or bracket; owner: &quot;Nothing tied down yet.&quot;" loading="lazy"></a><figcaption>North-east wall: a smooth rod stub in an oversized hole in the bottom board, no nut, washer or bracket; owner: "Nothing tied down yet."</figcaption></figure>
+<figure><a href="img/issues/ci-22-04.jpg" data-viewer="ci-22-04" data-issue="ci-22" data-title="CI-22 · North-west wall: a threaded rod with no nut, loose nuts beside it; owner: &quot;We do get a bolt coming through, no nuts on it.&quot;"><img src="img/issues/ci-22-04-sm.jpg" alt="North-west wall: a threaded rod with no nut, loose nuts beside it; owner: &quot;We do get a bolt coming through, no nuts on it.&quot;" loading="lazy"></a><figcaption>North-west wall: a threaded rod with no nut, loose nuts beside it; owner: "We do get a bolt coming through, no nuts on it."</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-22-05.jpg" data-viewer="ci-22-05" data-issue="ci-22" data-title="CI-22 · S3.4 (shear walls): four hold-downs (HDUE9) on the north wall, one at each corner and one about 3 ft in from each"><img src="img/issues/ci-22-05-sm.jpg" alt="S3.4 (shear walls): four hold-downs (HDUE9) on the north wall, one at each corner and one about 3 ft in from each" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.4 (shear walls): four hold-downs (HDUE9) on the north wall, one at each corner and one about 3 ft in from each</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-22-06.jpg" data-viewer="ci-22-06" data-issue="ci-22" data-title="CI-22 · S3.4: a hold-down (HDUE13) on a 4x8 post at each end of the kitchen / guest bath wall"><img src="img/issues/ci-22-06-sm.jpg" alt="S3.4: a hold-down (HDUE13) on a 4x8 post at each end of the kitchen / guest bath wall" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.4: a hold-down (HDUE13) on a 4x8 post at each end of the kitchen / guest bath wall</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-22-07.jpg" data-viewer="ci-22-07" data-issue="ci-22" data-title="CI-22 · North-east inside corner: an empty drilled hole in the bottom board, no rod; owner: &quot;Looks like there&#x27;s supposed to be one in this corner. Nothing there yet.&quot;"><img src="img/issues/ci-22-07-sm.jpg" alt="North-east inside corner: an empty drilled hole in the bottom board, no rod; owner: &quot;Looks like there&#x27;s supposed to be one in this corner. Nothing there yet.&quot;" loading="lazy"></a><figcaption>North-east inside corner: an empty drilled hole in the bottom board, no rod; owner: "Looks like there's supposed to be one in this corner. Nothing there yet."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-22-08.jpg" data-viewer="ci-22-08" data-issue="ci-22" data-title="CI-22 · North-west inside corner: a drilled hole with nothing in it; owner: &quot;They drill the hole for the bolt over here, nothing&#x27;s there.&quot;"><img src="img/issues/ci-22-08-sm.jpg" alt="North-west inside corner: a drilled hole with nothing in it; owner: &quot;They drill the hole for the bolt over here, nothing&#x27;s there.&quot;" loading="lazy"></a><figcaption>North-west inside corner: a drilled hole with nothing in it; owner: "They drill the hole for the bolt over here, nothing's there."</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-22-09.jpg" data-viewer="ci-22-09" data-issue="ci-22" data-title="CI-22 · The kitchen shear wall overall, a hold-down bracket at each bottom corner"><img src="img/issues/ci-22-09-sm.jpg" alt="The kitchen shear wall overall, a hold-down bracket at each bottom corner" loading="lazy"></a><figcaption>The kitchen shear wall overall, a hold-down bracket at each bottom corner</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-22-10.jpg" data-viewer="ci-22-10" data-issue="ci-22" data-title="CI-22 · The kitchen wall&#x27;s right end: loose nuts beside the bracket"><img src="img/issues/ci-22-10-sm.jpg" alt="The kitchen wall&#x27;s right end: loose nuts beside the bracket" loading="lazy"></a><figcaption>The kitchen wall's right end: loose nuts beside the bracket</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-22-11.jpg" data-viewer="ci-22-11" data-issue="ci-22" data-title="CI-22 · North-east wall beside the glass door: the rod stub at the bottom board"><img src="img/issues/ci-22-11-sm.jpg" alt="North-east wall beside the glass door: the rod stub at the bottom board" loading="lazy"></a><figcaption>North-east wall beside the glass door: the rod stub at the bottom board</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-22-12.jpg" data-viewer="ci-22-12" data-issue="ci-22" data-title="CI-22 · North-east wall overall: the glass door, a window over a short wall, the inside corner"><img src="img/issues/ci-22-12-sm.jpg" alt="North-east wall overall: the glass door, a window over a short wall, the inside corner" loading="lazy"></a><figcaption>North-east wall overall: the glass door, a window over a short wall, the inside corner</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-22-13.jpg" data-viewer="ci-22-13" data-issue="ci-22" data-title="CI-22 · North-west wall overall: the glass door and a window over a short wall"><img src="img/issues/ci-22-13-sm.jpg" alt="North-west wall overall: the glass door and a window over a short wall" loading="lazy"></a><figcaption>North-west wall overall: the glass door and a window over a short wall</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-22-14.jpg" data-viewer="ci-22-14" data-issue="ci-22" data-title="CI-22 · The north-west inside corner, the stove-corner floor hole at bottom right"><img src="img/issues/ci-22-14-sm.jpg" alt="The north-west inside corner, the stove-corner floor hole at bottom right" loading="lazy"></a><figcaption>The north-west inside corner, the stove-corner floor hole at bottom right</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-22-15.jpg" data-viewer="ci-22-15" data-issue="ci-22" data-title="CI-22 · S3.4 hold-down schedule: anchor bolts SB 7/8 x 24 (18&quot; into the concrete) for HDUE9, SABR1x30 (24&quot; in) for HDUE13"><img src="img/issues/ci-22-15-sm.jpg" alt="S3.4 hold-down schedule: anchor bolts SB 7/8 x 24 (18&quot; into the concrete) for HDUE9, SABR1x30 (24&quot; in) for HDUE13" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.4 hold-down schedule: anchor bolts SB 7/8 x 24 (18" into the concrete) for HDUE9, SABR1x30 (24" in) for HDUE13</figcaption></figure>
+<figure class="more plan"><a href="img/issues/ci-22-16.jpg" data-viewer="ci-22-16" data-issue="ci-22" data-title="CI-22 · S4.1 detail 6 (plans): the hold-down bracket on the wall&#x27;s end studs, tied to an anchor bolt set in the stem wall"><img src="img/issues/ci-22-16-sm.jpg" alt="S4.1 detail 6 (plans): the hold-down bracket on the wall&#x27;s end studs, tied to an anchor bolt set in the stem wall" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 6 (plans): the hold-down bracket on the wall's end studs, tied to an anchor bolt set in the stem wall</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 16 pictures" data-less="Show fewer pictures">Show all 16 pictures</button>
+</div>
+</section>
+<h2 class="group">Fixed (3)</h2>
+<section class="issue fixed" id="ci-01">
+<h3><span class="cid">CI-01</span> Stem wall forms set too high <span class="tag fixed">Fixed</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Fixed before the pour.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>2026-05-08</dd></dl>
+<div class="text">
+<p><span class="lbl">Plans:</span> the stem wall (the concrete foundation wall around the crawl space) is a 48"-tall, 8"-thick wall; that is how Elevate's first invoice describes it. The top of the wall has to land at about 1047.5 ft so the floor clears the flood level.</p>
+<p><span class="lbl">Built:</span> on 2026-05-08 the owner checked the forms himself. He ran a level string from the surveyor's benchmark (1047.50 ft) to the forms and found "right at the top of this board is 1047.5", the height the top of the wall needed. The rebar already stood well above the form tops, and he said the crew looked set to "put more boards on and go another two feet above". The crew had built the forms at 6 ft. When he filmed they had not finished: about a quarter to half of the boards were up at 6 ft, and about three-quarters of the rebar was set to that height (owner, 2026-11-07). He called Alex, and the concrete crew came back, removed 2 ft of form and redid the rebar before the pour. By 2026-05-11 the forms stood with the crawl space dirt about 4'-6" below their top.</p>
+<p><span class="lbl">Fix:</span> forms cut down and rebar redone before concrete was placed.</p>
+<p><span class="lbl">The 2026-05-08 elevation record:</span> this video is the line-level check that the floor system notes record for 2026-05-08 (top of the forms about 1047.5 ft, possibly 1-2" high). It has the same day, the same method and the same number, so the two do not conflict. The 1047.5 reading is the top of the board the owner measured, where he said the forms should stop; the forms were part-built toward 6 ft when he filmed (owner, 2026-11-07). The cut-down came after the video.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>None. The video shows the rebar standing well above the form tops and the boards part-way up, which matches his 2026-11-07 account that the forms were part-built toward 6 ft.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-01-01.jpg" data-viewer="ci-01-01" data-issue="ci-01" data-title="CI-01 · The steel bars (rebar) standing well above the tops of the wooden wall forms (2026-05-08)"><img src="img/issues/ci-01-01-sm.jpg" alt="The steel bars (rebar) standing well above the tops of the wooden wall forms (2026-05-08)" loading="lazy"></a><figcaption>The steel bars (rebar) standing well above the tops of the wooden wall forms (2026-05-08)</figcaption></figure>
+<figure><a href="img/issues/ci-01-02.jpg" data-viewer="ci-01-02" data-issue="ci-01" data-title="CI-01 · The string line&#x27;s reel on the form top: &quot;right at the top of this board is 1047.5&quot;, the height the wall needed"><img src="img/issues/ci-01-02-sm.jpg" alt="The string line&#x27;s reel on the form top: &quot;right at the top of this board is 1047.5&quot;, the height the wall needed" loading="lazy"></a><figcaption>The string line's reel on the form top: "right at the top of this board is 1047.5", the height the wall needed</figcaption></figure>
+<figure><a href="img/issues/ci-01-03.jpg" data-viewer="ci-01-03" data-issue="ci-01" data-title="CI-01 · A corner of the forms, with the rebar running well above the board tops"><img src="img/issues/ci-01-03-sm.jpg" alt="A corner of the forms, with the rebar running well above the board tops" loading="lazy"></a><figcaption>A corner of the forms, with the rebar running well above the board tops</figcaption></figure>
+<figure><a href="img/issues/ci-01-04.jpg" data-viewer="ci-01-04" data-issue="ci-01" data-title="CI-01 · Three days later (2026-05-11): the forms around the crawl space, with the square footing pads already poured on the dirt"><img src="img/issues/ci-01-04-sm.jpg" alt="Three days later (2026-05-11): the forms around the crawl space, with the square footing pads already poured on the dirt" loading="lazy"></a><figcaption>Three days later (2026-05-11): the forms around the crawl space, with the square footing pads already poured on the dirt</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-01-05.jpg" data-viewer="ci-01-05" data-issue="ci-01" data-title="CI-01 · The level string run across to the top of a form board, its yellow reel resting on the form"><img src="img/issues/ci-01-05-sm.jpg" alt="The level string run across to the top of a form board, its yellow reel resting on the form" loading="lazy"></a><figcaption>The level string run across to the top of a form board, its yellow reel resting on the form</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-01-06.jpg" data-viewer="ci-01-06" data-issue="ci-01" data-title="CI-01 · The far wall&#x27;s forms, with the footing pads already poured on the crawl space dirt"><img src="img/issues/ci-01-06-sm.jpg" alt="The far wall&#x27;s forms, with the footing pads already poured on the crawl space dirt" loading="lazy"></a><figcaption>The far wall's forms, with the footing pads already poured on the crawl space dirt</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-01-07.jpg" data-viewer="ci-01-07" data-issue="ci-01" data-title="CI-01 · The start of the string line at the fence, where the owner tied off to &quot;the TBM marker&quot; (the surveyor&#x27;s height mark)"><img src="img/issues/ci-01-07-sm.jpg" alt="The start of the string line at the fence, where the owner tied off to &quot;the TBM marker&quot; (the surveyor&#x27;s height mark)" loading="lazy"></a><figcaption>The start of the string line at the fence, where the owner tied off to "the TBM marker" (the surveyor's height mark)</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 7 pictures" data-less="Show fewer pictures">Show all 7 pictures</button>
+</div>
+</section>
+<section class="issue fixed" id="ci-06">
+<h3><span class="cid">CI-06</span> Framing corrections, including a beam turned the wrong way <span class="tag fixed">Fixed</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Fixed (owner-reported).</dd><dt>Responsible (as reported)</dt><dd>Framers (under Elevate)</dd><dt>Found</dt><dd>not dated</dd></dl>
+<div class="text">
+<p><span class="lbl">Built:</span> the framers made several corrections; the owner has no list. One was a load-bearing beam installed turned the wrong way, which they turned and corrected.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>Which beam it was (room or gridline) and roughly when; a photo before or after if you have one; any other corrections you remember.</p></div>
+<div class="pics">
+<p class="none">No photos yet.</p>
+</div>
+</section>
+<section class="issue fixed" id="ci-07">
+<h3><span class="cid">CI-07</span> Eave corners cut wrong: rafter tails and gable fascia corner <span class="tag fixed">Fixed</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Fixed (owner-reported, photo-supported).</dd><dt>Responsible (as reported)</dt><dd>Elevate / framers</dd><dt>Found</dt><dd>2026-09-18</dd></dl>
+<div class="text">
+<p><span class="lbl">Terms:</span> Rafter tails are the rafter ends that stick out past the wall to carry the eave. Fascia is the trim board along the roof edge. At the corners where the sloped edge (the rake) meets the level edge (the eave), the house standard is a <b>run-past</b> joint: the rake board runs about 3 1/2" past the corner instead of being notched.</p>
+<p><span class="lbl">One issue, not two:</span> The owner first listed these separately. He described the rafter tails as cut "out of a weird shape" and then recut, "a little bit shorter than they were planned to be". He described the gable-end fascia as installed wrong, where "In the plans we had it run past so that it kind of hides the gutters", and said it was corrected. On 2026-11-06 he sent one before and one after photo for the rafter tails and asked whether the two items are different. They are merged here (owner, 2026-11-06). The before photo shows the same corner detail as the project's 2026-09-18 notch record, taken the same day; see "Built" below.</p>
+<p><span class="lbl">Plans:</span> A02 section 4 draws the rafter tail cut square to the roof slope, carrying a <code>2X FASCIA BOARD</code>, with the stained tongue-and-groove soffit on the rafter undersides and a frieze block at the wall. No tail length is dimensioned. The exterior elevations carry <code>FASCIA BOARD, TYP</code> and no gutter; no sheet draws gutters. The owner says "the plans had it like the after".</p>
+<p><span class="lbl">Built (before, photo 2026-09-18 13:46):</span> at an eave corner against the wall, the white sloped board's lower end is cut plumb and level. It stops against the end of the grey level board instead of running past it, and that board's cut end is left bare. This matches the project's 2026-09-18 record of the dormer's east corner "cut with a rectangular notch". The photo behind that record was not saved, so the match is by date and content, not a byte comparison.</p>
+<p><span class="lbl">Fix (after, photo 2026-10-31):</span> the corner was recut. In the after photo the dormer's sloped fascia ends past the eave corner. The rafter ends behind it are too small in the photo to read a tail depth or cut angle. The owner calls it a minor correction: "correction was re-cutting the rafter tail which made them a bit shorter". The 2026-09-21 field record gives the tails outboard of the beams as cut down to about 8" deep at the end, cut parallel to the roof, with the single 9" fascia built to that. That record is dated after the before photo, so it may describe the recut tails, but the after photo cannot confirm it.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>The planned and final tail length, if the owner has them.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-07-01.jpg" data-viewer="ci-07-01" data-issue="ci-07" data-title="CI-07 · Before (2026-09-18): the white sloped edge board stops square against the end of the grey level board instead of running past the corner"><img src="img/issues/ci-07-01-sm.jpg" alt="Before (2026-09-18): the white sloped edge board stops square against the end of the grey level board instead of running past the corner" loading="lazy"></a><figcaption>Before (2026-09-18): the white sloped edge board stops square against the end of the grey level board instead of running past the corner</figcaption></figure>
+<figure><a href="img/issues/ci-07-02.jpg" data-viewer="ci-07-02" data-issue="ci-07" data-title="CI-07 · After the recut (2026-10-31), close up: the bump-out&#x27;s sloped edge board now runs past the eave corner"><img src="img/issues/ci-07-02-sm.jpg" alt="After the recut (2026-10-31), close up: the bump-out&#x27;s sloped edge board now runs past the eave corner" loading="lazy"></a><figcaption>After the recut (2026-10-31), close up: the bump-out's sloped edge board now runs past the eave corner</figcaption></figure>
+<figure><a href="img/issues/ci-07-03.jpg" data-viewer="ci-07-03" data-issue="ci-07" data-title="CI-07 · After (2026-10-31): the house with the roof on; the close-up is the bump-out&#x27;s corner at upper left"><img src="img/issues/ci-07-03-sm.jpg" alt="After (2026-10-31): the house with the roof on; the close-up is the bump-out&#x27;s corner at upper left" loading="lazy"></a><figcaption>After (2026-10-31): the house with the roof on; the close-up is the bump-out's corner at upper left</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-07-04.jpg" data-viewer="ci-07-04" data-issue="ci-07" data-title="CI-07 · A02 section 4 (plans): the rafter end cut square to the roof slope, carrying a 2x fascia board (the trim board along the roof edge), with tongue-and-groove boards underneath"><img src="img/issues/ci-07-04-sm.jpg" alt="A02 section 4 (plans): the rafter end cut square to the roof slope, carrying a 2x fascia board (the trim board along the roof edge), with tongue-and-groove boards underneath" loading="lazy"><span class="badge">Plan</span></a><figcaption>A02 section 4 (plans): the rafter end cut square to the roof slope, carrying a 2x fascia board (the trim board along the roof edge), with tongue-and-groove boards underneath</figcaption></figure>
+</div>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/exterior.html?view=corner">3D drawing: the bump-out&#x27;s eave corner from below, the sloped board running past</a></p>
+</section>
+<h2 class="group">Left as built (1)</h2>
+<section class="issue closed-as-built" id="ci-13">
+<h3><span class="cid">CI-13</span> Deck posts at the edge of their piers <span class="tag closed-as-built">Left as built</span></h3>
+<dl class="facts"><dt>Status</dt><dd>Left as built.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-09-01</dd></dl>
+<div class="text">
+<p><span class="lbl">Built (2026-09-01):</span> both front-deck outer corner posts land less than 1" from the edge of their concrete pier, with the anchor about 4" from the edge (field). The post base is a Simpson ABA66Z, not the ABU66Z on the plans. The owner's tape photo, hooked on the base side plate, puts the pier edge at about 3/4 to 1 in (read by eye, +/- 1/4 in). The wider photo of the same pier shows the post at the very edge of the round top, with most of the top open on the far side and a small anchor or pin in the concrete away from the post. The owner sent these on 2026-11-06 as showing "how close to edge the post landed", and says the piers "still did not line up correctly".</p>
+<p><span class="lbl">Another post, 2026-09-02:</span> two owner photos show a post and its base at one edge of a round pier top, most of the top open. Which post it is cannot be told from the photos.</p>
+<p><span class="lbl">Rear deck too (visible, 2026-09-18):</span> in the owner's wide view of the rear (north) deck, both corner posts stand visibly off-centre on their round piers. The offsets cannot be measured from the photo.</p>
+<p><span class="lbl">Fix:</span> the owner left them as built on 2026-09-02. He reports the GC agreed to warranty the connection; nothing is in writing.</p>
+</div>
+<div class="needed"><h4>Evidence still needed</h4><p>The warranty in writing from Elevate; which of the other seven piers are off and by how much. One post is now measured, and the rest were never checked.</p></div>
+<div class="pics">
+<div class="grid">
+<figure><a href="img/issues/ci-13-01.jpg" data-viewer="ci-13-01" data-issue="ci-13" data-title="CI-13 · A tape hooked on the post base: the edge of the concrete pier is less than an inch away (2026-09-01)"><img src="img/issues/ci-13-01-sm.jpg" alt="A tape hooked on the post base: the edge of the concrete pier is less than an inch away (2026-09-01)" loading="lazy"></a><figcaption>A tape hooked on the post base: the edge of the concrete pier is less than an inch away (2026-09-01)</figcaption></figure>
+<figure><a href="img/issues/ci-13-02.jpg" data-viewer="ci-13-02" data-issue="ci-13" data-title="CI-13 · The same pier: the post at the very edge of the round top, most of the top open"><img src="img/issues/ci-13-02-sm.jpg" alt="The same pier: the post at the very edge of the round top, most of the top open" loading="lazy"></a><figcaption>The same pier: the post at the very edge of the round top, most of the top open</figcaption></figure>
+<figure><a href="img/issues/ci-13-03.jpg" data-viewer="ci-13-03" data-issue="ci-13" data-title="CI-13 · The post base, stamped Simpson Strong-Tie ABA66Z"><img src="img/issues/ci-13-03-sm.jpg" alt="The post base, stamped Simpson Strong-Tie ABA66Z" loading="lazy"></a><figcaption>The post base, stamped Simpson Strong-Tie ABA66Z</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-13-04.jpg" data-viewer="ci-13-04" data-issue="ci-13" data-title="CI-13 · S3.3 (roof framing): the front corner posts called out on an ABU66Z post base"><img src="img/issues/ci-13-04-sm.jpg" alt="S3.3 (roof framing): the front corner posts called out on an ABU66Z post base" loading="lazy"><span class="badge">Plan</span></a><figcaption>S3.3 (roof framing): the front corner posts called out on an ABU66Z post base</figcaption></figure>
+<figure class="plan"><a href="img/issues/ci-13-05.jpg" data-viewer="ci-13-05" data-issue="ci-13" data-title="CI-13 · S4.1 detail 4 (plans): the post base drawn in the middle of the plinth, held by a 5/8&quot; x 5&quot; Titen anchor"><img src="img/issues/ci-13-05-sm.jpg" alt="S4.1 detail 4 (plans): the post base drawn in the middle of the plinth, held by a 5/8&quot; x 5&quot; Titen anchor" loading="lazy"><span class="badge">Plan</span></a><figcaption>S4.1 detail 4 (plans): the post base drawn in the middle of the plinth, held by a 5/8" x 5" Titen anchor</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-13-06.jpg" data-viewer="ci-13-06" data-issue="ci-13" data-title="CI-13 · Another post and its base at one edge of a round pier top (2026-09-02)"><img src="img/issues/ci-13-06-sm.jpg" alt="Another post and its base at one edge of a round pier top (2026-09-02)" loading="lazy"></a><figcaption>Another post and its base at one edge of a round pier top (2026-09-02)</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-13-07.jpg" data-viewer="ci-13-07" data-issue="ci-13" data-title="CI-13 · Close-up: the post base at the pier&#x27;s edge, the rest of the top open"><img src="img/issues/ci-13-07-sm.jpg" alt="Close-up: the post base at the pier&#x27;s edge, the rest of the top open" loading="lazy"></a><figcaption>Close-up: the post base at the pier's edge, the rest of the top open</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-13-08.jpg" data-viewer="ci-13-08" data-issue="ci-13" data-title="CI-13 · A post at the near edge of its round pier, more piers beyond along the house"><img src="img/issues/ci-13-08-sm.jpg" alt="A post at the near edge of its round pier, more piers beyond along the house" loading="lazy"></a><figcaption>A post at the near edge of its round pier, more piers beyond along the house</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-13-09.jpg" data-viewer="ci-13-09" data-issue="ci-13" data-title="CI-13 · A post set toward the back of its round pier"><img src="img/issues/ci-13-09-sm.jpg" alt="A post set toward the back of its round pier" loading="lazy"></a><figcaption>A post set toward the back of its round pier</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-13-10.jpg" data-viewer="ci-13-10" data-issue="ci-13" data-title="CI-13 · A post at the front edge of its pier, the top open behind it"><img src="img/issues/ci-13-10-sm.jpg" alt="A post at the front edge of its pier, the top open behind it" loading="lazy"></a><figcaption>A post at the front edge of its pier, the top open behind it</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-13-11.jpg" data-viewer="ci-13-11" data-issue="ci-13" data-title="CI-13 · A post at the left edge of its pier, the rest of the top open"><img src="img/issues/ci-13-11-sm.jpg" alt="A post at the left edge of its pier, the rest of the top open" loading="lazy"></a><figcaption>A post at the left edge of its pier, the rest of the top open</figcaption></figure>
+<figure class="more"><a href="img/issues/ci-13-12.jpg" data-viewer="ci-13-12" data-issue="ci-13" data-title="CI-13 · The rear deck&#x27;s two corner posts on their round piers (2026-09-18)"><img src="img/issues/ci-13-12-sm.jpg" alt="The rear deck&#x27;s two corner posts on their round piers (2026-09-18)" loading="lazy"></a><figcaption>The rear deck's two corner posts on their round piers (2026-09-18)</figcaption></figure>
+</div>
+<button class="showall" type="button" data-more="Show all 12 pictures" data-less="Show fewer pictures">Show all 12 pictures</button>
+</div>
+<p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=footing">3D drawing: a front deck post on its footing as planned</a> <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=footing">3D drawing: a rear deck post on its footing as planned</a></p>
+</section>
+</main>
+
+<footer>
+  Last updated 2026-11-07. Page built 2026-11-07 from commit 388c356.<br>
+  Click a picture to open it here, click it again to zoom; the arrow keys step through that issue's pictures; Esc,
+  the close button or Back return you to the page. Printing (or Print to PDF) gives every picture at thumbnail size.
+</footer>
+
+<div id="viewer" hidden aria-modal="true" role="dialog">
+  <div class="vbar">
+    <span class="vtitle" id="vtitle"></span>
+    <span class="vhint">click the picture to zoom &middot; &larr; &rarr; previous or next picture &middot; Esc or Back to return</span>
+    <button id="vclose" type="button">Close &times;</button>
+  </div>
+  <div class="vstage" id="vstage"><img id="vimg" alt=""></div>
+</div>
+
+<script>
+  // "Show all N pictures": reveals the rest of an issue's pictures in place (they are in the page, just folded).
+  document.querySelectorAll('.showall').forEach(b => b.addEventListener('click', () => {
+    const p = b.closest('.pics'), all = p.classList.toggle('all');
+    b.textContent = all ? b.dataset.less : b.dataset.more;
+  }));
+  // Thumbnails load lazily on screen; printing asks for all of them, folded ones included.
+  window.addEventListener('beforeprint', () => document.querySelectorAll('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; }));
+  // The viewer is the drawings site's renders-page viewer, copied. Every picture link
+  // marked data-viewer opens here instead of in a new tab. Opening pushes a history entry (#view=<key>), so the
+  // browser's Back button closes the viewer and lands you exactly where you were.
+  const viewer = document.getElementById('viewer'), vimg = document.getElementById('vimg'),
+        vtitle = document.getElementById('vtitle'), vstage = document.getElementById('vstage');
+  const links = [...document.querySelectorAll('a[data-viewer]')];
+  const byKey = Object.fromEntries(links.map(a => [a.dataset.viewer, a]));
+  function show(a) {
+    vimg.src = a.getAttribute('href'); vimg.alt = a.dataset.title || '';
+    vtitle.textContent = a.dataset.title || '';
+    viewer.classList.remove('zoomed'); viewer.hidden = false; document.body.classList.add('viewing');
+  }
+  function hide() { viewer.hidden = true; document.body.classList.remove('viewing'); viewer.classList.remove('zoomed'); }
+  function open(a) { show(a); history.pushState({viewer: a.dataset.viewer}, '', '#view=' + a.dataset.viewer); }
+  function close() { if (history.state && history.state.viewer) history.back(); else { hide(); history.replaceState(null, '', location.pathname); } }
+  links.forEach(a => a.addEventListener('click', e => { e.preventDefault(); open(a); }));
+  document.getElementById('vclose').addEventListener('click', close);
+  // Arrow keys walk the pictures while the viewer is open -- here only within the open picture's issue, folded
+  // pictures included, so stepping never jumps to another issue. The history entry is replaced, not pushed, so
+  // Back still closes the viewer in one step.
+  function step(d) {
+    const cur = links.find(a => a.getAttribute('href') === vimg.getAttribute('src'));
+    const set = cur ? links.filter(a => a.dataset.issue === cur.dataset.issue) : links;
+    const i = set.indexOf(cur);
+    const a = set[((i < 0 ? 0 : i) + d + set.length) % set.length];
+    show(a); history.replaceState({viewer: a.dataset.viewer}, '', '#view=' + a.dataset.viewer);
+  }
+  document.addEventListener('keydown', e => {
+    if (viewer.hidden) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  window.addEventListener('popstate', () => {
+    const m = location.hash.match(/^#view=(.+)$/);
+    if (m && byKey[decodeURIComponent(m[1])]) show(byKey[decodeURIComponent(m[1])]); else hide();
+  });
+  // Click to zoom to full size at the point clicked; click again to fit. Drag or scroll to look around when zoomed.
+  vimg.addEventListener('click', e => {
+    if (viewer.classList.contains('zoomed')) { viewer.classList.remove('zoomed'); return; }
+    const r = vimg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    viewer.classList.add('zoomed');
+    vstage.scrollLeft = px * vimg.naturalWidth - vstage.clientWidth / 2;
+    vstage.scrollTop = py * vimg.naturalHeight - vstage.clientHeight / 2;
+  });
+  let drag = null;
+  vstage.addEventListener('mousedown', e => { if (!viewer.classList.contains('zoomed')) return; drag = {x: e.clientX, y: e.clientY, l: vstage.scrollLeft, t: vstage.scrollTop, moved: false}; vstage.classList.add('dragging'); e.preventDefault(); });
+  window.addEventListener('mousemove', e => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true; vstage.scrollLeft = drag.l - dx; vstage.scrollTop = drag.t - dy; });
+  window.addEventListener('mouseup', () => { vstage.classList.remove('dragging'); if (drag && drag.moved) vimg.addEventListener('click', e => e.stopImmediatePropagation(), {capture: true, once: true}); drag = null; });
+  // A link that arrives with #view=<key> (a shared link to one picture) opens straight onto that picture.
+  const m0 = location.hash.match(/^#view=(.+)$/);
+  if (m0 && byKey[decodeURIComponent(m0[1])]) { show(byKey[decodeURIComponent(m0[1])]); history.replaceState({viewer: decodeURIComponent(m0[1])}, '', location.hash); }
+</script>
+</body>
+</html>
