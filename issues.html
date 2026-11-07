@@ -61,7 +61,27 @@
   .hero.issues{min-height:0;background-image:none;background:linear-gradient(to bottom,#262b33 0%,var(--bg) 100%);}
   .hero.issues .hero-inner{padding:40px 0 26px;}
   .lede + .lede{margin-top:10px;}
-  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;font-size:13px;color:var(--muted);}
+  .hero.issues .lede{max-width:none;}            /* the site caps .lede at 62ch; here the intro runs the page width */
+  [hidden]{display:none !important;}             /* a filtered-out row stays hidden whatever display it has on phones */
+  /* status filter chips: a click shows one status (?status=...), the active chip again or All shows everything */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+  .filters .chip{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid;
+                 font-size:13px;font-weight:600;letter-spacing:.03em;cursor:pointer;user-select:none;}
+  .filters .chip .n{font-weight:500;opacity:.85;}
+  .filters .chip.all{color:#dfe3e8;border-color:var(--line);background:#2c313a;}
+  .filters .chip.open{color:#ff9d8f;border-color:rgba(255,120,100,.55);background:rgba(255,100,80,.12);}
+  .filters .chip.built-unreviewed{color:#f0c674;border-color:rgba(240,198,116,.55);background:rgba(240,198,116,.11);}
+  .filters .chip.closed-as-built{color:#c3cbd5;border-color:rgba(190,200,212,.5);background:rgba(190,200,212,.10);}
+  .filters .chip.fixed{color:#9be39f;border-color:rgba(110,200,115,.55);background:rgba(110,200,115,.12);}
+  .filters .chip:hover{filter:brightness(1.2);}
+  .filters .chip.active{color:#16181c;box-shadow:0 0 0 2px var(--bg),0 0 0 4px currentColor;}
+  .filters .chip.all.active{background:#dfe3e8;border-color:#dfe3e8;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #dfe3e8;}
+  .filters .chip.open.active{background:#ff9d8f;border-color:#ff9d8f;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #ff9d8f;}
+  .filters .chip.built-unreviewed.active{background:#f0c674;border-color:#f0c674;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #f0c674;}
+  .filters .chip.closed-as-built.active{background:#c3cbd5;border-color:#c3cbd5;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #c3cbd5;}
+  .filters .chip.fixed.active{background:#9be39f;border-color:#9be39f;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #9be39f;}
+  .showing{margin:12px 0 0;font-size:13.5px;color:var(--muted);}
+  .showing a{color:var(--cedar);text-decoration:underline;text-underline-offset:2px;}
   /* status tags */
   .tag{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1;
        padding:4px 8px;border-radius:999px;border:1px solid;white-space:nowrap;vertical-align:2px;}
@@ -90,7 +110,7 @@
          background:rgba(0,0,0,.18);border-radius:10px;}
   .facts dt{color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding-top:2px;}
   .facts dd{margin:0;}
-  .text{font-size:15px;max-width:78ch;}
+  .text{font-size:15px;}
   .text p{margin:0 0 10px;}
   .text .lbl{color:var(--cedar);font-weight:600;}
   .text ul,.text ol{margin:0 0 12px;padding-left:22px;}
@@ -102,7 +122,7 @@
   code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86em;background:#2c313a;border:1px solid var(--line);
        border-radius:4px;padding:0 4px;white-space:normal;}
   .text a.ref{color:var(--cedar);text-decoration:underline;text-underline-offset:2px;}
-  .needed{margin:14px 0 0;padding:12px 14px;border-left:3px solid var(--accent);background:rgba(224,123,32,.07);border-radius:0 10px 10px 0;font-size:14.5px;max-width:78ch;}
+  .needed{margin:14px 0 0;padding:12px 14px;border-left:3px solid var(--accent);background:rgba(224,123,32,.07);border-radius:0 10px 10px 0;font-size:14.5px;}
   .needed h4,.pics h4{margin:0 0 6px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
   .needed p{margin:0 0 6px;}
   .needed ol,.needed ul{margin:0;padding-left:22px;}
@@ -165,6 +185,8 @@
     .hero.issues{background:none;}
     .hero.issues .hero-inner{padding:0 0 8px;}
     .lede{color:#222;}
+    .filters,.showing .more{display:none !important;}
+    .showing{color:#111;font-weight:600;}
     .navlink,#viewer,.showall,.links{display:none !important;}
     main,footer,.hero-inner{width:auto;}
     .issue{border:1px solid #bbb;border-radius:6px;padding:10px 12px;break-inside:auto;}
@@ -197,7 +219,7 @@
 </style>
 </head>
 <body>
-<div class="draftbar"><b>Draft</b> — pictures and captions are still being added. Last built 2026-11-07 09:07.</div>
+<div class="draftbar"><b>Draft</b> — pictures and captions are still being added. Last built 2026-11-07 09:13.</div>
 <header class="hero issues">
   <div class="hero-inner">
     <p class="kicker">138 Tahoma St E · Packwood, WA · permit B26-00013</p>
@@ -208,7 +230,12 @@
     Elevate PNW (Alex). Open issues come first.</p>
     <p class="lede">Numbers marked <b>plan</b> come from the permit drawings; numbers marked <b>field</b> were taped or
     seen on site. Where the two disagree, the field number is what was built.</p>
-    <div class="legend"><span><span class="tag open">Open</span> 8</span> <span><span class="tag built-unreviewed">Built, not reviewed</span> 5</span> <span><span class="tag closed-as-built">Left as built</span> 3</span> <span><span class="tag fixed">Fixed</span> 3</span></div>
+    <nav class="filters" aria-label="Show issues by status"><a class="chip all" href="issues.html" data-status="">All <span class="n">19</span></a>
+<a class="chip open" href="issues.html?status=open" data-status="open">Open <span class="n">8</span></a>
+<a class="chip built-unreviewed" href="issues.html?status=built-unreviewed" data-status="built-unreviewed">Built, not reviewed <span class="n">5</span></a>
+<a class="chip closed-as-built" href="issues.html?status=left-as-built" data-status="left-as-built">Left as built <span class="n">3</span></a>
+<a class="chip fixed" href="issues.html?status=fixed" data-status="fixed">Fixed <span class="n">3</span></a></nav>
+    <p class="showing" id="showing" hidden></p>
     <p class="lede" style="margin-top:14px"><a class="navlink" href="https://tredfield.github.io/138-tahoma-cabin/">← Back to the drawings</a></p>
   </div>
 </header>
@@ -216,28 +243,28 @@
 <main>
   <h2>Summary</h2>
 <div class="tablewrap"><table class="summary"><thead><tr><th>ID</th><th>Issue</th><th>Status</th><th>Responsible (as reported)</th><th>Found</th></tr></thead><tbody>
-<tr><td class="cid"><a href="#ci-10">CI-10</a></td><td><a href="#ci-10">HVAC holes cut in the wrong places, incl. a vent where the wood stove goes</a></td><td><span class="tag open">Open</span><span class="st">Unfixed</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner-reported; not briefed by Elevate)</td><td class="found">before 2026-11-03; filmed 2026-11-05</td></tr>
-<tr><td class="cid"><a href="#ci-11">CI-11</a></td><td><a href="#ci-11">HVAC crew cut through the plates of both lower hall walls, drawn as bearing walls</a></td><td><span class="tag open">Open</span><span class="st">Unfixed; no engineer review on file</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner-reported)</td><td class="found">before 2026-11-03; filmed 2026-11-05</td></tr>
-<tr><td class="cid"><a href="#ci-17">CI-17</a></td><td><a href="#ci-17">Crack through the stem wall at a crawl vent</a></td><td><span class="tag open">Open</span><span class="st">Open, unassessed; reported to Alex</span></td><td class="who">Concrete sub (under Elevate); cause not established</td><td class="found">2026-08-30 (photo)</td></tr>
-<tr><td class="cid"><a href="#ci-18">CI-18</a></td><td><a href="#ci-18">Torn insulation jacket on an HVAC trunk duct</a></td><td><span class="tag open">Open</span><span class="st">Open, unrepaired; not yet reported</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner: the only trade in the crawl space)</td><td class="found">2026-11-06</td></tr>
-<tr><td class="cid"><a href="#ci-19">CI-19</a></td><td><a href="#ci-19">House wrap tucked behind the roof-to-wall flashing at the bump-out</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Elevate</td><td class="found">2026-11-05</td></tr>
-<tr><td class="cid"><a href="#ci-20">CI-20</a></td><td><a href="#ci-20">Subfloor hole at the north-wall column left open, running under the slider frame</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Not named ("they", per the owner)</td><td class="found">2026-11-06</td></tr>
-<tr><td class="cid"><a href="#ci-21">CI-21</a></td><td><a href="#ci-21">North-wall column base bolts left without nuts</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Elevate</td><td class="found">2026-11-06</td></tr>
-<tr><td class="cid"><a href="#ci-22">CI-22</a></td><td><a href="#ci-22">Shear-wall hold-down anchors: rods without nuts, holes without rods (north-east, north-west, kitchen wall)</a></td><td><span class="tag open">Open</span><span class="st">Open; may be pending rather than omitted</span></td><td class="who">Elevate</td><td class="found">2026-11-05</td></tr>
-<tr><td class="cid"><a href="#ci-02">CI-02</a></td><td><a href="#ci-02">North-wall plinth (thickened concrete block under the 7x7 post) not poured</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Repair built (owner photos). No written engineer detail on file; inspection not on file.</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-08-13</td></tr>
-<tr><td class="cid"><a href="#ci-04">CI-04</a></td><td><a href="#ci-04">Crawl space too deep for FEMA rules; interior footings poured too low before fill</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Fill and pad extensions built (owner). Crawl floor and outside ground heights not measured; no elevation certificate yet.</span></td><td class="who">Elevate (owner's view)</td><td class="found">2026-05-11</td></tr>
-<tr><td class="cid"><a href="#ci-05">CI-05</a></td><td><a href="#ci-05">Ridge beam too short at both deck ends</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Extended (scheme A) at both decks. No engineer review on file.</span></td><td class="who">Elevate (ordering)</td><td class="found">2026-08-13</td></tr>
-<tr><td class="cid"><a href="#ci-12">CI-12</a></td><td><a href="#ci-12">Deck footings: poured at grade, then the old footing reused, then re-poured</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Re-poured to depth. Piers do not line up with the posts; no engineer review on file.</span></td><td class="who">Elevate / concrete sub</td><td class="found">2026-08-10</td></tr>
-<tr><td class="cid"><a href="#ci-15">CI-15</a></td><td><a href="#ci-15">Deck framing changed in the field; engineer approval claimed by Alex, unverified</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Built. The engineer's approval rests on Alex's unconfirmed account; nothing in writing.</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
-<tr><td class="cid"><a href="#ci-03">CI-03</a></td><td><a href="#ci-03">Crawl space access in the wrong place (under the kitchen sink); one of two built</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07)</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">not dated</td></tr>
-<tr><td class="cid"><a href="#ci-09">CI-09</a></td><td><a href="#ci-09">Window and door flashing badly installed</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07)</span></td><td class="who">Elevate</td><td class="found">2026-11-03</td></tr>
-<tr><td class="cid"><a href="#ci-13">CI-13</a></td><td><a href="#ci-13">Deck posts at the very edge of their piers (front corners measured; rear corners visible); different post base</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (verbal warranty)</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
-<tr><td class="cid"><a href="#ci-01">CI-01</a></td><td><a href="#ci-01">Stem wall forms set about 2 ft too high, cut down and rebar redone before the pour</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed before pour</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-05-08</td></tr>
-<tr><td class="cid"><a href="#ci-06">CI-06</a></td><td><a href="#ci-06">Framing corrections, incl. a load-bearing beam installed turned the wrong way</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed (owner-reported)</span></td><td class="who">Framers (under Elevate)</td><td class="found">not dated</td></tr>
-<tr><td class="cid"><a href="#ci-07">CI-07</a></td><td><a href="#ci-07">Eave corners cut wrong (rafter tails and gable fascia corner), recut shorter</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed (owner-reported, photo-supported)</span></td><td class="who">Elevate / framers</td><td class="found">2026-09-18</td></tr>
+<tr data-status="open"><td class="cid"><a href="#ci-10">CI-10</a></td><td><a href="#ci-10">HVAC holes cut in the wrong places, incl. a vent where the wood stove goes</a></td><td><span class="tag open">Open</span><span class="st">Unfixed</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner-reported; not briefed by Elevate)</td><td class="found">before 2026-11-03; filmed 2026-11-05</td></tr>
+<tr data-status="open"><td class="cid"><a href="#ci-11">CI-11</a></td><td><a href="#ci-11">HVAC crew cut through the plates of both lower hall walls, drawn as bearing walls</a></td><td><span class="tag open">Open</span><span class="st">Unfixed; no engineer review on file</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner-reported)</td><td class="found">before 2026-11-03; filmed 2026-11-05</td></tr>
+<tr data-status="open"><td class="cid"><a href="#ci-17">CI-17</a></td><td><a href="#ci-17">Crack through the stem wall at a crawl vent</a></td><td><span class="tag open">Open</span><span class="st">Open, unassessed; reported to Alex</span></td><td class="who">Concrete sub (under Elevate); cause not established</td><td class="found">2026-08-30 (photo)</td></tr>
+<tr data-status="open"><td class="cid"><a href="#ci-18">CI-18</a></td><td><a href="#ci-18">Torn insulation jacket on an HVAC trunk duct</a></td><td><span class="tag open">Open</span><span class="st">Open, unrepaired; not yet reported</span></td><td class="who">HVAC sub, Chehalis Sheet Metal (owner: the only trade in the crawl space)</td><td class="found">2026-11-06</td></tr>
+<tr data-status="open"><td class="cid"><a href="#ci-19">CI-19</a></td><td><a href="#ci-19">House wrap tucked behind the roof-to-wall flashing at the bump-out</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Elevate</td><td class="found">2026-11-05</td></tr>
+<tr data-status="open"><td class="cid"><a href="#ci-20">CI-20</a></td><td><a href="#ci-20">Subfloor hole at the north-wall column left open, running under the slider frame</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Not named ("they", per the owner)</td><td class="found">2026-11-06</td></tr>
+<tr data-status="open"><td class="cid"><a href="#ci-21">CI-21</a></td><td><a href="#ci-21">North-wall column base bolts left without nuts</a></td><td><span class="tag open">Open</span><span class="st">Open</span></td><td class="who">Elevate</td><td class="found">2026-11-06</td></tr>
+<tr data-status="open"><td class="cid"><a href="#ci-22">CI-22</a></td><td><a href="#ci-22">Shear-wall hold-down anchors: rods without nuts, holes without rods (north-east, north-west, kitchen wall)</a></td><td><span class="tag open">Open</span><span class="st">Open; may be pending rather than omitted</span></td><td class="who">Elevate</td><td class="found">2026-11-05</td></tr>
+<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-02">CI-02</a></td><td><a href="#ci-02">North-wall plinth (thickened concrete block under the 7x7 post) not poured</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Repair built (owner photos). No written engineer detail on file; inspection not on file.</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-08-13</td></tr>
+<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-04">CI-04</a></td><td><a href="#ci-04">Crawl space too deep for FEMA rules; interior footings poured too low before fill</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Fill and pad extensions built (owner). Crawl floor and outside ground heights not measured; no elevation certificate yet.</span></td><td class="who">Elevate (owner's view)</td><td class="found">2026-05-11</td></tr>
+<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-05">CI-05</a></td><td><a href="#ci-05">Ridge beam too short at both deck ends</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Extended (scheme A) at both decks. No engineer review on file.</span></td><td class="who">Elevate (ordering)</td><td class="found">2026-08-13</td></tr>
+<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-12">CI-12</a></td><td><a href="#ci-12">Deck footings: poured at grade, then the old footing reused, then re-poured</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Re-poured to depth. Piers do not line up with the posts; no engineer review on file.</span></td><td class="who">Elevate / concrete sub</td><td class="found">2026-08-10</td></tr>
+<tr data-status="built-unreviewed"><td class="cid"><a href="#ci-15">CI-15</a></td><td><a href="#ci-15">Deck framing changed in the field; engineer approval claimed by Alex, unverified</a></td><td><span class="tag built-unreviewed">Built, not reviewed</span><span class="st">Built. The engineer's approval rests on Alex's unconfirmed account; nothing in writing.</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
+<tr data-status="left-as-built"><td class="cid"><a href="#ci-03">CI-03</a></td><td><a href="#ci-03">Crawl space access in the wrong place (under the kitchen sink); one of two built</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07)</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">not dated</td></tr>
+<tr data-status="left-as-built"><td class="cid"><a href="#ci-09">CI-09</a></td><td><a href="#ci-09">Window and door flashing badly installed</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (owner, 2026-11-07)</span></td><td class="who">Elevate</td><td class="found">2026-11-03</td></tr>
+<tr data-status="left-as-built"><td class="cid"><a href="#ci-13">CI-13</a></td><td><a href="#ci-13">Deck posts at the very edge of their piers (front corners measured; rear corners visible); different post base</a></td><td><span class="tag closed-as-built">Left as built</span><span class="st">Left as built (verbal warranty)</span></td><td class="who">Elevate</td><td class="found">2026-09-01</td></tr>
+<tr data-status="fixed"><td class="cid"><a href="#ci-01">CI-01</a></td><td><a href="#ci-01">Stem wall forms set about 2 ft too high, cut down and rebar redone before the pour</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed before pour</span></td><td class="who">Concrete sub (under Elevate)</td><td class="found">2026-05-08</td></tr>
+<tr data-status="fixed"><td class="cid"><a href="#ci-06">CI-06</a></td><td><a href="#ci-06">Framing corrections, incl. a load-bearing beam installed turned the wrong way</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed (owner-reported)</span></td><td class="who">Framers (under Elevate)</td><td class="found">not dated</td></tr>
+<tr data-status="fixed"><td class="cid"><a href="#ci-07">CI-07</a></td><td><a href="#ci-07">Eave corners cut wrong (rafter tails and gable fascia corner), recut shorter</a></td><td><span class="tag fixed">Fixed</span><span class="st">Fixed (owner-reported, photo-supported)</span></td><td class="who">Elevate / framers</td><td class="found">2026-09-18</td></tr>
 </tbody></table></div>
-<h2 class="group">Open (8)</h2>
-<section class="issue open" id="ci-10">
+<h2 class="group" data-status="open">Open (8)</h2>
+<section class="issue open" id="ci-10" data-status="open">
 <h3><span class="cid">CI-10</span> HVAC holes cut in the wrong places <span class="tag open">Open</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Unfixed. The empty cuts were still open on 2026-11-05.</dd><dt>Responsible (as reported)</dt><dd>HVAC sub, Chehalis Sheet Metal (owner-reported; not briefed by Elevate)</dd><dt>Found</dt><dd>before 2026-11-03; filmed 2026-11-05</dd></dl>
 <div class="text">
@@ -264,7 +291,7 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/kitchen.html?view=stove">3D drawing: the wood stove corner</a></p>
 </section>
-<section class="issue open" id="ci-11">
+<section class="issue open" id="ci-11" data-status="open">
 <h3><span class="cid">CI-11</span> HVAC cut through the plates of both lower hall walls <span class="tag open">Open</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Unfixed; no engineer review on file. Whether any repair is needed is a question for the engineer, Pieruccioni.</dd><dt>Responsible (as reported)</dt><dd>HVAC sub, Chehalis Sheet Metal (owner-reported)</dd><dt>Found</dt><dd>before 2026-11-03; filmed 2026-11-05</dd></dl>
 <div class="text">
@@ -290,7 +317,7 @@
 <button class="showall" type="button" data-more="Show all 10 pictures" data-less="Show fewer pictures">Show all 10 pictures</button>
 </div>
 </section>
-<section class="issue open" id="ci-17">
+<section class="issue open" id="ci-17" data-status="open">
 <h3><span class="cid">CI-17</span> Crack through the stem wall at a crawl vent <span class="tag open">Open</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Open, unassessed.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate); cause not established</dd><dt>Found</dt><dd>2026-08-30 (photo)</dd></dl>
 <div class="text">
@@ -308,7 +335,7 @@
 </div>
 </div>
 </section>
-<section class="issue open" id="ci-18">
+<section class="issue open" id="ci-18" data-status="open">
 <h3><span class="cid">CI-18</span> Torn insulation jacket on an HVAC trunk duct <span class="tag open">Open</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Open, unrepaired.</dd><dt>Responsible (as reported)</dt><dd>HVAC sub, Chehalis Sheet Metal (owner: the only trade in the crawl space)</dd><dt>Found</dt><dd>2026-11-06</dd></dl>
 <div class="text">
@@ -330,7 +357,7 @@
 <button class="showall" type="button" data-more="Show all 5 pictures" data-less="Show fewer pictures">Show all 5 pictures</button>
 </div>
 </section>
-<section class="issue open" id="ci-19">
+<section class="issue open" id="ci-19" data-status="open">
 <h3><span class="cid">CI-19</span> House wrap tucked behind the roof-to-wall flashing at the bump-out <span class="tag open">Open</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Open.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-11-05</dd></dl>
 <div class="text">
@@ -356,7 +383,7 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/exterior.html?view=east">3D drawing: the east side, the bump-out above the lower roof</a></p>
 </section>
-<section class="issue open" id="ci-20">
+<section class="issue open" id="ci-20" data-status="open">
 <h3><span class="cid">CI-20</span> Subfloor hole at the north-wall column left open <span class="tag open">Open</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Open.</dd><dt>Responsible (as reported)</dt><dd>Not named ("they", per the owner)</dd><dt>Found</dt><dd>2026-11-06</dd></dl>
 <div class="text">
@@ -383,7 +410,7 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=2">3D drawing: the floor opening cut above the repair (step 2 of the design)</a></p>
 </section>
-<section class="issue open" id="ci-21">
+<section class="issue open" id="ci-21" data-status="open">
 <h3><span class="cid">CI-21</span> North-wall column base bolts left without nuts <span class="tag open">Open</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Open.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-11-06</dd></dl>
 <div class="text">
@@ -403,7 +430,7 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=7">3D drawing: the column on its base, as designed</a></p>
 </section>
-<section class="issue open" id="ci-22">
+<section class="issue open" id="ci-22" data-status="open">
 <h3><span class="cid">CI-22</span> Shear-wall hold-down anchors: rods without nuts, holes without rods <span class="tag open">Open</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Open. The videos show the anchors not tied down. The clips and sources cannot tell whether the hold-downs and nuts are still to come or were left out. No structural verdict is recorded. No county framing or hold-down inspection has happened yet (owner, 2026-11-06), so the hold-downs and nuts are still due before the county's Exterior and Interior Hold Down inspections.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-11-05</dd></dl>
 <div class="text">
@@ -437,8 +464,8 @@
 <button class="showall" type="button" data-more="Show all 16 pictures" data-less="Show fewer pictures">Show all 16 pictures</button>
 </div>
 </section>
-<h2 class="group">Built, not reviewed (5)</h2>
-<section class="issue built-unreviewed" id="ci-02">
+<h2 class="group" data-status="built-unreviewed">Built, not reviewed (5)</h2>
+<section class="issue built-unreviewed" id="ci-02" data-status="built-unreviewed">
 <h3><span class="cid">CI-02</span> North-wall plinth not poured (grid 4B) <span class="tag built-unreviewed">Built, not reviewed</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Repair built (owner photos). No written engineer detail on file; inspection not on file.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>2026-08-13</dd></dl>
 <div class="text">
@@ -462,7 +489,7 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=1">3D drawing: the north wall as found, with the vent filled and no plinth</a> <a href="https://tredfield.github.io/138-tahoma-cabin/grid-4b-plinth.html?step=7">3D drawing: the repair as designed (Option 9), finished</a></p>
 </section>
-<section class="issue built-unreviewed" id="ci-04">
+<section class="issue built-unreviewed" id="ci-04" data-status="built-unreviewed">
 <h3><span class="cid">CI-04</span> Crawl space depth and the FEMA flood rules <span class="tag built-unreviewed">Built, not reviewed</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Fill and pad extensions built (owner). Crawl floor and outside ground heights not measured; no elevation certificate yet.</dd><dt>Responsible (as reported)</dt><dd>Elevate (owner's view)</dd><dt>Found</dt><dd>2026-05-11</dd></dl>
 <div class="text">
@@ -483,7 +510,7 @@
 </div>
 </div>
 </section>
-<section class="issue built-unreviewed" id="ci-05">
+<section class="issue built-unreviewed" id="ci-05" data-status="built-unreviewed">
 <h3><span class="cid">CI-05</span> Ridge beam too short at both deck ends <span class="tag built-unreviewed">Built, not reviewed</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Extended (scheme A) at both decks. No engineer review on file.</dd><dt>Responsible (as reported)</dt><dd>Elevate (ordering)</dd><dt>Found</dt><dd>2026-08-13</dd></dl>
 <div class="text">
@@ -519,7 +546,7 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=under">3D drawing: the rear deck roof from below</a> <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=under">3D drawing: the front deck roof from below</a></p>
 </section>
-<section class="issue built-unreviewed" id="ci-12">
+<section class="issue built-unreviewed" id="ci-12" data-status="built-unreviewed">
 <h3><span class="cid">CI-12</span> Deck footings poured three times <span class="tag built-unreviewed">Built, not reviewed</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Re-poured to depth. Piers do not line up with the posts; no engineer review on file. See <a class="ref" href="#ci-13">CI-13</a>.</dd><dt>Responsible (as reported)</dt><dd>Elevate / concrete sub</dd><dt>Found</dt><dd>2026-08-10</dd></dl>
 <div class="text">
@@ -542,7 +569,7 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=footing">3D drawing: a front deck footing as planned</a> <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=footing">3D drawing: a rear deck footing as planned</a></p>
 </section>
-<section class="issue built-unreviewed" id="ci-15">
+<section class="issue built-unreviewed" id="ci-15" data-status="built-unreviewed">
 <h3><span class="cid">CI-15</span> Deck framing changed in the field <span class="tag built-unreviewed">Built, not reviewed</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Built. The engineer's approval rests on Alex's unconfirmed account; nothing in writing.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-09-01</dd></dl>
 <div class="text">
@@ -557,8 +584,8 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=beam">3D drawing: the front corner post and the beam under the roof edge</a></p>
 </section>
-<h2 class="group">Left as built (3)</h2>
-<section class="issue closed-as-built" id="ci-03">
+<h2 class="group" data-status="left-as-built">Left as built (3)</h2>
+<section class="issue closed-as-built" id="ci-03" data-status="left-as-built">
 <h3><span class="cid">CI-03</span> Crawl space access in the wrong place, one of two built <span class="tag closed-as-built">Left as built</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07).</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>not dated</dd></dl>
 <div class="text">
@@ -575,7 +602,7 @@
 </div>
 </div>
 </section>
-<section class="issue closed-as-built" id="ci-09">
+<section class="issue closed-as-built" id="ci-09" data-status="left-as-built">
 <h3><span class="cid">CI-09</span> Window and door flashing <span class="tag closed-as-built">Left as built</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Left as built (owner, 2026-11-07). The redo on file is Alex's video of the first redone sill: DuPont tape turned up the sides and corner patches, with no sill pan.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-11-03</dd></dl>
 <div class="text">
@@ -632,7 +659,7 @@
 <button class="showall" type="button" data-more="Show all 41 pictures" data-less="Show fewer pictures">Show all 41 pictures</button>
 </div>
 </section>
-<section class="issue closed-as-built" id="ci-13">
+<section class="issue closed-as-built" id="ci-13" data-status="left-as-built">
 <h3><span class="cid">CI-13</span> Deck posts at the edge of their piers <span class="tag closed-as-built">Left as built</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Left as built.</dd><dt>Responsible (as reported)</dt><dd>Elevate</dd><dt>Found</dt><dd>2026-09-01</dd></dl>
 <div class="text">
@@ -661,8 +688,8 @@
 </div>
 <p class="links">See it in 3D: <a href="https://tredfield.github.io/138-tahoma-cabin/front-porch.html?view=footing">3D drawing: a front deck post on its footing as planned</a> <a href="https://tredfield.github.io/138-tahoma-cabin/rear-deck.html?view=footing">3D drawing: a rear deck post on its footing as planned</a></p>
 </section>
-<h2 class="group">Fixed (3)</h2>
-<section class="issue fixed" id="ci-01">
+<h2 class="group" data-status="fixed">Fixed (3)</h2>
+<section class="issue fixed" id="ci-01" data-status="fixed">
 <h3><span class="cid">CI-01</span> Stem wall forms set too high <span class="tag fixed">Fixed</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Fixed before the pour.</dd><dt>Responsible (as reported)</dt><dd>Concrete sub (under Elevate)</dd><dt>Found</dt><dd>2026-05-08</dd></dl>
 <div class="text">
@@ -685,7 +712,7 @@
 <button class="showall" type="button" data-more="Show all 7 pictures" data-less="Show fewer pictures">Show all 7 pictures</button>
 </div>
 </section>
-<section class="issue fixed" id="ci-06">
+<section class="issue fixed" id="ci-06" data-status="fixed">
 <h3><span class="cid">CI-06</span> Framing corrections, including a beam turned the wrong way <span class="tag fixed">Fixed</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Fixed (owner-reported).</dd><dt>Responsible (as reported)</dt><dd>Framers (under Elevate)</dd><dt>Found</dt><dd>not dated</dd></dl>
 <div class="text">
@@ -696,7 +723,7 @@
 <p class="none">No photos yet.</p>
 </div>
 </section>
-<section class="issue fixed" id="ci-07">
+<section class="issue fixed" id="ci-07" data-status="fixed">
 <h3><span class="cid">CI-07</span> Eave corners cut wrong: rafter tails and gable fascia corner <span class="tag fixed">Fixed</span></h3>
 <dl class="facts"><dt>Status</dt><dd>Fixed (owner-reported, photo-supported).</dd><dt>Responsible (as reported)</dt><dd>Elevate / framers</dd><dt>Found</dt><dd>2026-09-18</dd></dl>
 <div class="text">
@@ -720,7 +747,7 @@
 </main>
 
 <footer>
-  Last updated 2026-11-07. Page built 2026-11-07 from commit c590a5c.<br>
+  Last updated 2026-11-07. Page built 2026-11-07 from commit 187ad76.<br>
   Click a picture to open it here, click it again to zoom; the arrow keys step through that issue's pictures; Esc,
   the close button or Back return you to the page. Printing (or Print to PDF) gives every picture at thumbnail size.
 </footer>
@@ -740,6 +767,49 @@
     const p = b.closest('.pics'), all = p.classList.toggle('all');
     b.textContent = all ? b.dataset.less : b.dataset.more;
   }));
+  // Status filter (owner, 2026-11-07). The chips are links to ?status=<name>; here a click filters in place and
+  // records the filter in the query with replaceState, so a filtered link can be shared and survives a reload. The
+  // query, not the hash, because the viewer owns #view=. Without JavaScript nothing is hidden.
+  const STATUSES = {open: 'Open', 'built-unreviewed': 'Built, not reviewed', 'left-as-built': 'Left as built', fixed: 'Fixed'};
+  const chips = [...document.querySelectorAll('.filters .chip')];
+  const filtered = [...document.querySelectorAll('table.summary tbody tr[data-status], .issue[data-status], h2.group[data-status]')];
+  const sections = [...document.querySelectorAll('.issue[data-status]')];
+  const showing = document.getElementById('showing');
+  let current = '';
+  function applyFilter(st) {
+    current = STATUSES[st] ? st : '';
+    filtered.forEach(el => { el.hidden = !!current && el.dataset.status !== current; });
+    chips.forEach(c => { const on = (c.dataset.status || '') === current; c.classList.toggle('active', on); c.setAttribute('aria-pressed', on); });
+    const n = sections.filter(s => !s.hidden).length;
+    showing.hidden = !current;
+    if (current) {
+      showing.innerHTML = '';
+      showing.append(`Showing ${n} of ${sections.length} issues: ${STATUSES[current]} only`);
+      const more = document.createElement('span'); more.className = 'more';
+      const all = document.createElement('a'); all.href = location.pathname; all.textContent = 'show all';
+      all.addEventListener('click', e => { e.preventDefault(); setFilter(''); });
+      more.append(' \u2014 ', all);
+      showing.append(more);
+    }
+  }
+  function setFilter(st) {
+    applyFilter(st);
+    const q = new URLSearchParams(location.search);
+    if (current) q.set('status', current); else q.delete('status');
+    const qs = q.toString();
+    history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+  }
+  chips.forEach(c => c.addEventListener('click', e => {
+    e.preventDefault();
+    const st = c.dataset.status || '';
+    setFilter(st === current ? '' : st);
+  }));
+  // a cross-reference to an issue the filter hides clears the filter first, so the link lands somewhere
+  document.querySelectorAll('a[href^="#ci-"]').forEach(a => a.addEventListener('click', () => {
+    const t = document.getElementById(a.getAttribute('href').slice(1));
+    if (t && t.hidden) setFilter('');
+  }));
+  applyFilter(new URLSearchParams(location.search).get('status') || '');
   // Thumbnails load lazily on screen; printing asks for all of them, folded ones included.
   window.addEventListener('beforeprint', () => document.querySelectorAll('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; }));
   // The viewer is the drawings site's renders-page viewer, copied. Every picture link
@@ -755,8 +825,14 @@
     viewer.classList.remove('zoomed'); viewer.hidden = false; document.body.classList.add('viewing');
   }
   function hide() { viewer.hidden = true; document.body.classList.remove('viewing'); viewer.classList.remove('zoomed'); }
-  function open(a) { show(a); history.pushState({viewer: a.dataset.viewer}, '', '#view=' + a.dataset.viewer); }
-  function close() { if (history.state && history.state.viewer) history.back(); else { hide(); history.replaceState(null, '', location.pathname); } }
+  // `pushed`: the viewer has its own history entry on top of the page, so closing is a Back. A shared #view= link
+  // arrives without one, and Back there would leave the page (or do nothing in a fresh tab), so it closes in place.
+  let pushed = false;
+  function open(a) { show(a); history.pushState({viewer: a.dataset.viewer}, '', '#view=' + a.dataset.viewer); pushed = true; }
+  function close() {
+    if (pushed && history.state && history.state.viewer) history.back();
+    else { hide(); pushed = false; history.replaceState(null, '', location.pathname + location.search); }
+  }
   links.forEach(a => a.addEventListener('click', e => { e.preventDefault(); open(a); }));
   document.getElementById('vclose').addEventListener('click', close);
   // Arrow keys walk the pictures while the viewer is open -- here only within the open picture's issue, folded
@@ -776,8 +852,9 @@
     else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
   });
   window.addEventListener('popstate', () => {
+    applyFilter(new URLSearchParams(location.search).get('status') || '');
     const m = location.hash.match(/^#view=(.+)$/);
-    if (m && byKey[decodeURIComponent(m[1])]) show(byKey[decodeURIComponent(m[1])]); else hide();
+    if (m && byKey[decodeURIComponent(m[1])]) { show(byKey[decodeURIComponent(m[1])]); pushed = true; } else { hide(); pushed = false; }
   });
   // Click to zoom to full size at the point clicked; click again to fit. Drag or scroll to look around when zoomed.
   vimg.addEventListener('click', e => {
