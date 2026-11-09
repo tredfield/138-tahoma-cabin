@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- framing-3d template version 1 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -2299,12 +2300,12 @@ const OPEN = {                                     // rough openings in wall-loc
   }
   winRect(WALLS.E, E.C); winRect(WALLS.E, E.Dw, { slider: true }); winRect(WALLS.E, E.E);   // D (kitchen) slides; E (loft) is a picture window (owner 2026-09-11)
   winRect(WALLS.W, Wo.F); winRect(WALLS.W, Wo.A1); winRect(WALLS.W, Wo.A2);   // living-room picture windows (owner 2026-09-11)
-  // sconces: 78" to center (owner 2026-09-11: A03's ~5'-10" read low); flanking door 1 (A03 / E01) plus one outside each front
-  // window (owner); north pair between the as-built windows and the corners (owner; E01 draws them at the corners)
-  sconce(WALLS.S, -40, 78); sconce(WALLS.S, 40, 78); sconce(WALLS.S, -134, 78); sconce(WALLS.S, 134, 78);   // outer pair centered between the window casing (115 3/4) and the corner board (152 1/2)
+  // sconces: FOUR, 78" to center (owner 2026-09-11: A03's ~5'-10" read low) -- the pair flanking door 1 (A03 / E01) and the north
+  // pair between the as-built windows and the corners (owner; E01 draws them at the corners). No front-window and no side-wall
+  // sconces (owner 2026-11-09: the front-window pair is withdrawn, and the lights at the ends of A03's east and west elevations are
+  // the north and south wall lights seen edge-on)
+  sconce(WALLS.S, -40, 78); sconce(WALLS.S, 40, 78);
   sconce(WALLS.N, -147.75, 78); sconce(WALLS.N, 147.75, 78);
-  sconce(WALLS.E, WALLS.E.uOf(-540), 78);
-  sconce(WALLS.W, WALLS.W.uOf(-12), 78); sconce(WALLS.W, WALLS.W.uOf(-540), 78);
   // recessed cans per E01: six in the rear roof soffit at mid-deck (circuit 6), two in the soffit over the upper deck (circuit 36),
   // two under the upper deck at the porch ceiling (circuit 6). Black trim ring, warm lens, unlit point light for the render pipeline.
   function can(x, y, z, tilt = 0) {
