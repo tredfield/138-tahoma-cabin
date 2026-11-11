@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- framing-3d template version 1 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1551,7 +1552,8 @@ return { THREE, OrbitControls };
 // ===== EDIT: D (dimensions, inches) =====
 const D = {
   HALF_W: 156,                                  // 26'-0" C to A, gridline B centered
-  STATIONS: [-156, -75, 0, 75, 156],            // posts: 0 / 6'-9" / 13'-0" / 19'-3" / 26'-0" from gridline C (S3.1)
+  CORNER_X: 153.25,                             // corner-post centre: outer face flush with the wall studs at gridlines C / A (field)
+  STATIONS: [-153.25, -75, 0, 75, 153.25],      // post centres: S3.1 0 / 6'-9" / 13'-0" / 19'-3" / 26'-0" from gridline C, corners 2 3/4" in (outer faces on C / A)
   POST_LINE: -96,                               // gridline 5, 8'-0" north of gridline 4 (S3.1)
   BEAM_W: 3.5, BEAM_D: 7.25,                    // PT4X8 drop beam
   EAVE_TIP: 180,                                // 2'-0" past gridlines A / C
@@ -1904,7 +1906,7 @@ for (const s of [-1, 1]) {
 }
 // sloped double top plates under the gable rafters, PSL face to the eave-beam inner face
 for (const s of [-1, 1]) {
-  const xa = 3.5, xb = 153.25;
+  const xa = 3.5, xb = D.CORNER_X - 2.75;          // to the eave-beam inner face (150.5)
   prism([[s * xa, D.roofBot(xa)], [s * xb, D.roofBot(xb)], [s * xb, D.roofBot(xb) - PLATE_PLUMB], [s * xa, D.roofBot(xa) - PLATE_PLUMB]], W0, W1, M.wall, 'wall');
 }
 // finishes toggle: 7/16" sheathing with the openings cut, translucent panes just inside the wall face
@@ -1928,31 +1930,34 @@ for (const s of [-1, 1]) {
 
 // ===========================================================================
 // 2. REAR DECK (layer 'deck') — S3.1 as drawn: PT2X8 ledger, PT2X8 joists @ 16" o.c. bearing over a
-//    PT4X8 drop beam on the 8'-0" post line, five PT6X6 posts. Deck edge = beam outer face (≈8'-1¾").
+//    PT4X8 drop beam on the 8'-0" post line, five PT6X6 posts; joists cantilever to a rim at the 8'-9" edge.
 // ===========================================================================
 const LED_Z1 = -D.SHEATH_T, LED_Z0 = LED_Z1 - 1.5;          // ledger against the 7/16" sheathing: z -0.44 .. -1.94
 const J_TOP = -1.5, J_BOT = J_TOP - 7.25;                    // PT2X8 joists: surface -1/2", 1" decking placeholder
-// Deck ends (owner 2026-09-22): a PT end rim, joist depth, on the OUTSIDE face of each corner post, house to deck
-// edge; the rim runs out to it; a 1x10 cedar skirt (9 1/4" tall, owner 2026-09-22 late) wraps the three open sides,
-// top tucked under the decking, hanging 2" below the 2X8 joists like the skirt on the owner's current deck; the floor
-// boards overhang the skirt 3/4" on all three open sides (owner 2026-09-22 evening). The skirt face is 2 1/4" past
-// each post face, the board ends 3" past it.
-const END_RIM_T = 1.5, SKIRT_T = 0.75, OVERHANG = 0.75;
+// Deck corners, option 3 (owner 2026-11-11): the corner posts' outer faces are flush with the wall studs (x = +/-156).
+// The ledger stops at the house corner; an END JOIST runs from a hanger on the ledger to a face-mount hanger on the corner
+// post's house-side face, its outside face flush with the post's (held 0.02 clear); short PT2X8 blocks fill from the
+// post's north face to the rim (looks only); the rim, the 1x10 cedar skirt (9 1/4" tall, top tucked under the decking,
+// hanging 2" below the joists) and the floor boards (3/4" past the skirt) run out to that line.
+const SKIRT_T = 0.75, OVERHANG = 0.75, CLR = 0.02;
 const SKIRT_H = 9.25, SKIRT_BOT = J_TOP - SKIRT_H;           // 1x10 skirt: -1.5 .. -10.75
-const END_RIM_X0 = D.HALF_W + 2.75 + 0.02, END_RIM_X1 = D.HALF_W + 2.75 + END_RIM_T;   // 158.77 .. 160.25 (0.02 clear of the post face: no coincident faces)
-const DECK_END = END_RIM_X1 + SKIRT_T;                                                 // 161: outer face of the end skirt
+const END_J_X1 = D.HALF_W - CLR, END_J_X0 = END_J_X1 - 1.5;  // end joist 154.48 .. 155.98 (0.02 clear of the post's outer face)
+const DECK_END = D.HALF_W + SKIRT_T;                         // 156.75: outer face of the end skirt
 const B_TOP = J_BOT, B_BOT = B_TOP - D.BEAM_D;               // PT4X8 drop beam under the joists: -8.75 .. -16
-const JOIST_X = [-156 + 0.75];
+const JOIST_X = [];                                         // regular joists @ 16" o.c.; the end joists are drawn separately
 for (let x = -156 + 16; x < 156 - 8; x += 16) JOIST_X.push(x);
-JOIST_X.push(156 - 0.75);
 
 // schematic hardware ---------------------------------------------------------------
-function joistHanger(xc, y0, y1, zFace, dir = -1) {          // LUS-type at the ledger; dir -1 extends toward -z, out over the deck
-  const t = 0.1, L = 1.5, za = zFace, zb = zFace + dir * L;
+function joistHanger(xc, y0, y1, zFace, dir = -1, xLim = Infinity) {   // LUS-type at the ledger; dir -1 extends toward -z, out over the deck
+  const t = 0.1, L = 1.5, za = zFace, zb = zFace + dir * L;            // xLim: nothing drawn past |x| = xLim (end joists: clear of the skirt)
   const Z0 = Math.min(za, zb), Z1 = Math.max(za, zb);
-  box(xc - 0.75 - t, xc + 0.75 + t, y0 - t, y0, Z0, Z1, M.steel, 'hardware', false);
-  box(xc - 0.75 - t, xc - 0.75, y0, y1 - 1.5, Z0, Z1, M.steel, 'hardware', false);
-  box(xc + 0.75, xc + 0.75 + t, y0, y1 - 1.5, Z0, Z1, M.steel, 'hardware', false);
+  const hb = (x1, x2, ya, yb) => {                                     // box clipped to |x| <= xLim; skipped if nothing is left
+    const a = Math.max(Math.min(x1, x2), -xLim), b = Math.min(Math.max(x1, x2), xLim);
+    if (b - a > 0.01) box(a, b, ya, yb, Z0, Z1, M.steel, 'hardware', false);
+  };
+  hb(xc - 0.75 - t, xc + 0.75 + t, y0 - t, y0);
+  hb(xc - 0.75 - t, xc - 0.75, y0, y1 - 1.5);
+  hb(xc + 0.75, xc + 0.75 + t, y0, y1 - 1.5);
 }
 function hucHanger(xFace, dir, y0, y1, z0, z1) {             // HUC-type face-mount on a post face perpendicular to x
   const t = 0.12, L = 2.5, xa = xFace, xb = xFace + dir * L;
@@ -1979,24 +1984,32 @@ function postBase(xs, zc) {                                  // ABU66Z-type stan
 
 box(-156, 156, J_BOT, J_TOP, LED_Z0, LED_Z1, M.pt, 'deck');                       // PT2X8 HF#2 LEDGER (Dtl 10/S4.1)
 const RIM_Z1 = D.DECK_EDGE + 1.5;                                                  // PT2X8 rim at the cantilevered edge (S3.1 had no cantilever and no rim)
-for (const xc of JOIST_X) {                                                        // PT2X8 HF#2 DECK JST. @ 16" O.C., cantilevered 6" past the post line
-  if (Math.abs(xc) > 153) {                                                        // end joists interrupted by the corner post
-    box(xc - 0.75, xc + 0.75, J_BOT, J_TOP, LED_Z0, D.POST_LINE + 2.75, M.pt, 'deck');
-    box(xc - 0.75, xc + 0.75, J_BOT, J_TOP, D.POST_LINE - 2.75, RIM_Z1, M.pt, 'deck');
-  } else box(xc - 0.75, xc + 0.75, J_BOT, J_TOP, LED_Z0, RIM_Z1, M.pt, 'deck');
+for (const xc of JOIST_X) {                                                        // PT2X8 HF#2 DECK JST. @ 16" O.C., cantilevered 9" past the post line
+  box(xc - 0.75, xc + 0.75, J_BOT, J_TOP, LED_Z0, RIM_Z1, M.pt, 'deck');
   joistHanger(xc, J_BOT, J_TOP, LED_Z0, -1);
 }
-box(-END_RIM_X1, END_RIM_X1, J_BOT, J_TOP, D.DECK_EDGE, RIM_Z1, M.pt, 'deck');     // PT2X8 rim — outer face is the 8'-9" deck edge; runs out to the end rims
-for (const s of [-1, 1])                                                           // PT2X8 END RIMS on the corner posts' outer faces, sheathing face to the rim's back face
-  box(s * END_RIM_X0, s * END_RIM_X1, J_BOT, J_TOP, LED_Z1, RIM_Z1, M.pt, 'deck');
+box(-D.HALF_W, D.HALF_W, J_BOT, J_TOP, D.DECK_EDGE, RIM_Z1, M.pt, 'deck');         // PT2X8 rim — outer face is the 8'-9" deck edge, ends on gridlines C / A
+const POST_HS = D.POST_LINE + 2.75, POST_N = D.POST_LINE - 2.75;                   // corner post's house-side face -93.25 / north face -98.75
+for (const s of [-1, 1]) {
+  const xa = Math.min(s * END_J_X0, s * END_J_X1), xb = Math.max(s * END_J_X0, s * END_J_X1), xc = (xa + xb) / 2;
+  box(xa, xb, J_BOT, J_TOP, LED_Z0, POST_HS, M.pt, 'deck');                       // PT2X8 END JOIST, ledger to the corner post
+  const hLim = D.HALF_W - CLR;                                                      // 155.98: hangers stop 0.02 short of the skirt (no outer side flange)
+  joistHanger(xc, J_BOT, J_TOP, LED_Z0, -1, hLim);                                 // hanger on the ledger
+  joistHanger(xc, J_BOT, J_TOP, POST_HS, +1, hLim);                                // face-mount hanger on the post's house-side face
+  for (let i = 0; i < 3; i++) {                                                    // PT2X8 BLOCKING, 3 plies flush outside: post north face to the rim (looks only)
+    const x1 = END_J_X1 - i * 1.5, x0 = x1 - 1.5;
+    box(Math.min(s * x0, s * x1), Math.max(s * x0, s * x1), J_BOT, J_TOP, RIM_Z1, POST_N, M.pt, 'deck');
+  }
+}
 // PT4X8 HF#2 DROP BEAM (S3.1: four segments spliced over the posts) between the corner-post inner faces,
 // hung on them (HUC hangers per S3.1), bearing on the three intermediate posts
-box(-153.25, 153.25, B_BOT, B_TOP, D.BEAM_Z0, D.BEAM_Z1, M.pt, 'deck');
-hucHanger(-153.25, +1, B_BOT, B_TOP, D.BEAM_Z0, D.BEAM_Z1);
-hucHanger(153.25, -1, B_BOT, B_TOP, D.BEAM_Z0, D.BEAM_Z1);
+const POST_IN = D.CORNER_X - 2.75;                                                 // 150.5: corner posts' inner faces
+box(-POST_IN, POST_IN, B_BOT, B_TOP, D.BEAM_Z0, D.BEAM_Z1, M.pt, 'deck');
+hucHanger(-POST_IN, +1, B_BOT, B_TOP, D.BEAM_Z0, D.BEAM_Z1);
+hucHanger(POST_IN, -1, B_BOT, B_TOP, D.BEAM_Z0, D.BEAM_Z1);
 // PT6X6 HF#2 posts (ACH6Z cap / ABU66Z base): intermediates stop under the drop beam; corners run to the 6X10 eave beams
 for (const xs of D.STATIONS) {
-  const corner = Math.abs(xs) === 156;
+  const corner = Math.abs(xs) === D.CORNER_X;
   const top = corner ? D.EAVE_BEAM_BOT : B_BOT;
   box(xs - 2.75, xs + 2.75, D.POST_BOT, top, D.POST_LINE - 2.75, D.POST_LINE + 2.75, M.pt, 'deck');
   postCap(xs, top, D.POST_LINE, corner ? 5.5 : D.BEAM_W);
@@ -2060,7 +2073,7 @@ box(-RIDGE_HW, RIDGE_HW, D.RIDGE_TOP - D.RAFTER_D, D.RIDGE_TOP, D.ROOF_EDGE, D.R
 // 6X10 DF#2 eave drop beams on gridlines A / C: from the 4-stud pack in the wall, over the corner-post caps, and
 // cantilevering ≈11" past them to the roof edge (owner; NOT on the sheets — flagged)
 for (const s of [-1, 1]) {
-  const x0 = s * 156 - 2.75, x1 = s * 156 + 2.75;
+  const x0 = s * D.CORNER_X - 2.75, x1 = s * D.CORNER_X + 2.75;   // x +/-(150.5 .. 156): outer face flush with the wall studs
   box(x0, x1, D.EAVE_BEAM_BOT, D.EAVE_BEAM_TOP, D.ROOF_EDGE, W1, M.roof, 'roof');
   box(x0 - 0.6, x1 + 0.6, D.EAVE_BEAM_BOT - 0.6, D.EAVE_BEAM_TOP + 0.6, D.ROOF_EDGE - 0.6, D.POST_LINE - 2.75, M.flagHalo, 'roof', false);
 }
@@ -2075,7 +2088,7 @@ for (const s of [-1, 1]) {
   const yI = D.EAVE_BEAM_BOT - C, yb = yI - TB, yt = D.EAVE_BEAM_TOP;   // beam box: bottom board top / underside, side tops
   const zW = -D.SHEATH_T - C, zE = D.ROOF_EDGE;                     // wall sheathing face / roof edge (beam end)
   for (const s of [-1, 1]) {
-    const xc = s * 156, zc = D.POST_LINE;
+    const xc = s * D.CORNER_X, zc = D.POST_LINE;
     // post: one mitred ring of four boards from the decking to the beam box
     const sh = new THREE.Shape([[-a, -a], [a, -a], [a, a], [-a, a]].map(p => new THREE.Vector2(xc + p[0], -(zc + p[1]))));
     sh.holes.push(new THREE.Path([[-b, -b], [b, -b], [b, b], [-b, b]].map(p => new THREE.Vector2(xc + p[0], -(zc + p[1])))));
@@ -2134,20 +2147,23 @@ for (const s of [-1, 1]) {
     // 2X10 eave fascia on the rafter tails at the eave tip
     box(s * D.EAVE_TIP, s * (D.EAVE_TIP + 1.5), D.roofTop(D.EAVE_TIP) - 8.65, D.roofTop(D.EAVE_TIP) + 0.6, D.ROOF_EDGE - 1.5, 0, M.fram, 'finish');
   }
-  // 1" decking placeholder (0615) overhanging the skirt 3/4" on the three open sides: x +/-161 3/4, north edge z -106 1/2
+  // 1" decking placeholder (0615) overhanging the skirt 3/4" on the three open sides: x +/-157 1/2, north edge z -106 1/2
   box(-(DECK_END + OVERHANG), DECK_END + OVERHANG, J_TOP, -0.5, LED_Z1, D.DECK_EDGE - SKIRT_T - OVERHANG, M.deck, 'finish', false);
   // 1x10 cedar skirt tucked under the decking on the three open sides: north board full width, end boards butt its back
-  // face (no shared faces); tops at the decking underside like the joists and end rims, bottoms 9 1/4" down at -10.75
+  // face (no shared faces); tops at the decking underside like the joists, bottoms 9 1/4" down at -10.75; end skirts on the
+  // outside of the end-joist / post line (x +/-156 .. 156.75)
   box(-DECK_END, DECK_END, SKIRT_BOT, J_TOP, D.DECK_EDGE - SKIRT_T, D.DECK_EDGE, M.deck, 'finish');            // north skirt
-  for (const s of [-1, 1]) box(s * END_RIM_X1, s * DECK_END, SKIRT_BOT, J_TOP, LED_Z1, D.DECK_EDGE, M.deck, 'finish');   // end skirts
+  for (const s of [-1, 1]) box(s * D.HALF_W, s * DECK_END, SKIRT_BOT, J_TOP, LED_Z1, D.DECK_EDGE, M.deck, 'finish');   // end skirts
   // guard (its own layer 'guard', off by default) — 36" as built on the front deck; continuous on three sides, no stair opening
-  const GL = 'guard', DK = -0.5, RT = DK + 36, zr = D.DECK_EDGE + 2.25, RP = [-150, -105, -57, -9, 9, 57, 105, 150];
+  // side runs on x = +/-XF: the 5 1/2" top rail's outer edge 1 1/4" inside the corner posts' inner faces (150.5), clear of their cedar boxes
+  const GL = 'guard', DK = -0.5, RT = DK + 36, zr = D.DECK_EDGE + 2.25, XF = POST_IN - 1.25 - 2.75;   // XF = 146.5
+  const RP = [-(XF - 2), -105, -57, -9, 9, 57, 105, XF - 2];
   for (const xp of RP) box(xp - 1.75, xp + 1.75, DK, RT, zr - 1.75, zr + 1.75, M.pt, GL, false);
-  box(-152, 152, RT - 1.5, RT, zr - 2.75, zr + 2.75, M.pt, GL, false);
-  box(-152, 152, DK + 3, DK + 4.5, zr - 0.75, zr + 0.75, M.pt, GL, false);
-  for (let x = -147; x < 149; x += 4.5) box(x - 0.75, x + 0.75, DK + 4.5, RT - 1.5, zr - 0.75, zr + 0.75, M.pt, GL, false);
+  box(-XF, XF, RT - 1.5, RT, zr - 2.75, zr + 2.75, M.pt, GL, false);
+  box(-XF, XF, DK + 3, DK + 4.5, zr - 0.75, zr + 0.75, M.pt, GL, false);
+  for (let x = -(XF - 5); x < XF - 3; x += 4.5) box(x - 0.75, x + 0.75, DK + 4.5, RT - 1.5, zr - 0.75, zr + 0.75, M.pt, GL, false);
   for (const s of [-1, 1]) {
-    const xf = s * 152;
+    const xf = s * XF;
     box(xf - 2.75, xf + 2.75, RT - 1.5, RT, zr, LED_Z1, M.pt, GL, false);
     box(xf - 0.75, xf + 0.75, DK + 3, DK + 4.5, zr, LED_Z1, M.pt, GL, false);
     for (let z = zr + 3; z < LED_Z1 - 3; z += 4.5) box(xf - 0.75, xf + 0.75, DK + 4.5, RT - 1.5, z - 0.75, z + 0.75, M.pt, GL, false);
@@ -2187,15 +2203,15 @@ box(-150.5, 150.5, -0.75, 0, W1, 72, M.ghostFl, 'context');                     
   const TF = { fs: 88 }, TFLAG = { fs: 88, flag: true };
   const PN = D.POST_LINE - 2.75 - 0.15, RIM = D.DECK_EDGE - 0.15, PLN = D.POST_LINE - 9 - 0.15, WF = P0 - 0.15, RE = D.ROOF_EDGE - 0.15;
   // deck
-  tagAt(['CORNER POST (2)', 'PT6X6 HF#2, ACH6Z cap', 'ABU66Z on 5/8" x 5" Titen', 'cedar box 7" sq above the decking'], -156, 30, PN, 'z-', TF);
+  tagAt(['CORNER POST (2)', 'PT6X6 HF#2, ACH6Z cap', 'ABU66Z on 5/8" x 5" Titen', 'cedar box 7" sq above the decking'], -D.CORNER_X, 30, PN, 'z-', TF);
   tagAt(['CENTER POST (3)', 'PT6X6 HF#2, ABU66Z base', 'stops under the drop beam'], 75, -24, PN, 'z-', TF);
   tagAt(['DROP BEAM PT4X8 HF#2', '4 segments, HUC46Z at corners'], -130, (B_BOT + B_TOP) / 2, D.BEAM_Z0 - 0.15, 'z-', TF);
   tagAt(['JOISTS PT2X8 HF#2 @ 16" o.c.', 'over the beam, 9" cantilever', 'rim face 8\'-9" from gridline 4'], -30, (J_BOT + J_TOP) / 2, RIM, 'z-', TF);
   tagAt(['LEDGER PT2X8 HF#2', 'per 10/S4.1'], 100, (J_BOT + J_TOP) / 2, LED_Z0 - 0.15, 'z-', TF);
-  tagAt(['END RIM PT 2X, 1x CEDAR SKIRT', 'deck ends 2 1/4" past the post', 'decking overhangs 3/4"', 'skirt 1x10, 9 1/4" under the decking'], 125, (SKIRT_BOT + J_TOP) / 2, D.DECK_EDGE - SKIRT_T - 0.15, 'z-', TF);
+  tagAt(['END JOIST PT2X8', 'hung on the corner post', 'BLOCKING, in front of the post', 'decking overhangs 3/4"', 'skirt 1x10, 9 1/4" under the decking'], 125, (SKIRT_BOT + J_TOP) / 2 + 8, D.DECK_EDGE - SKIRT_T - 0.15, 'z-', TF);
   tagAt(['FOOTING (5)', '24" sq x 8" pad, 18"Ø plinth', 'top 8" above grade, Dtl 4/S4.1'], -75, -50, PLN, 'z-', TF);
   tagAt(['FIELD VERIFY: grade', 'drawn at -3\'-0"'], 75, -46, PLN, 'z-', TFLAG);
-  tagAt(['FIELD VERIFY: post centering', 'plinths drawn centered'], 156, -50, PLN, 'z-', TFLAG);
+  tagAt(['FIELD VERIFY: post centering', 'plinths drawn centered'], D.CORNER_X, -50, PLN, 'z-', TFLAG);
   // gridline-4 wall
   tagAt(['LVL HEADER 7" x 14" 2.0E', 'full width, ST6224 straps'], 60, (D.LVL_BOT + D.LVL_TOP) / 2, WF, 'z-', TF);
   tagAt(['PSL COLUMN 7" x 7" 1.8E', 'CB7 1/8-7 base, CCQ7.1 cap', 'CCQ7.1 + CCQ6-7.13 above LVL'], 0, 250, WF, 'z-', TF);
@@ -2207,8 +2223,8 @@ box(-150.5, 150.5, -0.75, 0, W1, 72, M.ghostFl, 'context');                     
   tagAt(['RIDGE GLB 5 1/2" x 24"', 'ends 7\'-4" from sheathing'], 0, 309, D.RIDGE_END - 0.15, 'z-', TF);
   tagAt(['RAKE EXTENSION 1\'-9": TBD', 'pending engineer, do not build'], 0, 328, RE, 'z-', TFLAG);
   tagAt(['RAFTERS 2X14 DF#2 @ 24" o.c.', '15:12, LRU210 hangers at GLB', 'bear on the 6X10 eave beams'], -80, (D.roofTop(80) + D.roofBot(80)) / 2, CARRIER_Z - 0.15, 'z-', TF);
-  tagAt(['EAVE BEAM 6X10 DF#2 (2)', 'from 4-stud pack, ACH6Z cap', 'cedar box 7" x 10 1/4", sides + bottom, end board'], -156, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TF);
-  tagAt(['EAVE BEAM CANTILEVER 11"', 'PENDING ENGINEER'], 156, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TFLAG);
+  tagAt(['EAVE BEAM 6X10 DF#2 (2)', 'from 4-stud pack, ACH6Z cap', 'cedar box 7" x 10 1/4", sides + bottom, end board'], -D.CORNER_X, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TF);
+  tagAt(['EAVE BEAM CANTILEVER 11"', 'PENDING ENGINEER'], D.CORNER_X, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TFLAG);
   tagAt(['SOFFIT 1X6 CEDAR T&G', 'under rafters, wall to gable end'], -100, D.roofBot(100) - 0.4, RE, 'z-', TF);
 }
 // levels and gridlines (context sprites)
@@ -2260,7 +2276,7 @@ layerBoxes.forEach(cb => cb.addEventListener('change', applyLayers));
 const VIEWS = {
   rear:    { pos: [-360, 230, -600], tgt: [0, 130, -30] },
   under:   { pos: [-120, 70, -330], tgt: [0, 200, -20] },
-  corner:  { pos: [-320, 55, -250], tgt: [-125, -2, -70] },  // the west deck corner: end rim, skirt and post
+  corner:  { pos: [-320, 55, -250], tgt: [-125, -2, -70] },  // the west deck corner: end joist, blocking, skirt and post
   side:    { pos: [860, 210, -170], tgt: [0, 125, -50] },
   peak:    { pos: [-150, 440, -250], tgt: [0, 305, -70] },
   top:     { pos: [0, 820, -50], tgt: [0, 0, -50] },
