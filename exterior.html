@@ -1794,6 +1794,21 @@ const M = {
   ghostFl: std({ color: 0x4d535b, roughness: .95, transparent: true, opacity: .35 }),
   steel:   std({ color: 0x8a94a0, roughness: .4, metalness: .6 }),
   sheath:  std({ color: 0xe6dcc4, roughness: .9, transparent: true, opacity: .32, side: THREE.DoubleSide }),
+  // hookups (section 4a): the finishes as they look today (owner 2026-11-10); none is a Colors slot, and the render palette has none of them yet
+  hkMetal:  std({ color: 0xb8bcbe, roughness: .35, metalness: .7 }),    // bare galvanized vent caps (photos 3256, 3257, 3261)
+  hkWhite:  std({ color: 0xeeece6, roughness: .6 }),                     // white plastic: dryer hood, PVC condensate drain, doorbell button
+  hkBrass:  std({ color: 0xb8923e, roughness: .35, metalness: .75 }),    // hose bibs
+  hkRed:    std({ color: 0xc0261e, roughness: .5 }),                     // hot handwheel, south-east pair
+  hkGreen:  std({ color: 0x1f6e3c, roughness: .5 }),                     // cold handwheel, south-east pair
+  hkCover:  std({ color: 0x9a9d9e, roughness: .6 }),                     // grey outlet in-use covers, disconnect, boxes, doorbell plate
+  hkBlack:  std({ color: 0x1b1b1c, roughness: .6 }),                     // heat pump line flashing and boot, drip cap, gas pipe, stand, handwheels
+  hkCopper: std({ color: 0xb4693a, roughness: .35, metalness: .7 }),     // refrigerant liquid line
+  hkIns:    std({ color: 0xe9e7e0, roughness: .8 }),                     // white suction-line insulation
+  hkYellow: std({ color: 0xe0b51f, roughness: .5 }),                     // gas ball-valve lever
+  hkReg:    std({ color: 0x8c9195, roughness: .5, metalness: .3 }),      // propane regulator
+  hkCab:    std({ color: 0x8d8a83, roughness: .7 }),                     // heat pump cabinet
+  hkFan:    std({ color: 0x232425, roughness: .6 }),                     // heat pump fan guard and base pan, line-set cable
+  hkVent:   std({ color: 0x8f9395, roughness: .7 }),                     // crawl-space vent frame round the dryer hood (grey plastic, photo 3262)
 };
 // ===== END EDIT: M =====
 
@@ -2319,6 +2334,130 @@ const OPEN = {                                     // rough openings in wall-loc
   for (const x of [-86, 86]) can(x, D.F_UJOIST[0] - D.SOF_T - 0.1, 25);   // two flush in the cedar porch ceiling (section 5), like the soffit cans
 }
 // ===========================================================================
+// 4a. HOOKUPS (layer 'mech': no checkbox, so always on; left out of the glTF export by EXPORT_EXCLUDE_DEFAULT). Vent caps, hose
+//     bibs, outdoor outlets, boxes, gas, the heat pump lines and its outdoor unit -- from the owner's photos and wall marks, the plans
+//     only where neither shows the spot (owner 2026-11-10; positions, sources and assumptions: spec section "Hookups").
+//     Every wall item sits on a mounting block (M.trim, 0.02" into the siding, face 1" proud of it at w 1.75 -- past the battens'
+//     and casings' 1.5), built with wallBox so section 4b stops the battens 1/16" clear of it. Fixtures are plain meshes, so only
+//     the blocks notch battens. Heights are above LOWER FLR (y 0), the datum of the sconces' 78".
+// ===========================================================================
+{
+  const L = 'mech', W0 = D.SIDING_T, EMB = 0.02, WF = W0 + 1;            // siding face, embed, block face (w off the sheathing face)
+  const at = (wall, u, y, w) => { const p = wall.o.clone().addScaledVector(wall.n, w); p.x += u * Math.cos(wall.rot); p.z += -u * Math.sin(wall.rot); p.y = y; return p; };
+  const put = (m, wall, u, y, w) => { m.position.copy(at(wall, u, y, w)); m.castShadow = m.receiveShadow = true; return reg(m, L); };
+  const fbox = (wall, u, y, du, dy, w1, w2, mat) => { const m = new THREE.Mesh(new THREE.BoxGeometry(du, dy, w2 - w1), mat); m.rotation.y = wall.rot; return put(m, wall, u, y, (w1 + w2) / 2); };   // box centred on (u, y), w1..w2 off the sheathing face; not a wall part
+  const fcyl = (wall, u, y, r, w1, w2, mat) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, w2 - w1, 24), mat); m.quaternion.setFromUnitVectors(V(0, 1, 0), wall.n); return put(m, wall, u, y, (w1 + w2) / 2); };   // cylinder on the wall normal
+  const fbar = (wall, a, b, r, mat) => bar(at(wall, ...a), at(wall, ...b), r, mat, L);                                    // a, b = [u, y, w]
+  const block = (wall, u, y, du, dy, mat = M.trim) => wallBox(wall, u - du / 2, u + du / 2, y - dy / 2, y + dy / 2, W0 - EMB, WF, mat, L);
+  const plate = (wall, u, y, du, dy, mat) => fbox(wall, u, y, du, dy, WF - EMB, WF + 0.2, mat);                          // a thin flange on the block face
+  const hood = (wall, u, y, du, dy, dw) => { plate(wall, u, y, du + 1, dy + 1, M.hkMetal); fbox(wall, u, y + 0.3, du, dy, WF + 0.18, WF + dw, M.hkMetal); fbox(wall, u, y + 0.3 - dy / 2 + 0.2, du - 0.6, 0.45, WF + 0.5, WF + dw + 0.02, M.hkBlack); };   // bare-metal vent cap: flange, hood, dark slot along its open bottom
+  const bib = (wall, u, y, wheel) => {                                                                                  // frost-free sillcock: flange, body, handwheel at the front, spout down
+    fcyl(wall, u, y, 1.1, WF - EMB, WF + 0.4, M.hkBrass); fcyl(wall, u, y, 0.55, WF + 0.3, WF + 3.2, M.hkBrass);
+    fcyl(wall, u, y, 1.25, WF + 3.15, WF + 3.55, wheel); fbar(wall, [u, y - 0.2, WF + 2.1], [u, y - 2.4, WF + 2.6], 0.42, M.hkBrass);
+  };
+  const outlet = (wall, u, y) => { block(wall, u, y, 5.5, 8); fbox(wall, u, y, 4.5, 6.5, WF - EMB, WF + 2.75, M.hkCover); fbox(wall, u, y + 2.6, 4.6, 0.5, WF + 2.7, WF + 2.9, M.hkCover); };   // GFCI outlet, grey in-use (bubble) cover with its hinge band
+  const E = WALLS.E, Wst = WALLS.W, S = WALLS.S, N = WALLS.N;
+
+  // --- WEST (u = z) ---------------------------------------------------------------------------------------------------------
+  { // W1 dryer vent hood in a crawl-space vent frame in the stem wall (photo 3262; spot along the wall from M01 det 2) -- no block, it is on concrete
+    const u = -165, y = -17.5, ws = -D.SHEATH;                         // stem-wall face (stud line) is 7/16" inside the sheathing face
+    for (const [du, dy, dx, dyy] of [[16.5, 1.25, 0, 3.625], [16.5, 1.25, 0, -3.625], [1.25, 6, 7.625, 0], [1.25, 6, -7.625, 0]]) fbox(Wst, u + dx, y + dyy, du, dy, ws - EMB, ws + 1, M.hkVent);
+    fbox(Wst, u, y, 14.1, 6.1, ws - EMB, ws + 0.15, M.hkBlack);         // the dark opening
+    fbox(Wst, u - 3.5, y, 4.5, 4.5, ws + 0.1, ws + 1.4, M.hkWhite);    // the white louvered hood, north half of the opening
+    for (const k of [-1, 0, 1]) fbox(Wst, u - 3.5, y + k * 1.4, 4.3, 0.3, ws + 1.38, ws + 1.6, M.hkWhite);
+  }
+  block(Wst, -180, 120, 8, 7); hood(Wst, -180, 120, 6, 4.5, 3.5);       // W2 main bath fan cap, below window F (photos 3261 / 3260)
+  block(Wst, -525.5, -3, 7, 5); bib(Wst, -525.5, -3, M.hkBlack);       // W3 north-west hose bib (photo 3260)
+
+  // --- EAST (u = -z) ----------------------------------------------------------------------------------------------------------
+  { // E1 hot and cold hose bib on a 1x4 board with a black drip cap; red (hot) south, green (cold), spout north (photos 3255 / 3258)
+    const u = 26, y = -6;
+    block(E, u, y, 14, 3.5);
+    wallBox(E, u - 7.5, u + 7.5, y + 1.75, y + 2.35, W0 - EMB, WF + 0.7, M.hkBlack, L);   // drip cap: a wall part too, so the battens stop at it
+    fbar(E, [u - 5, y - 0.3, WF + 1], [u + 5, y - 0.3, WF + 1], 0.45, M.hkBrass);
+    for (const du of [-4, 3]) fcyl(E, u + du, y - 0.3, 0.5, WF - EMB, WF + 1, M.hkBrass);
+    for (const [du, mat] of [[-3.5, M.hkRed], [0.5, M.hkGreen]]) { fbar(E, [u + du, y - 0.3, WF + 1], [u + du, y - 2, WF + 1.3], 0.5, M.hkBrass); fcyl(E, u + du, y - 2.4, 1.05, WF + 1.3, WF + 1.65, mat); }
+    fbar(E, [u + 4, y - 0.3, WF + 1], [u + 4.2, y - 2.8, WF + 1.6], 0.42, M.hkBrass);
+  }
+  { // E2 heat pump lines + condensate drain: black flashing plate (the block) with a black boot; the lines come down out of the boot
+    // and run to the outdoor unit's service valves (photos 3254 / 3258); the white PVC drain leaves the bottom of the siding
+    block(E, 188, 17, 13.5, 17, M.hkBlack);
+    fbox(E, 188, 17.1, 4.25, 7.3, WF - EMB, WF + 3, M.hkBlack); fcyl(E, 188, 20.75, 2.125, WF - EMB, WF + 3, M.hkBlack);
+    const HP = { x0: D.HW + D.SHEATH + D.SIDING_T + 18, d: 34.25, w: 37.25, zc: -188, y0: D.GRADE + 18, h: 40.75 };   // unit back 18" off the siding, on an 18" stand (assumptions)
+    const zS = HP.zc + HP.w / 2, zV = zS - 2.25;                     // the unit's south end; its service valves 2 1/4" in from it, on the face toward the wall
+    for (const [du, r, mat, yv] of [[-0.9, 0.9, M.hkIns, HP.y0 + 7.75], [0.9, 0.2, M.hkCopper, HP.y0 + 5], [0.3, 0.16, M.hkFan, HP.y0 + 10]]) {
+      const top = at(E, 188 + du, 13.7, WF + 1.5), low = at(E, 188 + du, yv, WF + 1.5), end = V(HP.x0, yv, zV - du);
+      bar(top, low, r, mat, L); bar(low, end, r, mat, L);
+    }
+    fcyl(E, 184, -10.5, 0.525, W0 - 0.3, W0 + 2, M.hkWhite); fbar(E, [184, -10.2, W0 + 1.75], [184, -14, W0 + 1.75], 0.525, M.hkWhite);
+    // E9 the outdoor unit, American Standard 5A6H7060A1 (ODR-PRD028A-EN p.8: A 40 3/4 H, B 37 1/4 W, C 34 1/4 D), B face to the wall,
+    // on a black steel stand; straight out from the penetration (no pedestal mark)
+    const x0 = HP.x0, x1 = x0 + HP.d, z0 = HP.zc - HP.w / 2, z1 = zS, y0 = HP.y0;
+    for (const xx of [x0 + 1, x1 - 2.5]) for (const zz of [z0 + 1, z1 - 2.5]) B(xx, xx + 1.5, D.GRADE, y0 - 1.5, zz, zz + 1.5, M.hkBlack, L);   // legs
+    for (const xx of [x0 + 1, x1 - 2.5]) B(xx, xx + 1.5, y0 - 1.5, y0, z0 + 0.5, z1 - 0.5, M.hkBlack, L);                                   // rails under the unit
+    B(x0, x1, y0, y0 + 3, z0, z1, M.hkFan, L);                                                       // base pan
+    B(x0 + 0.1, x1 - 0.1, y0 + 3, y0 + HP.h - 2, z0 + 0.1, z1 - 0.1, M.hkCab, L);                   // louvered cabinet
+    B(x0, x1, y0 + HP.h - 2, y0 + HP.h, z0, z1, M.hkCab, L);                                         // top panel
+    cyl((x0 + x1) / 2, HP.zc, y0 + HP.h - 0.05, y0 + HP.h + 0.4, 13.5, M.hkFan, L);                  // fan guard (27 1/2" fan)
+  }
+  block(E, 208, 25, 6, 8); fbox(E, 208, 25, 5, 7, WF - EMB, WF + 3.25, M.hkCover); fbox(E, 208, 26, 2.6, 1.2, WF + 3.2, WF + 3.6, M.hkBlack);   // E3 heat pump disconnect (pencil "6x8" box, 3267)
+  block(E, 236, 115, 8, 8); hood(E, 236, 115, 6, 5, 4);                // E4 guest bath fan cap (photos 3256 / 3258)
+  { // E5 propane entry at the red circle (3266) on its block, and the regulator on the crew's 4x4 block below it (the pencil "4x4" box,
+    // 3266; owner 2026-11-14): black steel stub out of the entry, down and across to the regulator; the tank riser comes up into it
+    const u = 365, y = 14, ur = 387, yr = -7, wp = WF + 2, rr = 2.4;
+    block(E, u, y, 4, 4); fcyl(E, u, y, 0.66, WF - EMB, wp + 0.66, M.hkBlack);
+    fbar(E, [u, y, wp], [u, yr, wp], 0.66, M.hkBlack); fbar(E, [u, yr, wp], [ur - rr + 0.3, yr, wp], 0.66, M.hkBlack);
+    block(E, ur, yr, 4, 4);
+    fbox(E, ur, yr, 2.6, 2.6, WF - EMB, WF + 0.85, M.hkBlack);                                              // mounting bracket
+    fcyl(E, ur, yr, rr, WF + 0.8, WF + 3.3, M.hkReg); fcyl(E, ur + 1.2, yr + 1.3, 0.55, WF + 3.25, WF + 3.9, M.hkBlack);   // regulator housing, vent
+    fbar(E, [ur, yr - rr + 0.3, wp], [ur, D.GRADE, wp], 0.66, M.hkBlack);                                     // riser from the tank line
+  }
+  block(E, 412, -6, 12, 11); hood(E, 412, -6, 8.5, 7.5, 5);            // E6 kitchen range vent cap, downdraft range (photos 3257 / 3258)
+  block(E, 521.5, 8, 9, 5); fbox(E, 521.5, 8, 7.5, 3.5, WF - EMB, WF + 3, M.hkCover);   // E7 hot tub electrical box ("HOT TUB" mark, 3265) on the crew's 9x5 block (owner 2026-11-14)
+  block(E, 542, 2, 4, 4); bib(E, 542, 2, M.hkBlack);                   // E8 north-east hose bib ("4x4 HOSE" mark, 3265)
+
+  // --- SOUTH (u = x) and NORTH (u = -x) -----------------------------------------------------------------------------------------
+  const OUT_X = 148.5625;   // porch and rear-deck outlets slid out off the batten at 144 so each block sits on a flat panel, 1/16" clear of it (owner 2026-11-14): E01's ~146 1/2 / ~147 3/4 + 2 1/16 / + 13/16
+  for (const s of [-1, 1]) { outlet(S, s * OUT_X, 17.5); outlet(S, s * 133, 137.5); outlet(N, s * OUT_X, 17.5); }   // S1-S4, N1-N2 (E01; 18" above each deck, assumption)
+  block(S, 26, 48, 2.5, 4.5); fbox(S, 26, 48, 1.75, 3.5, WF - EMB, WF + 0.5, M.hkCover); fcyl(S, 26, 48.6, 0.42, WF + 0.45, WF + 0.8, M.hkWhite);   // S5 doorbell (assumption)
+  { // N3 barbecue gas stub with its shutoff valve, under the east as-built window (assumption); north u = -x
+    const u = -122, y = 12;
+    block(N, u, y, 4, 4); fcyl(N, u, y, 0.42, WF - EMB, WF + 4.5, M.hkBlack);
+    fbox(N, u, y, 1.4, 1.4, WF + 1.6, WF + 3, M.hkBrass); fbox(N, u + 1.6, y + 0.9, 3.4, 0.5, WF + 2.1, WF + 2.6, M.hkYellow);   // ball valve, yellow lever
+    fcyl(N, u, y, 0.6, WF + 4.4, WF + 5, M.hkBlack);                    // cap
+  }
+
+  // --- labels: one flat tag per item -- name, the distance from the nearest corner to its centre, the height to centre (spec: Hookups)
+  const fi = v => { const r = Math.round(v); return r >= 36 ? `${Math.floor(r / 12)}'-${r % 12}"` : `${r}"`; };
+  const hf = v => { const w = Math.floor(v + 1e-6), f = v - w; return f > 0.25 && f < 0.75 ? `${w} 1/2` : `${Math.round(v)}`; };
+  const ht = y => `~${hf(Math.abs(y))}" ${y < 0 ? 'below' : 'above'} LOWER FLR`;
+  const C = D.HW + D.SHEATH, HALF = (D.SHEATH - D.G4 + D.SHEATH) / 2;   // sheathing corner; mid-length of the side walls
+  const corner = (wall, u) => wall === S ? (u < 0 ? ['SW', u + C] : ['SE', C - u]) : wall === N ? (u > 0 ? ['NW', C - u] : ['NE', u + C])
+    : wall === E ? (u < HALF ? ['SE', u + D.SHEATH] : ['NE', -D.G4 + D.SHEATH - u]) : (u > -HALF ? ['SW', D.SHEATH - u] : ['NW', u - D.G4 + D.SHEATH]);
+  const FACE = new Map([[S, 'z'], [N, 'z-'], [E, 'x'], [Wst, 'x-']]), TG = { fs: 52 }, TGF = { ...FLAGT, fs: 52 };
+  const tag = (wall, name, u, y, tu, ty, extra = '', o = TG) => { const [c, d] = corner(wall, u), p = at(wall, tu, ty, WF + 0.4); tagAt([name, `~${fi(d)} from ${c} corner`, ht(y) + extra], p.x, p.y, p.z, FACE.get(wall), o); };
+  tag(Wst, 'DRYER VENT HOOD', -165, -17.5, -165, 5);
+  tag(Wst, 'MAIN BATH FAN CAP', -180, 120, -180, 137);
+  tag(Wst, 'HOSE BIB', -525.5, -3, -500, 13);
+  tag(E, 'HOSE BIB, HOT + COLD', 26, -6, 48, 6);
+  tag(E, 'HEAT PUMP LINES + DRAIN', 188, 17, 140, 13);
+  tag(E, 'HEAT PUMP DISCONNECT', 208, 25, 210, 40);
+  tag(E, 'GUEST BATH FAN CAP', 236, 115, 236, 132);
+  tag(E, 'PROPANE ENTRY', 365, 14, 365, 27);
+  tag(E, 'PROPANE REGULATOR', 387, -7, 400, 8);
+  tag(E, 'RANGE VENT CAP', 412, -6, 442, 22);
+  tag(E, 'HOT TUB ELECTRICAL BOX', 521.5, 8, 500, 27);
+  tag(E, 'HOSE BIB', 542, 2, 497, -4);
+  { const p = at(E, 140, 52, WF + 0.4); tagAt(['HEAT PUMP OUTDOOR UNIT', 'American Standard 5A6H7060A1', '37 1/4 W x 34 1/4 D x 40 3/4 H', '~15\'-8" from SE corner, ~18" off the wall', '~13" above LOWER FLR, on a ~18" stand'], p.x, p.y, p.z, 'x', TG); }
+  for (const s of [-1, 1]) {
+    tag(S, 'GFCI OUTLET, IN-USE COVER', s * OUT_X, 17.5, s * 128, 33);
+    tag(S, 'GFCI OUTLET, IN-USE COVER', s * 133, 137.5, s * 104, 130, ', ~18" above deck');
+    tag(N, 'GFCI OUTLET, IN-USE COVER', s * OUT_X, 17.5, s * 120, 24);
+  }
+  tag(S, 'DOORBELL', 26, 48, 41, 22, '', TGF);
+  tag(N, 'BARBECUE GAS STUB + SHUTOFF', -122, 12, -88, 8, '', TGF);
+}
+// ===========================================================================
 // 4b. BATTENS (layer 'walls'; board-and-batten style only). BB_W x 3/4" HardieTrim boxes at BB_SP o.c. (3 1/2" at 16" by
 //     default, the decided board; ?batten= and ?battensp= override both) on every siding face,
 //     drawn as geometry so the sun throws a real shadow line down each one (owner 2026-09-22, photoreal phase 5 first correction
@@ -2370,7 +2509,7 @@ const OPEN = {                                     // rough openings in wall-loc
     return n;
   }
   const onWall = (wall, layers) => parts.filter(p => WALL_PARTS.has(p) && WALL_PARTS.get(p).wall === wall && layers.includes(p.userData.layer)).map(p => WALL_PARTS.get(p));
-  const blockersOf = wall => [...onWall(wall, ['trim', 'win']).map(r => r.poly), ...onWall(wall, ['walls']).flatMap(r => r.holes)];
+  const blockersOf = wall => [...onWall(wall, ['trim', 'win', 'mech']).map(r => r.poly), ...onWall(wall, ['walls']).flatMap(r => r.holes)];   // 'mech': the hookup mounting blocks (section 4a)
   const outlineOf = wall => onWall(wall, ['walls']).find(r => r.holes.length).poly;   // the siding shell: the one walls-layer prism with openings
   const range = (from, step, limit) => { const o = []; for (let u = from; Math.abs(u) < limit; u += step) o.push(u); return o; };
   const mkWall = wall => pts => wallPrism(wall, pts, wf - EMBED, wf + D.TRIM_T, M.siding, L);          // a box when both ends are level, a prism with sloped end cuts otherwise
@@ -2635,7 +2774,11 @@ requestAnimationFrame(() => {
 //      The house is read from ~90 ft, so tags use fs 110 (6.6" letters). South face tags face +z, west face -x, east face +x; ground tags yaw.
 {
   const WF = -(D.HW + D.SHEATH + D.SIDING_T) - 0.15, EF = -WF, SF = D.SHEATH + D.SIDING_T + 3.5, GY = D.GRADE + 0.3, T = { fs: 110 }, TF = { ...FLAGT, fs: 110 };
-  tagAt(['SIDING', 'Hardie Plank 8 1/4" lap, 7 1/4" reveal', 'color TBD'], -95, 62, SF, 'z', T);
+  { // SIDING: one tag per Siding radio choice, shown with it (userData.style, like the battens); board and batten is the default
+    const asc = v => { const w = Math.floor(v), f = +(v - w).toFixed(3), fr = { 0.25: '1/4', 0.5: '1/2', 0.75: '3/4' }[f]; return f === 0 ? `${w}` : fr ? (w ? `${w} ${fr}` : fr) : `${+v.toFixed(2)}`; };
+    tagAt(['SIDING', 'HardiePanel board and batten', `${asc(BB_W)}" HardieTrim battens at ${asc(BB_SP)}" o.c.`], -95, 62, SF, 'z', T).userData.style = 'bb';
+    tagAt(['SIDING', 'Hardie Plank 8 1/4" lap, 7 1/4" reveal'], -95, 62, SF, 'z', T).userData.style = 'lap';
+  }
   tagAt(['ROOF', 'black standing-seam metal', 'gables 15:12, dormer 8:12'], 0, 248, SF, 'z', T);
   tagAt(['EXTERIOR LIGHTS', 'sconces at 78", fixtures TBD', 'cans: 6 rear soffit, 4 front soffit, 2 porch ceiling'], 95, 62, SF, 'z', T);
   tagAt(['DOOR 1', 'JELD-WEN Full View steel 3/0 x 7/0, LH inswing', 'clear Low-E, black; framed opening FIELD VERIFY'], 0, 99, SF, 'z', T);
@@ -2685,7 +2828,8 @@ function setSidingStyle(style) {
   M.siding.map = lap ? LAP.map : null; M.siding.normalMap = lap ? LAP.normalMap : null; M.siding.needsUpdate = true;
   document.getElementById('legend-siding').textContent = lap ? 'Lap siding (Hardie Plank, 7\u00bc" reveal)' : `Board-and-batten siding (${bbIn(BB_W)}" battens at ${bbIn(BB_SP)}" o.c.)`;
   const r = document.querySelector(`#sidingstyle input[value="${style}"]`); if (r) r.checked = true;
-  for (const p of parts) if (p.userData.style) p.visible = p.userData.style === style;
+  const layerOn = l => { const cb = document.querySelector(`#layers input[data-layer="${l}"]`); return !cb || cb.checked; };   // a styled part still obeys its layer checkbox (the SIDING tag stays hidden while Labels is off)
+  for (const p of parts) if (p.userData.style) p.visible = p.userData.style === style && layerOn(p.userData.layer);
 }
 document.getElementById('bblabel').textContent = `${bbIn(BB_W)}" at ${bbIn(BB_SP)}" o.c.`;   // the radio label prints whatever ?batten= / ?battensp= asked for
 document.getElementById('bbsub').textContent = `${bbIn(BB_W)}" battens at ${bbIn(BB_SP)}" o.c.`;   // and so does the header line
@@ -2741,6 +2885,7 @@ const VIEWS = {
   door:   { pos: [24, 50, 160], tgt: [0, 44, 0], fov: 36 },
   deckEnd: { pos: [232, 26, 152], tgt: [150, 50, 40], fov: 60 },   // review view: the SE porch corner -- end rim, cedar skirt, the post's treated / timber-box split at the floor, the T&G ceiling and its cans (owner 2026-09-22)         // review view: door 1 from the front stairs -- the JELD-WEN Full View slab, lite frame, glass, knob and deadbolt (owner 2026-09-22)
   stairs: { pos: [150, 24, 130], tgt: [40, -12, 82], fov: 30 },   // review view: the front stair from the east -- the straight side band, tread overhangs and noses, the deck corner (owner 2026-09-23)
+  heatpump: { pos: [560, 175, -880], tgt: [150, 55, -270], fov: 36 },   // URL-only review preset (no button), ?view=heatpump: the east wall from the north-east, at an angle that sees past the outdoor unit into the gap where the heat pump lines leave the wall, with the disconnect in front (hookups, owner 2026-11-10)
   gableS: { pos: [0, 200, 430], tgt: [0, 200, 0], fov: 30 },        // review view: door 12, the O triangles, the band and the P pair     // review view: the east side eave close up from below and outside -- 9" fascia, narrowed tail ends, cedar T&G tucked inside (owner 2026-09-21)      // review view: the front gable's east rake from below and outside, where the lapped board's step and its run-past tail both read (owner 2026-09-21)
 };
 // ===== END EDIT: VIEWS =====
