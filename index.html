@@ -23,7 +23,7 @@
   .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;
         transition:transform .15s ease,border-color .15s ease;}
   .card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.28);}
-  .card .thumb{display:block;aspect-ratio:16/10;background:#14161a center/cover no-repeat;}
+  .card .thumb{display:block;aspect-ratio:16/10;overflow:hidden;background:#14161a center/cover no-repeat;}
   .card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
   .card .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
   .card h3{margin:0;font-size:19px;line-height:1.25;}
@@ -242,6 +242,19 @@
           <a href="ledger-flashing.html?view=slider&amp;explode=0.6">Pulled apart</a>
         </div>
       </div>
+    </article>
+  </section>
+
+  <h2>Choices</h2>
+  <section class="cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+    <article class="card" id="choices">
+      <a class="cardlink" href="choices.html">
+      <span class="thumb"><img src="img/door-options/pella-flush-glazed-full-light-1.jpg" alt="A black front door with one full-height clear glass pane"></span>
+      <div class="body">
+        <h3>Choices</h3>
+        <p>Products and finishes side by side: the front door, the kitchen cabinets and the siding colours.</p>
+      </div>
+      </a>
     </article>
   </section>
 

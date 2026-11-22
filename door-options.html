@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Front door options: pictures</title><style>
+/* The drawings site's look (outputs/site-share/index.html): dark page, cedar kicker, orange accent. The comparison
+   table and the picture wells stay light so the five cell tints and the product photos read as they did. */
+:root{--bg:#1b1e23;--panel:#22262d;--line:rgba(255,255,255,.12);--fg:#e8eaed;--muted:#aab0b8;--accent:#e07b20;--cedar:#dcb47c}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{padding:40px 28px 8px;max-width:1700px;margin:0 auto}
+header .kicker{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cedar)}
+h1{margin:0 0 12px;font-size:clamp(28px,4.4vw,46px);line-height:1.08;font-weight:700}
+header p{margin:8px 0;max-width:1000px;color:#d2d6db}
+a.navlink{color:var(--cedar);text-decoration:underline;text-underline-offset:3px}
+a.navlink:hover{color:#fff}
+h2.sec{max-width:1700px;margin:34px auto 6px;padding:0 28px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(0,400px));gap:20px;padding:12px 28px 10px;max-width:1800px;margin:0 auto;justify-content:center}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 14px 10px;display:flex;flex-direction:column}
+.card h2{font-size:17px;line-height:1.25;margin:0 0 6px}
+.line{margin:0 0 10px;font-size:14px;color:#d2d6db}
+.note{margin:8px 0 0;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:7px}
+.fig{margin:0;display:flex;flex-direction:column}
+.fig img{width:100%;height:auto;object-fit:contain;background:#fafafa;border:1px solid var(--line);border-radius:6px;cursor:zoom-in}
+.fig.big img{max-height:470px}
+.row{display:flex;gap:8px;margin-top:8px;align-items:flex-start}
+.row .fig{flex:1 1 0;min-width:0}
+.row .fig img{height:150px}
+.part .row{flex-wrap:wrap}
+.part .row .fig{flex:1 1 30%}
+.part .row .fig img{height:170px}
+figcaption{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.3;overflow-wrap:anywhere}
+figcaption a{color:var(--cedar);text-decoration:none}
+figcaption a.src{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+figcaption a:hover{text-decoration:underline}
+.t{display:inline-block;font-size:10.5px;font-weight:600;padding:0 5px;border-radius:3px;margin-right:2px}
+.t.m{background:#e3efe3;color:#245c24}
+.t.r{background:#e7ecf7;color:#2a4a8a}
+#lb{position:fixed;inset:0;background:#0e1013;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9;cursor:zoom-out;padding:20px}
+#lb.on{display:flex}
+#lb img{max-width:94vw;max-height:84vh;object-fit:contain;background:#fff;border-radius:4px}
+#lb p{color:var(--fg);margin:10px 0 0;font-size:14px;text-align:center;max-width:90vw;overflow-wrap:anywhere}
+#lb a{color:var(--cedar)}
+footer{max-width:1700px;margin:18px auto 0;padding:18px 28px 40px;border-top:1px solid var(--line);font-size:12.5px;color:#8b929b}
+.card[id]{scroll-margin-top:14px}
+.card[id]:target{outline:3px solid var(--accent);outline-offset:2px}
+.cmp-wrap{max-width:1800px;margin:0 auto;padding:4px 28px 6px}
+.cmp-wrap p.cmp-lead{margin:4px 0 8px;max-width:1100px;font-size:14px;color:#d2d6db}
+.cmp-wrap p.cmp-lead[style]{color:var(--muted)!important}
+.cmp-legend{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:0 0 10px;font-size:13px}
+.cmp-legend .cmp-key{display:inline-block;padding:2px 9px;border-radius:4px;border:1px solid #ccc;font-weight:600;color:#1d1d1f}
+.cmp-box{overflow:auto;max-height:84vh;background:#fff;border-radius:10px;border:1px solid var(--line)}
+table.cmp{border-collapse:separate;border-spacing:0;font-size:12.5px;line-height:1.35;color:#1d1d1f}
+table.cmp th,table.cmp td{padding:7px 9px;vertical-align:top;text-align:left;border-right:1px solid #e2e2e2;border-bottom:1px solid #d8d8d8;background:#fff}
+table.cmp thead th{position:sticky;top:0;z-index:2;background:#2f3237;color:#fff;font-weight:600;font-size:12px;line-height:1.3}
+table.cmp thead th small{display:block;font-weight:400;color:#d6d6d6}
+table.cmp th[scope=row]{position:sticky;left:0;z-index:1;background:#f7f7f5;font-weight:600;border-right:2px solid #bdbdbd}
+table.cmp thead th:first-child{left:0;z-index:3;border-right:2px solid #bdbdbd}
+table.cmp th[scope=row] a{color:#2a5db0;text-decoration:none}
+table.cmp th[scope=row] a:hover{text-decoration:underline}
+table.cmp th[scope=row] small{display:block;font-weight:400;color:#555;margin-top:2px}
+table.cmp .w-door{min-width:165px;max-width:190px}
+table.cmp .w-s{min-width:125px;max-width:150px}
+table.cmp .w-m{min-width:155px;max-width:185px}
+table.cmp .w-l{min-width:190px;max-width:230px}
+table.cmp td b{font-weight:700}
+table.cmp td.cmp-b,.cmp-key.cmp-b{background:#dcefd6;border-color:#9cc98e}
+table.cmp td.cmp-n,.cmp-key.cmp-n{background:#f8ddd7;border-color:#e3a497}
+table.cmp td.cmp-a,.cmp-key.cmp-a{background:#fbf0c6;border-color:#e2cc72}
+table.cmp td.cmp-e,.cmp-key.cmp-e{background:#dce6fa;border-color:#8eaadf}
+table.cmp td.cmp-e{outline:1px dashed #6f8fcf;outline-offset:-4px}
+.cmp-key.cmp-e{border-style:dashed}
+.cmp-key.cmp-0{background:#fff}
+.cmp-wrap p.cmp-foot{margin:8px 0 0;max-width:1100px;font-size:13px;color:var(--muted)}
+/* Phones: one card per row, and a narrower sticky Door column so the table still has room beside it. */
+@media (max-width:640px){
+  header{padding:30px 16px 6px}
+  h2.sec{padding:0 16px}
+  .grid{padding:10px 16px 8px;gap:16px}
+  .cmp-wrap{padding:4px 12px 6px}
+  table.cmp .w-door{min-width:104px;max-width:118px}
+  table.cmp th[scope=row]{padding:7px 6px}
+  table.cmp th[scope=row] small{font-size:10.5px}
+  footer{padding:18px 16px 32px}
+}
+</style></head><body>
+
+<header>
+<p class="kicker">138 Tahoma St E &middot; Packwood, WA &middot; permit B26-00013</p>
+<p><a class="navlink" href="choices.html">&larr; All choices</a></p>
+<h1>Front door options: what they look like</h1>
+<p>One card per door from the research (2026-11-20), with the Codel on the Chinook quote and your first pick, the JELD-WEN Full View, first, and the MMI door, found in the 2026-11-21 price check, last. Each card has the maker's or a store's own pictures, one line on the facts, and a note saying whether the pictures show this exact door. Click any picture to see it large; click again or press Esc to close.</p>
+<p><span class="t m">maker photo</span> came from the company that makes the door or part. <span class="t r">retailer photo</span> came from a store listing. The link under each picture is the page it came from. Colours on a screen are not reliable: bronze often looks black in photos, so look at a real sample before deciding.</p>
+<p>Your opening is 38" wide x 84" tall. "Fit" says how wide an opening the maker asks for; most ask for a little more than 38".</p>
+</header>
+
+<h2 class="sec">The doors</h2>
+<div class="grid">
+<section class="card" id="codel-cf20"><h2>Codel CF20 (the door on the Chinook quote)</h2>
+<p class="line">Steel, primed, you paint it. $854.81 quoted. Sill: mill (silver) or bronze, not black. Hinges: black in the Codel brochure, not confirmed for this steel door. Weatherstrip: brown or white, not black. Fit: Codel asks for a 38 1/2&quot; opening, 1/2&quot; more than your 38&quot;.</p>
+<figure class="fig big"><img src="img/door-options/codel-cf20-1.jpg" width="315" height="694" alt="CF20 with clear glass, as drawn on Codel&#x27;s site" loading="lazy" data-cap="CF20 with clear glass, as drawn on Codel&#x27;s site" data-src="https://www.codeldoors.com/catalog/door/cf20/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> CF20 with clear glass, as drawn on Codel&#x27;s site<br><a class="src" href="https://www.codeldoors.com/catalog/door/cf20/" title="https://www.codeldoors.com/catalog/door/cf20/">www.codeldoors.com/catalog/door/cf20/</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/codel-cf20-2.jpg" width="315" height="700" alt="CF20, second picture on the same page" loading="lazy" data-cap="CF20, second picture on the same page" data-src="https://www.codeldoors.com/catalog/door/cf20/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> CF20, second picture on the same page<br><a class="src" href="https://www.codeldoors.com/catalog/door/cf20/" title="https://www.codeldoors.com/catalog/door/cf20/">www.codeldoors.com/catalog/door/cf20/</a></figcaption></figure></div>
+<p class="note">Codel publishes only plain drawings of this door, unpainted. No photo of it painted black or installed was found. Codel does not publish whether the glass has a frame around it, or what colour one would be outside; ask Codel.</p>
+</section>
+<section class="card" id="jeld-wen-full-view"><h2>JELD-WEN Full View steel (your first pick)</h2>
+<p class="line">Steel, factory &quot;Black&quot; paint offered. Price: about $899 to $1,539, estimated from similar JELD-WEN black stock doors, not the Full View itself. Sill and weatherstrip colours not published; Brosco, one JELD-WEN door shop, offers black hinges. Fit: JELD-WEN&#x27;s 2011 install sheet allows a 38&quot; opening only if the unit is 37 1/2&quot; wide (JELD-WEN does not publish its width); the newer 05/22 copy of the same sheet asks for 38 1/2&quot;.</p>
+<figure class="fig big"><img src="img/door-options/jeld-wen-full-view-2.jpg" width="720" height="1600" alt="Full View, unpainted, clear glass" loading="lazy" data-cap="Full View, unpainted, clear glass" data-src="https://www.jeld-wen.com/en-us/products/exterior-doors/steel/full-view" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Full View, unpainted, clear glass<br><a class="src" href="https://www.jeld-wen.com/en-us/products/exterior-doors/steel/full-view" title="https://www.jeld-wen.com/en-us/products/exterior-doors/steel/full-view">www.jeld-wen.com/en-us/products/exterior-doors/steel/full-view</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/jeld-wen-full-view-1.jpg" width="1166" height="1600" alt="Full View on a house, with patterned glass and red paint" loading="lazy" data-cap="Full View on a house, with patterned glass and red paint" data-src="https://www.jeld-wen.com/en-us/products/exterior-doors/steel/full-view" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Full View on a house, with patterned glass and red paint<br><a class="src" href="https://www.jeld-wen.com/en-us/products/exterior-doors/steel/full-view" title="https://www.jeld-wen.com/en-us/products/exterior-doors/steel/full-view">www.jeld-wen.com/en-us/products/exterior-doors/steel/full-view</a></figcaption></figure></div>
+<p class="note">JELD-WEN shows this door only unpainted with clear glass, and on a house with patterned glass and red paint. No JELD-WEN photo of it in black with clear glass was found (the Lowe&#x27;s stock door below is the closest).</p>
+</section>
+<section class="card" id="jeld-wen-lowes-stock"><h2>JELD-WEN stock door at Lowe&#x27;s, model JWPRO230600844</h2>
+<p class="line">Steel, black outside and white inside, clear Low-E glass, no outside trim. Currently unavailable; no price shown (about $899, estimated from its right-hand twin). Sill: black, but the listing does not say whether that is the plate you step on or only the raised strip. Hardware: black. Weatherstrip colour not listed. Fit: Lowe&#x27;s lists a 37 15/16&quot; opening, so yes, but only with a 4 9/16&quot; jamb (narrower than your 2x6 wall).</p>
+<figure class="fig big"><img src="img/door-options/jeld-wen-jwpro230600844-1.jpg" width="400" height="400" alt="This door from outside" loading="lazy" data-cap="This door from outside" data-src="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> This door from outside<br><a class="src" href="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" title="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311">www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-I...</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/jeld-wen-jwpro230600844-4.jpg" width="646" height="646" alt="Lowe&#x27;s drawing of it on a house" loading="lazy" data-cap="Lowe&#x27;s drawing of it on a house" data-src="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Lowe&#x27;s drawing of it on a house<br><a class="src" href="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" title="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311">www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-I...</a></figcaption></figure><figure class="fig"><img src="img/door-options/jeld-wen-jwpro230600844-2.jpg" width="400" height="400" alt="From inside: white, with black hinges and a dark sill" loading="lazy" data-cap="From inside: white, with black hinges and a dark sill" data-src="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> From inside: white, with black hinges and a dark sill<br><a class="src" href="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" title="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311">www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-I...</a></figcaption></figure><figure class="fig"><img src="img/door-options/jeld-wen-jwpro230600844-5.jpg" width="1000" height="400" alt="Close-up (cropped): the sill, listed as black" loading="lazy" data-cap="Close-up (cropped): the sill, listed as black" data-src="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Close-up (cropped): the sill, listed as black<br><a class="src" href="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" title="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311">www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-I...</a></figcaption></figure></div>
+<p class="note">These are Lowe&#x27;s pictures of this exact model. The house picture is Lowe&#x27;s computer drawing, not a real house.</p>
+</section>
+<section class="card" id="trimlite-sf20fc"><h2>Trimlite SF20FC (Trimlite owns Codel)</h2>
+<p class="line">Fiberglass by the listing, which contradicts itself: it also says &quot;solid wood core with engineered wood stiles and rails&quot; (the door&#x27;s inner frame). Primed, you paint it. $1,092.11 online with a 6 9/16&quot; jamb ($874.99 plus delivery for the Codel-branded twin). Sill: mill (silver) or bronze, not black. Hinges, weatherstrip and door-bottom sweep: black. Fit: the install sheet on the listing asks for 38 1/2&quot;, 1/2&quot; more than your 38&quot;.</p>
+<figure class="fig big"><img src="img/door-options/trimlite-sf20fc-1.jpg" width="900" height="900" alt="This door from outside, primed white" loading="lazy" data-cap="This door from outside, primed white" data-src="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> This door from outside, primed white<br><a class="src" href="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" title="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926">www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/trimlite-sf20fc-3.jpg" width="900" height="900" alt="Its black hinge" loading="lazy" data-cap="Its black hinge" data-src="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Its black hinge<br><a class="src" href="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" title="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926">www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926</a></figcaption></figure><figure class="fig"><img src="img/door-options/trimlite-sf20fc-2.jpg" width="900" height="900" alt="Its mill (silver) sill" loading="lazy" data-cap="Its mill (silver) sill" data-src="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Its mill (silver) sill<br><a class="src" href="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" title="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926">www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926</a></figcaption></figure><figure class="fig"><img src="img/door-options/trimlite-sf20fc-5.jpg" width="900" height="900" alt="Listing house photo: a pair of these doors, painted dark" loading="lazy" data-cap="Listing house photo: a pair of these doors, painted dark" data-src="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Listing house photo: a pair of these doors, painted dark<br><a class="src" href="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" title="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926">www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926</a></figcaption></figure></div>
+<p class="note">Build.com pictures of this exact model. The house picture on the listing shows a pair of these doors painted dark, not a single door.</p>
+</section>
+<section class="card" id="codel-sf20b"><h2>Codel SF20B, black all the way through</h2>
+<p class="line">Fiberglass coloured black through the skin, so no paint; glass set straight into the door with no frame; Low-E. Price: no listing found; estimated at $875 to $1,377, plus an unknown extra for the black skin. Sill: mill or bronze. Hinges: black offered on Codel&#x27;s fiberglass doors. Weatherstrip and sweep: probably available in black, not confirmed. Fit: Codel asks for 38 1/2&quot;, 1/2&quot; more than your 38&quot;.</p>
+<figure class="fig big"><img src="img/door-options/codel-sf20b-1.jpg" width="316" height="700" alt="SF20B, 6&#x27;8&quot; tall, as drawn on Codel&#x27;s site" loading="lazy" data-cap="SF20B, 6&#x27;8&quot; tall, as drawn on Codel&#x27;s site" data-src="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> SF20B, 6&#x27;8&quot; tall, as drawn on Codel&#x27;s site<br><a class="src" href="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/" title="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/">www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pr...</a></figcaption></figure>
+<p class="note">Codel publishes only this drawing. No installed photo was found.</p>
+</section>
+<section class="card" id="codel-sf20d"><h2>Codel SF20D, painted</h2>
+<p class="line">Fiberglass, primed or painted (no colour named Black, and factory paint may not be offered on this door); glass set straight into the door with no frame; clear Low-E. Price: no listing found; estimated at $875 to $1,377. Sill: mill or bronze. Hinges: black offered on Codel&#x27;s fiberglass doors. Weatherstrip and sweep: probably available in black, not confirmed. Fit: Codel asks for 38 1/2&quot;, 1/2&quot; more than your 38&quot;.</p>
+<figure class="fig big"><img src="img/door-options/codel-sf20d-1.jpg" width="316" height="700" alt="SF20D, as drawn on Codel&#x27;s site" loading="lazy" data-cap="SF20D, as drawn on Codel&#x27;s site" data-src="https://www.codeldoors.com/catalog/door/sf20d-direct-glazed-smooth-fiberglass-exterior-door/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> SF20D, as drawn on Codel&#x27;s site<br><a class="src" href="https://www.codeldoors.com/catalog/door/sf20d-direct-glazed-smooth-fiberglass-exterior-door/" title="https://www.codeldoors.com/catalog/door/sf20d-direct-glazed-smooth-fiberglass-exterior-door/">www.codeldoors.com/catalog/door/sf20d-direct-glazed-smooth-fibergla...</a></figcaption></figure>
+<p class="note">Codel publishes only this drawing, unpainted. No photo in black or installed was found.</p>
+</section>
+<section class="card" id="pella-flush-glazed"><h2>Pella Smooth fiberglass &quot;Flush Glazed Full Light&quot;</h2>
+<p class="line">Fiberglass, factory black paint, glass set flush in the door with a rim at its edge; Pella does not publish the rim&#x27;s colour. $3,361.38 as built on Pella&#x27;s site (black inside and out, black sill, Matte Black hinges, 6 9/16&quot; frame, with a handleset). Sill: black option. Hinges: &quot;Matte Black&quot;. Weatherstrip colour not published. Fit: Pella asks for 38 1/4&quot;, 1/4&quot; more than you have.</p>
+<figure class="fig big"><img src="img/door-options/pella-flush-glazed-full-light-1.jpg" width="940" height="1050" alt="This door in black, Matte Black handle" loading="lazy" data-cap="This door in black, Matte Black handle" data-src="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> This door in black, Matte Black handle<br><a class="src" href="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" title="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/">www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-...</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/pella-flush-glazed-full-light-2.jpg" width="940" height="1050" alt="The same door in black with glass side panels" loading="lazy" data-cap="The same door in black with glass side panels" data-src="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> The same door in black with glass side panels<br><a class="src" href="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" title="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/">www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-...</a></figcaption></figure><figure class="fig"><img src="img/door-options/pella-flush-glazed-full-light-3.jpg" width="940" height="1050" alt="The same door in white: the flush glass edge (rim colour not published)" loading="lazy" data-cap="The same door in white: the flush glass edge (rim colour not published)" data-src="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> The same door in white: the flush glass edge (rim colour not published)<br><a class="src" href="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" title="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/">www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-...</a></figcaption></figure><figure class="fig"><img src="img/door-options/pella-flush-glazed-full-light-5.jpg" width="1080" height="460" alt="Close-up (cropped from the white door): the black sill" loading="lazy" data-cap="Close-up (cropped from the white door): the black sill" data-src="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Close-up (cropped from the white door): the black sill<br><a class="src" href="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" title="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/">www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-...</a></figcaption></figure></div>
+<p class="note">Pella&#x27;s own pictures of this exact door. The black-door pictures are Pella&#x27;s photo-style renderings.</p>
+</section>
+<section class="card" id="marvin-modern"><h2>Marvin Modern Swinging Door</h2>
+<p class="line">Fiberglass, colour &quot;Ebony&quot; offered. No price found; dealer quote only. Sill (&quot;Ebony&quot;), weatherstrip and hinges all black per Marvin. Fit: made to any width, but sized for 38&quot; the walk-through gap is about 31 5/16&quot;, under the 32&quot; code minimum for the main exit door.</p>
+<figure class="fig big"><img src="img/door-options/marvin-modern-swinging-1.jpg" width="1600" height="1066" alt="This door (Gunmetal colour) seen from inside" loading="lazy" data-cap="This door (Gunmetal colour) seen from inside" data-src="https://www.marvin.com/products/doors/swinging/modern-swinging-door" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> This door (Gunmetal colour) seen from inside<br><a class="src" href="https://www.marvin.com/products/doors/swinging/modern-swinging-door" title="https://www.marvin.com/products/doors/swinging/modern-swinging-door">www.marvin.com/products/doors/swinging/modern-swinging-door</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/marvin-modern-swinging-5.jpg" width="1070" height="760" alt="Close-up of the edge and Matte Black handle (Marvin catalog)" loading="lazy" data-cap="Close-up of the edge and Matte Black handle (Marvin catalog)" data-src="https://www.marvin.com/f/1019562/x/779f047d8f/marvin_modern_catalog_2025.pdf" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Close-up of the edge and Matte Black handle (Marvin catalog)<br><a class="src" href="https://www.marvin.com/f/1019562/x/779f047d8f/marvin_modern_catalog_2025.pdf" title="https://www.marvin.com/f/1019562/x/779f047d8f/marvin_modern_catalog_2025.pdf">www.marvin.com/f/1019562/x/779f047d8f/marvin_modern_catalog_2025.pdf</a></figcaption></figure><figure class="fig"><img src="img/door-options/marvin-modern-swinging-2.jpg" width="805" height="1400" alt="Marvin drawing: two-door outswing version" loading="lazy" data-cap="Marvin drawing: two-door outswing version" data-src="https://www.marvin.com/products/doors/swinging/modern-swinging-door" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Marvin drawing: two-door outswing version<br><a class="src" href="https://www.marvin.com/products/doors/swinging/modern-swinging-door" title="https://www.marvin.com/products/doors/swinging/modern-swinging-door">www.marvin.com/products/doors/swinging/modern-swinging-door</a></figcaption></figure></div>
+<p class="note">No photo of a single Ebony door from outside was found. The house photo is this door in Marvin&#x27;s &quot;Gunmetal&quot; colour (per the Marvin catalog); the drawing shows a two-door version.</p>
+</section>
+<section class="card" id="therma-tru-s2000"><h2>Therma-Tru Smooth-Star S2000 (EnLiten flush-glazed)</h2>
+<p class="line">Fiberglass, no frame around the glass. About $2,998, estimated from Home Depot&#x27;s configurator (&quot;Onyx&quot; outside, white inside, 6 9/16&quot; frame, with brickmould). Sill: mill, bronze or satin nickel; weatherstrip: bronze or white; hinges: Therma-Tru&#x27;s darkest is &quot;Black Nickel&quot;, though Home Depot&#x27;s listing says black. None confirmed black. No paint named Black; the dark ones are &quot;Onyx&quot; and &quot;Obsidian&quot;, neither confirmed black. Fit: asks for 38 3/8&quot;.</p>
+<figure class="fig big"><img src="img/door-options/therma-tru-s2000-1.jpg" width="725" height="1600" alt="S2000 with frosted glass, painted white" loading="lazy" data-cap="S2000 with frosted glass, painted white" data-src="https://www.thermatru.com/explore-products/door-style/S2000" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> S2000 with frosted glass, painted white<br><a class="src" href="https://www.thermatru.com/explore-products/door-style/S2000" title="https://www.thermatru.com/explore-products/door-style/S2000">www.thermatru.com/explore-products/door-style/S2000</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/therma-tru-s2000-2.jpg" width="340" height="870" alt="S2000 with clear glass, unpainted (catalog, page 15)" loading="lazy" data-cap="S2000 with clear glass, unpainted (catalog, page 15)" data-src="https://cdn.prod.website-files.com/69838ca1e275ea0d4076a90e/69979e618ef3ea3774d84608_Therma-Tru%20EnLiten%20Flush-Glazed-compressed-compressed%C2%A0(1).pdf" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> S2000 with clear glass, unpainted (catalog, page 15)<br><a class="src" href="https://cdn.prod.website-files.com/69838ca1e275ea0d4076a90e/69979e618ef3ea3774d84608_Therma-Tru%20EnLiten%20Flush-Glazed-compressed-compressed%C2%A0(1).pdf" title="https://cdn.prod.website-files.com/69838ca1e275ea0d4076a90e/69979e618ef3ea3774d84608_Therma-Tru%20EnLiten%20Flush-Glazed-compressed-compressed%C2%A0(1).pdf">cdn.prod.website-files.com/69838ca1e275ea0d4076a90e/69979e618ef3ea3...</a></figcaption></figure><figure class="fig"><img src="img/door-options/therma-tru-onyx-swatch-1.jpg" width="400" height="600" alt="&quot;Onyx&quot;, one of Therma-Tru&#x27;s two dark paints (with &quot;Obsidian&quot;); not confirmed black" loading="lazy" data-cap="&quot;Onyx&quot;, one of Therma-Tru&#x27;s two dark paints (with &quot;Obsidian&quot;); not confirmed black" data-src="https://www.thermatru.com/explore-products/door-style/S2000" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> &quot;Onyx&quot;, one of Therma-Tru&#x27;s two dark paints (with &quot;Obsidian&quot;); not confirmed black<br><a class="src" href="https://www.thermatru.com/explore-products/door-style/S2000" title="https://www.thermatru.com/explore-products/door-style/S2000">www.thermatru.com/explore-products/door-style/S2000</a></figcaption></figure></div>
+<p class="note">No photo of the S2000 in black with clear glass was found. Shown: Therma-Tru&#x27;s photo of the same door with frosted glass in white, the clear-glass version unpainted in a Therma-Tru catalog, and the &quot;Onyx&quot; paint chip.</p>
+</section>
+<section class="card" id="therma-tru-veris"><h2>Therma-Tru Veris hinged glass door</h2>
+<p class="line">Aluminium frame, nearly all glass, black frame offered. No price found; dealer quote only. Sill: clear or dark bronze anodized, not black. Hinges: probably colour-matched to the door, not confirmed; weatherstrip colour not published. Fit: a 3&#x27;0&quot; x 6&#x27;8&quot; door is offered; the opening size is not published.</p>
+<figure class="fig big"><img src="img/door-options/therma-tru-veris-hinged-1.jpg" width="621" height="680" alt="Single black Veris hinged door, from inside" loading="lazy" data-cap="Single black Veris hinged door, from inside" data-src="https://files.reeb.com/docs/vendor/Therma-Tru-Veris-2025.pdf" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Single black Veris hinged door, from inside<br><a class="src" href="https://files.reeb.com/docs/vendor/Therma-Tru-Veris-2025.pdf" title="https://files.reeb.com/docs/vendor/Therma-Tru-Veris-2025.pdf">files.reeb.com/docs/vendor/Therma-Tru-Veris-2025.pdf</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/therma-tru-veris-hinged-2.jpg" width="1382" height="1280" alt="Black Veris door with side panels, with glass bars" loading="lazy" data-cap="Black Veris door with side panels, with glass bars" data-src="https://files.reeb.com/docs/vendor/Therma-Tru-Veris-2025.pdf" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Black Veris door with side panels, with glass bars<br><a class="src" href="https://files.reeb.com/docs/vendor/Therma-Tru-Veris-2025.pdf" title="https://files.reeb.com/docs/vendor/Therma-Tru-Veris-2025.pdf">files.reeb.com/docs/vendor/Therma-Tru-Veris-2025.pdf</a></figcaption></figure><figure class="fig"><img src="img/door-options/therma-tru-veris-hinged-3.jpg" width="605" height="288" alt="Black glass door on a stone house (catalog, page 23)" loading="lazy" data-cap="Black glass door on a stone house (catalog, page 23)" data-src="https://cdn.prod.website-files.com/69838ca1e275ea0d4076a90e/6997d71264c9ac0795dc320f_Therma-Tru_Veris_Catalog_2026-compressed.pdf" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Black glass door on a stone house (catalog, page 23)<br><a class="src" href="https://cdn.prod.website-files.com/69838ca1e275ea0d4076a90e/6997d71264c9ac0795dc320f_Therma-Tru_Veris_Catalog_2026-compressed.pdf" title="https://cdn.prod.website-files.com/69838ca1e275ea0d4076a90e/6997d71264c9ac0795dc320f_Therma-Tru_Veris_Catalog_2026-compressed.pdf">cdn.prod.website-files.com/69838ca1e275ea0d4076a90e/6997d71264c9ac0...</a></figcaption></figure></div>
+<p class="note">Photos from Therma-Tru&#x27;s Veris catalogs, hinged-door pages. The catalog does not say which size each door is. The third photo sits in the hinged-door section but is not captioned.</p>
+</section>
+<section class="card" id="masonite-vistagrande"><h2>Masonite Performance Door System, VistaGrande Full Lite</h2>
+<p class="line">Fiberglass, black inside and out, no frame around the glass; the door frame comes unpainted. $1,480.80 on Home Depot&#x27;s sale ($1,851.00 regular), 4 9/16&quot; frame only. Sill: black cap on a silver or bronze plate (distributor guide). Weatherstrip: white or bronze. Hinges: black on Home Depot&#x27;s listing, but stainless, nickel or bronze in the distributor guide. Fit: asks for 38 1/4&quot;.</p>
+<figure class="fig big"><img src="img/door-options/masonite-mpds-vistagrande-5.jpg" width="1000" height="1000" alt="This door, black, clear glass, on a house" loading="lazy" data-cap="This door, black, clear glass, on a house" data-src="https://www.homedepot.com/p/Masonite-Performance-Door-System-36-in-x-80-in-VG-Full-Lite-Left-Hand-Inswing-Clear-Black-Smooth-Fiberglass-Prehung-Front-Door-06444/328588416" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> This door, black, clear glass, on a house<br><a class="src" href="https://www.homedepot.com/p/Masonite-Performance-Door-System-36-in-x-80-in-VG-Full-Lite-Left-Hand-Inswing-Clear-Black-Smooth-Fiberglass-Prehung-Front-Door-06444/328588416" title="https://www.homedepot.com/p/Masonite-Performance-Door-System-36-in-x-80-in-VG-Full-Lite-Left-Hand-Inswing-Clear-Black-Smooth-Fiberglass-Prehung-Front-Door-06444/328588416">www.homedepot.com/p/Masonite-Performance-Door-System-36-in-x-80-in-...</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/masonite-mpds-vistagrande-6.jpg" width="1000" height="1000" alt="This door from outside" loading="lazy" data-cap="This door from outside" data-src="https://www.homedepot.com/p/Masonite-Performance-Door-System-36-in-x-80-in-VG-Full-Lite-Left-Hand-Inswing-Clear-Black-Smooth-Fiberglass-Prehung-Front-Door-06444/328588416" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> This door from outside<br><a class="src" href="https://www.homedepot.com/p/Masonite-Performance-Door-System-36-in-x-80-in-VG-Full-Lite-Left-Hand-Inswing-Clear-Black-Smooth-Fiberglass-Prehung-Front-Door-06444/328588416" title="https://www.homedepot.com/p/Masonite-Performance-Door-System-36-in-x-80-in-VG-Full-Lite-Left-Hand-Inswing-Clear-Black-Smooth-Fiberglass-Prehung-Front-Door-06444/328588416">www.homedepot.com/p/Masonite-Performance-Door-System-36-in-x-80-in-...</a></figcaption></figure><figure class="fig"><img src="img/door-options/masonite-mpds-vistagrande-2.jpg" width="1600" height="1146" alt="Masonite&#x27;s photo, frosted-looking glass" loading="lazy" data-cap="Masonite&#x27;s photo, frosted-looking glass" data-src="https://www.masonite.com/masonite-performance-door-system/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Masonite&#x27;s photo, frosted-looking glass<br><a class="src" href="https://www.masonite.com/masonite-performance-door-system/" title="https://www.masonite.com/masonite-performance-door-system/">www.masonite.com/masonite-performance-door-system/</a></figcaption></figure><figure class="fig"><img src="img/door-options/masonite-mpds-vistagrande-3.jpg" width="672" height="896" alt="Close-up: glass edge and bottom corner" loading="lazy" data-cap="Close-up: glass edge and bottom corner" data-src="https://www.masonite.com/masonite-performance-door-system/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Close-up: glass edge and bottom corner<br><a class="src" href="https://www.masonite.com/masonite-performance-door-system/" title="https://www.masonite.com/masonite-performance-door-system/">www.masonite.com/masonite-performance-door-system/</a></figcaption></figure></div>
+<p class="note">The first two are Home Depot pictures of this exact model with clear glass. Masonite&#x27;s own photos show the same door with frosted-looking glass.</p>
+</section>
+<section class="card" id="plastpro-onyx"><h2>Plastpro ONYX Nova 90 Full Lite, black all the way through</h2>
+<p class="line">Fiberglass door only (a door shop adds the frame, sill and hinges), coloured black through the skin, glass set straight in, Low-E. Price: from about $633 for the door alone (estimated from an online seller), plus the door shop. Parts colours depend on the door shop. Fit: depends on the door shop.</p>
+<figure class="fig big"><img src="img/door-options/plastpro-onyx-nova90-1.jpg" width="320" height="852" alt="ONYX full lite, 8&#x27;0&quot; version" loading="lazy" data-cap="ONYX full lite, 8&#x27;0&quot; version" data-src="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> ONYX full lite, 8&#x27;0&quot; version<br><a class="src" href="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/" title="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/">www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/plastpro-onyx-nova90-2.jpg" width="1600" height="1600" alt="8&#x27;0&quot; ONYX doors (a pair) on a house" loading="lazy" data-cap="8&#x27;0&quot; ONYX doors (a pair) on a house" data-src="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> 8&#x27;0&quot; ONYX doors (a pair) on a house<br><a class="src" href="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/" title="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/">www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/</a></figcaption></figure><figure class="fig"><img src="img/door-options/plastpro-onyx-nova90-3.jpg" width="1024" height="1024" alt="Close-up of the brushed black skin" loading="lazy" data-cap="Close-up of the brushed black skin" data-src="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Close-up of the brushed black skin<br><a class="src" href="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/" title="https://www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/">www.plastproinc.com/doors/onyx-nova-90-direct-glazed-lowe-2/</a></figcaption></figure></div>
+<p class="note">These are Plastpro pictures of the 8&#x27;0&quot;-tall version (DRB1S80L). A 3&#x27;0&quot; x 6&#x27;8&quot; version appears only on a dealer listing; no photo of it was found.</p>
+</section>
+<section class="card" id="provia-signet-460"><h2>ProVia Signet 460</h2>
+<p class="line">Fiberglass, &quot;Coal Black&quot; paint offered. Price: about $3,200 in 2013 (a trade magazine&#x27;s list price; no current figure). Sill: anodized bronze, not black. Hinge and weatherstrip colours not published. Fit: not published.</p>
+<figure class="fig big"><img src="img/door-options/provia-signet-460-1.jpg" width="652" height="652" alt="ProVia&#x27;s drawing of the 460 style" loading="lazy" data-cap="ProVia&#x27;s drawing of the 460 style" data-src="https://provia.com/?p=2936" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> ProVia&#x27;s drawing of the 460 style<br><a class="src" href="https://provia.com/?p=2936" title="https://provia.com/?p=2936">provia.com/?p=2936</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/provia-legacy-460-1.jpg" width="1310" height="1600" alt="Legacy (steel) 460 in Coal Black, from inside" loading="lazy" data-cap="Legacy (steel) 460 in Coal Black, from inside" data-src="https://www.provia.com/doors/gallery/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Legacy (steel) 460 in Coal Black, from inside<br><a class="src" href="https://www.provia.com/doors/gallery/" title="https://www.provia.com/doors/gallery/">www.provia.com/doors/gallery/</a></figcaption></figure><figure class="fig"><img src="img/door-options/provia-legacy-460-2.jpg" width="1600" height="1066" alt="Legacy (steel) 460, 8 ft, Coal Black, with side panels" loading="lazy" data-cap="Legacy (steel) 460, 8 ft, Coal Black, with side panels" data-src="https://www.provia.com/doors/gallery/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Legacy (steel) 460, 8 ft, Coal Black, with side panels<br><a class="src" href="https://www.provia.com/doors/gallery/" title="https://www.provia.com/doors/gallery/">www.provia.com/doors/gallery/</a></figcaption></figure></div>
+<p class="note">No photo of a plain clear-glass Signet 460 was found. The drawing is ProVia&#x27;s 460 style from its clear-glass page. The photos are the same 460 style in ProVia&#x27;s Legacy line, which is steel, not this fiberglass door.</p>
+</section>
+<section class="card" id="mmi-direct-glaze"><h2>MMI Door Direct Glaze (found in the price check)</h2>
+<p class="line">Fiberglass coloured black through the skin, black inside and out; clear Low-E glass set straight into the door; left-hand inswing; 6 9/16&quot; frame. $1,521.35 on Home Depot&#x27;s sale ($2,237.28 regular). Hinges: black. Sill, weatherstrip and sweep colours not given. U-factor 0.27. It comes with brickmould (outside trim) attached, and the frame and brickmould are primed, not black. Fit: the listing asks for a 38&quot; x 82 1/4&quot; opening, so yes by its own numbers.</p>
+<figure class="fig big"><img src="img/door-options/mmi-direct-glaze-1.jpg" width="1000" height="1000" alt="Listing picture of this door from outside, with its frame and attached brickmould (primed, per the listing)" loading="lazy" data-cap="Listing picture of this door from outside, with its frame and attached brickmould (primed, per the listing)" data-src="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Listing picture of this door from outside, with its frame and attached brickmould (primed, per the listing)<br><a class="src" href="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" title="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441">www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-I...</a></figcaption></figure>
+<div class="row"><figure class="fig"><img src="img/door-options/mmi-direct-glaze-2.jpg" width="1000" height="1000" alt="Listing photo of this door on a house (the frame looks dark here; it ships primed)" loading="lazy" data-cap="Listing photo of this door on a house (the frame looks dark here; it ships primed)" data-src="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Listing photo of this door on a house (the frame looks dark here; it ships primed)<br><a class="src" href="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" title="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441">www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-I...</a></figcaption></figure><figure class="fig"><img src="img/door-options/mmi-direct-glaze-3.jpg" width="1000" height="1000" alt="Listing drawing: unit 37 1/2&quot; x 81 3/4&quot;, suggested rough opening 38&quot; x 82 1/4&quot;, 6 9/16&quot; frame" loading="lazy" data-cap="Listing drawing: unit 37 1/2&quot; x 81 3/4&quot;, suggested rough opening 38&quot; x 82 1/4&quot;, 6 9/16&quot; frame" data-src="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Listing drawing: unit 37 1/2&quot; x 81 3/4&quot;, suggested rough opening 38&quot; x 82 1/4&quot;, 6 9/16&quot; frame<br><a class="src" href="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" title="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441">www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-I...</a></figcaption></figure><figure class="fig"><img src="img/door-options/mmi-direct-glaze-4.jpg" width="1000" height="1000" alt="Listing cutaway: 1&quot; insulated glass held by a stop molded into the door" loading="lazy" data-cap="Listing cutaway: 1&quot; insulated glass held by a stop molded into the door" data-src="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Listing cutaway: 1&quot; insulated glass held by a stop molded into the door<br><a class="src" href="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" title="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441">www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-I...</a></figcaption></figure></div>
+<div class="row"><figure class="fig"><img src="img/door-options/mmi-direct-glaze-5.jpg" width="1000" height="1000" alt="Its hinge (&quot;Hinge Finish: Black&quot;)" loading="lazy" data-cap="Its hinge (&quot;Hinge Finish: Black&quot;)" data-src="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Its hinge (&quot;Hinge Finish: Black&quot;)<br><a class="src" href="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" title="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441">www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-I...</a></figcaption></figure><figure class="fig"><img src="img/door-options/mmi-direct-glaze-6.jpg" width="1000" height="1000" alt="Its sill; the listing gives no colour" loading="lazy" data-cap="Its sill; the listing gives no colour" data-src="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Its sill; the listing gives no colour<br><a class="src" href="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" title="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441">www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-I...</a></figcaption></figure><figure class="fig"><img src="img/door-options/mmi-direct-glaze-7.jpg" width="1000" height="1000" alt="The frame (FrameSaver), shown as wood to paint or stain" loading="lazy" data-cap="The frame (FrameSaver), shown as wood to paint or stain" data-src="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> The frame (FrameSaver), shown as wood to paint or stain<br><a class="src" href="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441" title="https://www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-Inswing-Full-Lite-Clear-Low-E-Black-Fiberglass-Prehung-Door-on-6-9-16-in-Frame-Z03752593L/334848441">www.homedepot.com/p/MMI-DOOR-Direct-Glaze-36-in-x-80-in-Left-Hand-I...</a></figcaption></figure></div>
+<p class="note">Home Depot pictures of this exact model. In the house photo the frame looks dark; the listing says the frame ships primed. No page for this door was found on MMI&#x27;s own site.</p>
+</section>
+</div>
+<h2 class="sec">Parts: sills, weatherstrip and hinges</h2>
+<div class="grid">
+<section class="card part"><h2>All-black sill</h2>
+<p class="line">Sill = the strip on the floor under the door. Here both the raised strip and the metal plate you step on are black or near-black.</p>
+<div class="row"><figure class="fig"><img src="img/door-options/pella-flush-glazed-full-light-5.jpg" width="1080" height="460" alt="Pella: black sill (cropped from Pella&#x27;s door picture)" loading="lazy" data-cap="Pella: black sill (cropped from Pella&#x27;s door picture)" data-src="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Pella: black sill (cropped from Pella&#x27;s door picture)<br><a class="src" href="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/" title="https://www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-full-light/">www.pella.com/shop/doors/entry-doors/fiberglass/glass/flush-glazed-...</a></figcaption></figure><figure class="fig"><img src="img/door-options/jeld-wen-jwpro230600844-5.jpg" width="1000" height="400" alt="JELD-WEN stock door at Lowe&#x27;s, listed &quot;Sill Finish: Black&quot; (cropped); the listing does not say whether the plate or only the raised strip is black" loading="lazy" data-cap="JELD-WEN stock door at Lowe&#x27;s, listed &quot;Sill Finish: Black&quot; (cropped); the listing does not say whether the plate or only the raised strip is black" data-src="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> JELD-WEN stock door at Lowe&#x27;s, listed &quot;Sill Finish: Black&quot; (cropped); the listing does not say whether the plate or only the raised strip is black<br><a class="src" href="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311" title="https://www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-Inswing-Black-Painted-Prehung-Front-Door-Insulating-Core/5015176311">www.lowes.com/pd/JELD-WEN-36-in-x-80-in-Steel-Full-Lite-Left-Hand-I...</a></figcaption></figure></div>
+</section>
+<section class="card part"><h2>&quot;Black cap&quot; sill</h2>
+<p class="line">Only the raised strip is black. The metal you step on stays silver (or bronze). This is what Masonite uses.</p>
+<div class="row"><figure class="fig"><img src="img/door-options/endura-z-series-mill-black-cap-1.jpg" width="982" height="978" alt="Endura Z-Series sill: black cap on a silver (mill) plate" loading="lazy" data-cap="Endura Z-Series sill: black cap on a silver (mill) plate" data-src="https://www.amazon.com/Endura-Adjustable-Inswing-Sill-Black/dp/B0BF297JYH" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Endura Z-Series sill: black cap on a silver (mill) plate<br><a class="src" href="https://www.amazon.com/Endura-Adjustable-Inswing-Sill-Black/dp/B0BF297JYH" title="https://www.amazon.com/Endura-Adjustable-Inswing-Sill-Black/dp/B0BF297JYH">www.amazon.com/Endura-Adjustable-Inswing-Sill-Black/dp/B0BF297JYH</a></figcaption></figure><figure class="fig"><img src="img/door-options/masonite-mpds-sill-1.jpg" width="672" height="896" alt="Masonite&#x27;s own photo: the sill looks dark, but Masonite names no colour. Its distributor guide lists a black raised strip on a silver or bronze plate" loading="lazy" data-cap="Masonite&#x27;s own photo: the sill looks dark, but Masonite names no colour. Its distributor guide lists a black raised strip on a silver or bronze plate" data-src="https://www.masonite.com/masonite-performance-door-system/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Masonite&#x27;s own photo: the sill looks dark, but Masonite names no colour. Its distributor guide lists a black raised strip on a silver or bronze plate<br><a class="src" href="https://www.masonite.com/masonite-performance-door-system/" title="https://www.masonite.com/masonite-performance-door-system/">www.masonite.com/masonite-performance-door-system/</a></figcaption></figure></div>
+</section>
+<section class="card part"><h2>Bronze sill (the Codel on your quote)</h2>
+<p class="line">Codel offers mill (silver) or bronze. Bronze is dark brown and can look almost black in photos, so look at a real one.</p>
+<div class="row"><figure class="fig"><img src="img/door-options/codel-sill-bronze-1.jpg" width="500" height="201" alt="Codel&#x27;s &quot;Bronze Finish&quot; sill sample" loading="lazy" data-cap="Codel&#x27;s &quot;Bronze Finish&quot; sill sample" data-src="https://www.codeldoors.com/catalog/door/cf20/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Codel&#x27;s &quot;Bronze Finish&quot; sill sample<br><a class="src" href="https://www.codeldoors.com/catalog/door/cf20/" title="https://www.codeldoors.com/catalog/door/cf20/">www.codeldoors.com/catalog/door/cf20/</a></figcaption></figure><figure class="fig"><img src="img/door-options/codel-sill-watershed-1.jpg" width="500" height="266" alt="Codel&#x27;s recommended &quot;Water-Shed&quot; sill, in bronze" loading="lazy" data-cap="Codel&#x27;s recommended &quot;Water-Shed&quot; sill, in bronze" data-src="https://www.codeldoors.com/catalog/door/cf20/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Codel&#x27;s recommended &quot;Water-Shed&quot; sill, in bronze<br><a class="src" href="https://www.codeldoors.com/catalog/door/cf20/" title="https://www.codeldoors.com/catalog/door/cf20/">www.codeldoors.com/catalog/door/cf20/</a></figcaption></figure><figure class="fig"><img src="img/door-options/endura-zac-deck-colors-1.jpg" width="1600" height="1600" alt="Endura sill plates side by side: mill (silver) above, bronze below" loading="lazy" data-cap="Endura sill plates side by side: mill (silver) above, bronze below" data-src="https://www.betterdoor.com/shop/exterior-door-sills-thresholds-replacement-parts/exterior-door-threshold-sill-kits/endura-z-articulating-cap-sill-single-door-retrofit-kit/" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Endura sill plates side by side: mill (silver) above, bronze below<br><a class="src" href="https://www.betterdoor.com/shop/exterior-door-sills-thresholds-replacement-parts/exterior-door-threshold-sill-kits/endura-z-articulating-cap-sill-single-door-retrofit-kit/" title="https://www.betterdoor.com/shop/exterior-door-sills-thresholds-replacement-parts/exterior-door-threshold-sill-kits/endura-z-articulating-cap-sill-single-door-retrofit-kit/">www.betterdoor.com/shop/exterior-door-sills-thresholds-replacement-...</a></figcaption></figure></div>
+</section>
+<section class="card part"><h2>Weatherstrip colours</h2>
+<p class="line">Weatherstrip = the foam strip in the frame that the door closes against. Codel&#x27;s is brown, or white on request.</p>
+<div class="row"><figure class="fig"><img src="img/door-options/qlon-650-black-1.jpg" width="618" height="1013" alt="Q-Lon weatherstrip, black" loading="lazy" data-cap="Q-Lon weatherstrip, black" data-src="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Q-Lon weatherstrip, black<br><a class="src" href="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black" title="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black">windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-sea...</a></figcaption></figure><figure class="fig"><img src="img/door-options/qlon-650-white-1.jpg" width="1376" height="1296" alt="Q-Lon weatherstrip, white" loading="lazy" data-cap="Q-Lon weatherstrip, white" data-src="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Q-Lon weatherstrip, white<br><a class="src" href="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black" title="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black">windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-sea...</a></figcaption></figure><figure class="fig"><img src="img/door-options/qlon-650-bronze-1.jpg" width="800" height="1088" alt="Q-Lon weatherstrip, bronze (looks like the black one in photos)" loading="lazy" data-cap="Q-Lon weatherstrip, bronze (looks like the black one in photos)" data-src="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Q-Lon weatherstrip, bronze (looks like the black one in photos)<br><a class="src" href="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black" title="https://windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-seal-weatherstripping-with-kerf-mount-white-bronze-or-black">windowhardwaredirect.com/products/wrs-26-ft-roll-650-q-lon-door-sea...</a></figcaption></figure><figure class="fig"><img src="img/door-options/endura-pe650-bronze-1.jpg" width="800" height="800" alt="Endura PE650, bronze (brown)" loading="lazy" data-cap="Endura PE650, bronze (brown)" data-src="https://www.betterdoor.com/shop/weathersealing/door-gap-fix-weatherstrip/endura-low-wick-pe650-weatherstrip/" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Endura PE650, bronze (brown)<br><a class="src" href="https://www.betterdoor.com/shop/weathersealing/door-gap-fix-weatherstrip/endura-low-wick-pe650-weatherstrip/" title="https://www.betterdoor.com/shop/weathersealing/door-gap-fix-weatherstrip/endura-low-wick-pe650-weatherstrip/">www.betterdoor.com/shop/weathersealing/door-gap-fix-weatherstrip/en...</a></figcaption></figure><figure class="fig"><img src="img/door-options/endura-pe650-white-1.jpg" width="800" height="800" alt="Endura PE650, white" loading="lazy" data-cap="Endura PE650, white" data-src="https://www.betterdoor.com/shop/weathersealing/door-gap-fix-weatherstrip/endura-low-wick-pe650-weatherstrip/" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Endura PE650, white<br><a class="src" href="https://www.betterdoor.com/shop/weathersealing/door-gap-fix-weatherstrip/endura-low-wick-pe650-weatherstrip/" title="https://www.betterdoor.com/shop/weathersealing/door-gap-fix-weatherstrip/endura-low-wick-pe650-weatherstrip/">www.betterdoor.com/shop/weathersealing/door-gap-fix-weatherstrip/en...</a></figcaption></figure></div>
+</section>
+<section class="card part"><h2>Hinges: black vs oil-rubbed bronze</h2>
+<p class="line">Black hinges, with oil-rubbed bronze for comparison: it is also dark but brown with copper edges.</p>
+<div class="row"><figure class="fig"><img src="img/door-options/codel-hinge-us1d-1.jpg" width="1000" height="1118" alt="Codel&#x27;s site: a hinge photo whose file is named US1D (black)" loading="lazy" data-cap="Codel&#x27;s site: a hinge photo whose file is named US1D (black)" data-src="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Codel&#x27;s site: a hinge photo whose file is named US1D (black)<br><a class="src" href="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/" title="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/">www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pr...</a></figcaption></figure><figure class="fig"><img src="img/door-options/trimlite-sf20fc-3.jpg" width="900" height="900" alt="Trimlite black hinge" loading="lazy" data-cap="Trimlite black hinge" data-src="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" data-tag="retailer photo"><figcaption><span class="t r">retailer photo</span> Trimlite black hinge<br><a class="src" href="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926" title="https://www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926">www.build.com/trimlite-3068lhispsf20fc69161dm/s1655926</a></figcaption></figure><figure class="fig"><img src="img/door-options/codel-hinge-us10b-1.jpg" width="872" height="1000" alt="Codel US10B, oil-rubbed bronze (not black)" loading="lazy" data-cap="Codel US10B, oil-rubbed bronze (not black)" data-src="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/" data-tag="maker photo"><figcaption><span class="t m">maker photo</span> Codel US10B, oil-rubbed bronze (not black)<br><a class="src" href="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/" title="https://www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pre-pigmented-black-smooth-fiberglass-exterior-door-with-full-lite-door-lite/">www.codeldoors.com/catalog/door/sf20b-direct-glazed-flush-glazed-pr...</a></figcaption></figure></div>
+</section>
+</div>
+<h2 class="sec" id="side-by-side">Side by side</h2>
+<div class="cmp-wrap">
+<p class="cmp-lead">Door 1 is a left-hand inswing: it opens into the house. From outside with the door closed you mostly see the door face, the frame, the sill and the frame around the glass; the hinges and the weatherstrip face the inside.</p>
+<div class="cmp-legend"><span>Cell colours:</span><span class="cmp-key cmp-b">Black available</span><span class="cmp-key cmp-n">Not black (the cell says what it is)</span><span class="cmp-key cmp-a">Not published, or sources disagree -- ask</span><span class="cmp-key cmp-e">Estimate or inference (the cell says what it rests on)</span><span class="cmp-key cmp-0">No tint: a stated fact, or the door has no such part</span></div>
+<p class="cmp-lead" style="font-size:13px;color:#444">Words in quotes are the maker's or the store's own. "Ebony", "Coal Black", "Onyx" and the like are maker colour names: see a real sample before treating them as black. "Listing" means a store's web page, not the maker's.</p>
+<div class="cmp-box">
+<table class="cmp">
+<thead><tr>
+<th class="w-door">Door<small>click a name to see its pictures</small></th>
+<th class="w-m">Price</th>
+<th class="w-m">Door material</th>
+<th class="w-l">Fits our 38" opening?<small>the framed hole is 38" wide</small></th>
+<th class="w-l">Sill<small>the strip on the floor: a metal plate you step on, with a raised strip the door seals on</small></th>
+<th class="w-m">Weatherstrip<small>the seal around the door's edges</small></th>
+<th class="w-m">Door-bottom sweep<small>the seal under the door</small></th>
+<th class="w-l">Hinges</th>
+<th class="w-m">Frame around the glass</th>
+<th class="w-l">Comes black from the factory?</th>
+<th class="w-m">Energy: U-factor<small>heat lost through the door; lower is better; your energy model uses 0.28</small></th>
+<th class="w-m">Warranty</th>
+<th class="w-m">Where to buy</th>
+</tr></thead>
+<tbody>
+<tr>
+<th scope="row"><a href="#codel-cf20">Codel CF20</a><small>steel; the door on the Chinook quote</small></th>
+<td><b>$854.81</b> dealer quote (Chinook 145329)</td>
+<td>Steel, wood edges</td>
+<td><b>No.</b> Codel asks for a 38 1/2" opening for its 37 1/2" unit: 1/2" more than you have.</td>
+<td class="cmp-n"><b>Not black:</b> mill (bare silver aluminium) or bronze. Raised-strip colour not published. A black sill from another maker (such as DraftSeal, Langley BC) only if Codel agrees to fit one.</td>
+<td class="cmp-n"><b>Not black:</b> brown, or white on request. Trimlite, Codel's owner, lists black on its own doors: ask Codel.</td>
+<td class="cmp-e"><b>Inference:</b> probably available in black. Codel's plant builds the Trimlite SF20FC, which is sold with a black sweep. Not published for the CF20 -- ask.</td>
+<td class="cmp-e"><b>Inference:</b> probably black. Codel's brochure hinge list has "US1D Black" and Codel's fiberglass doors are sold with black hinges, but it is not stated for this steel door. Codel's website lists no black in writing (its hinge photo is named US1D). Confirm with Codel.</td>
+<td class="cmp-e"><b>Inference:</b> probably a plastic frame screwed around the glass (a "lite kit"; Codel's steel pages mention only these). Colour not published -- ask.</td>
+<td class="cmp-a">As quoted it comes primed (you paint it). <b>Not published</b> whether Codel paints it black: Codel's paint lists (its own site and Home Depot's Codel page) have no colour named Black, but have "Carbon" and "Iron". Ask, and see a sample.</td>
+<td>0.28 (Codel brochure)</td>
+<td>5-year limited ("LIMITED 5 YEAR WARRANTY", Codel brochure, steel doors). Codel: no sill pan (the tray under the door) voids its leak warranty.</td>
+<td>Chinook Lumber (your dealer). Codel is in Puyallup, WA.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#jeld-wen-full-view">JELD-WEN Full View</a><small>steel; your first pick</small></th>
+<td class="cmp-e"><b>Estimate: $899 to $1,539</b>, from three similar JELD-WEN black steel full-glass stock doors at Lowe's and Home Depot (grilles, frosted or decorative glass; none with a 6 9/16" frame). Not the dealer-ordered Full View.</td>
+<td>Steel</td>
+<td><b>Maybe.</b> JELD-WEN's two install sheets disagree. The 2011 sheet allows 38", but only if the unit is 37 1/2" wide, and JELD-WEN does not publish its width (37 1/2" is from a Lowe's listing). The newer sheet (file dated 05/22) asks for 38 1/2": 1/2" more. Home Depot's JELD-WEN full-glass stock doors ask for 38 1/4".</td>
+<td class="cmp-a"><b>Not published</b> -- ask. Brosco, a JELD-WEN door shop (a shop that hangs doors in their frames), lists mill, bronze, satin nickel, brass, oak or mahogany, with no black.</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-b"><b>Black</b> in the catalog of Brosco, one JELD-WEN door shop. No Pacific Northwest JELD-WEN door shop was found.</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-b"><b>Black:</b> "Black" is one of 26 factory paints.</td>
+<td>Not published; a Lowe's listing says 0.28.</td>
+<td>"10 Year Warranty"</td>
+<td>Lowe's; stock not published.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#jeld-wen-lowes-stock">JELD-WEN stock door at Lowe's</a><small>steel; model JWPRO230600844</small></th>
+<td class="cmp-e"><b>Estimate: about $899.</b> No price shown for this one; its Lowe's twin (right-hand, grilles, with brickmould, out of stock) is $899.00.</td>
+<td>Steel</td>
+<td><b>Yes by the Lowe's listing</b> (opening 37 15/16" for a 37 7/16" unit). By JELD-WEN's newer install sheet it would want 38 7/16". Comes only with a 4 9/16"-deep frame (jamb), too shallow for your 6 9/16" wall. "Currently unavailable".</td>
+<td class="cmp-b"><b>Black</b> per the Lowe's listing ("Sill Finish: Black"). Not stated whether the plate you step on or only the raised strip is black. No JELD-WEN source names a black sill.</td>
+<td class="cmp-a"><b>Not published</b> -- included, colour not listed.</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-b"><b>Black</b> per the Lowe's listing ("Hardware Finish: Black").</td>
+<td class="cmp-a"><b>Not published</b> -- not listed.</td>
+<td class="cmp-b"><b>Black</b> outside, white inside, factory finished (Lowe's listing).</td>
+<td>0.28 (Lowe's listing)</td>
+<td>"10-year limited" (Lowe's listing)</td>
+<td>Lowe's: "currently unavailable".</td>
+</tr>
+<tr>
+<th scope="row"><a href="#trimlite-sf20fc">Trimlite SF20FC</a><small>fiberglass; Trimlite owns Codel</small></th>
+<td><b>$1,092.11</b> for this unit on Build.com (6 9/16" frame; $1,128.75 with the 4 9/16" frame). <b>$874.99</b> plus $125 delivery for the Codel-branded twin on Zoro (right-hand, out of stock). Both primed.</td>
+<td>Fiberglass, per the listing, which contradicts itself: it also says "solid wood core with engineered wood stiles and rails" (the door's inner frame).</td>
+<td><b>No, 1/2" short.</b> The install sheet on the listing (Codel's) asks for an opening 1" wider than the 37 1/2" unit: 38 1/2".</td>
+<td class="cmp-n"><b>Not black:</b> "Mill" (silver) in the listing's specs; the same page's options showed bronze. Raised-strip colour not published.</td>
+<td class="cmp-b"><b>Black</b> per the listing ("Weatherstrip Color: Black").</td>
+<td class="cmp-b"><b>Black</b> per the listing ("Sweep Color: Black").</td>
+<td class="cmp-b"><b>Black</b> per the listing ("Hinge Finish: Black"), 3 hinges.</td>
+<td class="cmp-a"><b>Not published</b> (colour) -- ask. This is Codel's flush-glazed door: thin strips set flush with the door face hold the glass (Trimlite's "removable beads"); their colour is not given.</td>
+<td class="cmp-n"><b>Not black:</b> comes primed or unfinished; you paint it.</td>
+<td class="cmp-e"><b>Estimate:</b> about 0.27 if the glass is Low-E (a heat-reflecting glass coating), from Codel's table for flush-glazed Low-E doors. The listing says only "Double Pane".</td>
+<td>"limited lifetime manufacturer warranty" (listing)</td>
+<td>Online: Build.com, Ferguson; the Codel-branded twin at Zoro. Trimlite owns Codel, Chinook's supplier.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#codel-sf20b">Codel SF20B</a><small>fiberglass, black all the way through; same dealer</small></th>
+<td class="cmp-e"><b>Estimate: $875 to $1,377</b>, plus an unknown extra for the black skin. No SF20B listing found; from Codel's flush-glazed sibling (the Trimlite SF20FC) and Home Depot's Codel configurator (36 x 80, Low-E, 6 9/16" frame, black hinges).</td>
+<td>Smooth fiberglass, coloured black through the skin ("Pre-Pigmented Black (Onyx)")</td>
+<td><b>No, 1/2" short.</b> Codel's brochure table gives a 37 1/2" unit for every 3-0 x 6-8 prehung door, and its install sheet asks for an opening 1" wider: 38 1/2".</td>
+<td class="cmp-n"><b>Not black:</b> mill or bronze. Raised-strip colour not published.</td>
+<td class="cmp-e"><b>Inference:</b> probably available in black; the same Codel plant ships the SF20FC with black weatherstrip. Not stated for the SF20B -- ask.</td>
+<td class="cmp-e"><b>Inference:</b> probably available in black, on the same reasoning. Not stated for the SF20B -- ask.</td>
+<td class="cmp-b"><b>Black:</b> Codel's fiberglass doors are offered with "Hinge Color: Black" (Home Depot's Codel configurator), and the brochure lists "US1D Black". Ask for it.</td>
+<td><b>None:</b> glass set straight into the door.</td>
+<td class="cmp-b"><b>Black</b> through the skin; "doesn't need to be painted". Inside colour not published -- ask.</td>
+<td class="cmp-e"><b>Estimate:</b> about 0.27, from Codel's table row for flush-glazed Low-E fiberglass doors (it has no separate direct-glazed row). Low-E glass is standard.</td>
+<td>Limited lifetime ("ALL Codel fiberglass doors", Codel brochure). Codel: no sill pan voids its leak warranty.</td>
+<td>Codel (Puyallup) through Chinook.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#codel-sf20d">Codel SF20D</a><small>fiberglass, painted; same dealer</small></th>
+<td class="cmp-e"><b>Estimate: $875 to $1,377</b>, on the same basis as the SF20B. No SF20D listing found.</td>
+<td>Smooth fiberglass</td>
+<td><b>No, 1/2" short.</b> As the SF20B: a 37 1/2" unit, and an opening 1" wider (38 1/2").</td>
+<td class="cmp-n"><b>Not black:</b> mill or bronze.</td>
+<td class="cmp-e"><b>Inference:</b> probably available in black, as for the SF20B. Not stated -- ask.</td>
+<td class="cmp-e"><b>Inference:</b> probably available in black, as for the SF20B. Not stated -- ask.</td>
+<td class="cmp-b"><b>Black:</b> as for the SF20B (offered on Codel's fiberglass doors; "US1D Black" in the brochure). Ask for it.</td>
+<td><b>None:</b> glass set straight into the door.</td>
+<td class="cmp-a"><b>Not published</b> -- none of the 21 colours on Codel's SF20D page is named Black ("Carbon" and "Iron" are among them), and the brochure says "Codel Coatings not available" for its direct-glazed doors with bars, so there may be no factory paint at all. Ask, and see a sample.</td>
+<td class="cmp-e"><b>Estimate:</b> about 0.27, as for the SF20B. Clear Low-E glass.</td>
+<td>Limited lifetime, as for the SF20B. Codel: no sill pan voids its leak warranty.</td>
+<td>Codel (Puyallup) through Chinook.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#pella-flush-glazed">Pella Flush Glazed Full Light</a><small>smooth fiberglass</small></th>
+<td><b>$3,361.38</b> as built on Pella's site: black inside and out, black sill, Matte Black hinges, 6 9/16" frame. Includes a handleset; no brickmould option shown. (Base build from $3,285.47.)</td>
+<td>Fiberglass door, composite frame. (Pella's steel doors in this line take no glass.)</td>
+<td><b>No.</b> Pella asks for 38 1/4" for its 37 1/2" frame: 1/4" more than you have.</td>
+<td class="cmp-b"><b>Black:</b> "Black finish aluminum" plate (an option; mill is standard) with a "Composite Black" raised strip (standard).</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-a"><b>Not published</b> -- a seal "with bulb"; colour not given.</td>
+<td class="cmp-b"><b>Black:</b> "Matte Black".</td>
+<td class="cmp-a"><b>Not published</b> -- no added frame, but the colour of the plastic rim at the glass edge is not given. Ask.</td>
+<td class="cmp-b"><b>Black:</b> factory "Black" paint. A black door and black frame, inside and out, is Pella's default build.</td>
+<td>0.25 (better than the model's 0.28)</td>
+<td>"Pella Limited Lifetime Warranty"</td>
+<td>Pella showrooms in Bothell and Tacoma.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#marvin-modern">Marvin Modern Swinging Door</a><small>fiberglass; made to size</small></th>
+<td>No figure found -- dealer quote.</td>
+<td>Fiberglass frame and door, aluminium inside. Ships in parts, to be put together.</td>
+<td><b>Only by going narrower.</b> Made to any width, so a 36 1/2" frame fits 38". But that leaves a walk-through gap of about 31 5/16", under the 32" the building code (IRC R311.2) asks of the main exit door. Check with Lewis County.</td>
+<td class="cmp-b"><b>Black:</b> "Ebony" sill with colour-matched aluminium covers (Marvin's name; see a sample).</td>
+<td class="cmp-b"><b>Black:</b> "All weather strip will be black."</td>
+<td class="cmp-a"><b>Not published</b> -- not stated whether the bottom seal counts as "weather strip".</td>
+<td class="cmp-b"><b>Black:</b> "Matte Black (Painted)".</td>
+<td class="cmp-b"><b>Black:</b> black silicone seal around the glass outside; black spacer between the panes.</td>
+<td class="cmp-b"><b>Black:</b> "Ebony" (Marvin's name; see a sample).</td>
+<td>Not published for this door; Marvin says "as low as 0.15" for the line.</td>
+<td>Marvin Limited Warranty: 10 years on the outside finish and on hardware and other non-glass parts; 20 years on the glass seal.</td>
+<td>Marvin's dealer finder lists Kell-Chuck Glass (Olympia), D.K. Boos Glass (Lacey) and Western Pacific (Bellevue), from search summaries only. Confirm they sell this line.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#therma-tru-s2000">Therma-Tru Smooth-Star S2000</a><small>fiberglass; EnLiten</small></th>
+<td class="cmp-e"><b>Estimate: $2,998</b>, from Home Depot's Therma-Tru Smooth-Star flush-glazed configurator (no model named; out of stock): "Onyx" outside (+$400), white inside, 6 9/16" frame (+$100), brickmould included.</td>
+<td>Smooth fiberglass</td>
+<td><b>No.</b> Therma-Tru asks for 38 3/8" for its 37 5/8" unit (the widest checked): 3/8" more than you have.</td>
+<td class="cmp-n"><b>Not black:</b> mill, bronze or satin nickel; raised strip light or dark wood.</td>
+<td class="cmp-n"><b>Not black:</b> bronze or white.</td>
+<td class="cmp-a"><b>Not published</b> -- no colour options listed.</td>
+<td class="cmp-a"><b>Sources disagree</b> -- ask. Home Depot's configurator says "Hinge Finish: Black"; Therma-Tru's own list has no black (the darkest is "Black Nickel", US17A, not confirmed black).</td>
+<td><b>None:</b> "No lite frame or screw plugs".</td>
+<td class="cmp-a"><b>Not published</b> -- none of the 15 paints is named Black. "Onyx" and "Obsidian" are the dark ones, not confirmed black; see a sample.</td>
+<td>Not published. Low-E glass; a triple-pane version (S2000-LE3) exists.</td>
+<td>Lifetime limited (fiberglass)</td>
+<td>OrePac, Tacoma: builds Therma-Tru doors and stocks Therma-Tru "Hinges &amp; Sills". Home Depot online (out of stock).</td>
+</tr>
+<tr>
+<th scope="row"><a href="#therma-tru-veris">Therma-Tru Veris</a><small>hinged glass door; aluminium</small></th>
+<td>No figure found -- dealer quote.</td>
+<td>Aluminium with an insulating break, nearly all glass</td>
+<td><b>Unknown.</b> A 3'0" x 6'8" door is offered; the unit width and opening size are not given.</td>
+<td class="cmp-n"><b>Not black:</b> clear (silver) or dark bronze anodized (a dyed metal finish).</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-e"><b>Inference:</b> probably black on a black door. Therma-Tru says "Color-matched options are available" for its "semi-concealed hinges", without naming black. Ask.</td>
+<td class="cmp-b"><b>Black:</b> the glass sits in the door's own aluminium frame, offered in "Black" powder coat (a baked-on paint).</td>
+<td class="cmp-b"><b>Black:</b> "Black" powder coat (also White, or clear or dark bronze anodized).</td>
+<td>Not published. "Enhanced Low-E" or "Low-E" glass.</td>
+<td>Lifetime limited on the door system; 10 years on the finish.</td>
+<td>Therma-Tru sellers.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#masonite-vistagrande">Masonite VistaGrande Full Lite</a><small>fiberglass; Performance Door System</small></th>
+<td><b>$1,480.80</b> on Home Depot's sale ($1,851.00 regular), "Jet Black", 4 9/16" frame only. Brickmould not stated for this unit (its right-hand twin includes it).</td>
+<td>Smooth fiberglass</td>
+<td><b>No.</b> Masonite asks for 38 1/4" for its 37 1/2" unit (distributor guide; Home Depot lists 38.28"): 1/4" more than you have.</td>
+<td class="cmp-n"><b>Not black:</b> a black raised strip on a silver (mill) or bronze plate, not an all-black sill (distributor guide). Masonite's own site mentions a black sill only in a picture's text description.</td>
+<td class="cmp-n"><b>Not black:</b> white or bronze (distributor guide).</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-a"><b>Sources disagree</b> -- ask. Home Depot's listing for this unit says "Hinge Finish: Black"; Masonite's 2022 distributor guide says stainless steel standard, satin nickel or oil-rubbed bronze.</td>
+<td><b>None:</b> glass set straight into the door.</td>
+<td class="cmp-b"><b>Black</b> door, inside and out (Masonite's answers on the Home Depot listing). <b>The frame is not painted.</b></td>
+<td>0.24 (Home Depot listing)</td>
+<td>"10-Year Limited Full Replacement Warranty", plus limited lifetime on key parts.</td>
+<td>Home Depot online ("7 ready to ship").</td>
+</tr>
+<tr>
+<th scope="row"><a href="#plastpro-onyx">Plastpro ONYX Nova 90 Full Lite</a><small>fiberglass door only; a door shop frames it</small></th>
+<td class="cmp-e"><b>Estimate: from $633</b> for the door alone: a Nova 90 full-glass door at Door &amp; More ("starting at"; width and ONYX not stated). Plus a door shop's frame, sill and hinges, not priced, and a $150 fee on orders under $1,000.</td>
+<td>Fiberglass door only (no frame, sill or hinges), black through the skin</td>
+<td><b>Up to the door shop</b> that builds the frame. A 3'0" x 6'8" door is listed only by a dealer (Novo); Plastpro's own page lists the 8'0" door only.</td>
+<td class="cmp-a"><b>Not published</b> -- the door shop chooses.</td>
+<td class="cmp-a"><b>Not published</b> -- the door shop chooses.</td>
+<td class="cmp-a"><b>Not published</b> -- the door shop chooses.</td>
+<td class="cmp-a"><b>Not published</b> -- the door shop chooses.</td>
+<td><b>None:</b> glass "installed flush with the door surface".</td>
+<td class="cmp-b"><b>Black</b> through the skin; a top coat is recommended.</td>
+<td>Not published. Low-E glass.</td>
+<td>"Life Time Limited Warranty" per Door &amp; More, for the Nova 90; not stated for ONYX.</td>
+<td>Door &amp; More, online (pickup in Tampa, FL); a dealer site (Novo) also lists it.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#provia-signet-460">ProVia Signet 460</a><small>fiberglass; confirm a plain clear full-glass version exists</small></th>
+<td class="cmp-e"><b>Estimate: about $3,200 in 2013</b>, a trade magazine's list price for a prehung, prefinished Signet (any design). No current figure.</td>
+<td>Fiberglass</td>
+<td><b>Unknown.</b> Sizes not published.</td>
+<td class="cmp-n"><b>Not black:</b> anodized bronze, standard; mill also offered.</td>
+<td class="cmp-a"><b>Not published</b> -- ask.</td>
+<td class="cmp-a"><b>Not published</b> -- a "Bulb and Blade" seal; colour not given.</td>
+<td class="cmp-a"><b>Not published</b> -- ball-bearing hinges, finish not given.</td>
+<td class="cmp-a"><b>Not published</b> (colour) -- "Plugless Glass Trim is standard" (no screw-hole plugs show); its colour is not given.</td>
+<td class="cmp-b"><b>Black:</b> "Coal Black" paint offered (ProVia's name; see a sample).</td>
+<td>Not published for this style.</td>
+<td>Lifetime on the door, frame and glass; 15 years on the paint.</td>
+<td>No dealer confirmed.</td>
+</tr>
+<tr>
+<th scope="row"><a href="#mmi-direct-glaze">MMI Door Direct Glaze</a><small>fiberglass, black through; left-hand inswing, 6 9/16" frame; Home Depot model Z03752593L</small></th>
+<td><b>$1,521.35</b> on Home Depot's sale ($2,237.28 regular)</td>
+<td>Fiberglass, "factory pigmented" black skin</td>
+<td><b>Yes, by its own listing:</b> rough opening 38" x 82 1/4" for a 37 1/2" x 81 3/4" unit. Comes with brickmould (outside trim) attached; whether it can be left off was not checked.</td>
+<td class="cmp-a"><b>Not published</b> -- "composite adjustable sill", colour not given.</td>
+<td class="cmp-a"><b>Not published</b> -- "compression weatherstrip", colour not given.</td>
+<td class="cmp-a"><b>Not published</b> -- "rigid PVC door sweep", colour not given.</td>
+<td class="cmp-b"><b>Black</b> per the listing ("Hinge Finish: Black").</td>
+<td><b>None:</b> "Clear low-E glass is directly glazed into the fiberglass door".</td>
+<td class="cmp-b"><b>Black</b> door, inside and out ("Both the interior and exterior of the door are black", an answer on the listing). <b>The frame and brickmould come primed, not black.</b></td>
+<td>0.27 (an answer on the listing)</td>
+<td>"Limited Lifetime Warranty on both the door and glass components and the prehung MSystem"</td>
+<td>Home Depot online ("299 ready to ship").</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="cmp-foot">Prices are what the pages showed on 2026-11-21 for the delivery area set in your browser. Home Depot was running Black Friday sale prices; the regular price is given next to each. The prices are not like-for-like: Codel's is a dealer quote, Trimlite's, Masonite's and MMI's are store prices, and Pella's is its own online build. The blue prices are estimates from similar doors or an old figure, not prices for these doors: both JELD-WEN doors, the Codel SF20B and SF20D, the Therma-Tru S2000, Plastpro and ProVia. "No figure found" means only a dealer quote will tell; "not published" means ask the dealer.</p>
+</div>
+<footer>Facts and sources: 2026-11-20-door-options-research.md and 2026-11-21-door-options-estimates.md in this folder. Pictures were downloaded on 2026-11-20 (the MMI pictures on 2026-11-21) from the pages linked under each one. The Marvin close-up, the Therma-Tru clear S2000, the Veris photos and the Pella sill close-up are cropped from the makers' catalogs or pictures.</footer>
+<div id="lb"><img alt=""><p></p></div>
+<script>
+(function(){
+var lb=document.getElementById('lb'),im=lb.querySelector('img'),cap=lb.querySelector('p');
+function hide(){lb.classList.remove('on');im.removeAttribute('src');}
+// Opening a picture pushes a history entry, so Back closes it (as on the site's render pages) instead of leaving the page.
+function close(){if(history.state&&history.state.lb)history.back();else hide();}
+if(history.state&&history.state.lb)history.replaceState(null,'');
+window.addEventListener('popstate',function(){if(lb.classList.contains('on'))hide();});
+document.querySelectorAll('.fig img').forEach(function(i){
+  i.addEventListener('click',function(){
+    im.src=i.getAttribute('src');
+    cap.textContent='';
+    var s=document.createElement('span');s.textContent=i.dataset.tag+': '+i.dataset.cap+'  ';
+    var a=document.createElement('a');a.href=i.dataset.src;a.textContent=i.dataset.src;
+    a.addEventListener('click',function(ev){ev.stopPropagation();});
+    cap.appendChild(s);cap.appendChild(a);
+    lb.classList.add('on');
+    history.pushState({lb:1},'');
+  });
+});
+lb.addEventListener('click',close);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
+</body></html>
