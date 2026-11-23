@@ -2864,6 +2864,8 @@ dim(V(-D.HW - 40, D.GRADE, D.F_PORCH_EDGE), V(-D.HW - 40, D.DECK, D.F_PORCH_EDGE
 dim(V(-D.HW - 40, D.STEM_TOP, 30), V(-D.HW - 40, D.GRADE, 30), '14" stem wall showing (illustrative)', V(0, 0, 0), V(1, 0, 0));
 dim(V(-D.HW - 24, D.DECK + 1, D.G4 - EXT - 0.75), V(-D.HW - 24, D.DECK + 1, D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG), '8\'-8 1/2" siding to deck edge', V(0, 0, 0), V(1, 0, 0));   // from the batten face (G4 - 1.94) to the boards' edge (-658.5), as the front dim
 dim(V(-D.HW - 24, D.DECK + 1, EXT + 0.75), V(-D.HW - 24, D.DECK + 1, D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG), '5\'-6" siding to deck edge', V(0, 0, 0), V(1, 0, 0));   // from the batten face (EXT + 3/4 = 1.94) to the boards' edge (67.75)
+dim(V(-(D.DECK_END + D.OVERHANG), D.DECK + 1, D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG), V(D.DECK_END + D.OVERHANG, D.DECK + 1, D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG), '26\'-3" deck end to end', V(0, 0, 45), V(0, 0, 1));   // porch boards' ends x +/-157.5 at the front edge (z 67.75), drawn 45" out past the stair
+dim(V(-(D.DECK_END + D.OVERHANG), D.DECK + 1, D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG), V(D.DECK_END + D.OVERHANG, D.DECK + 1, D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG), '26\'-3" deck end to end', V(0, 0, -45), V(0, 0, -1));   // rear boards' ends x +/-157.5 at the outer edge (z -656.94), drawn 45" out past the stair
 dim(V(-D.HW - 24, D.UPPER_FLR + 1, 0), V(-D.HW - 24, D.UPPER_FLR + 1, D.F_DECK_EDGE), '4\'-2 3/4" upper deck, gridline 1 to the glulam face (as built; A02 drew 4\'-3 1/2")', V(0, 0, 0), V(1, 0, 0));
 
 // ===========================================================================
