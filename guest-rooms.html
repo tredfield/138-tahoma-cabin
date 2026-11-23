@@ -100,6 +100,8 @@
     </div>
     <div class="row" id="moverow">
       <span class="lbl">Move</span>
+      <button id="modearrange" class="on" title="Move the furniture">Arrange</button>
+      <button id="modewalk" title="Stand in the room and walk around">Walk</button>
       <button id="turnbtn" title="Turn the selected piece 90 degrees">Turn 90</button>
       <button id="resetbtn" title="Put every piece back where it started">Reset layout</button>
       <label title="Distances to the walls for every piece at once"><input type="checkbox" id="showall2"> Show all distances</label>
@@ -113,6 +115,10 @@
       <button data-view="plan" class="on">Plan</button>
       <button data-view="gr1">Guest room 1</button>
       <button data-view="gr2">Guest room 2</button>
+      <button data-view="gr1door">GR1 door</button>
+      <button data-view="gr1corner">GR1 corner</button>
+      <button data-view="gr2door">GR2 door</button>
+      <button data-view="gr2corner">GR2 corner</button>
       <button id="legendbtn" title="Show or hide the legend">Legend</button>
     </div>
   </div>
@@ -2180,6 +2186,8 @@ const DOOR_TAGS = [
 
 // The four wall distances of piece p: from each side of its footprint straight to the room wall it faces, plus the
 // clear gap to the nearest piece standing between that side and the wall (null when nothing is in the way).
+// Door-width tags: on with their layer, but hidden in Walk, where floor tags read oversized at standing height (owner 2026-11-23).
+function showDoorTags() { for (const t of DOOR_TAGS) t.visible = layerOn(t.userData.layer) && mode !== 'walk'; }
 const DIRS = [{ k: 'N', ax: 'x', s: 1 }, { k: 'S', ax: 'x', s: -1 }, { k: 'E', ax: 'z', s: 1 }, { k: 'W', ax: 'z', s: -1 }];
 function wallDists(p) {
   const r = ROOMS[p.room], f = fp(p), out = [];
@@ -2219,6 +2227,7 @@ function refresh() {
     p.tag.position.set(p.cx, p.top + 0.5, p.cz); p.tag.visible = labelsOn && p.grp.visible;
   }
   if (selected && !selected.grp.visible) selected = null;
+  showDoorTags();
   // door swings: red while any visible piece of that room is inside the swing (polar sample)
   for (const sw of SWINGS) {
     const fps = pieces.filter(p => p.room === sw.room && p.grp.visible).map(fp);
@@ -2353,6 +2362,7 @@ appEl.addEventListener('pointerdown', e => {
   if (e.target !== canvas) return;
   lastType = e.pointerType;
   if (menu.style.display !== 'none') closeMenu();
+  if (mode === 'walk') { e.stopPropagation(); e.preventDefault(); if (!look) startLook(e); return; }   // furniture locked; a drag looks around
   if (drag) { cancelPress(); e.stopPropagation(); return; }           // a second finger during a drag: ignore it, keep orbit off
   if (press) cancelPress();                                         // a second finger: a pinch, not a long-press
   if (e.pointerType === 'mouse' && e.button === 2) { rightAt = { x: e.clientX, y: e.clientY }; return; }
@@ -2401,18 +2411,159 @@ canvas.addEventListener('pointercancel', endDrag);
 // right-click (mouse): the menu, unless the right button was dragging the view (a pan)
 canvas.addEventListener('contextmenu', e => {
   e.preventDefault();
-  if (lastType !== 'mouse') return;                                 // touch long-press is handled by its own timer
+  if (mode === 'walk' || lastType !== 'mouse') return;                                 // touch long-press is handled by its own timer
   if (rightAt && Math.hypot(e.clientX - rightAt.x, e.clientY - rightAt.y) > 6) { rightAt = null; return; }
   rightAt = null;
   const hit = pieceAt(e);
   openMenu(e.clientX, e.clientY, hit ? hit.p : null);
 });
-turnBtn.addEventListener('click', () => { if (!selected) return; selected.rot = (selected.rot + 1) % 4; clampIn(selected); refresh(); });
+turnBtn.addEventListener('click', () => { if (!selected || mode === 'walk') return; selected.rot = (selected.rot + 1) % 4; clampIn(selected); refresh(); });
 document.getElementById('resetbtn').addEventListener('click', () => { for (const p of pieces) p.removed = false; defaultLayout(); closeMenu(); select(null); });
 // layer checkboxes change what counts (hidden furniture is skipped), so recompute after the template applies them
 document.querySelectorAll('#layers input').forEach(cb => cb.addEventListener('change', () => setTimeout(refresh, 0)));
 defaultLayout();
 setTimeout(refresh, 0);   // after the template's applyLayers() has set visibility
+// ===========================================================================
+// Walk / Arrange (round 3). Arrange is the furniture behaviour above. Walk stands you at eye height (64") with the
+// furniture locked: a drag looks around, the walk pad (hold) steps forward / back and turns, the template's arrow keys /
+// WASD still walk. Walls stop you (6" off every wall face, doorways and the hall passable); furniture does not.
+// OrbitControls is switched off in Walk so it cannot fight the look-drag; its update() still aims the camera at
+// controls.target, which Walk keeps 60" ahead of the eye (past OrbitControls' 40" minimum distance).
+// ===========================================================================
+const EYE = 64, LOOK = 60, WALL_GAP = 6;
+let mode = 'arrange';
+const ORBIT_MAX_POLAR = controls.maxPolarAngle;
+// Where the eye may be: each room and the hall shrunk by 6", plus the two door openings (RO less 6" a side).
+const WALKABLE = [
+  { x1: D.GR1_X1 + WALL_GAP, x2: D.GR1_X2 - WALL_GAP, z1: D.GR1_Z1 + WALL_GAP, z2: D.GR1_Z2 - WALL_GAP },
+  { x1: D.GR2_X1 + WALL_GAP, x2: D.GR2_X2 - WALL_GAP, z1: D.GR2_Z1 + WALL_GAP, z2: D.GR2_Z2 - WALL_GAP },
+  { x1: D.X_S_IN + WALL_GAP, x2: D.GR2_X2 - WALL_GAP, z1: D.GR2_Z2 + IN + WALL_GAP, z2: D.GR1_Z1 - IN - WALL_GAP },   // hall
+  { x1: D.D3_X1 + WALL_GAP, x2: D.D3_X2 - WALL_GAP, z1: D.GR2_Z2 - WALL_GAP, z2: D.GR2_Z2 + IN + WALL_GAP },       // door 3
+  { x1: D.D2_X1 + WALL_GAP, x2: D.D2_X2 - WALL_GAP, z1: D.GR1_Z1 - IN - WALL_GAP, z2: D.GR1_Z1 + WALL_GAP },       // door 2
+];
+const walkable = (x, z) => WALKABLE.some(r => x >= r.x1 && x <= r.x2 && z >= r.z1 && z <= r.z2);
+// A standing view: eye and a point to look at. setView backs portrait screens off from the target, so the getter
+// pre-divides by the same factor to land the eye where it is meant to be.
+function standView(eye, at, fov = 70) {
+  const tgt = () => { const d = V(at[0] - eye[0], at[1] - eye[1], at[2] - eye[2]).normalize().multiplyScalar(LOOK); return [eye[0] + d.x, eye[1] + d.y, eye[2] + d.z]; };
+  return {
+    walk: true, fov,
+    get tgt() { return tgt(); },
+    get pos() {
+      const t = tgt(); if (camera.aspect >= 1) return eye;
+      const k = Math.min(2.2, 1.15 / camera.aspect);
+      return [t[0] + (eye[0] - t[0]) / k, t[1] + (eye[1] - t[1]) / k, t[2] + (eye[2] - t[2]) / k];
+    },
+  };
+}
+const STAND = {
+  gr1door:   standView([(D.D2_X1 + D.D2_X2) / 2, EYE, D.GR1_Z1 + 12], [-122, 34, 112]),
+  gr1corner: standView([D.GR1_X1 + WALL_GAP + 0.5, EYE, D.GR1_Z2 - WALL_GAP - 0.5], [(D.D2_X1 + D.D2_X2) / 2, 48, D.GR1_Z1]),
+  gr2door:   standView([(D.D3_X1 + D.D3_X2) / 2, EYE, D.GR2_Z2 - 12], [-122, 34, -110]),
+  gr2corner: standView([D.GR2_X1 + WALL_GAP + 0.5, EYE, D.GR2_Z1 + WALL_GAP + 0.5], [(D.D3_X1 + D.D3_X2) / 2, 48, D.GR2_Z2]),
+};
+
+// ---- the walk pad: hold a button to keep moving ----
+const pad = document.createElement('div');
+pad.id = 'walkpad'; pad.className = 'panel';
+pad.style.cssText = 'display:none;position:absolute;right:12px;z-index:15;padding:8px;user-select:none;-webkit-user-select:none;touch-action:none;';
+const padBtn = (k, txt, title) => `<button data-k="${k}" title="${title}" style="width:52px;height:46px;font-size:20px;background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:8px;touch-action:none;cursor:pointer">${txt}</button>`;
+pad.innerHTML = `<div style="display:grid;grid-template-columns:52px 52px 52px;gap:6px">
+  <span></span>${padBtn('f', '&#9650;', 'Step forward (hold)')}<span></span>
+  ${padBtn('l', '&#8630;', 'Turn left (hold)')}${padBtn('b', '&#9660;', 'Step back (hold)')}${padBtn('r', '&#8631;', 'Turn right (hold)')}</div>`;
+document.getElementById('app').appendChild(pad);
+const hold = { f: false, b: false, l: false, r: false };
+pad.addEventListener('pointerdown', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  e.preventDefault(); hold[b.dataset.k] = true; try { b.setPointerCapture(e.pointerId); } catch (_) { }
+});
+const release = e => { const b = e.target.closest && e.target.closest('button'); if (b) hold[b.dataset.k] = false; };
+for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) pad.addEventListener(ev, release);
+pad.addEventListener('contextmenu', e => e.preventDefault());
+function placePad() { pad.style.bottom = (document.getElementById('controls').offsetHeight + 26) + 'px'; }
+addEventListener('resize', placePad);
+
+// ---- mode switch ----
+const modeBtns = { arrange: document.getElementById('modearrange'), walk: document.getElementById('modewalk') };
+function setMode(m) {
+  if (m === mode) return;
+  mode = m;
+  for (const k in modeBtns) modeBtns[k].classList.toggle('on', k === m);
+  for (const k in hold) hold[k] = false;
+  if (m === 'walk') {
+    closeMenu(); if (drag) { drag = null; } cancelPress(); select(null);
+    controls.enabled = false; controls.maxPolarAngle = Math.PI - 0.02;
+    pad.style.display = 'block'; placePad();
+    showDoorTags();
+    selInfo.textContent = 'Walk: drag to look around; hold the arrows (or the arrow keys) to move.';
+    turnBtn.disabled = true;
+  } else {
+    look = null;
+    controls.enabled = true; controls.maxPolarAngle = ORBIT_MAX_POLAR;
+    pad.style.display = 'none';
+    refresh();
+  }
+}
+const isWalkView = n => !!(VIEWS[n] && VIEWS[n].walk);
+// View buttons: a standing view switches to Walk, any other view to Arrange (this runs just before the template's setView).
+document.querySelectorAll('#views button[data-view]').forEach(b => b.addEventListener('click', () => setMode(isWalkView(b.dataset.view) ? 'walk' : 'arrange')));
+modeBtns.arrange.addEventListener('click', () => { if (mode === 'walk') { setMode('arrange'); setView('plan'); } });
+modeBtns.walk.addEventListener('click', () => {
+  if (mode === 'walk') return;
+  const p = camera.position;
+  if (p.y > 120 || !walkable(p.x, p.z)) setView('gr1door');                 // from a plan or a bird's-eye view: stand at door 2
+  else { p.y = EYE; const d = V().subVectors(controls.target, p); d.y = 0; d.normalize().multiplyScalar(LOOK); controls.target.copy(p).add(d); }
+  setMode('walk');
+});
+
+// ---- look-drag (Walk): yaw / pitch about the eye, grab-style like the orbit drag ----
+let look = null;
+const dirOf = () => V().subVectors(controls.target, camera.position).normalize();
+function aim(yaw, pitch) {
+  const c = Math.cos(pitch);
+  controls.target.copy(camera.position).add(V(Math.sin(yaw) * c, Math.sin(pitch), Math.cos(yaw) * c).multiplyScalar(LOOK));
+}
+function startLook(e) {
+  const d = dirOf();
+  look = { id: e.pointerId, x: e.clientX, y: e.clientY, yaw: Math.atan2(d.x, d.z), pitch: Math.asin(Math.max(-1, Math.min(1, d.y))) };
+  try { canvas.setPointerCapture(e.pointerId); } catch (_) { }
+}
+canvas.addEventListener('pointermove', e => {
+  if (!look || e.pointerId !== look.id) return;
+  const k = 0.005;
+  const yaw = look.yaw + (e.clientX - look.x) * k, pitch = Math.max(-1.3, Math.min(1.3, look.pitch + (e.clientY - look.y) * k));
+  aim(yaw, pitch);
+});
+const endLook = e => { if (look && e.pointerId === look.id) { try { canvas.releasePointerCapture(e.pointerId); } catch (_) { } look = null; } };
+canvas.addEventListener('pointerup', endLook);
+canvas.addEventListener('pointercancel', endLook);
+
+// ---- per frame, after the template's keyboard walk and controls.update(): the walk pad, then the walls ----
+let padT = null, lastGood = null;
+scene.onBeforeRender = () => {
+  const now = performance.now(), dt = padT === null ? 0 : Math.min(0.05, (now - padT) / 1000); padT = now;
+  if (mode !== 'walk') { lastGood = null; return; }
+  const p = camera.position;
+  if (hold.l || hold.r) {
+    const d = dirOf(), yaw = Math.atan2(d.x, d.z) + (hold.l ? 1 : -1) * 1.1 * dt;   // ~63 deg/s
+    aim(yaw, Math.asin(Math.max(-1, Math.min(1, d.y))));
+  }
+  if (hold.f || hold.b) {
+    const f = dirOf(); f.y = 0; if (f.lengthSq() < 1e-6) f.set(0, 0, -1);
+    f.normalize().multiplyScalar((hold.f ? 1 : -1) * 40 * dt);               // 40 in/s
+    p.add(f); controls.target.add(f);
+  }
+  p.y = Math.max(12, Math.min(100, p.y));
+  if (walkable(p.x, p.z)) lastGood = p.clone();
+  else if (lastGood) {                                                         // slide along the wall, or stay put
+    const c = walkable(p.x, lastGood.z) ? V(p.x, p.y, lastGood.z) : walkable(lastGood.x, p.z) ? V(lastGood.x, p.y, p.z) : V(lastGood.x, p.y, lastGood.z);
+    const d = c.clone().sub(p); p.add(d); controls.target.add(d); lastGood = p.clone();
+  }
+  camera.lookAt(controls.target); camera.updateMatrixWorld();
+};
+// a drawing opened on a standing view (?view=gr1door) starts in Walk
+setTimeout(() => { const on = document.querySelector('#views button.on'); if (on && isWalkView(on.dataset.view)) { mode = 'arrange'; setMode('walk'); } }, 0);
+
 // test hook: screen position of a piece, its state, the status text and the menu (used by the headless checks)
 window.__guestRooms = {
   screenOf(id, top = true) { const p = pieces.find(q => q.id === id); const v = V(p.cx, top ? p.top : 1, p.cz).project(camera); const rc = canvas.getBoundingClientRect();
@@ -2424,6 +2575,10 @@ window.__guestRooms = {
   menu() { const r = menu.getBoundingClientRect(); return { open: menu.style.display !== 'none', text: menu.innerText, rect: [r.left, r.top, r.right, r.bottom] }; },
   distanceTags() { return gapGrp.children.filter(c => c.isSprite).length; },
   doorTags() { return DOOR_TAGS.filter(t => t.visible).length; },
+  mode() { return mode; },
+  eye() { const d = dirOf(); return { x: camera.position.x, y: camera.position.y, z: camera.position.z, yaw: Math.atan2(d.x, d.z), pitch: Math.asin(d.y), walkable: walkable(camera.position.x, camera.position.z), pad: pad.style.display !== 'none' }; },
+  roomOf(x, z) { for (const [k, r] of Object.entries(ROOMS)) if (x > r.x1 && x < r.x2 && z > r.z1 && z < r.z2) return k; return null; },
+  allPieces() { return pieces.map(p => [p.id, +p.cx.toFixed(3), +p.cz.toFixed(3), p.rot]); },
   cam() { return { pos: camera.position.toArray().map(Math.round), tgt: controls.target.toArray().map(Math.round), aspect: +camera.aspect.toFixed(2) }; },
 };
 // ===== END EDIT: GEOMETRY =====
@@ -2455,6 +2610,7 @@ const VIEWS = {
   },
   gr1: { pos: [-28, 330, 92], tgt: [-128, 0, 92], fov: 50 },
   gr2: { pos: [-28, 330, -89], tgt: [-128, 0, -89], fov: 50 },
+  ...STAND,   // standing views (eye 64"), defined with the Walk code in the geometry block
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
