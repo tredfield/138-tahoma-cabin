@@ -1546,7 +1546,7 @@ const D = {
   CORNER_X: 153.25,                  // corner posts centred 2 3/4" inside gridlines C / A: outside faces flush with the wall studs (field)
   STATIONS: [-153.25, -48, 48, 153.25],   // posts: corner / 9'-0" / 17'-0" from gridline C / corner
   POST_LINE: 48,                     // 4'-0" from gridline 1 (unchanged)
-  PORCH_EDGE: 60,                    // 5'-0" (owner decision)
+  PORCH_EDGE: 66.25,                 // outside of the PT2X8 rim: 14" past the post to the joist ends at 64.75, deck boards to 67.75
   UPPER_EDGE: 51.5,                  // 4'-3 1/2" (A02)
   ROOF_EDGE: 72,                     // 6'-0" projection (owner decision)
   EAVE_TIP: 180,                     // 2'-0" past gridlines A / C
@@ -1854,15 +1854,15 @@ for (const s of [-1, 1]) {
 }
 
 // ===========================================================================
-// 2. FRONT PORCH — ground-level entrance deck, now 5'-0" deep (layer 'porch')
-//    Posts and footings stay at the 4'-0" line; joists cantilever ~1' to the new edge.
+// 2. FRONT PORCH — ground-level entrance deck, deck boards to z 67.75 (layer 'porch')
+//    Posts and footings stay at the 4'-0" line; PT2X8 joists run 14" past the corner posts' outside face to the rim.
 // ===========================================================================
 const LED_Z0 = D.SHEATH_T, LED_Z1 = LED_Z0 + 1.5;          // ledgers sit against the 7/16" sheathing
-const PJ_TOP = -1.5, PJ_BOT = PJ_TOP - 5.5;                  // PT2X6 joists: surface -1/2", 1" decking
+const PJ_TOP = -1.5, PJ_BOT = PJ_TOP - 7.25;                 // PT2X8 joists: -8.75 .. -1.5; surface -1/2", 1" decking
 // Deck ends, option 3 (owner 2026-11-11): the ledger stops at the house corner; each end joist hangs from the ledger
 // to the corner post's north face, its outside face flush with the post's outside face (0.02 in, no shared plane);
 // short blocks fill from the post's front face to the front rim; the front rim runs to the post's outside face. A 1x10
-// cedar skirt (9 1/4" tall) wraps the three open sides, top tucked under the decking, hanging 3 3/4" below the 2X6
+// cedar skirt (9 1/4" tall) wraps the three open sides, top tucked under the decking, hanging 2" below the 2X8
 // joists; the floor boards overhang the skirt 3/4" on all three open sides.
 const CP_IN = D.CORNER_X - 2.75, CP_OUT = D.CORNER_X + 2.75; // 150.5 / 156: corner post (and eave beam) inner / outer face
 const SKIRT_T = 0.75, OVERHANG = 0.75;
@@ -1872,7 +1872,7 @@ const PGLB_W = 5.125, PGLB_D = 12;                           // porch drop beam,
 const UGLB_W = 5.5, UGLB_D = 15;                             // upper-deck glulam — PLACEHOLDER size, not on record
 const UB_TOP = D.UPPER_FLR - 1.5, UB_BOT = UB_TOP - UGLB_D;   // 118.5 .. 103.5: TOP FLUSH with the joist tops (photos)
 const EB_BOT = D.EAVE_BEAM_TOP - 7.5;                        // 6X8 eave beam underside (~110.4) = corner post top (owner's field photo 2026-09-22)
-const PB_TOP = PJ_BOT, PB_BOT = PB_TOP - PGLB_D;              // -7 .. -19, under the joists
+const PB_TOP = PJ_BOT, PB_BOT = PB_TOP - PGLB_D;              // -8.75 .. -20.75, under the joists
 const BZ0 = D.POST_LINE - PGLB_W / 2, BZ1 = D.POST_LINE + PGLB_W / 2;   // centered on the 4'-0" line
 const JOIST_X = [-156 + 0.75];
 for (let x = -156 + 16; x < 156 - 8; x += 16) JOIST_X.push(x);
@@ -1910,16 +1910,16 @@ function joistRun(xc, y0, y1, zEnd, layer, hangEnd = false) {
 
 // porch framing ------------------------------------------------------------------
 box(-156, 156, PJ_TOP - 7.25, PJ_TOP, LED_Z0, LED_Z1, M.pt, 'porch');                    // PT2X8 HF#2 LEDGER (Dtl 10/S4.1)
-for (const xc of JOIST_X) if (Math.abs(xc) < 153) joistRun(xc, PJ_BOT, PJ_TOP, D.PORCH_EDGE - 1.5, 'porch');   // PT2X6 HF#2 @ 16" o.c.
-box(-CP_OUT, CP_OUT, PJ_BOT, PJ_TOP, D.PORCH_EDGE - 1.5, D.PORCH_EDGE, M.pt, 'porch');   // PT2X6 rim at 5'-0", out to the post's outside face
+for (const xc of JOIST_X) if (Math.abs(xc) < 153) joistRun(xc, PJ_BOT, PJ_TOP, D.PORCH_EDGE - 1.5, 'porch');   // PT2X8 HF#2 @ 16" o.c., ends at 64.75
+box(-CP_OUT, CP_OUT, PJ_BOT, PJ_TOP, D.PORCH_EDGE - 1.5, D.PORCH_EDGE, M.pt, 'porch');   // PT2X8 rim, z 64.75 .. 66.25, out to the post's outside face
 for (const s of [-1, 1]) {
-  // PT2X6 END JOIST: ledger to the corner post's north face, outside face 0.02 inside the post's (155.98)
+  // PT2X8 END JOIST: ledger to the corner post's north face, outside face 0.02 inside the post's (155.98)
   const xc = s * (CP_OUT - 0.02 - 0.75), zPost = D.POST_LINE - 2.75;
   box(xc - 0.75, xc + 0.75, PJ_BOT, PJ_TOP, LED_Z1, zPost, M.pt, 'porch');
   const hLim = CP_OUT - 0.02;                                                             // 155.98: hangers stop 0.02 short of the skirt (no outer side flange)
   joistHanger(xc, PJ_BOT, PJ_TOP, LED_Z1, +1, hLim);                                      // joist hanger at the ledger
   joistHanger(xc, PJ_BOT, PJ_TOP, zPost, -1, hLim);                                       // face-mount hanger on the post's north face
-  // PT2X6 BLOCKING, post's front face to the front rim's back face; inner face 0.02 off the porch-beam hanger plate's plane
+  // PT2X8 BLOCKING, post's front face to the front rim's back face; inner face 0.02 off the porch-beam hanger plate's plane
   box(s * (CP_IN + 0.02), s * CP_OUT, PJ_BOT, PJ_TOP, D.POST_LINE + 2.75, D.PORCH_EDGE - 1.5, M.pt, 'porch');
 }
 // PORCH DROP BEAM: solid pressure-treated (owner 2026-09-22; S3.1 drew a PT4X6), 5 1/8 x 12 placeholder size;
@@ -1962,8 +1962,8 @@ for (const xs of D.STATIONS) {
 }
 
 // finishes toggle: 1" decking placeholder overhanging the skirt 3/4" on the three open sides (x +/-157 1/2, front edge
-// z 61 1/2), and the 1x10 cedar skirt tucked under it (front board full width, end boards on the end joists and posts,
-// butting its back face; tops at the decking underside like the joists, bottoms 9 1/4" down at -10.75, 3 3/4" below the joists)
+// z 67 3/4), and the 1x10 cedar skirt tucked under it (front board full width, end boards on the end joists and posts,
+// butting its back face; tops at the decking underside like the joists, bottoms 9 1/4" down at -10.75, 2" below the joists)
 box(-(DECK_END + OVERHANG), DECK_END + OVERHANG, PJ_TOP, -0.5, LED_Z0, D.PORCH_EDGE + SKIRT_T + OVERHANG, M.deck, 'finish', false);
 box(-DECK_END, DECK_END, SKIRT_BOT, PJ_TOP, D.PORCH_EDGE, D.PORCH_EDGE + SKIRT_T, M.deck, 'finish');          // front skirt
 for (const s of [-1, 1]) box(s * CP_OUT, s * DECK_END, SKIRT_BOT, PJ_TOP, LED_Z0, D.PORCH_EDGE, M.deck, 'finish');   // end skirts
@@ -2201,8 +2201,8 @@ const FLAGT = { flag: true };
   tagAt(['CORNER POST (2)', 'PT6X6 HF#2 to the 6X8 eave beam', 'glulam hung on brackets, FIELD VERIFY', 'ABU66Z on 5/8" x 5" Titen', 'cedar box 7" sq above the decking'], D.CORNER_X, 40, PZ, 'z', TF);
   tagAt(['CENTER POST (2)', 'PT6X6 HF#2, ABU66Z base', 'stops under the porch beam'], -48, -23, PZ, 'z', TF);
   tagAt(['PORCH BEAM PT 25\'-1"', 'FIELD VERIFY size'], -135, -13, GZ, 'z', TFLAG);
-  tagAt(['PORCH JOISTS', 'PT2X6 HF#2 @ 16" o.c.', 'cantilever 12" to PT2X6 rim'], 40, -4, D.PORCH_EDGE + 0.15, 'z', TF);
-  tagAt(['END JOIST PT2X6', 'hung on the corner post', 'skirt 1x10, 9 1/4" under the decking', 'decking overhangs 3/4"'], 118, -6, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
+  tagAt(['PORCH JOISTS', 'PT2X8 HF#2 @ 16" o.c.', '14" past the post to PT2X8 rim'], 40, -4, D.PORCH_EDGE + 0.15, 'z', TF);
+  tagAt(['END JOIST PT2X8', 'hung on the corner post', 'skirt 1x10, 9 1/4" under the decking', 'decking overhangs 3/4"'], 118, -6, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
   tagAt(['BLOCKING, in front of the post'], 118, -25, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
   tagAt(['PORCH LEDGER', 'PT2X8 HF#2, LedgerLok', 'per 10/S4.1'], -40, -5, LED_Z1 + 0.15, 'z', TF);
   tagAt(['FOOTING (4)', '24" sq x 8" pad', '18"Ø plinth, top 8" above grade'], 66, -50, D.POST_LINE + 9 + 0.15, 'z', TF);
@@ -2235,7 +2235,7 @@ label('Gridline C', -156, -32, 92, NOTE); label('Gridline B — ridge', 0, -32, 
 
 // dimensions -------------------------------------------------------------------
 const DX = 176;                                                                    // dimension plane just past gridline A
-dim(V(DX, -4, 0), V(DX, -4, D.PORCH_EDGE), '5\'-0" porch to the framing edge; 3/4" cedar skirt outside', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, -4, 0), V(DX, -4, D.PORCH_EDGE + SKIRT_T + OVERHANG), '5\'-7 3/4" stud face to deck edge', V(0, 0, 0), V(1, 0, 0));
 dim(V(DX, -24, 0), V(DX, -24, D.POST_LINE), '4\'-0" post line', V(0, 0, 0), V(1, 0, 0));
 dim(V(DX, 112, 0), V(DX, 112, D.UPPER_EDGE), '4\'-2 3/4" to the glulam face -- FIELD VERIFY', V(0, 0, 0), V(1, 0, 0));
 dim(V(-170, D.UPPER_FLR - 0.5, D.UPPER_EDGE), V(-170, D.UPPER_FLR + 35.5, D.UPPER_EDGE), '36" guard', V(0, 0, 0), V(1, 0, 0));
