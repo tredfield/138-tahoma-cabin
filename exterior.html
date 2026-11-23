@@ -1649,7 +1649,7 @@ const D = {
   F_GLB_LO: [-20.75, -8.75], F_GLB_UP: [103.5, 118.5], F_EAVE_BEAM: [110.8, 118.3], F_JOIST: [-8.75, -1.5], F_UJOIST: [113, 118.5],   // porch joists PT2X8 @ 16" (owner 2026-11-22; were 2X6, -7), the drop beam 1 3/4" lower with them   // F_POST_TOP derives from F_EAVE_BEAM below
   // rear (north) end -- outputs/rear-deck-roof-3d-spec.md, z translated by -552
   R_POSTS: [-153.25, -75, 0, 75, 153.25],   // corner posts flush with the stud faces (owner 2026-11-11)
-  R_POST_Z: -648, R_DECK_EDGE: -657, R_ROOF_EDGE: -661.75,
+  R_POST_Z: -645.19, R_DECK_EDGE: -655.44, R_ROOF_EDGE: -658.69,   // owner's ledger tapes 2026-11-23, north of the stud face: corner-post outside faces 95.94 (ledger 1.94 + 94), rim outside 103.44, roof edge 106.69 (was -648 / -657 / -661.75)
   R_BEAM: [-16, -8.75], R_JOIST: [-8.75, -1.5],   // R_EAVE_BEAM / R_POST_TOP derive from the rafter underside below
   STAIR_W: 96, RISERS: 4, TREAD: 12, NOSE: 1.25, RAIL_H: 36,   // owner 2026-09-11: centered 8' stairs; 36" as-built rail height; owner 2026-09-23: 12" treads + 1 1/4" nose (were 11 + 1)
   CHIM: { x: -136, z: -528, r: 4, top: 354 },   // A03 north / east: 11.3' west of the ridge, 2' from the north wall; painted black
@@ -2624,7 +2624,7 @@ function stair(zEdge, dir, layer) {               // closed steps built from boa
   // tread ends, so the treads overhang the sides 1" and the risers 1 1/4". The riser boards butt between the side boards; the core
   // is inset 3/4" + 0.02" behind the risers and sides, 0.02" under the treads, and its bottom parallels the band's bottom edge 0.02"
   // above it so no face shows through the open wedge under the band. The top riser is the deck skirt.
-  // Footprint: skirt face to the bottom nose = 3 x 12 + 1 1/4 = 37 1/4 (z 67 .. 104 1/4 front, -657 3/4 .. -695 rear).
+  // Footprint: skirt face to the bottom nose = 3 x 12 + 1 1/4 = 37 1/4 (z 67 .. 104 1/4 front, -656.19 .. -693.44 rear).
   const hw = D.STAIR_W / 2, T = D.SKIRT_T, C = 0.02, G = 0.25, N = D.RISERS - 1, xs = hw - 1, xi = xs - T;
   const RIP = D.TREAD + D.NOSE - 2 * (D.BOARD + G);                                                       // 1 3/4" back rip
   const Z = u => zEdge + dir * u, zr = (a, b) => [Math.min(a, b), Math.max(a, b)];                       // u = run from the skirt face
@@ -2761,12 +2761,12 @@ function stair(zEdge, dir, layer) {               // closed steps built from boa
     beamBox(s, D.R_EAVE_BEAM[0], D.R_EAVE_BEAM[1], D.G4 - WB, D.R_ROOF_EDGE, D.R_ROOF_EDGE - TG, null, D.G4 - sh - TG);  // box sides up to the beam top, tight under the rafters
   }
   for (let x = -HW + 0.75; x <= HW; x += 16) if (Math.abs(x) < 154) B(x - 0.75, x + 0.75, ...D.R_JOIST, D.R_DECK_EDGE + 1.5, D.G4 - 1.94, M.pt, L);
-  B(-RIM_X, RIM_X, ...D.R_JOIST, D.R_DECK_EDGE, D.R_DECK_EDGE + 1.5, M.pt, L);                          // rim at the 8'-9" edge, x -156 .. 156
+  B(-RIM_X, RIM_X, ...D.R_JOIST, D.R_DECK_EDGE, D.R_DECK_EDGE + 1.5, M.pt, L);                          // rim, outside face 103.44 north of the stud face (ledger tapes 2026-11-23), x -156 .. 156
   for (const s of [-1, 1]) {                                                                             // option 3: end joist wall to post, blocks post to rim (as the front)
     B(s * 154.48, s * 155.98, ...D.R_JOIST, rz1 + TG, D.G4 - 1.94, M.pt, L);
     B(s * 150.5, s * 155.98, ...D.R_JOIST, D.R_DECK_EDGE + 1.5 + TG, rz0 - TG, M.pt, L);
   }
-  boards(D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG, D.G4 - sh, D.R_JOIST[1], D.DECK, BX);                 // rear decking, laid from the overhang edge (-658 1/2) back to the house
+  boards(D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG, D.G4 - sh, D.R_JOIST[1], D.DECK, BX);                 // rear decking, laid from the overhang edge (-656.94) back to the house: 18 full boards, 1/2" short of the siding
   skirt(D.R_DECK_EDGE, -1, D.G4 - sh, D.R_JOIST[1] - D.SKIRT_H, D.R_JOIST[1]);                           // 1x10 skirt: -1 1/2 down to -10 3/4, 2" below the rear joists
   // --- stairs, centered, 8'-0" wide (owner 2026-09-11), stepping down from the skirt's outer face
   stair(D.F_PORCH_EDGE + D.SKIRT_T, +1, 'stair'); stair(D.R_DECK_EDGE - D.SKIRT_T, -1, 'stair');
@@ -2859,7 +2859,7 @@ dim(V(-D.HW, D.GRADE + 2, 20), V(D.HW, D.GRADE + 2, 20), '26\'-0" C to A (A02)',
 dim(V(0, 0, 100), V(0, D.RIDGE, 100), '27\'-6" T.O. RAFTER (A02 / A03)', V(240, 0, 0), V(1, 0, 0));
 dim(V(D.EAVE + 30, D.topEnd(D.EAVE) + D.ROOF_T, D.DORM_S), V(D.EAVE + 30, D.topEnd(D.EAVE) + D.ROOF_T, D.DORM_N), '14\'-6 1/2" dormer (A03 east read)', V(0, 40, 0), V(1, 0, 0));
 dim(V(-D.HW - 30, D.DECK, 0), V(-D.HW - 30, D.DECK, D.F_ROOF_EDGE), '6\'-0" roof edge', V(0, 130, 0), V(1, 0, 0));
-dim(V(-D.HW - 30, D.DECK, D.G4), V(-D.HW - 30, D.DECK, D.R_ROOF_EDGE), '9\'-1 3/4" roof edge', V(0, 130, 0), V(1, 0, 0));
+dim(V(-D.HW - 30, D.DECK, D.R_POST_Z - 2.75), V(-D.HW - 30, D.DECK, D.R_ROOF_EDGE - D.FASCIA_W - 1.25), '13 1/2" post face to fascia', V(0, 130, 0), V(1, 0, 0));   // corner post's outside face (-647.94) to the lapped rake board's outside face (-661.44): the owner's tape (2026-11-23)
 dim(V(-D.HW - 40, D.GRADE, D.F_PORCH_EDGE), V(-D.HW - 40, D.DECK, D.F_PORCH_EDGE), '25" deck to grade (illustrative)', V(0, 0, 20), V(1, 0, 0));
 dim(V(-D.HW - 40, D.STEM_TOP, 30), V(-D.HW - 40, D.GRADE, 30), '14" stem wall showing (illustrative)', V(0, 0, 0), V(1, 0, 0));
 dim(V(-D.HW - 24, D.DECK + 1, D.G4 - EXT - 0.75), V(-D.HW - 24, D.DECK + 1, D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG), '8\'-8 1/2" siding to deck edge', V(0, 0, 0), V(1, 0, 0));   // from the batten face (G4 - 1.94) to the boards' edge (-658.5), as the front dim
