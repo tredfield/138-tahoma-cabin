@@ -2201,7 +2201,7 @@ const FLAGT = { flag: true };
   tagAt(['CORNER POST (2)', 'PT6X6 HF#2 to the 6X8 eave beam', 'glulam hung on brackets, FIELD VERIFY', 'ABU66Z on 5/8" x 5" Titen', 'cedar box 7" sq above the decking'], D.CORNER_X, 40, PZ, 'z', TF);
   tagAt(['CENTER POST (2)', 'PT6X6 HF#2, ABU66Z base', 'stops under the porch beam'], -48, -23, PZ, 'z', TF);
   tagAt(['PORCH BEAM PT 25\'-1"', 'FIELD VERIFY size'], -135, -13, GZ, 'z', TFLAG);
-  tagAt(['PORCH JOISTS', 'PT2X8 HF#2 @ 16" o.c.', '14" past the post to PT2X8 rim'], 40, -4, D.PORCH_EDGE + 0.15, 'z', TF);
+  tagAt(['PORCH JOISTS', 'PT2X8 HF#2 @ 16" o.c.', '5\'-2" from the ledger face', 'rim 15 1/2" past the post face'], 24, -4, D.PORCH_EDGE + 0.15, 'z', TF);
   tagAt(['END JOIST PT2X8', 'hung on the corner post', 'skirt 1x10, 9 1/4" under the decking', 'decking overhangs 3/4"'], 118, -6, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
   tagAt(['BLOCKING, in front of the post'], 118, -25, D.PORCH_EDGE + SKIRT_T + 0.15, 'z', TF);
   tagAt(['PORCH LEDGER', 'PT2X8 HF#2, LedgerLok', 'per 10/S4.1'], -40, -5, LED_Z1 + 0.15, 'z', TF);
@@ -2235,8 +2235,8 @@ label('Gridline C', -156, -32, 92, NOTE); label('Gridline B — ridge', 0, -32, 
 
 // dimensions -------------------------------------------------------------------
 const DX = 176;                                                                    // dimension plane just past gridline A
-dim(V(DX, -4, 0), V(DX, -4, D.PORCH_EDGE + SKIRT_T + OVERHANG), '5\'-7 3/4" stud face to deck edge', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, -24, 0), V(DX, -24, D.POST_LINE), '4\'-0" post line', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, -4, LED_Z1 - 1), V(DX, -4, D.PORCH_EDGE + SKIRT_T + OVERHANG), '5\'-6" siding to deck edge', V(0, 0, 0), V(1, 0, 0));   // siding 1" behind the ledger face (owner's tape)
+dim(V(DX, -24, LED_Z1), V(DX, -24, D.POST_LINE + 2.75), '48" ledger face to post face', V(0, 0, 0), V(1, 0, 0));   // ledger outer face to the corner post's outside face
 dim(V(DX, 112, 0), V(DX, 112, D.UPPER_EDGE), '4\'-2 3/4" to the glulam face -- FIELD VERIFY', V(0, 0, 0), V(1, 0, 0));
 dim(V(-170, D.UPPER_FLR - 0.5, D.UPPER_EDGE), V(-170, D.UPPER_FLR + 35.5, D.UPPER_EDGE), '36" guard', V(0, 0, 0), V(1, 0, 0));
 dim(V(0, D.RIDGE_TOP + 8, 0), V(0, D.RIDGE_TOP + 8, D.RIDGE_END), '4\'-0" ridge GLB', V(0, 0, 0), V(0, 1, 0));
