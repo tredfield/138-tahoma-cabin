@@ -1645,8 +1645,8 @@ const D = {
   HANGER_T: 0.25, HANGER_L: 3,             // schematic black face-mount brackets for the upper-deck glulam (owner 2026-09-22 late night: "held up using brackets"; hardware not on record)
   // front (south) end -- outputs/front-porch-deck-3d-spec.md
   F_POSTS: [-153.25, -48, 48, 153.25],   // corner posts flush with the stud faces (owner field fact 2026-11-11): x +/-(150.5 .. 156)
-  F_POST_Z: 48, F_PORCH_EDGE: 60, F_ROOF_EDGE: 72, F_DECK_EDGE: 50.75,
-  F_GLB_LO: [-19, -7], F_GLB_UP: [103.5, 118.5], F_EAVE_BEAM: [110.8, 118.3], F_JOIST: [-7, -1.5], F_UJOIST: [113, 118.5],   // F_POST_TOP derives from F_EAVE_BEAM below
+  F_POST_Z: 48, F_PORCH_EDGE: 66.25, F_ROOF_EDGE: 72, F_DECK_EDGE: 50.75,   // porch edge = the rim's outside face; skirt to 67, boards to 67 3/4 = 5'-6" from the siding (owner 2026-11-22; was 60)
+  F_GLB_LO: [-20.75, -8.75], F_GLB_UP: [103.5, 118.5], F_EAVE_BEAM: [110.8, 118.3], F_JOIST: [-8.75, -1.5], F_UJOIST: [113, 118.5],   // porch joists PT2X8 @ 16" (owner 2026-11-22; were 2X6, -7), the drop beam 1 3/4" lower with them   // F_POST_TOP derives from F_EAVE_BEAM below
   // rear (north) end -- outputs/rear-deck-roof-3d-spec.md, z translated by -552
   R_POSTS: [-153.25, -75, 0, 75, 153.25],   // corner posts flush with the stud faces (owner 2026-11-11)
   R_POST_Z: -648, R_DECK_EDGE: -657, R_ROOF_EDGE: -661.75,
@@ -2624,7 +2624,7 @@ function stair(zEdge, dir, layer) {               // closed steps built from boa
   // tread ends, so the treads overhang the sides 1" and the risers 1 1/4". The riser boards butt between the side boards; the core
   // is inset 3/4" + 0.02" behind the risers and sides, 0.02" under the treads, and its bottom parallels the band's bottom edge 0.02"
   // above it so no face shows through the open wedge under the band. The top riser is the deck skirt.
-  // Footprint: skirt face to the bottom nose = 3 x 12 + 1 1/4 = 37 1/4 (z 60 3/4 .. 98 front, -657 3/4 .. -695 rear).
+  // Footprint: skirt face to the bottom nose = 3 x 12 + 1 1/4 = 37 1/4 (z 67 .. 104 1/4 front, -657 3/4 .. -695 rear).
   const hw = D.STAIR_W / 2, T = D.SKIRT_T, C = 0.02, G = 0.25, N = D.RISERS - 1, xs = hw - 1, xi = xs - T;
   const RIP = D.TREAD + D.NOSE - 2 * (D.BOARD + G);                                                       // 1 3/4" back rip
   const Z = u => zEdge + dir * u, zr = (a, b) => [Math.min(a, b), Math.max(a, b)];                       // u = run from the skirt face
@@ -2741,9 +2741,9 @@ function stair(zEdge, dir, layer) {               // closed steps built from boa
   }
   const boards = (z0, z1, y0, y1, xh = HW) => { const d = Math.sign(z1 - z0); let i = 0; for (let z = z0; d * (z1 - z) > 0.5; z += d * (D.BOARD + 0.25), i++) { const ze = z + d * Math.min(D.BOARD, Math.abs(z1 - z)); B(-xh, xh, y0, y1, Math.min(z, ze), Math.max(z, ze), i % 2 ? M.deck2 : M.deck, L); } };   // 5 1/2" boards, 1/4" gaps, two tones alternating; the last board takes the remainder
   const BX = DE + D.OVERHANG;                                                                           // 161 3/4: the boards' ends, 3/4" past the skirt
-  boards(D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG, sh, D.F_JOIST[1], D.DECK, BX);                        // porch decking, laid from the overhang edge (61 1/2) back to the house so the full board is at the edge and the rip is against the siding; through the corner posts, over the end rims and the skirt
+  boards(D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG, sh, D.F_JOIST[1], D.DECK, BX);                        // porch decking, laid from the overhang edge (67 3/4) back to the house so the full board is at the edge and the rip is against the siding; through the corner posts, over the end rims and the skirt
   boards(sh, D.F_DECK_EDGE, D.F_UJOIST[1], D.UPPER_FLR - 0.5, 149.5);                                   // upper decking to +/-149.5, 1" inside the eave beams (front-porch spec); no end rims or skirt
-  skirt(D.F_PORCH_EDGE, +1, sh, D.F_JOIST[1] - D.SKIRT_H, D.F_JOIST[1]);                                 // 1x10 skirt: -1 1/2 down to -10 3/4, 3 3/4" below the porch joists
+  skirt(D.F_PORCH_EDGE, +1, sh, D.F_JOIST[1] - D.SKIRT_H, D.F_JOIST[1]);                                 // 1x10 skirt: -1 1/2 down to -10 3/4, 2" below the porch joists
   // porch ceiling (layer 'soffit'): 1x6 cedar T&G on the upper-deck joists' undersides, boards running east-west along the house
   // (owner 2026-09-22), wall face to the glulam's inner face, butting the 6x8 beam boxes' inner faces; the last board takes the 1/16" remainder
   { const y1 = D.F_UJOIST[0], y0 = y1 - D.SOF_T, xc = PC - TO - TG; let i = 0;   // xc: 0.02" short of the beam boxes' inner faces
@@ -2863,7 +2863,7 @@ dim(V(-D.HW - 30, D.DECK, D.G4), V(-D.HW - 30, D.DECK, D.R_ROOF_EDGE), '9\'-1 3/
 dim(V(-D.HW - 40, D.GRADE, D.F_PORCH_EDGE), V(-D.HW - 40, D.DECK, D.F_PORCH_EDGE), '25" deck to grade (illustrative)', V(0, 0, 20), V(1, 0, 0));
 dim(V(-D.HW - 40, D.STEM_TOP, 30), V(-D.HW - 40, D.GRADE, 30), '14" stem wall showing (illustrative)', V(0, 0, 0), V(1, 0, 0));
 dim(V(-D.HW - 24, D.DECK + 1, D.G4), V(-D.HW - 24, D.DECK + 1, D.R_DECK_EDGE), '8\'-9" rear deck, gridline 4 to the framing edge; 3/4" skirt outside, decking 3/4" past it (9" past the 8\'-0" post line)', V(0, 0, 0), V(1, 0, 0));
-dim(V(-D.HW - 24, D.DECK + 1, 0), V(-D.HW - 24, D.DECK + 1, D.F_PORCH_EDGE), '5\'-0" porch, gridline 1 to the framing edge; 3/4" skirt outside, decking 3/4" past it (S3.1 drew 4\'-0")', V(0, 0, 0), V(1, 0, 0));
+dim(V(-D.HW - 24, D.DECK + 1, EXT + 0.75), V(-D.HW - 24, D.DECK + 1, D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG), '5\'-6" siding to deck edge', V(0, 0, 0), V(1, 0, 0));   // from the batten face (EXT + 3/4 = 1.94) to the boards' edge (67.75)
 dim(V(-D.HW - 24, D.UPPER_FLR + 1, 0), V(-D.HW - 24, D.UPPER_FLR + 1, D.F_DECK_EDGE), '4\'-2 3/4" upper deck, gridline 1 to the glulam face (as built; A02 drew 4\'-3 1/2")', V(0, 0, 0), V(1, 0, 0));
 
 // ===========================================================================
