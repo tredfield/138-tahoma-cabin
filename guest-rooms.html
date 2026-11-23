@@ -64,7 +64,7 @@
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
     <h1>Guest rooms 1 and 2 &mdash; furniture fit (lower floor)</h1>
-    <div class="sub">Both lower-floor guest rooms, 141 3/4 x 117 (GR1, east) and 142 1/2 x 121 1/2 (GR2, west), taped stud to stud less 1/2" drywall; doors, windows and outlets from the plans. Drag a piece across its room, Turn 90 turns the selected piece, and Gaps shows inches to the nearest wall or piece. Orange = field-verify or TBD. Design record: <code>outputs/guest-rooms-3d-spec.md</code>. Not engineered.
+    <div class="sub">Guest rooms 141 3/4 x 117 (GR1, east) and 142 1/2 x 121 1/2 (GR2, west), taped less 1/2" drywall; doors, windows, outlets from the plans. Tap a piece for its distances to the walls and drag to move it; right-click or long-press to remove, turn or put back a piece. Orange = field-verify or TBD. Design record: <code>outputs/guest-rooms-3d-spec.md</code>. Not engineered.
     Drag to orbit &middot; scroll to zoom &middot; right-drag to pan &middot; arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
@@ -76,7 +76,8 @@
     <div class="lg"><span class="sw" style="background:#9fc3e0"></span>Window A (sill 36)</div>
     <div class="lg"><span class="sw" style="background:#1d1f22"></span>Closet bypass doors</div>
     <div class="lg"><span class="sw" style="background:#ffffff"></span>Outlet</div>
-    <div class="lg"><span class="sw" style="background:#ffd27a"></span>Gap (inches)</div>
+    <div class="lg"><span class="sw" style="background:#ffd27a"></span>Distance to the wall (inches)</div>
+    <div class="lg"><span class="sw" style="background:#ebe4d2"></span>Clear gap to a piece (inches)</div>
     <div class="lg"><span class="sw" style="background:#e0453a"></span>Door swing blocked</div>
     <div class="lg"><span class="sw" style="background:#e07b20"></span>Not taped / estimate</div>
     <div class="lg"><span class="sw" style="background:#5e646c"></span>Hall and closets (faded)</div>
@@ -91,7 +92,7 @@
       <label><input type="checkbox" data-layer="outlets" checked> Outlets</label>
       <label><input type="checkbox" data-layer="furnGR1" checked> Furniture GR1</label>
       <label><input type="checkbox" data-layer="furnGR2" checked> Furniture GR2</label>
-      <label><input type="checkbox" data-layer="gaps" checked> Gaps</label>
+      <label><input type="checkbox" data-layer="gaps" checked> Distances</label>
       <label><input type="checkbox" data-layer="context" checked> Hall + closets</label>
       <label><input type="checkbox" data-layer="label"> Labels</label>
       <label><input type="checkbox" data-layer="dim"> Dimensions</label>
@@ -101,7 +102,11 @@
       <span class="lbl">Move</span>
       <button id="turnbtn" title="Turn the selected piece 90 degrees">Turn 90</button>
       <button id="resetbtn" title="Put every piece back where it started">Reset layout</button>
-      <span id="selinfo">Tap or click a piece, then drag it.</span>
+      <label title="Distances to the walls for every piece at once"><input type="checkbox" id="showall2"> Show all distances</label>
+      <span id="selinfo">Tap a piece for its distances; drag to move; right-click or long-press for more.</span>
+    </div>
+    <div class="row" id="putbackrow" style="display:none">
+      <span class="lbl">Put back</span><span id="putbacklist" style="display:flex;flex-wrap:wrap;gap:6px"></span>
     </div>
     <div class="row" id="views">
       <span class="lbl">View</span>
@@ -2136,17 +2141,18 @@ function defaultLayout() {
 }
 
 // ===========================================================================
-// Gaps, door swings, under-window tags, selection, drag (mouse + touch), Turn 90, Reset.
+// Wall distances, door swings, under-window tags, selection, drag (mouse + touch), the piece menu (right-click or
+// long-press: Remove, Turn 90, Put back, Show all distances), Turn 90, Reset.
 // ===========================================================================
 const fmtIn = v => {
   const q = Math.round(Math.max(0, v) * 4) / 4, w = Math.floor(q), f = ['', '1/4', '1/2', '3/4'][Math.round((q - w) * 4)];
   return (w ? String(w) : (f ? '' : '0')) + (w && f ? ' ' : '') + f + '"';
 };
 const gapGrp = reg(new THREE.Group(), 'gaps');
-const GAP_LINE = new THREE.LineBasicMaterial({ color: 0xffd27a });
+const WALL_LINE = new THREE.LineBasicMaterial({ color: 0xffd27a });
 const spriteCache = new Map();
-function textSprite(text, bg = 'rgba(60,45,10,.9)', color = '#ffd27a') {
-  const key = text + '|' + bg;
+function textSprite(text, bg = 'rgba(60,45,10,.9)', color = '#ffd27a', k = 0.12) {
+  const key = text + '|' + bg + '|' + color;
   let tex = spriteCache.get(key);
   const fs = 30, pad = 8;
   if (!tex) {
@@ -2159,42 +2165,60 @@ function textSprite(text, bg = 'rgba(60,45,10,.9)', color = '#ffd27a') {
     tex = new THREE.CanvasTexture(c); tex.userData = { w: c.width, h: c.height }; spriteCache.set(key, tex);
   }
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true }));
-  const k = 0.12; s.scale.set(tex.userData.w * k, tex.userData.h * k, 1); s.renderOrder = 12;
+  s.scale.set(tex.userData.w * k, tex.userData.h * k, 1); s.renderOrder = 12;
   return s;
 }
-// The four gaps of piece p: [{dir, g, a: [x, z], b: [x, z], other}] to the nearest wall or piece in that direction.
+const LIGHT_BG = 'rgba(235,228,210,.9)', LIGHT_FG = '#4a3c1c';     // the lighter "clear gap to a piece" tag
+
+// Door widths, always on (doors / closet layers): plans, not taped.
+const DOOR_TAGS = [
+  tagAt(['30" ~'], (D.D3_X1 + D.D3_X2) / 2, 0.9, D.GR2_Z2 - 7, 'y', { layer: 'doors', fs: 64 }),
+  tagAt(['30" ~'], (D.D2_X1 + D.D2_X2) / 2, 0.9, D.GR1_Z1 + 7, 'y', { layer: 'doors', fs: 64 }),
+  tagAt(['48" ~'], D.GR2_X2 - 8, 0.9, (D.D8_Z1 + D.D8_Z2) / 2, 'y', { layer: 'closet', fs: 64 }),
+  tagAt(['48" ~'], D.GR1_X2 - 8, 0.9, (D.D7_Z1 + D.D7_Z2) / 2, 'y', { layer: 'closet', fs: 64 }),
+];
+
+// The four wall distances of piece p: from each side of its footprint straight to the room wall it faces, plus the
+// clear gap to the nearest piece standing between that side and the wall (null when nothing is in the way).
 const DIRS = [{ k: 'N', ax: 'x', s: 1 }, { k: 'S', ax: 'x', s: -1 }, { k: 'E', ax: 'z', s: 1 }, { k: 'W', ax: 'z', s: -1 }];
-function gapsOf(p) {
+function wallDists(p) {
   const r = ROOMS[p.room], f = fp(p), out = [];
   const others = pieces.filter(q => q !== p && q.room === p.room && q.grp.visible);
   for (const d of DIRS) {
     const along = d.ax === 'x', lo = along ? f.z1 : f.x1, hi = along ? f.z2 : f.x2;
     const face = along ? (d.s > 0 ? f.x2 : f.x1) : (d.s > 0 ? f.z2 : f.z1);
-    let best = along ? (d.s > 0 ? r.x2 - face : face - r.x1) : (d.s > 0 ? r.z2 - face : face - r.z1), span = [lo, hi], other = null;
+    const wall = along ? (d.s > 0 ? r.x2 : r.x1) : (d.s > 0 ? r.z2 : r.z1);
+    let gap = null, other = null, span = null;
     for (const q of others) {
       const g = fp(q), qlo = along ? g.z1 : g.x1, qhi = along ? g.z2 : g.x2;
-      if (qlo >= hi - 1e-6 || qhi <= lo + 1e-6) continue;                 // not in this direction's path
-      const qnear = along ? (d.s > 0 ? g.x1 : g.x2) : (d.s > 0 ? g.z1 : g.z2);
-      const gap = d.s * (qnear - face);
-      if (gap < -1e-6) continue;                                           // behind (or overlapping)
-      if (gap < best) { best = gap; span = [Math.max(lo, qlo), Math.min(hi, qhi)]; other = q; }
+      if (qlo >= hi - 1e-6 || qhi <= lo + 1e-6) continue;
+      const qnear = along ? (d.s > 0 ? g.x1 : g.x2) : (d.s > 0 ? g.z1 : g.z2), qfar = along ? (d.s > 0 ? g.x2 : g.x1) : (d.s > 0 ? g.z2 : g.z1);
+      const gg = d.s * (qnear - face);
+      if (gg < -1e-6) continue;
+      if (gap === null || gg < gap) { gap = gg; other = q; span = [Math.max(lo, qlo), Math.min(hi, qhi), qnear, qfar]; }
     }
-    const c = (span[0] + span[1]) / 2, e = face + d.s * best;
-    out.push({ dir: d.k, g: best, other, a: along ? [face, c] : [c, face], b: along ? [e, c] : [c, e] });
+    const c = (lo + hi) / 2;
+    out.push({ dir: d.k, wall: d.s * (wall - face), gap, other, along, s: d.s, face, wallPos: wall, c, span });
   }
   return out;
 }
 const overlaps = (a, b) => a.x1 < b.x2 - 1e-6 && a.x2 > b.x1 + 1e-6 && a.z1 < b.z2 - 1e-6 && a.z2 > b.z1 + 1e-6;
-let selected = null;
+let selected = null, showAll = false;
 const selBox = new THREE.Box3Helper(new THREE.Box3(), 0xe07b20);
 selBox.visible = false; scene.add(selBox);
 const selInfo = document.getElementById('selinfo'), turnBtn = document.getElementById('turnbtn');
+const showAll2 = document.getElementById('showall2'), putBackRow = document.getElementById('putbackrow'), putBackList = document.getElementById('putbacklist');
+const layerOn = l => { const cb = document.querySelector(`#layers input[data-layer="${l}"]`); return !cb || cb.checked; };
+const pt3 = (along, a, c, y) => along ? V(a, y, c) : V(c, y, a);
 
 function refresh() {
+  const labelsOn = layerOn('label');
   for (const p of pieces) {
     p.grp.position.set(p.cx, 0, p.cz); p.grp.rotation.y = p.rot * Math.PI / 2;
-    p.tag.position.set(p.cx, p.top + 0.5, p.cz);
+    p.grp.visible = layerOn(p.layer) && !p.removed;
+    p.tag.position.set(p.cx, p.top + 0.5, p.cz); p.tag.visible = labelsOn && p.grp.visible;
   }
+  if (selected && !selected.grp.visible) selected = null;
   // door swings: red while any visible piece of that room is inside the swing (polar sample)
   for (const sw of SWINGS) {
     const fps = pieces.filter(p => p.room === sw.room && p.grp.visible).map(fp);
@@ -2207,28 +2231,28 @@ function refresh() {
     sw.lineMat.color.set(hit ? 0xe0453a : 0x40454d);
     sw.fillMat.color.set(hit ? 0xe0453a : 0x8a9099); sw.fillMat.opacity = hit ? .45 : .22;
   }
-  // gap lines + numbers
+  // wall distances: the selected piece, or every piece with Show all on
   for (const ch of [...gapGrp.children]) { gapGrp.remove(ch); if (ch.geometry) ch.geometry.dispose(); if (ch.isSprite) ch.material.dispose(); }
-  const segs = [], seen = new Set(), Y = 1.2;
+  const segs = [], Y = 1.2;
   const vis = pieces.filter(p => p.grp.visible);
-  const list = selected && selected.grp.visible ? [selected] : vis;
+  const list = showAll ? vis : (selected ? [selected] : []);
   for (const p of list) {
     if (vis.some(q => q !== p && q.room === p.room && overlaps(fp(p), fp(q)))) {
       const s = textSprite('OVERLAP', 'rgba(150,30,25,.92)', '#ffe0dc'); s.position.set(p.cx, Y, p.cz); gapGrp.add(s);
     }
-    for (const g of gapsOf(p)) {
-      if (p !== selected) {
-        if (g.g < 0.125) continue;                                   // touching: nothing to show
-        const key = g.other ? [p.id, g.other.id].sort().join('|') : p.id + g.dir;
-        if (seen.has(key)) continue; seen.add(key);
+    for (const w of wallDists(p)) {
+      segs.push(pt3(w.along, w.face, w.c, Y), pt3(w.along, w.wallPos, w.c, Y));
+      // the wall number sits past the piece in the way, when there is room for it there
+      let a = w.face, b = w.wallPos;
+      if (w.other && Math.abs(w.wallPos - w.span[3]) > 6) a = w.span[3];
+      const s = textSprite(fmtIn(w.wall)); s.position.copy(pt3(w.along, (a + b) / 2, w.c, Y)); gapGrp.add(s);
+      if (w.other && w.gap >= 0.125) {
+        const g = textSprite(fmtIn(w.gap), LIGHT_BG, LIGHT_FG, 0.1);
+        g.position.copy(pt3(w.along, w.face + w.s * w.gap / 2, (w.span[0] + w.span[1]) / 2, Y + 0.5)); gapGrp.add(g);
       }
-      segs.push(V(g.a[0], Y, g.a[1]), V(g.b[0], Y, g.b[1]));
-      const s = textSprite(fmtIn(g.g));
-      s.position.set((g.a[0] + g.b[0]) / 2, Y, (g.a[1] + g.b[1]) / 2);
-      gapGrp.add(s);
     }
   }
-  if (segs.length) gapGrp.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(segs), GAP_LINE));
+  if (segs.length) gapGrp.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(segs), WALL_LINE));
   // under-window tags: a bed headboard or the dresser with its back to the window wall and overlapping the RO
   for (const p of vis) {
     if (p.kind !== 'bed' && p.kind !== 'dresser') continue;
@@ -2242,24 +2266,73 @@ function refresh() {
     }
   }
   // selection outline + status line
-  if (selected && selected.grp.visible) {
+  if (selected) {
     const f = fp(selected);
     selBox.box.set(V(f.x1 - 0.5, 0, f.z1 - 0.5), V(f.x2 + 0.5, selected.top + 0.5, f.z2 + 0.5)); selBox.visible = true;
-    const gs = gapsOf(selected);
-    selInfo.textContent = `${selected.name} (${ROOMS[selected.room].name.replace('GUEST ROOM ', 'GR')}): ` + gs.map(g => `${g.dir} ${fmtIn(g.g)}`).join(' · ');
+    selInfo.textContent = `${selected.name} (${ROOMS[selected.room].name.replace('GUEST ROOM ', 'GR')}) to the walls: `
+      + wallDists(selected).map(w => `${w.dir} ${fmtIn(w.wall)}`).join(' · ');
     turnBtn.disabled = false;
   } else {
     selBox.visible = false;
-    selInfo.textContent = 'Tap or click a piece, then drag it.';
+    selInfo.textContent = 'Tap a piece for its distances; drag to move; right-click or long-press for more.';
     turnBtn.disabled = true;
   }
+  // the bottom panel's copies: Show all distances and the Put back row (hidden while nothing is removed)
+  showAll2.checked = showAll;
+  const gone = pieces.filter(p => p.removed);
+  putBackRow.style.display = gone.length ? '' : 'none';
+  putBackList.innerHTML = gone.map(p => `<button data-id="${p.id}">${pieceLabel(p)}</button>`).join('');
+  buildMenu();
 }
 function select(p) { selected = p; refresh(); }
+const pieceLabel = p => `${p.name} (${ROOMS[p.room].name.replace('GUEST ROOM ', 'GR')}${pieces.filter(q => q.room === p.room && q.name === p.name).length > 1 ? ' ' + p.id.slice(-1) : ''})`;
+
+// ---- the piece menu: Remove, Turn 90 (for a piece), Put back (removed pieces), Show all distances ----
+const menu = document.createElement('div');
+menu.id = 'pmenu'; menu.className = 'panel';
+menu.style.cssText = 'display:none;position:absolute;z-index:20;padding:8px 10px;font-size:12px;min-width:170px;max-width:min(260px,calc(100vw - 16px));';
+document.getElementById('app').appendChild(menu);
+let menuPiece = null;
+function buildMenu() {
+  if (menu.style.display === 'none') return;
+  const btn = (txt, act, extra = '') => `<button data-act="${act}" ${extra} style="display:block;width:100%;text-align:left;margin:3px 0;background:#2c313a;color:#e8eaed;border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:6px 9px;font-size:12px;cursor:pointer">${txt}</button>`;
+  let h = '';
+  if (menuPiece && !menuPiece.removed) h += `<div style="color:#ffd27a;font-weight:600;margin-bottom:3px">${pieceLabel(menuPiece)}</div>` + btn('Remove', 'remove') + btn('Turn 90', 'turn');
+  const gone = pieces.filter(p => p.removed);
+  if (gone.length) h += `<div style="color:#8b929b;text-transform:uppercase;letter-spacing:.07em;font-size:10px;margin:7px 0 2px">Put back</div>`
+    + gone.map(p => btn(pieceLabel(p), 'back', `data-id="${p.id}"`)).join('');
+  h += `<label style="display:flex;align-items:center;gap:6px;margin-top:7px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="showall" ${showAll ? 'checked' : ''}> Show all distances</label>`;
+  menu.innerHTML = h;
+  // keep it on screen
+  const w = menu.offsetWidth, hgt = menu.offsetHeight;
+  menu.style.left = Math.max(8, Math.min(menu._x + 12, innerWidth - w - 8)) + 'px';
+  menu.style.top = Math.max(8, Math.min(menu._y - 10, innerHeight - hgt - 8)) + 'px';
+}
+function openMenu(x, y, p) {
+  menuPiece = p; menu._x = x; menu._y = y; menu.style.display = 'block';
+  if (p) select(p); else buildMenu();
+}
+function closeMenu() { menu.style.display = 'none'; menuPiece = null; }
+menu.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const act = b.dataset.act;
+  if (act === 'remove' && menuPiece) { menuPiece.removed = true; if (selected === menuPiece) selected = null; menuPiece = null; refresh(); }
+  else if (act === 'turn' && menuPiece) { menuPiece.rot = (menuPiece.rot + 1) % 4; clampIn(menuPiece); refresh(); }
+  else if (act === 'back') { const p = pieces.find(q => q.id === b.dataset.id); if (p) { p.removed = false; refresh(); } }
+});
+menu.addEventListener('change', e => { if (e.target.id === 'showall') { showAll = e.target.checked; refresh(); } });
+showAll2.addEventListener('change', () => { showAll = showAll2.checked; refresh(); });
+putBackList.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const p = pieces.find(q => q.id === b.dataset.id); if (p) { p.removed = false; refresh(); }
+});
+menu.addEventListener('pointerdown', e => e.stopPropagation());
+addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
 // ---- pointer handling: a press on a visible piece drags it; anything else falls through to the orbit controls ----
 const canvas = renderer.domElement, appEl = document.getElementById('app');
 const raycaster = new THREE.Raycaster(), ndc = new THREE.Vector2();
-let drag = null, downAt = null;
+let drag = null, downAt = null, press = null, rightAt = null, lastType = 'mouse', suppressUp = false;
 function rayFrom(e) {
   const rc = canvas.getBoundingClientRect();
   ndc.set(((e.clientX - rc.left) / rc.width) * 2 - 1, -((e.clientY - rc.top) / rc.height) * 2 + 1);
@@ -2275,11 +2348,24 @@ function pieceAt(e) {
   }
   return null;
 }
+function cancelPress() { if (press) { clearTimeout(press.t); press = null; } }
 appEl.addEventListener('pointerdown', e => {
   if (e.target !== canvas) return;
-  if (drag) { e.stopPropagation(); return; }                         // a second finger during a drag: ignore it, keep orbit off
+  lastType = e.pointerType;
+  if (menu.style.display !== 'none') closeMenu();
+  if (drag) { cancelPress(); e.stopPropagation(); return; }           // a second finger during a drag: ignore it, keep orbit off
+  if (press) cancelPress();                                         // a second finger: a pinch, not a long-press
+  if (e.pointerType === 'mouse' && e.button === 2) { rightAt = { x: e.clientX, y: e.clientY }; return; }
   if (e.pointerType === 'mouse' && e.button !== 0) return;
   const hit = pieceAt(e);
+  if (e.pointerType !== 'mouse') {                                  // touch / pen: a still press of ~0.5 s opens the menu
+    const x = e.clientX, y = e.clientY, p = hit ? hit.p : null, id = e.pointerId;
+    press = { x, y, id, t: setTimeout(() => {
+      press = null; suppressUp = true;
+      if (drag) { try { canvas.releasePointerCapture(drag.id); } catch (_) { } drag = null; controls.enabled = true; }
+      openMenu(x, y, p);
+    }, 500) };
+  }
   if (!hit) { downAt = { x: e.clientX, y: e.clientY }; return; }
   e.stopPropagation(); e.preventDefault();
   const plane = new THREE.Plane(V(0, 1, 0), -hit.y), start = new THREE.Vector3();
@@ -2290,37 +2376,54 @@ appEl.addEventListener('pointerdown', e => {
   select(hit.p);
 }, { capture: true });
 canvas.addEventListener('pointermove', e => {
+  if (press && e.pointerId === press.id && Math.hypot(e.clientX - press.x, e.clientY - press.y) > 8) cancelPress();   // moved: a drag, not a long-press
   if (!drag || e.pointerId !== drag.id) return;
   rayFrom(e);
   const pt = new THREE.Vector3();
   if (!raycaster.ray.intersectPlane(drag.plane, pt)) return;
   drag.p.cx = drag.cx + pt.x - drag.start.x; drag.p.cz = drag.cz + pt.z - drag.start.z;
+  if (press && Math.hypot(pt.x - drag.start.x, pt.z - drag.start.z) > 1) cancelPress();   // the piece moved: a drag, never a long-press
   clampIn(drag.p); refresh();
 });
 function endDrag(e) {
+  if (press && e.pointerId === press.id) cancelPress();
+  if (suppressUp) { suppressUp = false; downAt = null; return; }    // the long-press already opened the menu
   if (drag && e.pointerId === drag.id) {
     try { canvas.releasePointerCapture(e.pointerId); } catch (_) { }
     drag = null; controls.enabled = true; return;
   }
-  // a click / tap on empty space (no orbit drag) clears the selection
+  // a click / tap on empty floor (no orbit drag) clears the selection and its distances
   if (downAt && e.type === 'pointerup' && Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) < 6 && selected) select(null);
   downAt = null;
 }
 canvas.addEventListener('pointerup', endDrag);
 canvas.addEventListener('pointercancel', endDrag);
+// right-click (mouse): the menu, unless the right button was dragging the view (a pan)
+canvas.addEventListener('contextmenu', e => {
+  e.preventDefault();
+  if (lastType !== 'mouse') return;                                 // touch long-press is handled by its own timer
+  if (rightAt && Math.hypot(e.clientX - rightAt.x, e.clientY - rightAt.y) > 6) { rightAt = null; return; }
+  rightAt = null;
+  const hit = pieceAt(e);
+  openMenu(e.clientX, e.clientY, hit ? hit.p : null);
+});
 turnBtn.addEventListener('click', () => { if (!selected) return; selected.rot = (selected.rot + 1) % 4; clampIn(selected); refresh(); });
-document.getElementById('resetbtn').addEventListener('click', () => { defaultLayout(); select(null); });
+document.getElementById('resetbtn').addEventListener('click', () => { for (const p of pieces) p.removed = false; defaultLayout(); closeMenu(); select(null); });
 // layer checkboxes change what counts (hidden furniture is skipped), so recompute after the template applies them
 document.querySelectorAll('#layers input').forEach(cb => cb.addEventListener('change', () => setTimeout(refresh, 0)));
 defaultLayout();
 setTimeout(refresh, 0);   // after the template's applyLayers() has set visibility
-// test hook: screen position of a piece and the status text (used by the headless drag check)
+// test hook: screen position of a piece, its state, the status text and the menu (used by the headless checks)
 window.__guestRooms = {
-  screenOf(id) { const p = pieces.find(q => q.id === id); const v = V(p.cx, p.top, p.cz).project(camera); const rc = canvas.getBoundingClientRect();
+  screenOf(id, top = true) { const p = pieces.find(q => q.id === id); const v = V(p.cx, top ? p.top : 1, p.cz).project(camera); const rc = canvas.getBoundingClientRect();
     return { x: rc.left + (v.x + 1) / 2 * rc.width, y: rc.top + (1 - v.y) / 2 * rc.height }; },
-  piece(id) { const p = pieces.find(q => q.id === id); return { cx: p.cx, cz: p.cz, rot: p.rot }; },
+  screenOfPoint(x, z) { const v = V(x, 0, z).project(camera); const rc = canvas.getBoundingClientRect(); return { x: rc.left + (v.x + 1) / 2 * rc.width, y: rc.top + (1 - v.y) / 2 * rc.height }; },
+  piece(id) { const p = pieces.find(q => q.id === id); return { cx: p.cx, cz: p.cz, rot: p.rot, removed: !!p.removed, visible: p.grp.visible }; },
   status() { return selInfo.textContent; },
   swings() { return SWINGS.map(s => s.blocked); },
+  menu() { const r = menu.getBoundingClientRect(); return { open: menu.style.display !== 'none', text: menu.innerText, rect: [r.left, r.top, r.right, r.bottom] }; },
+  distanceTags() { return gapGrp.children.filter(c => c.isSprite).length; },
+  doorTags() { return DOOR_TAGS.filter(t => t.visible).length; },
   cam() { return { pos: camera.position.toArray().map(Math.round), tgt: controls.target.toArray().map(Math.round), aspect: +camera.aspect.toFixed(2) }; },
 };
 // ===== END EDIT: GEOMETRY =====
