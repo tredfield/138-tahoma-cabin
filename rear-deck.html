@@ -61,8 +61,8 @@
   <!-- ===== EDIT: HEADER / LEGEND / CONTROLS ===== -->
   <a class="panel" id="home" href="https://tredfield.github.io/138-tahoma-cabin/" title="Back to the list of drawings">&larr; All drawings</a>
   <div class="panel" id="header">
-    <h1>Rear deck and roof (north, gridline 4) — 8'-9" deck, 7'-4" ridge GLB, roof edge 9'-2"</h1>
-    <div class="sub"><b>Rear deck and roof</b> at the north gable wall: 26'-0" x 8'-9" deck on (5) PT6X6 posts under a 15:12 gable on 2X14 rafters. Show &rarr; Decking / fascia / roofing and Guardrail are off by default; untick T&amp;G soffit to see the rafters. Orange = field-verify or TBD. Design record: <code>wiki/construction/deck-roof-framing.md</code>. Not engineered &mdash; do not build from this.
+    <h1>Rear deck and roof (north, gridline 4) — posts 94" off the ledger, 8'-4" joists, 7'-4" ridge GLB</h1>
+    <div class="sub"><b>Rear deck and roof</b> at the north gable wall: 26'-0" deck on 8'-4" joists and (5) PT6X6 posts under a 15:12 gable on 2X14 rafters. Show &rarr; Decking / fascia / roofing and Guardrail are off by default; untick T&amp;G soffit to see the rafters. Orange = field-verify or TBD. Design record: <code>wiki/construction/deck-roof-framing.md</code>. Not engineered &mdash; do not build from this.
     Drag to orbit · scroll to zoom · right-drag to pan. · arrow keys (or WASD) walk, PageUp/PageDown change eye height, Shift runs.</div>
   </div>
   <div class="panel" id="legend">
@@ -1554,7 +1554,7 @@ const D = {
   HALF_W: 156,                                  // 26'-0" C to A, gridline B centered
   CORNER_X: 153.25,                             // corner-post centre: outer face flush with the wall studs at gridlines C / A (field)
   STATIONS: [-153.25, -75, 0, 75, 153.25],      // post centres: S3.1 0 / 6'-9" / 13'-0" / 19'-3" / 26'-0" from gridline C, corners 2 3/4" in (outer faces on C / A)
-  POST_LINE: -96,                               // gridline 5, 8'-0" north of gridline 4 (S3.1)
+  POST_FACE: -95.9375,                          // corner posts' outside (north) faces: 94" from the ledger's outer face (owner tapes 94 1/8" W / 93 3/4" E, 2026-11-23)
   BEAM_W: 3.5, BEAM_D: 7.25,                    // PT4X8 drop beam
   EAVE_TIP: 180,                                // 2'-0" past gridlines A / C
   WALL_T: 5.5, SHEATH_T: 0.4375,                // 2X6 wall, 7/16" OSB (sheathing at z -0.4375 .. 0)
@@ -1574,10 +1574,12 @@ const D = {
   N_Y0: 223, N_Y1: 281, N_OUT: 46.5,            // N triangles
 };
 D.RIDGE_END = -(D.SHEATH_T + 88);               // GLB ends 7'-4" from the sheathing face (owner 2026-09-02) → z = -88.44
-D.BEAM_Z0 = D.POST_LINE - D.BEAM_W / 2;         // -97.75 (outer face) — deck edge
-D.BEAM_Z1 = D.POST_LINE + D.BEAM_W / 2;         // -94.25
-D.DECK_EDGE = D.POST_LINE - 9;                  // -105: 8'-9" from gridline 4 — joists cantilever 9" past the post line so the deck just covers the 18"Ø plinths (owner 2026-09-02; first 8'-6", revised the same day)
-D.ROOF_EDGE = -109.75;                          // 9'-1 3/4" from gridline 4: set as 1'-0" past the original 8'-1 3/4" deck edge and KEPT when the deck grew (owner) → now ~4 3/4" past the deck edge
+D.POST_LINE = D.POST_FACE + 2.75;               // -93.19: post centres, beam, plinths and pads (2 13/16" toward the house from S3.1's 8'-0" gridline 5)
+D.BEAM_Z0 = D.POST_LINE - D.BEAM_W / 2;         // -94.94 (outer face)
+D.BEAM_Z1 = D.POST_LINE + D.BEAM_W / 2;         // -91.44
+D.DECK_EDGE = D.POST_FACE - 7.5;                // -103.44: rim outside face, 7 1/2" past the post face (joists 8'-4" from the ledger face)
+D.FASCIA_FACE = D.POST_FACE - 13.5;             // -109.44: outside face of the lapped rake board, 13 1/2" past the post face (owner tape)
+D.ROOF_EDGE = D.FASCIA_FACE + 2.75;             // -106.69: barge / rake framing outer face, 2 3/4" inside the fascia face (two rake boards)
 D.RAFTER_PLUMB = D.RAFTER_D / Math.cos(Math.atan(D.PITCH));      // 20.6" plumb at 14.7:12
 D.roofTop = x => D.RIDGE_TOP - D.PITCH * Math.abs(x);            // top of rafter at plan offset x
 D.roofBot = x => D.roofTop(x) - D.RAFTER_PLUMB;                  // underside of rafter
@@ -1930,7 +1932,7 @@ for (const s of [-1, 1]) {
 
 // ===========================================================================
 // 2. REAR DECK (layer 'deck') — S3.1 as drawn: PT2X8 ledger, PT2X8 joists @ 16" o.c. bearing over a
-//    PT4X8 drop beam on the 8'-0" post line, five PT6X6 posts; joists cantilever to a rim at the 8'-9" edge.
+//    PT4X8 drop beam on the post line (post faces 94" off the ledger), five PT6X6 posts; joists run 8'-4" from the ledger face to a rim.
 // ===========================================================================
 const LED_Z1 = -D.SHEATH_T, LED_Z0 = LED_Z1 - 1.5;          // ledger against the 7/16" sheathing: z -0.44 .. -1.94
 const J_TOP = -1.5, J_BOT = J_TOP - 7.25;                    // PT2X8 joists: surface -1/2", 1" decking placeholder
@@ -1983,13 +1985,13 @@ function postBase(xs, zc) {                                  // ABU66Z-type stan
 }
 
 box(-156, 156, J_BOT, J_TOP, LED_Z0, LED_Z1, M.pt, 'deck');                       // PT2X8 HF#2 LEDGER (Dtl 10/S4.1)
-const RIM_Z1 = D.DECK_EDGE + 1.5;                                                  // PT2X8 rim at the cantilevered edge (S3.1 had no cantilever and no rim)
-for (const xc of JOIST_X) {                                                        // PT2X8 HF#2 DECK JST. @ 16" O.C., cantilevered 9" past the post line
+const RIM_Z1 = D.DECK_EDGE + 1.5;                                                  // -101.94: joist ends, 8'-4" from the ledger face; PT2X8 rim outside them (S3.1 had no cantilever and no rim)
+for (const xc of JOIST_X) {                                                        // PT2X8 HF#2 DECK JST. @ 16" O.C., ledger face to the rim, over the drop beam
   box(xc - 0.75, xc + 0.75, J_BOT, J_TOP, LED_Z0, RIM_Z1, M.pt, 'deck');
   joistHanger(xc, J_BOT, J_TOP, LED_Z0, -1);
 }
-box(-D.HALF_W, D.HALF_W, J_BOT, J_TOP, D.DECK_EDGE, RIM_Z1, M.pt, 'deck');         // PT2X8 rim — outer face is the 8'-9" deck edge, ends on gridlines C / A
-const POST_HS = D.POST_LINE + 2.75, POST_N = D.POST_LINE - 2.75;                   // corner post's house-side face -93.25 / north face -98.75
+box(-D.HALF_W, D.HALF_W, J_BOT, J_TOP, D.DECK_EDGE, RIM_Z1, M.pt, 'deck');         // PT2X8 rim — outer face 7 1/2" past the post face, ends on gridlines C / A
+const POST_HS = D.POST_LINE + 2.75, POST_N = D.POST_LINE - 2.75;                   // corner post's house-side face -90.44 / north face -95.94
 for (const s of [-1, 1]) {
   const xa = Math.min(s * END_J_X0, s * END_J_X1), xb = Math.max(s * END_J_X0, s * END_J_X1), xc = (xa + xb) / 2;
   box(xa, xb, J_BOT, J_TOP, LED_Z0, POST_HS, M.pt, 'deck');                       // PT2X8 END JOIST, ledger to the corner post
@@ -2025,7 +2027,7 @@ for (const xs of D.STATIONS) {
 
 // ===========================================================================
 // 3. ROOF (layer 'roof') — the ≈15:12 main gable carried out over the deck on the short ridge GLB and the
-//    two 6X10 eave beams; the last ≈1'-9" past the GLB end is scheme A (outlooker ladder), concept only.
+//    two 6X10 eave beams; the last ≈1'-6 1/4" past the GLB end is scheme A (outlooker ladder), concept only.
 // ===========================================================================
 const RW = 1.5, RIDGE_HW = 2.75;
 // 2X14 rafter: side profile in X-Y, plumb-cut at the ridge face and the eave tip, 1.5" thick from z0 toward +z
@@ -2050,7 +2052,7 @@ box(-RIDGE_HW, RIDGE_HW, D.RIDGE_BOT, D.RIDGE_TOP, W1, 72, M.ghost, 'context');
 // the beam end. Scheme A: doubled carrier pair at the GLB end, doubled anchor pairs behind it, 2X6 outlookers on edge
 // let into the rafter tops from the gable rafter to the barge, 2X14 scabs on the GLB faces with a false-ridge block,
 // and a barge pair at the roof edge. Concept only — sizes, hold-downs and bolting are Pieruccioni's.
-const CARRIER_Z = D.RIDGE_END;                                // -88.44: outer ply flush with the GLB end
+const CARRIER_Z = D.RIDGE_END;                                // -88.44: outer ply flush with the GLB end (rake cantilevers ~18 1/4" past it)
 for (const s of [-1, 1]) {
   rafter(s, 2, M.roof, 'roof'); lruHanger(s, 2);              // gable rafter in the wall plane (S4.3 "GABLE RAFTER")
   rafter(s, 0.5, M.concept, 'roof');                          // second ply: anchor at the wall
@@ -2071,7 +2073,7 @@ for (const s of [-1, 1]) {
 }
 box(-RIDGE_HW, RIDGE_HW, D.RIDGE_TOP - D.RAFTER_D, D.RIDGE_TOP, D.ROOF_EDGE, D.RIDGE_END, M.concept, 'roof');          // false-ridge block
 // 6X10 DF#2 eave drop beams on gridlines A / C: from the 4-stud pack in the wall, over the corner-post caps, and
-// cantilevering ≈11" past them to the roof edge (owner; NOT on the sheets — flagged)
+// cantilevering ≈10 3/4" past them to the roof edge (owner; NOT on the sheets — flagged)
 for (const s of [-1, 1]) {
   const x0 = s * D.CORNER_X - 2.75, x1 = s * D.CORNER_X + 2.75;   // x +/-(150.5 .. 156): outer face flush with the wall studs
   box(x0, x1, D.EAVE_BEAM_BOT, D.EAVE_BEAM_TOP, D.ROOF_EDGE, W1, M.roof, 'roof');
@@ -2144,10 +2146,14 @@ for (const s of [-1, 1]) {
     // 2X10 rake fascia outboard of the barge rafter (A02 dtl 5), top flush with the sheathing
     prism([[0, D.roofTop(0) + 0.6], [s * D.EAVE_TIP, D.roofTop(D.EAVE_TIP) + 0.6], [s * D.EAVE_TIP, D.roofTop(D.EAVE_TIP) - 8.65], [0, D.roofTop(0) - 8.65]],
           D.ROOF_EDGE, D.ROOF_EDGE - 1.5, M.fram, 'finish');
+    // lapped 1 1/4" rake board outboard of it (as built, two boards): top at the roofing top, bottom 2" above the base
+    // board's, so its edges share no plane with the base board; its outside face is the fascia face, 13 1/2" past the post face
+    prism([[0, D.roofTop(0) + 0.9], [s * D.EAVE_TIP, D.roofTop(D.EAVE_TIP) + 0.9], [s * D.EAVE_TIP, D.roofTop(D.EAVE_TIP) - 6.65], [0, D.roofTop(0) - 6.65]],
+          D.ROOF_EDGE - 1.5, D.FASCIA_FACE, M.fram, 'finish');
     // 2X10 eave fascia on the rafter tails at the eave tip
     box(s * D.EAVE_TIP, s * (D.EAVE_TIP + 1.5), D.roofTop(D.EAVE_TIP) - 8.65, D.roofTop(D.EAVE_TIP) + 0.6, D.ROOF_EDGE - 1.5, 0, M.fram, 'finish');
   }
-  // 1" decking placeholder (0615) overhanging the skirt 3/4" on the three open sides: x +/-157 1/2, north edge z -106 1/2
+  // 1" decking placeholder (0615) overhanging the skirt 3/4" on the three open sides: x +/-157 1/2, north edge z -104.94 (9" past the post face)
   box(-(DECK_END + OVERHANG), DECK_END + OVERHANG, J_TOP, -0.5, LED_Z1, D.DECK_EDGE - SKIRT_T - OVERHANG, M.deck, 'finish', false);
   // 1x10 cedar skirt tucked under the decking on the three open sides: north board full width, end boards butt its back
   // face (no shared faces); tops at the decking underside like the joists, bottoms 9 1/4" down at -10.75; end skirts on the
@@ -2206,9 +2212,9 @@ box(-150.5, 150.5, -0.75, 0, W1, 72, M.ghostFl, 'context');                     
   tagAt(['CORNER POST (2)', 'PT6X6 HF#2, ACH6Z cap', 'ABU66Z on 5/8" x 5" Titen', 'cedar box 7" sq above the decking'], -D.CORNER_X, 30, PN, 'z-', TF);
   tagAt(['CENTER POST (3)', 'PT6X6 HF#2, ABU66Z base', 'stops under the drop beam'], 75, -24, PN, 'z-', TF);
   tagAt(['DROP BEAM PT4X8 HF#2', '4 segments, HUC46Z at corners'], -130, (B_BOT + B_TOP) / 2, D.BEAM_Z0 - 0.15, 'z-', TF);
-  tagAt(['JOISTS PT2X8 HF#2 @ 16" o.c.', 'over the beam, 9" cantilever', 'rim face 8\'-9" from gridline 4'], -30, (J_BOT + J_TOP) / 2, RIM, 'z-', TF);
+  tagAt(['JOISTS', 'PT2X8 HF#2 @ 16" o.c.'], -30, (J_BOT + J_TOP) / 2, RIM, 'z-', TF);
   tagAt(['LEDGER PT2X8 HF#2', 'per 10/S4.1'], 100, (J_BOT + J_TOP) / 2, LED_Z0 - 0.15, 'z-', TF);
-  tagAt(['END JOIST PT2X8', 'hung on the corner post', 'BLOCKING, in front of the post', 'decking overhangs 3/4"', 'skirt 1x10, 9 1/4" under the decking'], 125, (SKIRT_BOT + J_TOP) / 2 + 8, D.DECK_EDGE - SKIRT_T - 0.15, 'z-', TF);
+  tagAt(['END JOIST PT2X8', 'hung on the corner post', 'BLOCKING, in front of the post', 'SKIRT 1x10 cedar'], 125, (SKIRT_BOT + J_TOP) / 2 + 8, D.DECK_EDGE - SKIRT_T - 0.15, 'z-', TF);
   tagAt(['FOOTING (5)', '24" sq x 8" pad, 18"Ø plinth', 'top 8" above grade, Dtl 4/S4.1'], -75, -50, PLN, 'z-', TF);
   tagAt(['FIELD VERIFY: grade', 'drawn at -3\'-0"'], 75, -46, PLN, 'z-', TFLAG);
   tagAt(['FIELD VERIFY: post centering', 'plinths drawn centered'], D.CORNER_X, -50, PLN, 'z-', TFLAG);
@@ -2221,10 +2227,10 @@ box(-150.5, 150.5, -0.75, 0, W1, 72, M.ghostFl, 'context');                     
   tagAt(['GABLE WALL 2X6 DF @ 16" o.c.', '4X8 posts at J, HSLQ47-SDS2.5', 'DBL SILLs, sloped top plate'], 120, 140, W0 - 0.15, 'z-', TF);
   // roof
   tagAt(['RIDGE GLB 5 1/2" x 24"', 'ends 7\'-4" from sheathing'], 0, 309, D.RIDGE_END - 0.15, 'z-', TF);
-  tagAt(['RAKE EXTENSION 1\'-9": TBD', 'pending engineer, do not build'], 0, 328, RE, 'z-', TFLAG);
+  tagAt(['RAKE EXTENSION 1\'-6 1/4": TBD', 'pending engineer, do not build'], 0, 328, RE, 'z-', TFLAG);
   tagAt(['RAFTERS 2X14 DF#2 @ 24" o.c.', '15:12, LRU210 hangers at GLB', 'bear on the 6X10 eave beams'], -80, (D.roofTop(80) + D.roofBot(80)) / 2, CARRIER_Z - 0.15, 'z-', TF);
   tagAt(['EAVE BEAM 6X10 DF#2 (2)', 'from 4-stud pack, ACH6Z cap', 'cedar box 7" x 10 1/4", sides + bottom, end board'], -D.CORNER_X, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TF);
-  tagAt(['EAVE BEAM CANTILEVER 11"', 'PENDING ENGINEER'], D.CORNER_X, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TFLAG);
+  tagAt(['EAVE BEAM CANTILEVER 10 3/4"', 'PENDING ENGINEER'], D.CORNER_X, (D.EAVE_BEAM_BOT + D.EAVE_BEAM_TOP) / 2, RE, 'z-', TFLAG);
   tagAt(['SOFFIT 1X6 CEDAR T&G', 'under rafters, wall to gable end'], -100, D.roofBot(100) - 0.4, RE, 'z-', TF);
 }
 // levels and gridlines (context sprites)
@@ -2232,17 +2238,16 @@ label('LOWER FLR 0\'-0"', -200, 0, -110, NOTE);
 label('UPPER FLR 10\'-0" (no floor at this wall)', -178, 132, -100, NOTE);
 label('T.O. RAFTER 27\'-6"', -80, 333, -122, NOTE);
 label('Gridline C (west)', -156, -30, -108, NOTE); label('Gridline B — ridge', 0, -30, -108, NOTE); label('Gridline A (east)', 156, -30, -108, NOTE);
-label('Gridline 4 — north wall', 196, 20, 0, NOTE); label('Gridline 5 — post line 8\'-0"', 196, 20, -96, NOTE);
+label('Gridline 4 — north wall', 196, 20, 0, NOTE); label('Post line', 196, 20, D.POST_LINE, NOTE);
 
 // dimensions -------------------------------------------------------------------
 const DX = 176;                                                                    // dimension plane just past gridline A
-dim(V(DX, -4, 0), V(DX, -4, D.DECK_EDGE), '8\'-9" to the framing edge; 3/4" cedar skirt outside', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, -24, 0), V(DX, -24, D.POST_LINE), '8\'-0" post line', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, 118, 0), V(DX, 118, D.ROOF_EDGE), '9\'-1 3/4" roof edge', V(0, 0, 0), V(1, 0, 0));
-dim(V(DX, 106, D.DECK_EDGE), V(DX, 106, D.ROOF_EDGE), '≈5"', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, 52, LED_Z0), V(DX, 52, POST_N), '94" ledger face to post face', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, 70, LED_Z0), V(DX, 70, RIM_Z1), '8\'-4" joists from the ledger face', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, 14, POST_N), V(DX, 14, D.DECK_EDGE), '7 1/2" post face to rim', V(0, 0, 0), V(1, 0, 0));
+dim(V(DX, 88, POST_N), V(DX, 88, D.FASCIA_FACE), '13 1/2" post face to fascia', V(0, 0, 0), V(1, 0, 0));
 dim(V(0, D.RIDGE_TOP + 8, -D.SHEATH_T), V(0, D.RIDGE_TOP + 8, D.RIDGE_END), '7\'-4" GLB end, from the sheathing face', V(0, 0, 0), V(0, 1, 0));
-dim(V(0, D.RIDGE_TOP + 8, D.RIDGE_END), V(0, D.RIDGE_TOP + 8, D.ROOF_EDGE), '1\'-9" rake extension', V(0, 0, 0), V(0, 1, 0));
-dim(V(-30, D.RIDGE_TOP + 20, 0), V(-30, D.RIDGE_TOP + 20, D.ROOF_EDGE), '9\'-1 3/4" roof edge', V(0, 0, 0), V(0, 1, 0));
+dim(V(0, D.RIDGE_TOP + 8, D.RIDGE_END), V(0, D.RIDGE_TOP + 8, D.ROOF_EDGE), '1\'-6 1/4" rake extension', V(0, 0, 0), V(0, 1, 0));
 dim(V(-156, -36, -122), V(156, -36, -122), '26\'-0" gridline C to A', V(0, 0, 0), V(0, 1, 0));
 dim(V(-156, -36, -110), V(-75, -36, -110), '6\'-9"', V(0, 0, 0), V(0, 1, 0));
 dim(V(-75, -36, -110), V(0, -36, -110), '6\'-3"', V(0, 0, 0), V(0, 1, 0));
@@ -2251,7 +2256,7 @@ dim(V(75, -36, -110), V(156, -36, -110), '6\'-9"', V(0, 0, 0), V(0, 1, 0));
 dim(V(156, 148, -116), V(180, 148, -116), '2\'-0" eave', V(0, 0, 0), V(0, 1, 0));
 dim(V(-190, 0, -40), V(-190, D.UPPER_FLR, -40), '10\'-0"', V(0, 0, 0), V(1, 0, 0));
 dim(V(-190, D.UPPER_FLR, -40), V(-190, D.RIDGE_TOP, -40), '17\'-6" to T.O. RAFTER', V(0, 0, 0), V(1, 0, 0));
-dim(V(164, 125, D.POST_LINE - 2.75), V(164, 125, D.ROOF_EDGE), '11" — PENDING ENGINEER', V(0, 0, 0), V(1, 0, 0));
+dim(V(164, 125, D.POST_LINE - 2.75), V(164, 125, D.ROOF_EDGE), '10 3/4" — PENDING ENGINEER', V(0, 0, 0), V(1, 0, 0));
 dim(V(-75, D.GRADE, -132), V(-75, D.PLINTH_TOP, -132), '8" plinth above grade', V(0, 0, 0), V(1, 0, 0));
 dim(V(4, 88, -6), V(100, 88, -6), '8\'-0" door 10', V(0, 0, 0), V(0, 1, 0));
 dim(V(-100, 88, -6), V(-4, 88, -6), '8\'-0" door 9', V(0, 0, 0), V(0, 1, 0));
@@ -2280,7 +2285,7 @@ const VIEWS = {
   side:    { pos: [860, 210, -170], tgt: [0, 125, -50] },
   peak:    { pos: [-150, 440, -250], tgt: [0, 305, -70] },
   top:     { pos: [0, 820, -50], tgt: [0, 0, -50] },
-  footing: { pos: [-230, 10, -330], tgt: [-75, -40, -96] },
+  footing: { pos: [-230, 10, -330], tgt: [-75, -40, -93] },
 };
 // ===== END EDIT: VIEWS =====
 function setView(name) {
