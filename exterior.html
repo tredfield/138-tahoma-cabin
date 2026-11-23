@@ -131,6 +131,11 @@
       <label><input type="radio" name="railmount" value="deck" checked> Deck-mounted at the edge</label>
       <label><input type="radio" name="railmount" value="fascia"> Fascia-mounted</label>
     </div>
+    <div class="row fold" id="deckboards">
+      <span class="lbl">Deck boards</span>
+      <label><input type="radio" name="deckboards" value="border" checked> Border</label>
+      <label><input type="radio" name="deckboards" value="open"> Open ends</label>
+    </div>
     <div class="row fold" id="colors">
       <span class="lbl">Colors</span>
       <select id="scheme" title="Starting color schemes">
@@ -2739,9 +2744,23 @@ function stair(zEdge, dir, layer) {               // closed steps built from boa
     B(s * 154.48, s * 155.98, ...D.F_JOIST, 1.94, fz0 - TG, M.pt, L);
     B(s * 150.5, s * 155.98, ...D.F_JOIST, fz1 + TG, D.F_PORCH_EDGE - 1.5 - TG, M.pt, L);
   }
-  const boards = (z0, z1, y0, y1, xh = HW) => { const d = Math.sign(z1 - z0); let i = 0; for (let z = z0; d * (z1 - z) > 0.5; z += d * (D.BOARD + 0.25), i++) { const ze = z + d * Math.min(D.BOARD, Math.abs(z1 - z)); B(-xh, xh, y0, y1, Math.min(z, ze), Math.max(z, ze), i % 2 ? M.deck2 : M.deck, L); } };   // 5 1/2" boards, 1/4" gaps, two tones alternating; the last board takes the remainder
-  const BX = DE + D.OVERHANG;                                                                           // 161 3/4: the boards' ends, 3/4" past the skirt
-  boards(D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG, sh, D.F_JOIST[1], D.DECK, BX);                        // porch decking, laid from the overhang edge (67 3/4) back to the house so the full board is at the edge and the rip is against the siding; through the corner posts, over the end rims and the skirt
+  const boards = (z0, z1, y0, y1, xh = HW, xh0 = xh) => { const d = Math.sign(z1 - z0); let i = 0; for (let z = z0; d * (z1 - z) > 0.5; z += d * (D.BOARD + 0.25), i++) { const ze = z + d * Math.min(D.BOARD, Math.abs(z1 - z)), w = i ? xh : xh0; B(-w, w, y0, y1, Math.min(z, ze), Math.max(z, ze), i % 2 ? M.deck2 : M.deck, L); } };   // 5 1/2" boards, 1/4" gaps, two tones alternating; the last board takes the remainder; xh0: the first (outermost) board's half-length
+  const BX = DE + D.OVERHANG;                                                                           // 157 1/2: the boards' ends, 3/4" past the skirt
+  // Deck boards switch (owner 2026-11-23; userData.deck, ?deck=open / ?deck=border, opens on Border): 'open' = the field boards
+  // run out over both end skirts with open cut ends (the layout before that date, unchanged); 'border' = one deck board along
+  // each end, x +/-(152 .. 157 1/2), its outside edge 3/4" past the end skirt as before, from the siding face to 1/4" short of
+  // the outermost front board, which runs the full width through both corners; the field boards behind it stop square 1/4"
+  // short of the border boards (x +/-151 3/4). Square butt joints, no mitres; the border takes the second tone (deck2).
+  const BI = BX - D.BOARD, FI = BI - 0.25;                                                             // 152: the border's inner edge; 151 3/4: the field boards' ends
+  const tagDeck = (n0, v) => { for (let i = n0; i < parts.length; i++) parts[i].userData.deck = v; };
+  const groundDeck = (z0, z1, y0, y1) => {                                                             // z0: the overhang edge; z1: the siding face
+    let n0 = parts.length; boards(z0, z1, y0, y1, BX); tagDeck(n0, 'open');
+    n0 = parts.length; boards(z0, z1, y0, y1, FI, BX);
+    const d = Math.sign(z1 - z0), zb = z0 + d * (D.BOARD + 0.25);                                     // the border starts 1/4" behind the through board
+    for (const s of [-1, 1]) B(Math.min(s * BI, s * BX), Math.max(s * BI, s * BX), y0, y1, Math.min(zb, z1), Math.max(zb, z1), M.deck2, L);
+    tagDeck(n0, 'border');
+  };
+  groundDeck(D.F_PORCH_EDGE + D.SKIRT_T + D.OVERHANG, sh, D.F_JOIST[1], D.DECK);                           // porch decking, laid from the overhang edge (67 3/4) back to the house so the full board is at the edge and the rip is against the siding; through the corner posts, over the end rims and the skirt
   boards(sh, D.F_DECK_EDGE, D.F_UJOIST[1], D.UPPER_FLR - 0.5, 149.5);                                   // upper decking to +/-149.5, 1" inside the eave beams (front-porch spec); no end rims or skirt
   skirt(D.F_PORCH_EDGE, +1, sh, D.F_JOIST[1] - D.SKIRT_H, D.F_JOIST[1]);                                 // 1x10 skirt: -1 1/2 down to -10 3/4, 2" below the porch joists
   // porch ceiling (layer 'soffit'): 1x6 cedar T&G on the upper-deck joists' undersides, boards running east-west along the house
@@ -2766,7 +2785,7 @@ function stair(zEdge, dir, layer) {               // closed steps built from boa
     B(s * 154.48, s * 155.98, ...D.R_JOIST, rz1 + TG, D.G4 - 1.94, M.pt, L);
     B(s * 150.5, s * 155.98, ...D.R_JOIST, D.R_DECK_EDGE + 1.5 + TG, rz0 - TG, M.pt, L);
   }
-  boards(D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG, D.G4 - sh, D.R_JOIST[1], D.DECK, BX);                 // rear decking, laid from the overhang edge (-656.94) back to the house: 18 full boards, 1/2" short of the siding
+  groundDeck(D.R_DECK_EDGE - D.SKIRT_T - D.OVERHANG, D.G4 - sh, D.R_JOIST[1], D.DECK);                    // rear decking, laid from the overhang edge (-656.94) back to the house: 18 full boards, 1/2" short of the siding
   skirt(D.R_DECK_EDGE, -1, D.G4 - sh, D.R_JOIST[1] - D.SKIRT_H, D.R_JOIST[1]);                           // 1x10 skirt: -1 1/2 down to -10 3/4, 2" below the rear joists
   // --- stairs, centered, 8'-0" wide (owner 2026-09-11), stepping down from the skirt's outer face
   stair(D.F_PORCH_EDGE + D.SKIRT_T, +1, 'stair'); stair(D.R_DECK_EDGE - D.SKIRT_T, -1, 'stair');
@@ -2813,11 +2832,17 @@ function stair(zEdge, dir, layer) {               // closed steps built from boa
 }
 // Rail mount radio: one of the two rail sets is visible. Registered on the next frame so it runs after the template's layer wiring.
 let MOUNT = 'deck';
-function applyMount() { for (const p of parts) if (p.userData.mount && p.userData.mount !== MOUNT) p.visible = false; }
+function applyMount() { for (const p of parts) if ((p.userData.mount && p.userData.mount !== MOUNT) || (p.userData.deck && p.userData.deck !== DECKB)) p.visible = false; }   // also the Deck boards switch's other layout
+// Deck boards radio (owner 2026-11-23): Border (default) or Open ends; ?deck=open presets it. Rides on applyMount, which runs after every layer change.
+let DECKB = 'border';
+function setDeckBoards(v) { DECKB = v; const r = document.querySelector(`#deckboards input[value="${v}"]`); if (r) r.checked = true; applyLayers(); applyMount(); }
 function setMount(m) { MOUNT = m; const r = document.querySelector(`#railmount input[value="${m}"]`); if (r) r.checked = true; applyLayers(); applyMount(); }
 requestAnimationFrame(() => {
   document.querySelectorAll('#layers input[type=checkbox]').forEach(cb => cb.addEventListener('change', applyMount));
   document.querySelectorAll('#railmount input').forEach(r => r.addEventListener('change', () => { if (r.checked) setMount(r.value); r.blur(); }));
+  document.querySelectorAll('#deckboards input').forEach(r => r.addEventListener('change', () => { if (r.checked) setDeckBoards(r.value); r.blur(); }));
+  DECKB = new URLSearchParams(location.search).get('deck') === 'open' ? 'open' : 'border';
+  { const r = document.querySelector(`#deckboards input[value="${DECKB}"]`); if (r) r.checked = true; }
   setMount(new URLSearchParams(location.search).get('mount') === 'fascia' ? 'fascia' : 'deck');
 });
 // ===========================================================================
@@ -2949,6 +2974,8 @@ const VIEWS = {
   deckEnd: { pos: [232, 26, 152], tgt: [150, 50, 40], fov: 60 },   // review view: the SE porch corner -- end joist line, cedar skirt, the post's treated / timber-box split at the floor, the T&G ceiling and its cans (owner 2026-09-22)         // review view: door 1 from the front stairs -- the JELD-WEN Full View slab, lite frame, glass, knob and deadbolt (owner 2026-09-22)
   stairs: { pos: [150, 24, 130], tgt: [40, -12, 82], fov: 30 },   // review view: the front stair from the east -- the straight side band, tread overhangs and noses, the deck corner (owner 2026-09-23)
   rearCorner: { pos: [236, 30, -760], tgt: [150, 45, -630], fov: 60 },   // URL-only review preset (no button), ?view=rearCorner: the NE rear-deck corner -- corner post on the stud line, end skirt, blocks, the deck end (owner 2026-11-11, option 3)
+  borderF: { pos: [205, 62, 118], tgt: [148, -2, 52], fov: 45 },     // URL-only review preset (no button), ?view=borderF: the SE porch corner from above -- the through front board and the end border's butt joint (owner 2026-11-23)
+  borderR: { pos: [205, 62, -707], tgt: [148, -2, -641], fov: 45 },   // URL-only review preset (no button), ?view=borderR: the NE back deck corner from above, the same joint (owner 2026-11-23)
   lightsS: { pos: [0, 75, 430], tgt: [0, 75, 0], fov: 36 },        // URL-only review preset (no button), ?view=lightsS: the front wall square on -- door 1, both wall lights on their blocks, both corners (owner 2026-11-18)
   lightsN: { pos: [0, 75, -982], tgt: [0, 75, -552], fov: 36 },   // URL-only review preset (no button), ?view=lightsN: the rear wall square on -- both wall lights, both 1x4 corner boards (owner 2026-11-18)
   heatpump: { pos: [560, 175, -880], tgt: [150, 55, -270], fov: 36 },   // URL-only review preset (no button), ?view=heatpump: the east wall from the north-east, at an angle that sees past the outdoor unit into the gap where the heat pump lines leave the wall, with the disconnect in front (hookups, owner 2026-11-10)
@@ -3014,6 +3041,7 @@ async function exportGLB() {
     const skip = new Set((params.get('exclude') ?? EXPORT_EXCLUDE_DEFAULT).split(',').map(s => s.trim()).filter(Boolean));
     const mount = params.get('mount') === 'fascia' ? 'fascia' : 'deck';   // the other mount's parts stay out of the glTF
     const style = params.get('style') === 'lap' ? 'lap' : 'bb';           // the battens (section 4b) ship only in board and batten
+    const deckb = params.get('deck') === 'open' ? 'open' : 'border';      // the Deck boards switch: only one ground-deck board layout ships
     let skippedMount = 0, skippedStyle = 0;
     scene.updateMatrixWorld(true);
     const root = new THREE.Group();
@@ -3025,6 +3053,7 @@ async function exportGLB() {
       if (p.isSprite || skip.has(p.userData.layer)) continue;
       if (p.userData.mount && p.userData.mount !== mount) { skippedMount++; continue; }
       if (p.userData.style && p.userData.style !== style) { skippedStyle++; continue; }
+      if (p.userData.deck && p.userData.deck !== deckb) continue;
       const c = p.clone(true);
       strip(c);                                              // drop the addEdges() outlines and any sprite children
       root.add(c);
