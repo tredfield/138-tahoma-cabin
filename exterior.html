@@ -100,7 +100,7 @@
     <div class="lg"><span class="sw" data-slot="pt"></span>Treated framing: posts below the deck, beams under the floors, joists</div>
     <div class="lg"><span class="sw" data-slot="deck"></span>Cedar decking: floor boards, skirt, stair boards</div>
     <div class="lg"><span class="sw" data-slot="door"></span>Door 1: JELD-WEN Full View steel 3/0 x 6/8</div>
-    <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, glulam brackets, sconces, soffit cans, chimney</div>
+    <div class="lg"><span class="sw" data-slot="rail"></span>Cable railings, glulam brackets, sconces, soffit cans, floodlights, chimney</div>
     <div class="lg"><span class="sw" data-slot="conc"></span>Exposed stem wall (concrete)</div>
     <div class="lg"><span class="sw" style="background:#141414"></span>Windows and sliders (Milgard black)</div>
     <div class="lg"><span class="sw" style="background:#e07b20"></span>Field-verify / TBD</div>
@@ -2378,6 +2378,30 @@ const OPEN = {                                     // rough openings in wall-loc
   for (const x of [-113, -73, -28, 28, 73, 113]) can(x, D.sofEnd(x) - 0.1, D.G4 - 48, -Math.sign(x) * tiltEnd);
   for (const x of [-80, -40, 40, 80]) can(x, D.sofEnd(x) - 0.1, 25, -Math.sign(x) * tiltEnd);   // FOUR over the upper deck (owner 2026-09-11), kept inside |x| 85 so the sloped soffit is >= 7' above the deck: 7'-7" at 80, 11'-8" at 40; E01 draws two at +/-88 (6'-9")
   for (const x of [-86, 86]) can(x, D.F_UJOIST[0] - D.SOF_T - 0.1, 25);   // two flush in the cedar porch ceiling (section 5), like the soffit cans
+  // ridge floodlights (owner 2026-11-23): one per deck, a black two-head PAR38 floodlight on a pancake box screwed to the underside of
+  // the boxed ridge end (the GLB underside strip, x +/-2.75, bottom at sofEnd(2.75)), centred on the ridge, box centre 12" in from the
+  // outside face of the lapped gable rake board (front z 62.75, rear 97.44 north of the north stud face). Pancake box 4 1/2" dia x 1/2",
+  // round cover plate 5" dia, two swivel knuckles each holding a PAR38 (4 3/4" lens x 5 1/4" long), each turned out to its own side
+  // 35 deg off the centre line (70 deg apart) and aimed 45 deg down (owner re-aim 2026-11-23; first drawn +/-15 deg, 30 deg down); lens a warm disc like the cans. No light source (the export's light count stays).
+  function flood(zc, out) {
+    const yb = D.sofEnd(2.75) - 0.02, Y = new THREE.Vector3(0, 1, 0);
+    cyl(0, zc, yb - 0.5, yb, 2.25, M.rail, L);                                             // pancake box
+    cyl(0, zc, yb - 0.875, yb - 0.5, 2.5, M.rail, L);                                      // cover plate
+    const yk = yb - 1.6;
+    for (const sd of [-1, 1]) {
+      const yaw = sd * 35 * Math.PI / 180, dn = Math.PI / 4;                               // each head turned out to its own side 35 deg off the outward line (70 deg apart), 45 deg down (owner 2026-11-23)
+      const d = new THREE.Vector3(Math.sin(yaw) * Math.cos(dn), -Math.sin(dn), out * Math.cos(yaw) * Math.cos(dn)).normalize();
+      const k = V(sd * 0.9, yk, zc);                                                       // the knuckle under the plate
+      bar(V(sd * 0.9, yb - 0.875, zc), k, 0.35, M.rail, L);                                // threaded stem plate -> knuckle
+      const kn = new THREE.Mesh(new THREE.SphereGeometry(0.6, 16, 12), M.rail); kn.position.copy(k); reg(kn, L);
+      const s0 = k.clone().addScaledVector(d, 0.4), q = new THREE.Quaternion().setFromUnitVectors(Y, d);
+      const bulb = new THREE.Mesh(new THREE.CylinderGeometry(2.375, 0.8, 5.25, 24), M.rail);   // PAR38: neck at the knuckle, 4 3/4" lens end
+      bulb.quaternion.copy(q); bulb.position.copy(s0.clone().addScaledVector(d, 2.625)); reg(bulb, L);
+      const lens = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 0.12, 24), M.lens);
+      lens.quaternion.copy(q); lens.position.copy(s0.clone().addScaledVector(d, 5.25 + 0.04)); reg(lens, L);
+    }
+  }
+  flood(D.F_ROOF_EDGE + D.FASCIA_W + 1.25 - 12, +1); flood(D.R_ROOF_EDGE - D.FASCIA_W - 1.25 + 12, -1);   // front z 62.75; rear -649.44
 }
 // ===========================================================================
 // 4a. HOOKUPS (layer 'mech': no checkbox, so always on; left out of the glTF export by EXPORT_EXCLUDE_DEFAULT). Vent caps, hose
@@ -2976,6 +3000,8 @@ const VIEWS = {
   rearCorner: { pos: [236, 30, -760], tgt: [150, 45, -630], fov: 60 },   // URL-only review preset (no button), ?view=rearCorner: the NE rear-deck corner -- corner post on the stud line, end skirt, blocks, the deck end (owner 2026-11-11, option 3)
   borderF: { pos: [205, 62, 118], tgt: [148, -2, 52], fov: 45 },     // URL-only review preset (no button), ?view=borderF: the SE porch corner from above -- the through front board and the end border's butt joint (owner 2026-11-23)
   borderR: { pos: [205, 62, -707], tgt: [148, -2, -641], fov: 45 },   // URL-only review preset (no button), ?view=borderR: the NE back deck corner from above, the same joint (owner 2026-11-23)
+  floodF: { pos: [8, 50, 115], tgt: [0, 265, 62.75], fov: 28 },     // URL-only review preset (no button), ?view=floodF: the front ridge floodlight from the porch steps (owner 2026-11-23)
+  floodR: { pos: [8, 50, -701.7], tgt: [0, 265, -649.44], fov: 28 },   // URL-only review preset (no button), ?view=floodR: the rear ridge floodlight from the rear steps (owner 2026-11-23)
   lightsS: { pos: [0, 75, 430], tgt: [0, 75, 0], fov: 36 },        // URL-only review preset (no button), ?view=lightsS: the front wall square on -- door 1, both wall lights on their blocks, both corners (owner 2026-11-18)
   lightsN: { pos: [0, 75, -982], tgt: [0, 75, -552], fov: 36 },   // URL-only review preset (no button), ?view=lightsN: the rear wall square on -- both wall lights, both 1x4 corner boards (owner 2026-11-18)
   heatpump: { pos: [560, 175, -880], tgt: [150, 55, -270], fov: 36 },   // URL-only review preset (no button), ?view=heatpump: the east wall from the north-east, at an angle that sees past the outdoor unit into the gap where the heat pump lines leave the wall, with the disconnect in front (hookups, owner 2026-11-10)
